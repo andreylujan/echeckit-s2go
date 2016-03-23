@@ -8,8 +8,6 @@ gem 'pg', '~> 0.18.4'
 # Use Puma as the app server
 gem 'puma', '~> 3.2'
 
-gem 'jsonapi-resources', :git => 'https://github.com/cerebris/jsonapi-resources', :ref => 'rails5'
-
 gem 'dotenv-rails', '~> 2.1'
 
 gem 'paranoia', :git => 'https://github.com/rubysherpas/paranoia', :ref => 'core'
@@ -18,11 +16,11 @@ gem 'versionist', '~> 1.4', '>= 1.4.1'
 
 # Auth
 gem 'devise', :git => 'https://github.com/plataformatec/devise', :ref => 'master'
-gem 'doorkeeper', '~> 3.1'
+gem 'doorkeeper', :git => 'https://github.com/doorkeeper-gem/doorkeeper', :ref => 'master'
 gem 'rolify', '~> 5.1'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'awesome_print', '~> 1.6', '>= 1.6.1'
-
+gem 'jbuilder', '~> 2.4', '>= 2.4.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.0'

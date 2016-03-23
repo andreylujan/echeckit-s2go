@@ -1,10 +1,10 @@
 GIT
-  remote: https://github.com/cerebris/jsonapi-resources
-  revision: ef92decad624a889e205599587ff6b9eaba508ec
-  ref: rails5
+  remote: https://github.com/doorkeeper-gem/doorkeeper
+  revision: 7f9bb82632f7079929d3585499269b18a347f82f
+  ref: master
   specs:
-    jsonapi-resources (0.7.0)
-      rails (>= 4.0)
+    doorkeeper (4.0.0.rc2)
+      railties (>= 4.2)
 
 GIT
   remote: https://github.com/plataformatec/devise
@@ -89,8 +89,6 @@ GEM
       sshkit (~> 1.3)
     choice (0.2.0)
     concurrent-ruby (1.0.1)
-    doorkeeper (3.1.0)
-      railties (>= 3.2)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
       dotenv (= 2.1.0)
@@ -107,6 +105,9 @@ GEM
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
+    jbuilder (2.4.1)
+      activesupport (>= 3.0.0, < 5.1)
+      multi_json (~> 1.2)
     json (1.8.3)
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
@@ -119,6 +120,7 @@ GEM
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    multi_json (1.11.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.0)
@@ -211,11 +213,11 @@ DEPENDENCIES
   capistrano-rails (~> 1.1, >= 1.1.6)
   capistrano-rbenv (~> 2.0, >= 2.0.4)
   devise!
-  doorkeeper (~> 3.1)
+  doorkeeper!
   dotenv-rails (~> 2.1)
   factory_girl_rails (~> 4.6)
   faker (~> 1.6, >= 1.6.3)
-  jsonapi-resources!
+  jbuilder (~> 2.4, >= 2.4.1)
   listen (~> 3.0, >= 3.0.6)
   paranoia!
   pg (~> 0.18.4)
