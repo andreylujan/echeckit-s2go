@@ -1,27 +1,32 @@
 source 'https://rubygems.org'
 
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '4.2.6'
+
+gem 'rails-api'
+
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
 # Use Puma as the app server
 gem 'puma', '~> 3.2'
-
+gem 'pry'
 gem 'dotenv-rails', '~> 2.1'
 
-gem 'paranoia', :git => 'https://github.com/rubysherpas/paranoia', :ref => 'core'
+gem 'paranoia'
 
 gem 'versionist', '~> 1.4', '>= 1.4.1'
+gem 'jsonapi-resources'
 
 # Auth
-gem 'devise', :git => 'https://github.com/plataformatec/devise', :ref => 'master'
-gem 'doorkeeper', :git => 'https://github.com/doorkeeper-gem/doorkeeper', :ref => 'master'
+gem 'devise'
+gem 'doorkeeper'
 gem 'rolify', '~> 5.1'
 gem 'cancancan', '~> 1.13', '>= 1.13.1'
 gem 'awesome_print', '~> 1.6', '>= 1.6.1'
-gem 'jbuilder', '~> 2.4', '>= 2.4.1'
-
+gem 'jsonapi-utils'
+# gem 'jbuilder', '~> 2.4', '>= 2.4.1'
+# gem 'jsonapi_for_rails', '~> 0.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.0'
 # Use Redis adapter to run Action Cable in production
@@ -52,9 +57,9 @@ group :development, :test do
 end
 
 group :test do
-	gem 'factory_girl_rails', '~> 4.6'
-	gem 'faker', '~> 1.6', '>= 1.6.3'
-	# gem 'faker', '~> 1.6.1'
+    gem 'factory_girl_rails', '~> 4.6'
+    gem 'faker', '~> 1.6', '>= 1.6.3'
+    # gem 'faker', '~> 1.6.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

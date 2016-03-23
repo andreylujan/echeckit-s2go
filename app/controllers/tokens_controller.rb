@@ -32,6 +32,9 @@ class TokensController < Doorkeeper::TokensController
     self.response_body = body.to_json
     self.status        = response.status
 
+    results = JSONAPI::OperationResults.new
+    create_response_document(results).contents
+
   rescue Doorkeeper::Errors::DoorkeeperError => e
     handle_token_exception e
   end

@@ -22,9 +22,15 @@
 #  picture                :text
 #
 
-class User < ApplicationRecord
+class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable
+
+         validates :email, uniqueness: true, presence: true
+         validates :rut, uniqueness: true, presence: true, on: :update
+         validates :first_name, presence: true, on: :update
+         validates :last_name, presence: true, on: :update
+         validates :phone_number, presence: true, on: :update
 end

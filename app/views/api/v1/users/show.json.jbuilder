@@ -1,1 +1,0 @@
-json.(@user, :first_name, :last_name, :rut, :phone_number)
