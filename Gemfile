@@ -19,10 +19,8 @@ gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
 
 # Auth
-gem 'devise'
-gem 'doorkeeper'
-gem 'rolify', '~> 5.1'
-gem 'cancancan', '~> 1.13', '>= 1.13.1'
+gem 'devise', '~> 3.5', '>= 3.5.6'
+gem 'doorkeeper', '~> 3.1'
 gem 'awesome_print', '~> 1.6', '>= 1.6.1'
 gem 'jsonapi-utils'
 # gem 'jbuilder', '~> 2.4', '>= 2.4.1'
@@ -33,7 +31,7 @@ gem 'jsonapi-utils'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'pundit', '~> 1.1'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
