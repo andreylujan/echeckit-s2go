@@ -31,7 +31,7 @@ gem 'pundit', '~> 1.1'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 # gem 'backup', '~> 4.2', '>= 4.2.3'
-gem 'responders', '~> 2.1', '>= 2.1.2'
+# gem 'responders', '~> 2.1', '>= 2.1.2'
 
 group :development do
   gem 'capistrano-rails', '~> 1.1', '>= 1.1.6'
