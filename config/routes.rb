@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :stores
-  resources :dealers
-  resources :zones
+
   use_doorkeeper do
     skip_controllers :sessions, :authorizations, :applications,
     :authorized_applications, :token_info
@@ -10,12 +8,17 @@ Rails.application.routes.draw do
   end
   namespace :api do
     namespace :v1 do
+
       resources :users, only: [
         :create,
         :update,
         :show,
         :index
-      ]
+      ] do
+        collection do 
+          post :reset_password_token
+        end
+      end
     end
   end
 

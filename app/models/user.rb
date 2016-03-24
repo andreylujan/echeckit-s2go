@@ -26,11 +26,42 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :validatable
+    :recoverable, :validatable
 
-         validates :email, uniqueness: true, presence: true
-         validates :rut, uniqueness: true, presence: true, on: :update
-         validates :first_name, presence: true, on: :update
-         validates :last_name, presence: true, on: :update
-         validates :phone_number, presence: true, on: :update
+  validates :email, uniqueness: true, presence: true
+  validates :rut, uniqueness: true, presence: true, on: :update
+  validates :first_name, presence: true, on: :update
+  validates :last_name, presence: true, on: :update
+  validates :phone_number, presence: true, on: :update
+
+  def send_reset_password_instructions
+    token = set_reset_password_token
+    file = Tempfile.new('reset_password')
+    file.write("Subject: 'Solicitud para reestablecer tu contraseña de eCheckit'")
+    file.write("From: From: <s2go@echeckit.cl>")
+    file.write("To: #{full_name}<#{email}>")
+    file.write("Hola #{full_name}!\n\n")
+    file.write("Has solicitado reestablecer tu contraseña.\n\n")
+    file.write("Para realizar la operacion introduce el siguente código en la aplicación: #{token}\n\n\n")
+    file.write("Si no has solicitado reestablecer tu contraseña, por favor ignora este email")
+    file.close
+
+    system "sendmail -t -f #{email} -v -i < #{file.path}"
+    file.unlink
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def set_reset_password_token
+    token = ""
+    4.times do |i|
+      token = token + rand(10).to_s
+    end
+    self.reset_password_token = token
+    self.reset_password_sent_at = Time.now.utc
+    self.save validate: false
+    token
+  end
 end
