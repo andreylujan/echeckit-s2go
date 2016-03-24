@@ -30,6 +30,7 @@ class TokensController < Doorkeeper::TokensController
       end
     end
 
+  
     self.headers.merge! response.headers
     self.response_body = body.to_json
     self.status        = response.status
