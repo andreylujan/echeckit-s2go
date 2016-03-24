@@ -221,6 +221,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   rails-api
   rails-erd (~> 1.4, >= 1.4.6)
+  responders (~> 2.1, >= 2.1.2)
   seed_dump
   spring (~> 1.6, >= 1.6.4)
   spring-watcher-listen (~> 2.0)
