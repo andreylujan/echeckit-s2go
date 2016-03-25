@@ -8,6 +8,8 @@ gem 'rails-api'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
+gem 'mongoid', '~> 5.1', '>= 5.1.1'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.2'
 gem 'pry'
