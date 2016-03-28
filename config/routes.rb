@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       ] do
         collection do 
           post :reset_password_token
+          put :update
         end
       end
     end

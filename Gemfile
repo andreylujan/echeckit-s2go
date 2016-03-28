@@ -39,9 +39,9 @@ group :development do
   gem 'capistrano-rails', '~> 1.1', '>= 1.1.6'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
-  gem 'rails-erd', '~> 1.4', '>= 1.4.6'
-  gem 'seed_dump'
-  gem 'whenever'
+  gem 'rails-erd', '~> 1.4', '>= 1.4.6', require: false
+  gem 'seed_dump', require: false
+  gem 'whenever', require: false
 end
 
 group :development, :test do

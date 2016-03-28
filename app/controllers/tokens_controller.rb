@@ -6,7 +6,15 @@ class TokensController < Doorkeeper::TokensController
     response = authorize_response
     body = {
       data: {
-        oauth: response.body
+        type: 'access_tokens',
+        attributes: response.body,
+        relationships: {
+          user: {
+            data: {
+
+            }
+          }
+        }
       }
     }
 
@@ -22,7 +30,7 @@ class TokensController < Doorkeeper::TokensController
         # body[:user] = Oj.load(user_json)
 
         ### Or if you want to just append user using 'as_json'
-        body[:data][:user] = user.as_json
+        body[:data][:relationships][:user][:data] = user.as_json
 
         body[:data][:server_config] = {
           store_timeout: 1800
