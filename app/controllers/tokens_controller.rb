@@ -33,7 +33,8 @@ class TokensController < Doorkeeper::TokensController
         body[:data][:relationships][:user][:data] = user.as_json
 
         body[:data][:server_config] = {
-          store_timeout: 1800
+          store_timeout: (Time.now.to_f * 1000).to_i + 1800*1000,
+          token_duration: 1800*1000
         }
       end
     end

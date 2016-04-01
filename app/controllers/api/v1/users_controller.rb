@@ -11,14 +11,7 @@ class Api::V1::UsersController < ApplicationController
     render nothing: true, status: :no_content
   end
 
-  def update
-    user = User.find(params[:id])
-    user.update_attributes(params.require(:user))
-    resource = JSONAPI::ResourceSerializer
-      .new(Api::V1::UserResource)
-      .serialize_to_hash(Api::V1::UserResource.new(user, nil))
-    render json: resource, status: :ok
-  end
+
 
   def user_params
   end
