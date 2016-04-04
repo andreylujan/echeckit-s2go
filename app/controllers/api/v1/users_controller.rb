@@ -34,11 +34,11 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def password
+  def password    
     @user = User.find(params.require(:id))
 
     if @user.reset_password_token != params.require(:reset_password_token)
-      render unauthorized_error, status: :unauthorized and return
+      render json: unauthorized_error, status: :unauthorized and return
     end
 
     if @user.update_attributes(
