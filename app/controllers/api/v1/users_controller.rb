@@ -1,7 +1,9 @@
 class Api::V1::UsersController < ApplicationController
 
-  before_action :doorkeeper_authorize!, except: [ :reset_password_token,
-    :index ]
+  before_action :doorkeeper_authorize!, except: [ 
+    :reset_password_token,
+    :index,
+    :password ]
 
   def reset_password_token
     email = params.require(:email)
