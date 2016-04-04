@@ -9,9 +9,17 @@ class Api::V1::UsersController < ApplicationController
     email = params.require(:email)
     user = User.find_by_email(email)
     if user
-      user.send_reset_password_instructions
+      user.send_reset_password_instructions            
     end
-    render nothing: true, status: :no_content
+    render json: {
+        data: {
+          id: (DateTime.now.to_f*1000).to_i,
+          type: "reset_password_tokens",
+          attributes: {
+            success: true
+          }
+        }
+      }
   end
 
 
