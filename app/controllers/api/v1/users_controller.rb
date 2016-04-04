@@ -30,7 +30,7 @@ class Api::V1::UsersController < ApplicationController
     if @user
       render json: @user
     else
-      render nothing: true, status: :unauthorized
+      render json: unauthorized_error, status: :unauthorized
     end
   end
 
@@ -38,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(params.require(:id))
 
     if @user.reset_password_token != params.require(:reset_password_token)
-      render nothing: true, status: :unauthorized and return
+      render unauthorized_error, status: :unauthorized and return
     end
 
     if @user.update_attributes(

@@ -23,6 +23,13 @@ class ApplicationController < ActionController::API
     }
   end
 
+  def unauthorized_error
+    { errors: [ { status: '401', detail: 'Usuario no autorizado' } ]}
+  end
+  def doorkeeper_unauthorized_render_options(error: nil)
+    { json: unauthorized_error }
+  end
+
   protected
   def response_from_token(token)
     response = Doorkeeper::OAuth::TokenResponse.new(token)
