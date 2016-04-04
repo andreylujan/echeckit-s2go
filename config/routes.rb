@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :regions, except: [:new, :edit]
   use_doorkeeper do
     skip_controllers :sessions, :authorizations, :applications,
     :authorized_applications, :token_info
@@ -16,8 +17,10 @@ Rails.application.routes.draw do
         :index
       ] do
         collection do 
-          post :reset_password_token
-          put :update
+          post :reset_password_token          
+        end
+        member do
+          put :password
         end
       end
     end

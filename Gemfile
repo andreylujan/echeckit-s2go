@@ -26,6 +26,7 @@ gem 'doorkeeper', '~> 3.1'
 gem 'awesome_print', '~> 1.6', '>= 1.6.1'
 gem 'jsonapi-utils'
 gem 'jsonapi-serializers'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: 'master'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -40,6 +41,7 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'rails-erd', '~> 1.4', '>= 1.4.6', require: false
+  gem 'annotate', '~> 2.7'
   gem 'seed_dump', require: false
   gem 'whenever', require: false
 end

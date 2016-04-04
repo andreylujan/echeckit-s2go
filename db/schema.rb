@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323043319) do
+ActiveRecord::Schema.define(version: 20160404151416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 20160323043319) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "regions", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.integer  "ordinal",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "regions", ["name"], name: "index_regions_on_name", unique: true, using: :btree
+  add_index "regions", ["ordinal"], name: "index_regions_on_ordinal", unique: true, using: :btree
+
   create_table "stores", force: :cascade do |t|
     t.text     "name",       null: false
     t.integer  "dealer_id",  null: false
@@ -111,10 +121,13 @@ ActiveRecord::Schema.define(version: 20160323043319) do
     t.text     "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "region_id",  null: false
   end
 
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
+  add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
   add_foreign_key "dealers", "zones"
   add_foreign_key "stores", "dealers"
+  add_foreign_key "zones", "regions"
 end
