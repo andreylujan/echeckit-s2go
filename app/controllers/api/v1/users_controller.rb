@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
 
+  include JSONAPI::ActsAsResourceController
   before_action :doorkeeper_authorize!, except: [ 
     :reset_password_token,
     :index,

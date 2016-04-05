@@ -9,6 +9,7 @@ gem 'rails-api'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
 gem 'mongoid', '~> 5.1', '>= 5.1.1'
+gem 'rake', '~> 11.1', '>= 11.1.2'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.2'
@@ -42,7 +43,7 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'rails-erd', '~> 1.4', '>= 1.4.6', require: false
-  gem 'annotate', '~> 2.7'
+  gem 'annotate', git: 'https://github.com/ctran/annotate_models.git', branch: 'develop'
   gem 'seed_dump', require: false
   gem 'whenever', require: false
 end

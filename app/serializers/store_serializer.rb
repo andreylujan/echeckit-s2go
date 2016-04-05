@@ -1,17 +1,18 @@
 # == Schema Information
 #
-# Table name: dealers
+# Table name: stores
 #
 #  id           :integer          not null, primary key
 #  name         :text             not null
+#  dealer_id    :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  zone_id      :integer          not null
 #  contact      :text
 #  phone_number :text
 #  address      :text
 #
 
-class Dealer < ActiveRecord::Base
-    has_and_belongs_to_many :zones
-    has_many :stores
+class StoreSerializer < ActiveModel::Serializer
+
 end

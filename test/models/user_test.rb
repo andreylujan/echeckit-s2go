@@ -20,6 +20,7 @@
 #  phone_number           :text
 #  address                :text
 #  picture                :text
+#  organization_id        :integer          not null
 #
 
 require 'test_helper'

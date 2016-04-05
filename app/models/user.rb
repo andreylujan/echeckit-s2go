@@ -20,6 +20,7 @@
 #  phone_number           :text
 #  address                :text
 #  picture                :text
+#  organization_id        :integer          not null
 #
 
 class User < ActiveRecord::Base
@@ -33,7 +34,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, uniqueness: true, allow_nil: true
-
+  belongs_to :organization
+  
   def send_reset_password_instructions
     token = set_reset_password_token
     file = Tempfile.new('reset_password')

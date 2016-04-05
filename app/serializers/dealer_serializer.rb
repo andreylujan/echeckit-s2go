@@ -11,7 +11,6 @@
 #  address      :text
 #
 
-class Dealer < ActiveRecord::Base
-    has_and_belongs_to_many :zones
-    has_many :stores
+class DealerSerializer < ActiveModel::Serializer
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404151416) do
+ActiveRecord::Schema.define(version: 20160405184132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,14 +23,22 @@ ActiveRecord::Schema.define(version: 20160404151416) do
   end
 
   create_table "dealers", force: :cascade do |t|
-    t.text     "name",       null: false
-    t.integer  "zone_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "name",         null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.text     "contact"
+    t.text     "phone_number"
+    t.text     "address"
   end
 
-  add_index "dealers", ["zone_id", "name"], name: "index_dealers_on_zone_id_and_name", unique: true, using: :btree
-  add_index "dealers", ["zone_id"], name: "index_dealers_on_zone_id", using: :btree
+  add_index "dealers", ["name"], name: "index_dealers_on_name", unique: true, using: :btree
+
+  create_table "dealers_zones", id: false, force: :cascade do |t|
+    t.integer "dealer_id"
+    t.integer "zone_id"
+  end
+
+  add_index "dealers_zones", ["dealer_id", "zone_id"], name: "index_dealers_zones_on_dealer_id_and_zone_id", unique: true, using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -72,6 +80,14 @@ ActiveRecord::Schema.define(version: 20160404151416) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "organizations", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
+
   create_table "regions", force: :cascade do |t|
     t.text     "name",       null: false
     t.integer  "ordinal",    null: false
@@ -83,14 +99,19 @@ ActiveRecord::Schema.define(version: 20160404151416) do
   add_index "regions", ["ordinal"], name: "index_regions_on_ordinal", unique: true, using: :btree
 
   create_table "stores", force: :cascade do |t|
-    t.text     "name",       null: false
-    t.integer  "dealer_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "name",         null: false
+    t.integer  "dealer_id",    null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "zone_id",      null: false
+    t.text     "contact"
+    t.text     "phone_number"
+    t.text     "address"
   end
 
   add_index "stores", ["dealer_id", "name"], name: "index_stores_on_dealer_id_and_name", unique: true, using: :btree
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
+  add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -110,10 +131,12 @@ ActiveRecord::Schema.define(version: 20160404151416) do
     t.text     "phone_number"
     t.text     "address"
     t.text     "picture"
+    t.integer  "organization_id",                     null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
 
@@ -127,7 +150,8 @@ ActiveRecord::Schema.define(version: 20160404151416) do
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
-  add_foreign_key "dealers", "zones"
   add_foreign_key "stores", "dealers"
+  add_foreign_key "stores", "zones"
+  add_foreign_key "users", "organizations"
   add_foreign_key "zones", "regions"
 end

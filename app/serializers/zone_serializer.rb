@@ -9,10 +9,8 @@
 #  region_id  :integer          not null
 #
 
-require 'test_helper'
-
-class ZoneTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+class ZoneSerializer < ActiveModel::Serializer
+    attributes :name
+    belongs_to :region
+    has_many :dealers
 end

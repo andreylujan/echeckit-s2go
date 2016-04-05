@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :organizations, except: [:new, :edit]
   resources :regions, except: [:new, :edit]
   use_doorkeeper do
     skip_controllers :sessions, :authorizations, :applications,
@@ -9,6 +10,21 @@ Rails.application.routes.draw do
   end
   namespace :api do
     namespace :v1 do
+
+      jsonapi_resources :zones do
+        jsonapi_relationships
+      end
+      jsonapi_resources :regions, only: :index do
+        jsonapi_relationships
+      end
+      jsonapi_resources :stores, only: :index do
+        jsonapi_relationships
+      end
+      jsonapi_resources :dealers, only: :index do
+        jsonapi_relationships
+      end
+
+      jsonapi_resources :organizations
 
       resources :users, only: [
         :create,
