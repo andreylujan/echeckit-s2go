@@ -27,6 +27,7 @@ gem 'awesome_print', '~> 1.6', '>= 1.6.1'
 gem 'jsonapi-utils'
 gem 'jsonapi-serializers'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: 'master'
+gem 'rack-cors', :require => 'rack/cors'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
