@@ -25,6 +25,16 @@ class Invitation < ActiveRecord::Base
   after_create :send_email
 
   def send_email
+    token = confirmation_token
+    file = Tempfile.new("invite_#{confirmation_token}")
+    file.write("Subject: 'Invitación a eCheckit'\n")
+    file.write("From: Solutions2Go<s2go@echeckit.cl>\n")
+    file.write("To: #{email}<#{email}>\n")
+    file.write("Para aceptar la invitación haz click en \n")
+    file.write("http://localhost:8000/invitation?confirmation_token=#{confirmation_token}")
+    file.close
+    system "sendmail -t -f #{email} -v -i < #{file.path}"
+    file.unlink
     # UserMailer.invite_email(self).deliver_now!
   end
 
