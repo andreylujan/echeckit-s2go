@@ -21,9 +21,19 @@
 #  address                :text
 #  picture                :text
 #  organization_id        :integer          not null
+#  role_id                :integer          not null
 #
 
 class UserSerializer < ActiveModel::Serializer
   attributes :email, :first_name, :last_name, :full_name, 
-    :rut, :address, :picture
+    :rut, :address, :picture, :organization_id, :role_name,
+    :organization_name
+
+    def role_name
+    	object.role.name
+    end
+
+    def organization_name
+    	object.organization.name
+    end
 end

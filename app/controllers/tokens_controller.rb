@@ -30,7 +30,7 @@ class TokensController < Doorkeeper::TokensController
         # body[:user] = Oj.load(user_json)
 
         ### Or if you want to just append user using 'as_json'
-        body[:data][:relationships][:user][:data] = user.as_json
+        body[:data][:relationships][:user][:data] = UserSerializer.new(user).as_json
 
         body[:data][:server_config] = {
           store_timeout: (Time.now.to_f * 1000).to_i + 1800*1000,

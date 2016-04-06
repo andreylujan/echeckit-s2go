@@ -21,6 +21,7 @@
 #  address                :text
 #  picture                :text
 #  organization_id        :integer          not null
+#  role_id                :integer          not null
 #
 
 class User < ActiveRecord::Base
@@ -35,6 +36,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :phone_number, uniqueness: true, allow_nil: true
   belongs_to :organization
+  belongs_to :role
   
   def send_reset_password_instructions
     token = set_reset_password_token

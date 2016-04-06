@@ -24,7 +24,11 @@ Rails.application.routes.draw do
         jsonapi_relationships
       end
 
-      jsonapi_resources :organizations
+      jsonapi_resources :organizations do
+        jsonapi_relationships
+      end
+
+      jsonapi_resources :roles
 
       resources :users, only: [
         :create,
