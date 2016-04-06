@@ -1,0 +1,49 @@
+# == Schema Information
+#
+# Table name: invitations
+#
+#  id                 :integer          not null, primary key
+#  role_id            :integer          not null
+#  confirmation_token :text             not null
+#  email              :text             not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
+class Invitation < ActiveRecord::Base
+  belongs_to :role
+
+  validates_presence_of [ :role, :email ]
+  validates_uniqueness_of :email
+
+  before_create :generate_confirmation_token
+
+  before_validation :lowercase_email
+  before_validation :verify_email
+
+  after_create :send_email
+
+  def send_email
+    # UserMailer.invite_email(self).deliver_now!
+  end
+
+  private
+
+  def lowercase_email
+    self.email = self.email.downcase if self.email.present?
+  end
+
+  def verify_email
+    if self.email.present?
+      old_invitation = Invitation.find_by_email(self.email)
+      if old_invitation
+        old_invitation.destroy
+      end
+    end
+  end
+
+  def generate_confirmation_token
+    self.confirmation_token = SecureRandom.urlsafe_base64(64)
+  end
+
+end

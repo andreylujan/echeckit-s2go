@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: invitations
+#
+#  id                 :integer          not null, primary key
+#  role_id            :integer          not null
+#  confirmation_token :text             not null
+#  email              :text             not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  role_id: 
+  accepted: false
+  confirmation_token: MyText
+  email: MyText
+
+two:
+  user_id: 
+  role_id: 
+  accepted: false
+  confirmation_token: MyText
+  email: MyText

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405224519) do
+ActiveRecord::Schema.define(version: 20160406030813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 20160405224519) do
   end
 
   add_index "dealers_zones", ["dealer_id", "zone_id"], name: "index_dealers_zones_on_dealer_id_and_zone_id", unique: true, using: :btree
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer  "role_id",            null: false
+    t.text     "confirmation_token", null: false
+    t.text     "email",              null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "invitations", ["email"], name: "index_invitations_on_email", unique: true, using: :btree
+  add_index "invitations", ["role_id"], name: "index_invitations_on_role_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -162,6 +173,7 @@ ActiveRecord::Schema.define(version: 20160405224519) do
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
+  add_foreign_key "invitations", "roles"
   add_foreign_key "roles", "organizations"
   add_foreign_key "stores", "dealers"
   add_foreign_key "stores", "zones"
