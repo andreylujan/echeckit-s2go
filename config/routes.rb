@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :regions, except: [:new, :edit]
   use_doorkeeper do
     skip_controllers :sessions, :authorizations, :applications,
-    :authorized_applications, :token_info
+      :authorized_applications, :token_info
     controllers :tokens => 'tokens'
   end
   namespace :api do
@@ -14,21 +14,23 @@ Rails.application.routes.draw do
       jsonapi_resources :zones do
         jsonapi_relationships
       end
-      jsonapi_resources :regions, only: :index do
+      jsonapi_resources :regions do
         jsonapi_relationships
       end
-      jsonapi_resources :stores, only: :index do
+      jsonapi_resources :stores do
         jsonapi_relationships
       end
-      jsonapi_resources :dealers, only: :index do
-        jsonapi_relationships
-      end
-
-      jsonapi_resources :organizations do
+      jsonapi_resources :dealers do
         jsonapi_relationships
       end
 
-      jsonapi_resources :roles
+      jsonapi_resources :organizations,
+      only: [ :index, :show ] do
+        jsonapi_relationships
+      end
+
+      jsonapi_resources :roles, only: :index
+      jsonapi_resources :invitations, only: :create
 
       resources :users, only: [
         :create,
@@ -36,8 +38,8 @@ Rails.application.routes.draw do
         :show,
         :index
       ] do
-        collection do 
-          post :reset_password_token          
+        collection do
+          post :reset_password_token
         end
         member do
           put :password

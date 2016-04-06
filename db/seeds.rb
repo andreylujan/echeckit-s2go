@@ -2,6 +2,7 @@
 Organization.create!([
   {name: "Playstation"}
 ])
+
 Role.create!([
   {organization_id: 1, name: "Supervisor"},
   {organization_id: 1, name: "Promotor"}
@@ -20,3 +21,20 @@ User.create!([
     password: '11111111'
   }
 ])
+
+d = Dealer.create!([
+  { name: "Ripley" },
+  { name: "Falabella" },
+  { name: "Costanera Center" }
+])
+
+r = Region.create!(
+  name: "Región Metropolitana", ordinal: 13
+)
+
+Zone.create!([
+  { name: "Zona Oriente", dealers: d, region: r },
+  { name: "Zona Centro", dealers: [ d[0]], region: r }, 
+  { name: "Zona Sur", dealers: [d[1], d[2]], region: r }
+])
+
