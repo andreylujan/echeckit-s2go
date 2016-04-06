@@ -8,6 +8,7 @@
 #  email              :text             not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  accepted           :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

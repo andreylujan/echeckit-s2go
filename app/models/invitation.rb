@@ -8,6 +8,7 @@
 #  email              :text             not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  accepted           :boolean          default(FALSE), not null
 #
 
 class Invitation < ActiveRecord::Base
@@ -19,8 +20,8 @@ class Invitation < ActiveRecord::Base
   before_create :generate_confirmation_token
 
   before_validation :lowercase_email
-  before_validation :verify_email
-
+  before_validation :verify_email, on: :create
+  validate :user_existence
   after_create :send_email
 
   def send_email
@@ -28,6 +29,13 @@ class Invitation < ActiveRecord::Base
   end
 
   private
+
+  def user_existence
+    user = User.find_by_email(self.email)
+    if user.present?
+      errors.add(:email, "Ya existe un usuario con este correo")
+    end
+  end
 
   def lowercase_email
     self.email = self.email.downcase if self.email.present?

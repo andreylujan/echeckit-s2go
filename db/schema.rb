@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406030813) do
+ActiveRecord::Schema.define(version: 20160406045619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,12 @@ ActiveRecord::Schema.define(version: 20160406030813) do
   add_index "dealers_zones", ["dealer_id", "zone_id"], name: "index_dealers_zones_on_dealer_id_and_zone_id", unique: true, using: :btree
 
   create_table "invitations", force: :cascade do |t|
-    t.integer  "role_id",            null: false
-    t.text     "confirmation_token", null: false
-    t.text     "email",              null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "role_id",                            null: false
+    t.text     "confirmation_token",                 null: false
+    t.text     "email",                              null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "accepted",           default: false, null: false
   end
 
   add_index "invitations", ["email"], name: "index_invitations_on_email", unique: true, using: :btree

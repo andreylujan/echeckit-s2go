@@ -30,7 +30,10 @@ Rails.application.routes.draw do
       end
 
       jsonapi_resources :roles, only: :index
-      jsonapi_resources :invitations, only: :create
+      jsonapi_resources :invitations, only: [
+        :create,
+        :update
+      ]
 
       resources :users, only: [
         :create,
