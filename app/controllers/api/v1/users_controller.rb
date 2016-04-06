@@ -65,7 +65,7 @@ class Api::V1::UsersController < ApplicationController
   def verify_invitation
     email = params.require(:data).require(:attributes).require(:email)
     inv = Invitation.find_by_email_and_accepted(email, true)
-    if inv.nil?
+    if inv.nil? or not inv.accepted?
       render json: {
         errors: [
            {
