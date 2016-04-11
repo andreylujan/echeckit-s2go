@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: sections
+#
+#  id              :integer          not null, primary key
+#  position        :integer
+#  title           :text
+#  organization_id :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  section_type_id :integer          not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  position: 1
+  title: MyText
+  organization_id: 
+
+two:
+  position: 1
+  title: MyText
+  organization_id: 

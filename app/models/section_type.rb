@@ -1,15 +1,13 @@
 # == Schema Information
 #
-# Table name: organizations
+# Table name: section_types
 #
 #  id         :integer          not null, primary key
-#  name       :text             not null
+#  name       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Organization < ActiveRecord::Base
-    has_many :users
-    has_many :roles
+class SectionType < ActiveRecord::Base
     has_many :sections
 end
