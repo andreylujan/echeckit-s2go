@@ -6,7 +6,7 @@ class Api::V1::UsersController < ApplicationController
     :index,
   :password ]
 
-  before_action :verify_invitation, only: :create
+  # before_action :verify_invitation, only: :create
 
   def reset_password_token
     email = params.require(:email)
