@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   validates :phone_number, uniqueness: true, allow_nil: true
   belongs_to :organization
   belongs_to :role
+  before_create :assign_role_id
   
   def send_reset_password_instructions
     token = set_reset_password_token
@@ -55,6 +56,14 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def assign_role_id
+    inv = Invitation.find_by_email_and_accepted(self, true)
+    if inv.present?
+      self.role_id = inv.role_id
+      self.organization_id = Role.find(self.role_id).id
+    end
   end
 
   def set_reset_password_token
