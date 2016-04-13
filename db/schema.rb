@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411185629) do
+ActiveRecord::Schema.define(version: 20160413235150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,13 +204,11 @@ ActiveRecord::Schema.define(version: 20160411185629) do
     t.text     "phone_number"
     t.text     "address"
     t.text     "picture"
-    t.integer  "organization_id",                     null: false
     t.integer  "role_id",                             null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
@@ -234,7 +232,6 @@ ActiveRecord::Schema.define(version: 20160411185629) do
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsection_items", "subsections"
   add_foreign_key "subsections", "sections"
-  add_foreign_key "users", "organizations"
   add_foreign_key "users", "roles"
   add_foreign_key "zones", "regions"
 end

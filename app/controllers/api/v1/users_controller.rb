@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
     :create,
   :password ]
 
-  # before_action :verify_invitation, only: :create
+  before_action :verify_invitation, only: :create
 
   def reset_password_token
     email = params.require(:email)
@@ -64,8 +64,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def verify_invitation
-    email = params.require(:data).require(:attributes).require(:email)
-    inv = Invitation.find_by_email_and_accepted(email, true)
+    token = params.require(:confirmation_token)
+    inv = Invitation.find_by_confirmation_token_and_accepted(token, true)
     if inv.nil? or not inv.accepted?
       render json: {
         errors: [

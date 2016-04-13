@@ -62,7 +62,6 @@ class User < ActiveRecord::Base
     inv = Invitation.find_by_email_and_accepted(self, true)
     if inv.present?
       self.role_id = inv.role_id
-      self.organization_id = Role.find(self.role_id).id
     end
   end
 

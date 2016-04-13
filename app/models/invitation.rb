@@ -31,7 +31,7 @@ class Invitation < ActiveRecord::Base
     file.write("From: Solutions2Go<s2go@echeckit.cl>\n")
     file.write("To: #{email}<#{email}>\n")
     file.write("Para aceptar la invitación haz click en \n")
-    file.write("http://localhost:9000/#/core/signup?confirmation_token=#{confirmation_token}")
+    file.write("http://localhost:9000/#/core/signup?confirmation_token=#{confirmation_token}&id=#{id}")
     file.close
     system "sendmail -t -f #{email} -v -i < #{file.path}"
     file.unlink
