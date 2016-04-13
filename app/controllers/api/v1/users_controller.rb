@@ -4,6 +4,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :doorkeeper_authorize!, except: [
     :reset_password_token,
     :index,
+    :create,
   :password ]
 
   # before_action :verify_invitation, only: :create
