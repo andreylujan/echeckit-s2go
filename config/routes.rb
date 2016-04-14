@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  match '/*path', to: 'application#cors_preflight_check', via: :options
   resources :organizations, except: [:new, :edit]
   resources :regions, except: [:new, :edit]
   use_doorkeeper do
