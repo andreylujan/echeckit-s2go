@@ -37,7 +37,8 @@ class User < ActiveRecord::Base
   belongs_to :organization
   belongs_to :role
   before_create :assign_role_id
-  
+  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken'
+
   def send_reset_password_instructions
     token = set_reset_password_token
     file = Tempfile.new('reset_password')

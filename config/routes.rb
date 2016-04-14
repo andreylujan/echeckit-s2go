@@ -26,9 +26,11 @@ Rails.application.routes.draw do
 
       jsonapi_resources :organizations,
       only: [ :index, :show ] do
-        jsonapi_relationships
+        jsonapi_relationships        
       end
 
+      jsonapi_resources :reports
+      
       jsonapi_resources :roles, only: :index
       jsonapi_resources :invitations, only: [
         :create,

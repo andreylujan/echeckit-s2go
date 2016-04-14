@@ -1,6 +1,5 @@
 class Api::V1::ReportResource < JSONAPI::Resource
-  attributes :title, :description, :dealer_id, :store_id,
-    :zone_id
+  attributes :title, :text, :organization_id
   def fetchable_fields
     super
   end
