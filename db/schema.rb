@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413235150) do
+ActiveRecord::Schema.define(version: 20160414211348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,38 @@ ActiveRecord::Schema.define(version: 20160413235150) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "categories", force: :cascade do |t|
+    t.text     "name",            null: false
+    t.integer  "organization_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "categories", ["organization_id", "name"], name: "index_categories_on_organization_id_and_name", unique: true, using: :btree
+  add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
+
+  create_table "categories_pictures", id: false, force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "picture_id"
+  end
+
+  add_index "categories_pictures", ["category_id"], name: "index_categories_pictures_on_category_id", using: :btree
+  add_index "categories_pictures", ["picture_id"], name: "index_categories_pictures_on_picture_id", using: :btree
+
+  create_table "data_parts", force: :cascade do |t|
+    t.integer  "subsection_id"
+    t.text     "type",                         null: false
+    t.text     "name",                         null: false
+    t.text     "icon"
+    t.boolean  "required",      default: true, null: false
+    t.integer  "data_part_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "data_parts", ["data_part_id"], name: "index_data_parts_on_data_part_id", using: :btree
+  add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|
     t.text     "name",         null: false
@@ -99,6 +131,17 @@ ActiveRecord::Schema.define(version: 20160413235150) do
   end
 
   add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
+
+  create_table "pictures", force: :cascade do |t|
+    t.text     "url"
+    t.integer  "data_part_id"
+    t.integer  "user_id",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "pictures", ["data_part_id"], name: "index_pictures_on_data_part_id", using: :btree
+  add_index "pictures", ["user_id"], name: "index_pictures_on_user_id", using: :btree
 
   create_table "regions", force: :cascade do |t|
     t.text     "name",       null: false
@@ -223,14 +266,18 @@ ActiveRecord::Schema.define(version: 20160413235150) do
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
+  add_foreign_key "categories", "organizations"
+  add_foreign_key "data_parts", "data_parts"
+  add_foreign_key "data_parts", "subsections"
   add_foreign_key "invitations", "roles"
+  add_foreign_key "pictures", "data_parts"
+  add_foreign_key "pictures", "users"
   add_foreign_key "roles", "organizations"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
   add_foreign_key "stores", "dealers"
   add_foreign_key "stores", "zones"
   add_foreign_key "subsection_items", "subsection_item_types"
-  add_foreign_key "subsection_items", "subsections"
   add_foreign_key "subsections", "sections"
   add_foreign_key "users", "roles"
   add_foreign_key "zones", "regions"

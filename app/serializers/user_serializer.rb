@@ -20,7 +20,6 @@
 #  phone_number           :text
 #  address                :text
 #  picture                :text
-#  organization_id        :integer          not null
 #  role_id                :integer          not null
 #
 

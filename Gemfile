@@ -17,7 +17,8 @@ gem 'pry'
 gem 'dotenv-rails', '~> 2.1'
 
 gem 'paranoia'
-
+gem 'aws-sdk', '~> 2.2', '>= 2.2.34'
+gem 'carrierwave-base64', '~> 2.1', '>= 2.1.1'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
 
