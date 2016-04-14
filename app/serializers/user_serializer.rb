@@ -26,7 +26,7 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :email, :first_name, :last_name, :full_name, 
-    :rut, :address, :picture, :organization_id, :role_name,
+    :rut, :address, :picture, :role_name, :role_id,
     :organization_name
 
     def role_name
@@ -34,6 +34,6 @@ class UserSerializer < ActiveModel::Serializer
     end
 
     def organization_name
-    	object.organization.name
+    	object.role.organization.name
     end
 end
