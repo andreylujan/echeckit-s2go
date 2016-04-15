@@ -19,7 +19,7 @@
 #  last_name              :text
 #  phone_number           :text
 #  address                :text
-#  picture                :text
+#  image                  :text
 #  role_id                :integer          not null
 #
 

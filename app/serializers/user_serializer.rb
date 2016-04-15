@@ -19,13 +19,13 @@
 #  last_name              :text
 #  phone_number           :text
 #  address                :text
-#  picture                :text
+#  image                  :text
 #  role_id                :integer          not null
 #
 
 class UserSerializer < ActiveModel::Serializer
   attributes :email, :first_name, :last_name, :full_name, 
-    :rut, :address, :picture, :role_name, :role_id,
+    :rut, :address, :image, :role_name, :role_id,
     :organization_name
 
     def role_name

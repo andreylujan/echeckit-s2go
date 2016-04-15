@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: pictures
+# Table name: images
 #
 #  id           :integer          not null, primary key
 #  url          :text
@@ -10,8 +10,9 @@
 #  updated_at   :datetime         not null
 #
 
-class Picture < ActiveRecord::Base
+class Image < ActiveRecord::Base
   belongs_to :gallery
   belongs_to :user
+  # mount_base64_uploader :url, ImageUploader
   has_and_belongs_to_many :categories
 end

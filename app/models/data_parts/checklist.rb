@@ -11,10 +11,10 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  ancestry      :string
-#  max_pictures  :integer
+#  max_images    :integer
 #  max_length    :integer
 #  data          :json
-#  position      :integer
+#  position      :integer          default(0), not null
 #
 
 class Checklist < DataPart

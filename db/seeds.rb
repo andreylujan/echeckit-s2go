@@ -16,7 +16,7 @@ User.create!([
                 unconfirmed_email: nil, rut: "17.085.953-7",
                 first_name: "Pablo", last_name: "Lluch",
                 phone_number: nil, address: nil,
-                picture: nil,
+                image: nil,
                 role_id: 1,
                 password: '11111111'
                 }

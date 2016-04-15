@@ -14,5 +14,5 @@
 #
 
 class GallerySerializer < DataPartSerializer
-	attributes :max_pictures
+	attributes :max_images
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415230344) do
+ActiveRecord::Schema.define(version: 20160415232837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,13 +33,13 @@ ActiveRecord::Schema.define(version: 20160415230344) do
   add_index "categories", ["organization_id", "name"], name: "index_categories_on_organization_id_and_name", unique: true, using: :btree
   add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
 
-  create_table "categories_pictures", id: false, force: :cascade do |t|
+  create_table "categories_images", id: false, force: :cascade do |t|
     t.integer "category_id"
-    t.integer "picture_id"
+    t.integer "image_id"
   end
 
-  add_index "categories_pictures", ["category_id"], name: "index_categories_pictures_on_category_id", using: :btree
-  add_index "categories_pictures", ["picture_id"], name: "index_categories_pictures_on_picture_id", using: :btree
+  add_index "categories_images", ["category_id"], name: "index_categories_images_on_category_id", using: :btree
+  add_index "categories_images", ["image_id"], name: "index_categories_images_on_image_id", using: :btree
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20160415230344) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "ancestry"
-    t.integer  "max_pictures"
+    t.integer  "max_images"
     t.integer  "max_length"
     t.json     "data"
     t.integer  "position",      default: 0,    null: false
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(version: 20160415230344) do
   end
 
   add_index "dealers_zones", ["dealer_id", "zone_id"], name: "index_dealers_zones_on_dealer_id_and_zone_id", unique: true, using: :btree
+
+  create_table "images", force: :cascade do |t|
+    t.text     "url"
+    t.integer  "data_part_id"
+    t.integer  "user_id",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "images", ["data_part_id"], name: "index_images_on_data_part_id", using: :btree
+  add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "role_id",                            null: false
@@ -136,17 +147,6 @@ ActiveRecord::Schema.define(version: 20160415230344) do
   end
 
   add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
-
-  create_table "pictures", force: :cascade do |t|
-    t.text     "url"
-    t.integer  "data_part_id"
-    t.integer  "user_id",      null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "pictures", ["data_part_id"], name: "index_pictures_on_data_part_id", using: :btree
-  add_index "pictures", ["user_id"], name: "index_pictures_on_user_id", using: :btree
 
   create_table "platforms", force: :cascade do |t|
     t.text     "name",            null: false
@@ -290,7 +290,7 @@ ActiveRecord::Schema.define(version: 20160415230344) do
     t.text     "last_name"
     t.text     "phone_number"
     t.text     "address"
-    t.text     "picture"
+    t.text     "image"
     t.integer  "role_id",                             null: false
   end
 
@@ -312,9 +312,9 @@ ActiveRecord::Schema.define(version: 20160415230344) do
 
   add_foreign_key "categories", "organizations"
   add_foreign_key "data_parts", "subsections"
+  add_foreign_key "images", "data_parts"
+  add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
-  add_foreign_key "pictures", "data_parts"
-  add_foreign_key "pictures", "users"
   add_foreign_key "platforms", "organizations"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
