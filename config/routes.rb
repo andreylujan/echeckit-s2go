@@ -25,13 +25,14 @@ Rails.application.routes.draw do
       end
 
       resources :sections
-
+      resources :platforms, only: [ :index ]
       jsonapi_resources :organizations,
       only: [ :index, :show ] do
         jsonapi_relationships   
-        jsonapi_resources :report_types     
+        jsonapi_resources :report_types   
       end
 
+      resource :top_list, only: [ :show ]
       jsonapi_resources :reports
       
       jsonapi_resources :roles, only: :index

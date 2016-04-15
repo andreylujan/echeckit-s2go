@@ -115,3 +115,25 @@ Checklist.second.children.create!([
 ])
 
 ReportType.create! name: "Reporte Diario", organization_id: 1
+platforms = Platform.create!([
+  { organization: Organization.last, name: "Playstation 4" },
+  { organization: Organization.last, name: "Xbox 360" },
+  { organization: Organization.last, name: "Wii U" },
+  { organization: Organization.last, name: "PC" },
+  { organization: Organization.last, name: "Playstation 3" },
+  { organization: Organization.last, name: "Xbox One" }
+])
+
+TopList.create! organization: Organization.last, top_list_items: [
+  TopListItem.create!(images: [ 
+    'http://charlieintel.com/wp-content/uploads/2015/04/image1.jpg',
+    "https://vgboxart.com/boxes/PS4/72885-call-of-duty-black-ops-iii.png" ], 
+    name: "Call of Duty: Black Ops III",
+    platforms: [ platforms[0], platforms[1], platforms[4], platforms[4] ]
+    ),
+  TopListItem.create!(images: [ 'http://images.pushsquare.com/games/ps4/lego_marvel_super_heroes/cover_large.jpg',
+    'http://40.media.tumblr.com/0a933e16f3c7a1ab10c21904ed9dae19/tumblr_mxnsguv8Rw1qzwtdlo1_1280.jpg'],
+    name: "Lego Marvel Super Heroes",
+    platforms: [ platforms[0], platforms[1], platforms[2], platforms[3], platforms[4] ]
+)
+]

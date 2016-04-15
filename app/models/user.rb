@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, uniqueness: true, allow_nil: true
-  belongs_to :organization
   belongs_to :role
   before_create :assign_role_id
   has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken'
