@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414214133) do
+ActiveRecord::Schema.define(version: 20160415032628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -46,12 +47,12 @@ ActiveRecord::Schema.define(version: 20160414214133) do
     t.text     "name",                         null: false
     t.text     "icon"
     t.boolean  "required",      default: true, null: false
-    t.integer  "data_part_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "ancestry"
   end
 
-  add_index "data_parts", ["data_part_id"], name: "index_data_parts_on_data_part_id", using: :btree
+  add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
   add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|
@@ -170,6 +171,26 @@ ActiveRecord::Schema.define(version: 20160414214133) do
 
   add_index "regions", ["name"], name: "index_regions_on_name", unique: true, using: :btree
   add_index "regions", ["ordinal"], name: "index_regions_on_ordinal", unique: true, using: :btree
+
+  create_table "report_types", force: :cascade do |t|
+    t.text     "name"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
+
+  create_table "reports", force: :cascade do |t|
+    t.integer  "organization_id",              null: false
+    t.integer  "report_type_id",               null: false
+    t.json     "data",            default: {}, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
+  add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.integer  "organization_id", null: false
@@ -306,12 +327,14 @@ ActiveRecord::Schema.define(version: 20160414214133) do
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
   add_foreign_key "categories", "organizations"
-  add_foreign_key "data_parts", "data_parts"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "invitations", "roles"
   add_foreign_key "pictures", "data_parts"
   add_foreign_key "pictures", "users"
   add_foreign_key "platforms", "organizations"
+  add_foreign_key "report_types", "organizations"
+  add_foreign_key "reports", "organizations"
+  add_foreign_key "reports", "report_types"
   add_foreign_key "roles", "organizations"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"

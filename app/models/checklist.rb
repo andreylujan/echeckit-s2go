@@ -8,9 +8,9 @@
 #  name          :text             not null
 #  icon          :text
 #  required      :boolean          default(TRUE), not null
-#  data_part_id  :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  ancestry      :string
 #
 
 class Checklist < DataPart

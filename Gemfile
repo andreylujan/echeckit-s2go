@@ -8,20 +8,20 @@ gem 'rails-api'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
-gem 'mongoid', '~> 5.1', '>= 5.1.1'
 gem 'rake', '~> 11.1', '>= 11.1.2'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.2'
 gem 'pry'
 gem 'dotenv-rails', '~> 2.1'
+gem 'activerecord-postgis-adapter', '~> 3.1', '>= 3.1.4'
 
 gem 'paranoia'
 gem 'aws-sdk', '~> 2.2', '>= 2.2.34'
 gem 'carrierwave-base64', '~> 2.1', '>= 2.1.1'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
-
+gem 'ancestry', '~> 2.1'
 # Auth
 gem 'devise', '~> 3.5', '>= 3.5.6'
 gem 'doorkeeper', '~> 3.1'
@@ -36,7 +36,6 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'pundit', '~> 1.1'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-# gem 'backup', '~> 4.2', '>= 4.2.3'
 # gem 'responders', '~> 2.1', '>= 2.1.2'
 
 group :development do
@@ -51,18 +50,18 @@ end
 
 group :development, :test do
   gem 'listen', '~> 3.0', '>= 3.0.6'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 1.6', '>= 1.6.4'
   gem 'spring-watcher-listen', '~> 2.0'
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 8.2', '>= 8.2.2'
+  gem 'rspec-rails', '~> 3.5.0.beta3'
 end
 
 group :test do
-    gem 'factory_girl_rails', '~> 4.6'
-    gem 'faker', '~> 1.6', '>= 1.6.3'
-    # gem 'faker', '~> 1.6.1'
+  gem 'factory_girl_rails', '~> 4.6'
+  gem 'faker', '~> 1.6', '>= 1.6.3'
 end
+
+
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

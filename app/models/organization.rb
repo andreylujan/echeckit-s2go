@@ -15,4 +15,5 @@ class Organization < ActiveRecord::Base
     has_many :categories
     has_many :platforms
     has_many :top_lists
+    has_many :report_types
 end
