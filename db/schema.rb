@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415202820) do
+ActiveRecord::Schema.define(version: 20160415205012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 20160415202820) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "ancestry"
+    t.integer  "max_pictures"
+    t.integer  "max_length"
   end
 
   add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
