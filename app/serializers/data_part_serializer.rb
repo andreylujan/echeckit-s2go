@@ -14,5 +14,6 @@
 #
 
 class DataPartSerializer < ActiveModel::Serializer
-	 attributes :id, :type, :name, :icon, :required, :children
+	 attributes :id, :type, :name, :icon, :required
+	 has_many :children
 end
