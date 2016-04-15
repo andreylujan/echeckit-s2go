@@ -1,6 +1,6 @@
 class Api::V1::ReportResource < JSONAPI::Resource
-  attributes :dynamic_attributes, :creator_id, :created_at
-  
+  attributes :dynamic_attributes, :creator_id, :created_at, :limit_date
+
 
   def custom_links(options)
     {self: nil}

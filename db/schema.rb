@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415182447) do
+ActiveRecord::Schema.define(version: 20160415202820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20160415182447) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "creator_id",                      null: false
+    t.datetime "limit_date"
   end
 
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
