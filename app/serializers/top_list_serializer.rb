@@ -1,13 +1,13 @@
 # == Schema Information
 #
-# Table name: subsections
+# Table name: top_lists
 #
-#  id         :integer          not null, primary key
-#  section_id :integer
-#  name       :text             not null
-#  icon       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  organization_id :integer          not null
+#  name            :text
+#  icon            :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class TopListSerializer < ActiveModel::Serializer

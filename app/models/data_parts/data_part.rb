@@ -11,10 +11,15 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  ancestry      :string
+#  max_pictures  :integer
+#  max_length    :integer
+#  data          :json
+#  position      :integer
 #
 
 class DataPart < ActiveRecord::Base
   belongs_to :subsection
+  acts_as_list scope: :subsection
   # belongs_to :data_part
   # has_many :children, class_name: :DataPart
   # belongs_to :parent, class_name: :DataPart, foreign_key: :data_part_id
