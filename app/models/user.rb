@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def organization
+    role.organization
+  end
+
   def assign_role_id
     inv = Invitation.find_by_email_and_accepted(self, true)
     if inv.present?

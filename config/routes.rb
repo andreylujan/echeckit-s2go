@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         jsonapi_relationships
       end
 
+      resources :sections
+
       jsonapi_resources :organizations,
       only: [ :index, :show ] do
         jsonapi_relationships        

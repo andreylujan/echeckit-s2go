@@ -21,7 +21,7 @@ gem 'aws-sdk', '~> 2.2', '>= 2.2.34'
 gem 'carrierwave-base64', '~> 2.1', '>= 2.1.1'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
-gem 'ancestry', '~> 2.1'
+gem 'ancestry', git: 'https://github.com/stefankroes/ancestry', branch: 'master'
 # Auth
 gem 'devise', '~> 3.5', '>= 3.5.6'
 gem 'doorkeeper', '~> 3.1'

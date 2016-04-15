@@ -11,8 +11,7 @@
 #  section_type_id :integer          not null
 #
 
-class Section < ActiveRecord::Base
-  belongs_to :organization
-  belongs_to :section_type
-  has_many :subsections
+class SectionSerializer < ActiveModel::Serializer
+	attributes :id, :position, :name, :section_type_id
+	has_many :subsections
 end

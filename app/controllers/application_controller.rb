@@ -36,6 +36,13 @@ class ApplicationController < ActionController::API
   end
 
   protected
+
+  def current_user
+    if doorkeeper_token.present?
+      User.find_by_id(doorkeeper_token.resource_owner_id)
+    end
+  end
+
   def response_from_token(token)
     response = Doorkeeper::OAuth::TokenResponse.new(token)
     body = {

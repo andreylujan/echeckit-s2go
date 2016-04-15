@@ -11,7 +11,7 @@
 #
 
 class Picture < ActiveRecord::Base
-  belongs_to :data_part
+  belongs_to :gallery
   belongs_to :user
   has_and_belongs_to_many :categories
 end
