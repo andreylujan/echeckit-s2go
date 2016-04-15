@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415141034) do
+ActiveRecord::Schema.define(version: 20160415182447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,13 +182,15 @@ ActiveRecord::Schema.define(version: 20160415141034) do
   add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "organization_id",              null: false
-    t.integer  "report_type_id",               null: false
-    t.json     "data",            default: {}, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "organization_id",                 null: false
+    t.integer  "report_type_id",                  null: false
+    t.json     "dynamic_attributes", default: {}, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "creator_id",                      null: false
   end
 
+  add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
 
@@ -237,10 +239,10 @@ ActiveRecord::Schema.define(version: 20160415141034) do
 
   create_table "subsections", force: :cascade do |t|
     t.integer  "section_id"
-    t.text     "name",                          null: false
+    t.text     "name",       null: false
     t.text     "icon"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "subsections", ["section_id"], name: "index_subsections_on_section_id", using: :btree

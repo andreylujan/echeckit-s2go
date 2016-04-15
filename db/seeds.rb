@@ -114,5 +114,4 @@ Checklist.second.children.create!([
     }
 ])
 
-
-
+ReportType.create! name: "Reporte Diario", organization_id: 1
