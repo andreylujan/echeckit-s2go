@@ -18,10 +18,13 @@ gem 'activerecord-postgis-adapter', '~> 3.1', '>= 3.1.4'
 
 gem 'paranoia'
 gem 'aws-sdk', '~> 2.2', '>= 2.2.34'
+gem 'carrierwave', '~> 0.10.0'
 gem 'carrierwave-base64', '~> 2.1', '>= 2.1.1'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry', branch: 'master'
+gem 'fog', '~> 1.38'
+
 # Auth
 gem 'devise', '~> 3.5', '>= 3.5.6'
 gem 'doorkeeper', '~> 3.1'
@@ -31,6 +34,7 @@ gem 'jsonapi-serializers'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: 'master'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'acts_as_list', '~> 0.7.4'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'

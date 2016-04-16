@@ -24,6 +24,9 @@ Rails.application.routes.draw do
         jsonapi_relationships
       end
 
+      resources :categories, only: [ :index ]
+      resources :images, only: [ :create ]
+      
       resources :sections
       resources :platforms, only: [ :index ]
       jsonapi_resources :organizations,

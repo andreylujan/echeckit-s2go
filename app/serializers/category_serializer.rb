@@ -9,7 +9,6 @@
 #  updated_at      :datetime         not null
 #
 
-class Category < ActiveRecord::Base
-  belongs_to :organization
-  has_many :images
+class CategorySerializer < ActiveModel::Serializer
+	attributes :id, :name
 end

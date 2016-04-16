@@ -137,3 +137,13 @@ TopList.create! organization: Organization.last, top_list_items: [
     platforms: [ platforms[0], platforms[1], platforms[2], platforms[3], platforms[4] ]
 )
 ]
+
+Category.create!([
+{ organization: Organization.last, name: "Exhibiciones Playstation" },
+{ organization: Organization.last, name: "Exhibiciones competencia promociones comunicadas" },
+{ organization: Organization.last, name: "Best practice" },
+{ organization: Organization.last, name: "Muebles y pilares" },
+{ organization: Organization.last, name: "Activaciones" },
+{ organization: Organization.last, name: "Productos más vendidos" }
+])
+

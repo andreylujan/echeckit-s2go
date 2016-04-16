@@ -11,11 +11,10 @@
 #  category_id  :integer
 #
 
-class Image < ActiveRecord::Base
-  belongs_to :gallery
-  belongs_to :user
-  mount_base64_uploader :image, ImageUploader
-  belongs_to :category
+class ImageSerializer < ActiveModel::Serializer
+	attributes :data_part_id, :url, :user_id, :category_id
 
-  validates_presence_of [ :user, :image, :category ]
+	def url
+		object.image.url
+	end
 end

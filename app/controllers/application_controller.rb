@@ -17,6 +17,15 @@ class ApplicationController < ActionController::API
     }, status: :not_found
   end
 
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render json: {
+      errors: [
+        status: '422',
+        detail: exception.message
+      ]
+    }
+  end
+
   rescue_from ActionController::ParameterMissing do |exception|
     render json: {
       errors: [
