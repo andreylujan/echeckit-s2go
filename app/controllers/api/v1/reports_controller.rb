@@ -17,7 +17,7 @@ class Api::V1::ReportsController < ApplicationController
 
 
   def create_params
-  	params.permit(:report_type_id).tap do |whitelisted|
+  	params.permit(:report_type_id, :finished, :assigned_user_id).tap do |whitelisted|
       whitelisted[:dynamic_attributes] = params[:dynamic_attributes]
     end
   end

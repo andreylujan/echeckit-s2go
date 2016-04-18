@@ -10,6 +10,8 @@
 #  updated_at         :datetime         not null
 #  creator_id         :integer          not null
 #  limit_date         :datetime
+#  finished           :boolean
+#  assigned_user_id   :integer
 #
 
 class Report < ActiveRecord::Base
