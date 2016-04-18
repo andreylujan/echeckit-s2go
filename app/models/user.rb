@@ -38,6 +38,8 @@ class User < ActiveRecord::Base
   before_create :assign_role_id
   has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken'
   delegate :organization, to: :role, allow_nil: false
+  has_many :created_reports, class_name: :Report, foreign_key: :creator_id
+  has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id
 
   def send_reset_password_instructions
     token = set_reset_password_token

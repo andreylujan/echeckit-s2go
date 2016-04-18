@@ -17,7 +17,8 @@ class SubsectionSerializer < ActiveModel::Serializer
 		parts = []
 		object.data_parts.each do |part|
 			serializer = Object.const_get "#{part.type}Serializer"
-			parts << part.subtree.arrange_serializable { |parent, children| serializer.new(parent, children: children).as_json }
+			arr = part.subtree.arrange_serializable { |parent, children| serializer.new(parent, children: children).as_json }
+			parts << arr[0]
 		end
 		parts
 	end
