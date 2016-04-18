@@ -13,5 +13,6 @@
 #
 
 class ReportSerializer < ActiveModel::Serializer
-    attributes :id, :created_at, :updated_at, :dynamic_attributes, :creator_id
+    attributes :id, :created_at, :updated_at, :dynamic_attributes, :creator_id,
+    	:finished, :assigned_user_id
 end

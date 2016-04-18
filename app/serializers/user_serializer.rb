@@ -24,7 +24,7 @@
 #
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :email, :first_name, :last_name, :full_name, 
+  attributes :id, :email, :first_name, :last_name, :full_name, 
     :rut, :address, :image, :role_name, :role_id,
     :organization_name
 
