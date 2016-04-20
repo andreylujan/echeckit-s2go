@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pgbackup
+dropdb echeckit_development
+createdb echeckit_development
+psql -f db/dump.sql -U echeckit -d echeckit_development

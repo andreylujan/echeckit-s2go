@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Reporte</title>
+	<style>
+	body {
+		font-family: 'Helvetica';
+		font-size: 14px;
+	}
+	html {
+		text-align: center;
+		width: 100%;
+	}
+	body {
+		display: inline-block;
+		margin: 0px auto;
+		text-align: left;
+		width: 90%;
+	}
+	h3 {
+		color: #f19122;
+		margin-left: 20px;
+		margin-right: 20px;
+		font-size: 1.1em;
+	}
+	h4 {
+		margin: 0;
+	}
+	.field {
+		/*margin-left: 20px;*/
+		margin: 10px 0;
+	}
+	.formHeaders {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 10px;
+	}
+	.formHeader {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 10px;
+	}
+	.label {
+		display: inline-block;
+		font-weight: bold;
+		/*text-align: justify;*/
+		vertical-align: middle;
+	}
+	.labelChecklist {
+		display: inline-block;
+		font-weight: bold;
+		margin-left: 10px;
+		max-width: 86%;
+		margin-top: 2px;
+		/*text-align: justify;*/
+	}
+	.suggestion {
+		display: block;
+		margin-left: 60px;
+		margin-top: 5px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
+	}
+	.value {
+		color: #4078c0;
+		display: inline-block;
+		margin-left: 15px;
+		text-align: justify;
+		vertical-align: middle;
+	}
+	.value.icon {
+		display: inline-block;
+		max-width: 100%;
+		max-height : 100%;
+	}
+	.value.images {
+		display: block;
+	}
+	.check {
+		width: 17px;
+	}
+	.checklist {
+		display: inline-block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		vertical-align: top;
+		width: 49%;
+	}
+	.maps {
+		margin-left: 20px;
+		margin-bottom: 20px;
+		display: inline-block;
+	}
+	.pictures {
+		display: block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	.picture {
+		display: inline-block;
+		margin: 7px 3px;
+		vertical-align: top;
+		/*border: 1px  blue solid;*/
+	}
+	.pictureComment {
+		max-width: 250px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
+	}
+	.general-comments {
+		margin-left: 15px;
+		text-align: justify;
+	}
+	.wpi-80 {
+		width: 80px;
+	}
+	.wpi-120 {
+		width: 120px;
+	}
+	.wpi-160 {
+		width: 160px;
+	}
+	.wpi-180 {
+		width: 180px;
+	}
+	.wpe-30 {
+		width: 30%;
+	}
+	.mw-70 {
+		max-width: 65%;
+	}
+	.right-content {
+		display: inline-block;
+		vertical-align: top;
+		width:45%;
+	}
+	.left-content {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 1%;
+		width: 45%;
+	}
+	.checklistTable {
+		display: inline-block;
+		width: 32.9%;
+		margin-bottom: 20px;
+		vertical-align: top;
+	}
+	.picsField {
+		margin: 20px 0;
+	}
+	.picLabel {
+		display: inline-block;
+		width: 25%;
+	}
+	.commentValue {
+		display: inline-block;
+		width: 74%;
+		vertical-align: top;
+		text-align: justify;
+	}
+	</style>
+</head>
+<body>
+	<div style="margin: 10px 0;">
+		<img src="http://logok.org/wp-content/uploads/2014/07/Playstation-logo-colour.png" alt="dom_logo" style="width: 150px">
+		<div class="formHeaders">
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-160">Tipo de reporte:</div>
+					<div class="value wpi-170">Reporte diario</div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-160">Detalle solicitud:</div>
+						<div class="value wpi-170">Reporte diario costanera</div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-160">Fecha creación:</div>
+							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-160">Fecha de vencimiento:</div>
+							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%></div>
+				</div>
+			</div>
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-120">Zona:</div>
+					<div class="value">Santiago</div>
+				</div>
+				<div class="field">
+					<div class="label wpi-120">Dealer:</div>
+					<div class="value">Ripley</div>
+				</div>
+				<div class="field">
+					<div class="label wpi-120">Tienda:</div>
+					<div class="value">Costanera Norte</div>
+				</div>
+				<div class="field">
+					<div class="label wpi-120">Creador reporte:</div>
+					<div class="value">Juan Perez</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<h3>GEOLOCALIZACIÓN</h3>
+	<div class="">
+		<div class="map left-content">
+			<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['latitude']}, #{@report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['longitude']}" %>" style="width: 100%;"/>
+		</div>
+
+		<div class="right-content">
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-80">Dirección:</div>
+					<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['address']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-80">Región:</div>
+						<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['region']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-80">Comuna:</div>
+							<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['comuna']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-80">Referencia:</div>
+					<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference']}" %></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<hr>
+
+	<div class="content">
+		<h3>CHECKLIST COMERCIAL</h3>
+		<div class="field">
+			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="marker" style="width:20px"></div>
+			<div class="value"><h4>PROTOCOLO</h4></div>
+		</div>
+		
+		<h4>Observación</h4>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no seaest Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua, ugo consetetur Lorem Ipsum.</p>
+
+		<div class="checklist">
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+					</div>
+					<div class="labelChecklist">Limpieza y orden PDV</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+				</div>
+				<div class="labelChecklist">Encendido de interactivos</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+				</div>
+				<div class="labelChecklist">Revisar operatividad</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+				</div>
+				<div class="labelChecklist">Funcionamiento de luminosos</div>
+			</div>
+		</div>
+
+		<h4>Detalles</h4>
+		<div class="field">
+			<div class="label wpi-120">Item checklist:</div>
+			<div class="value">Limpieza y orden PDv</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cual:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Observación:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cantidad:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Fotos:</div>
+			<div class="value"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr align="left" width="50%">
+
+		<div class="field">
+			<div class="label wpi-120">Item checklist:</div>
+			<div class="value">Funcionamiento de luminosos</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cual:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Observación:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cantidad:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Fotos:</div>
+			<div class="value"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="field">
+			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="marker" style="width:30px"></div>
+			<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<div class="checklist">
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+				</div>
+				<div class="labelChecklist">Manual de exhibición</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+					</div>
+					<div class="labelChecklist">Promociones destacadas</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="https://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_v" />
+				</div>
+				<div class="labelChecklist">Interactivos PS3</div>
+			</div>
+			<div class="field">
+				<div class="value icon">
+					<img class="check" src="https://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_x" />
+				</div>
+				<div class="labelChecklist">Muebles PS4</div>
+			</div>
+		</div>
+
+		<h4>Detalles</h4>
+		<hr align="left" width="50%">
+		<div class="field">
+			<div class="label wpi-120">Item checklist:</div>
+			<div class="value">Promociones destacadas</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cual:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Observación:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cantidad:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Fotos:</div>
+			<div class="value"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr align="left" width="50%">
+
+		<div class="field">
+			<div class="label wpi-120">Item checklist:</div>
+			<div class="value">Interactivos PS3</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cual:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Observación:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cantidad:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Fotos:</div>
+			<div class="value"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr align="left" width="50%">
+
+		<div class="field">
+			<div class="label wpi-120">Item checklist:</div>
+			<div class="value">Muebles PS4</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cual:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Observación:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Cantidad:</div>
+			<div class="value">Lorem ipsum dolor sit amet</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-120">Fotos:</div>
+			<div class="value"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr>
+
+		<h3>CHECKLIST COMERCIAL</h3>
+		<div class="field">
+			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
+			<div class="value"><h4>STOCK</h4></div>
+		</div>
+
+		<div class="checklistTableContainer">
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real hardware</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>$ 20.000</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>$ 10.000</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>10</td>
+					</tr>
+				</tbody>
+				
+			</table>
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real accesorios</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>$ 20.000</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>$ 10.000</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>10</td>
+					</tr>
+				</tbody>
+				
+			</table>
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real juegos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>5</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>3</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>1</td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
+
+		<div class="checklistTableContainer">
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>HC Promotores Fulltime</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>13</td>
+					</tr>
+					<tr>
+						<td>Play Station</td>
+						<td>13</td>
+					</tr>
+					<tr>
+						<td>Play Station</td>
+						<td>13</td>
+					</tr>
+					<tr>
+						<td>Play Station</td>
+						<td>13</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>5</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>10</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>HC Promotores Part-time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>7</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>16</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>20</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<div class="field">
+			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
+			<div class="value"><h4>VENTA</h4></div>
+		</div>
+
+		<div class="checklistTableContainer">
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real hardware</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>$ 20.000</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>$ 10.000</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>$ 10.000</td>
+					</tr>
+				</tbody>
+				
+			</table>
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real accesorios</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>$ 20.000</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>$ 10.000</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>10</td>
+					</tr>
+				</tbody>
+				
+			</table>
+
+			<table class="checklistTable">
+				<thead>
+					<tr>
+						<th>Stock real juegos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Play Station</td>
+						<td>5</td>
+					</tr>
+					<tr>
+						<td>Nintendo</td>
+						<td>3</td>
+					</tr>
+					<tr>
+						<td>XBOX</td>
+						<td>1</td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
+
+		<div class="field">
+			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
+			<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
+		</div>
+
+		<div class="field ">
+			<div class="label wpi-180">Acción:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field ">
+			<div class="label wpi-180">Producto:</div>
+				<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field ">
+			<div class="label wpi-180">Cantidad:</div>
+					<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Cual:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Observación:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Cantidad:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Fotos:</div>
+			<div class="value wpi-170"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="field ">
+			<div class="label wpi-180">Acción:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field ">
+			<div class="label wpi-180">Producto:</div>
+				<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field ">
+			<div class="label wpi-180">Cantidad:</div>
+					<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Cual:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Observación:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Cantidad:</div>
+			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+		</div>
+		<div class="field">
+			<div class="label wpi-180">Fotos:</div>
+			<div class="value wpi-170"></div>
+		</div>
+
+		<div class="pictures">
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+			<div class="picture">
+				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+			</div>
+		</div>
+
+		<h3>FOTOS</h3>
+
+		<!-- REPETIR CATEGORÍAS -->
+		<div>
+			<div class="field">
+				<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
+				<div class="value"><h4>NOMBRE CATEGORÍA</h4></div>
+			</div>
+			
+
+			<div class="picsField">
+				<div class="picLabel">
+					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
+				</div>
+				<div class="commentValue">
+					<h5>Comentarios</h5>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+				</div>
+			</div>
+			
+			<div class="picsField">
+				<div class="picLabel">
+					<img src="http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg" width="90%" />
+				</div>
+				<div class="commentValue">
+					<h5>Comentarios</h5>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+				</div>
+			</div>
+
+			<div class="picsField">
+				<div class="picLabel">
+					<img src="http://3.bp.blogspot.com/-JhISDA9aj1Q/UTECr1GzirI/AAAAAAAAC2o/5qmvWZiCMRQ/s1600/Twitter.png" width="90%" />
+				</div>
+				<div class="commentValue">
+					<h5>Comentarios</h5>
+					<hr>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+				</div>
+			</div>	
+		</div>
+
+
+	</div>
+</body>
+</html>

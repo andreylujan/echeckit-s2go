@@ -24,6 +24,10 @@ gem 'versionist', '~> 1.4', '>= 1.4.1'
 gem 'jsonapi-resources'
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry', branch: 'master'
 gem 'fog', '~> 1.38'
+gem 'sidekiq', '~> 4.1', '>= 4.1.1'
+gem 'redis', '~> 3.3'
+gem 'wicked_pdf', '~> 1.0', '>= 1.0.6'
+gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
 
 # Auth
 gem 'devise', '~> 3.5', '>= 3.5.6'

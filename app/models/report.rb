@@ -20,8 +20,13 @@ class Report < ActiveRecord::Base
   belongs_to :report_type
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
-  
+  mount_uploader :pdf, PdfUploader
   before_save :cache_data
+  after_commit :generate_pdf, on: [ :create ]
+
+  def generate_pdf
+    UploadPdfJob.perform_later self.id
+  end
 
   def cache_data
   	if self.dynamic_attributes.nil?

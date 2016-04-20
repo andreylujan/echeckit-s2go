@@ -25,7 +25,8 @@ module EcheckitApi
     config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'data_parts')]
     config.autoload_paths += Dir[Rails.root.join('app', 'serializers', 'data_parts')]
-
+    config.active_job.queue_adapter = :sidekiq
+    
     ActiveModelSerializers.config.adapter = :json_api
     ActiveModelSerializers.config.key_transform = :underscore
     config.middleware.insert_before 0, "Rack::Cors" do

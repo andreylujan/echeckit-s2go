@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418202753) do
+ActiveRecord::Schema.define(version: 20160420030309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -189,6 +188,7 @@ ActiveRecord::Schema.define(version: 20160418202753) do
     t.datetime "limit_date"
     t.boolean  "finished"
     t.integer  "assigned_user_id"
+    t.text     "pdf"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
@@ -238,6 +238,25 @@ ActiveRecord::Schema.define(version: 20160418202753) do
   add_index "stores", ["dealer_id", "name"], name: "index_stores_on_dealer_id_and_name", unique: true, using: :btree
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
+
+  create_table "subsection_item_types", force: :cascade do |t|
+    t.text     "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subsection_items", force: :cascade do |t|
+    t.integer  "subsection_item_type_id", null: false
+    t.integer  "subsection_id",           null: false
+    t.boolean  "has_details",             null: false
+    t.text     "name",                    null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "subsection_items", ["subsection_id", "name"], name: "index_subsection_items_on_subsection_id_and_name", unique: true, using: :btree
+  add_index "subsection_items", ["subsection_id"], name: "index_subsection_items_on_subsection_id", using: :btree
+  add_index "subsection_items", ["subsection_item_type_id"], name: "index_subsection_items_on_subsection_item_type_id", using: :btree
 
   create_table "subsections", force: :cascade do |t|
     t.integer  "section_id"
@@ -322,6 +341,7 @@ ActiveRecord::Schema.define(version: 20160418202753) do
   add_foreign_key "sections", "section_types"
   add_foreign_key "stores", "dealers"
   add_foreign_key "stores", "zones"
+  add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
   add_foreign_key "top_list_items", "top_lists"
   add_foreign_key "top_lists", "organizations"
