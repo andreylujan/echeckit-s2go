@@ -51,6 +51,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1', '>= 1.1.6'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
+  gem 'capistrano-sidekiq', '~> 0.5.4'
   gem 'rails-erd', '~> 1.4', '>= 1.4.6', require: false
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git', branch: 'develop'
   gem 'seed_dump', require: false
