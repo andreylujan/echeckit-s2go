@@ -28,10 +28,6 @@ class Report < ActiveRecord::Base
     UploadPdfJob.perform_later self.id
   end
 
-  def pdf
-    self.pdf.url
-  end
-
   def cache_data
   	if self.dynamic_attributes.nil?
   		self.dynamic_attributes = {}

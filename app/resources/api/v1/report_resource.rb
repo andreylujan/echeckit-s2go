@@ -7,6 +7,10 @@ class Api::V1::ReportResource < JSONAPI::Resource
     {self: nil}
   end
 
+  def pdf
+  	@model.pdf.url
+  end
+
   def fetchable_fields
     super
   end
