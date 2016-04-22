@@ -176,7 +176,7 @@
 				</div>
 				<div class="field ">
 					<div class="label wpi-160">Detalle solicitud:</div>
-						<div class="value wpi-170">Reporte diario costanera</div>
+						<div class="value wpi-170">Reporte diario <%= @report.dealer_name %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-160">Fecha creación:</div>
@@ -190,19 +190,19 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-120">Zona:</div>
-					<div class="value">Santiago</div>
+					<div class="value"><%= @report.zone_name %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-120">Dealer:</div>
-					<div class="value">Ripley</div>
+					<div class="value"><%= @report.dealer_name %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-120">Tienda:</div>
-					<div class="value">Costanera Norte</div>
+					<div class="value"><%= @report.store_name %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-120">Creador reporte:</div>
-					<div class="value">Juan Perez</div>
+					<div class="value"><%= @report.creator.full_name %></div>
 				</div>
 			</div>
 		</div>

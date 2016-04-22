@@ -35,4 +35,17 @@ class Report < ActiveRecord::Base
   	self.dynamic_attributes[:creator_name] = self.creator.full_name
   	self.dynamic_attributes[:report_type_name] = self.report_type.name
   end
+
+  def zone_name
+    Zone.find(Report.last.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["zone"]).name
+  end
+
+  def store_name
+    Store.find(Report.last.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"]).name
+  end
+
+  def dealer_name
+    Dealer.find(Report.last.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["dealer"]).name
+  end
+
 end
