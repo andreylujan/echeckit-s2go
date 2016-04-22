@@ -61,9 +61,13 @@ class User < ActiveRecord::Base
   end
 
   def assign_role_id
-    inv = Invitation.find_by_email_and_accepted(self, true)
+    inv = Invitation.find_by_email(self)
     if inv.present?
       self.role_id = inv.role_id
+    end
+
+    if self.role_id.nil?
+      self.role = Role.first
     end
   end
 
