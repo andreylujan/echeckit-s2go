@@ -1,6 +1,6 @@
 class Api::V1::ReportResource < JSONAPI::Resource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
-  :finished, :assigned_user_id
+  :finished, :assigned_user_id, :pdf
 
 
   def custom_links(options)
