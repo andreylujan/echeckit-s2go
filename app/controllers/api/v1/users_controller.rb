@@ -34,11 +34,8 @@ class Api::V1::UsersController < ApplicationController
   def all
     users = User.joins(:role).where(roles: {
       organization_id: current_user.role.organization_id
-    }).map { |u| u.id }
-    render json: {
-      type: "user_ids",
-      data: users
-    }
+    })
+    render json: users, each_serializer: UserIndexSerializer
   end
 
   def index
