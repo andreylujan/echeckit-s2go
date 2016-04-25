@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:andreylujan/echeckit-s2go.git'
 set :branch, 'master'
 
 set :ssh_options, {
- keys: [ "/home/pablo/.ssh/ubuntu.pem"  ],
+ keys: [ "#{ENV['HOME']}/.ssh/ubuntu.pem"  ],
  forward_agent: true,
  auth_methods: ["publickey"]
 }

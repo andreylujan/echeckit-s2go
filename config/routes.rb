@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       jsonapi_resources :regions do
         jsonapi_relationships
       end
+
+      resources :subsections, only: :index
       jsonapi_resources :stores do
         jsonapi_relationships
       end
