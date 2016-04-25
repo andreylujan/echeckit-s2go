@@ -3,9 +3,11 @@ class Api::V1::UsersController < ApplicationController
   include JSONAPI::ActsAsResourceController
   before_action :doorkeeper_authorize!, except: [
     :reset_password_token,
-    :index,
+    :verify,
     :create,
   :password ]
+
+  before_action :filter_organization, only: :index
 
   before_action :verify_invitation, only: :create
 
@@ -31,14 +33,7 @@ class Api::V1::UsersController < ApplicationController
     render json: user
   end
 
-  def all
-    users = User.joins(:role).where(roles: {
-      organization_id: current_user.role.organization_id
-    })
-    render json: users, each_serializer: UserIndexSerializer
-  end
-
-  def index
+  def verify
     token = params.require(:reset_password_token)
     email = params.require(:email)
     @user = User.find_by_reset_password_token_and_email(token, email)
@@ -47,6 +42,13 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: unauthorized_error, status: :unauthorized
     end
+  end
+
+  def all
+    users = User.joins(:role).where(roles: {
+      organization_id: current_user.role.organization_id
+    })
+    render json: users, each_serializer: UserIndexSerializer
   end
 
   def password
@@ -72,6 +74,10 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_params
+  end
+
+  def filter_organization
+    params[:filter] = { "organization_id"=> current_user.organization_id.to_s }
   end
 
   def verify_invitation
