@@ -48,7 +48,8 @@ Rails.application.routes.draw do
         :create,
         :update,
         :show,
-        :index
+        :index,
+        :destroy
       ] do
         collection do
           post :reset_password_token

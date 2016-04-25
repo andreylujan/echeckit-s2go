@@ -26,11 +26,19 @@ class Api::V1::UsersController < ApplicationController
     }
   end
 
+  def show
+    user = User.find(params.require(:id))
+    render json: user
+  end
+
   def all
-    users = User.includes(:role).where(roles: {
+    users = User.joins(:role).where(roles: {
       organization_id: current_user.role.organization_id
-    })
-    render json: users
+    }).map { |u| u.id }
+    render json: {
+      type: "user_ids",
+      data: users
+    }
   end
 
   def index
