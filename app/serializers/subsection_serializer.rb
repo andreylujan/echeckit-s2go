@@ -10,7 +10,7 @@
 #
 
 class SubsectionSerializer < ActiveModel::Serializer
-	attributes :id, :name, :icon, :data_parts
+	attributes :id, :name, :data_parts
 
 	def data_parts
 		parts = []
