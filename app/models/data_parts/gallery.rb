@@ -15,6 +15,7 @@
 #  max_length    :integer
 #  data          :json
 #  position      :integer          default(0), not null
+#  detail_id     :integer
 #
 
 class Gallery < DataPart

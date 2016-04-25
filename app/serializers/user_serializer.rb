@@ -25,7 +25,7 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :full_name, 
-    :rut, :address, :image, :role_name, :role_id,
+    :rut, :address, :image, :role_name, :role_id, :phone_number,
     :organization_name
 
     def role_name

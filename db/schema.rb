@@ -45,9 +45,11 @@ ActiveRecord::Schema.define(version: 20160422213053) do
     t.integer  "max_length"
     t.json     "data"
     t.integer  "position",      default: 0,    null: false
+    t.integer  "detail_id"
   end
 
   add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
+  add_index "data_parts", ["detail_id"], name: "index_data_parts_on_detail_id", using: :btree
   add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|

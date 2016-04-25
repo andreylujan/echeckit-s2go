@@ -15,8 +15,9 @@
 #  max_length    :integer
 #  data          :json
 #  position      :integer          default(0), not null
+#  detail_id     :integer
 #
 
 class ChecklistItem < DataPart
-	
+	belongs_to :detail, class_name: :Subsection, foreign_key: :detail_id	
 end

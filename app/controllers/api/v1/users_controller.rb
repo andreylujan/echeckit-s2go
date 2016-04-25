@@ -26,6 +26,20 @@ class Api::V1::UsersController < ApplicationController
     }
   end
 
+  def show
+    user = User.find(params.require(:id))
+    render json: user
+  end
+
+  def all
+    users = User.joins(:role).where(roles: {
+      organization_id: current_user.role.organization_id
+    }).map { |u| u.id }
+    render json: {
+      type: "user_ids",
+      data: users
+    }
+  end
 
   def index
     token = params.require(:reset_password_token)
