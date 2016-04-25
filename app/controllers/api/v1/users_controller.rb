@@ -26,6 +26,13 @@ class Api::V1::UsersController < ApplicationController
     }
   end
 
+  def all
+
+    users = User.includes(:role).where(roles: {
+      organization_id: current_user.role.organization_id
+    })
+    render json: users
+  end
 
   def index
     token = params.require(:reset_password_token)

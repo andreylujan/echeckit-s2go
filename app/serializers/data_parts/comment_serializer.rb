@@ -14,5 +14,5 @@
 #
 
 class CommentSerializer < DataPartSerializer
-	attributes :max_length
+	attributes :max_length, :data
 end

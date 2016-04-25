@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       ] do
         collection do
           post :reset_password_token
+          get :all
         end
         member do
           put :password

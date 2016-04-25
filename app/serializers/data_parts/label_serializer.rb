@@ -14,4 +14,5 @@
 #
 
 class LabelSerializer < DataPartSerializer
+	attributes :hint
 end
