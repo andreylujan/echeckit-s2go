@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420030309) do
+ActiveRecord::Schema.define(version: 20160422145650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -45,9 +46,11 @@ ActiveRecord::Schema.define(version: 20160420030309) do
     t.integer  "max_length"
     t.json     "data"
     t.integer  "position",      default: 0,    null: false
+    t.integer  "detail_id"
   end
 
   add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
+  add_index "data_parts", ["detail_id"], name: "index_data_parts_on_detail_id", using: :btree
   add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|

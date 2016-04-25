@@ -15,10 +15,11 @@
 #  max_length    :integer
 #  data          :json
 #  position      :integer          default(0), not null
+#  detail_id     :integer
 #
 
 class DataPart < ActiveRecord::Base
-  belongs_to :subsection
+  belongs_to :subsection  
   acts_as_list scope: :subsection
   # belongs_to :data_part
   # has_many :children, class_name: :DataPart

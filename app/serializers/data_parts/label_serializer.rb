@@ -11,13 +11,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  ancestry      :string
-#  max_images    :integer
-#  max_length    :integer
-#  data          :json
-#  position      :integer          default(0), not null
-#  detail_id     :integer
 #
 
-class Checklist < DataPart
-    
+class LabelSerializer < DataPartSerializer
 end

@@ -18,6 +18,5 @@
 #  detail_id     :integer
 #
 
-class Checklist < DataPart
-    
+class Label < DataPart
 end

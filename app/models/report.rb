@@ -12,6 +12,7 @@
 #  limit_date         :datetime
 #  finished           :boolean
 #  assigned_user_id   :integer
+#  pdf                :text
 #
 
 class Report < ActiveRecord::Base
