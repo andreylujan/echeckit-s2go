@@ -26,5 +26,5 @@ class DataPart < ActiveRecord::Base
   # has_many :children, class_name: :DataPart
   # belongs_to :parent, class_name: :DataPart, foreign_key: :data_part_id
   has_ancestry
-
+  belongs_to :organization
 end

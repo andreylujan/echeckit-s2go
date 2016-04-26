@@ -18,6 +18,8 @@ Rails.application.routes.draw do
         jsonapi_relationships
       end
 
+      resources :data_parts, only: [ :index ]
+
       resources :subsections, only: :index
       jsonapi_resources :stores do
         jsonapi_relationships

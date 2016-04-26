@@ -20,5 +20,7 @@
 #
 
 class ChecklistItem < DataPart
-	
+	def option_ids
+		self.data["option_ids"]
+	end
 end

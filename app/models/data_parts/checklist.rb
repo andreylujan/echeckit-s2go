@@ -22,11 +22,7 @@
 class Checklist < DataPart
 	
     def options
-		self.data[:options]
-	end
-
-	def options=(value)
-		self.data ||= {}
-		self.data[:options] = value
+    	org_id = self.subsection.section.organization_id    	
+    	ChecklistOption.unscoped.where(organization_id: org_id)    	
 	end
 end
