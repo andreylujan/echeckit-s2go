@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426135850) do
+ActiveRecord::Schema.define(version: 20160426162913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,22 +35,24 @@ ActiveRecord::Schema.define(version: 20160426135850) do
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
-    t.text     "type",                         null: false
-    t.text     "name",                         null: false
+    t.text     "type",                           null: false
+    t.text     "name",                           null: false
     t.text     "icon"
-    t.boolean  "required",      default: true, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.boolean  "required",        default: true, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "ancestry"
     t.integer  "max_images"
     t.integer  "max_length"
     t.json     "data"
-    t.integer  "position",      default: 0,    null: false
+    t.integer  "position",        default: 0,    null: false
     t.integer  "detail_id"
+    t.integer  "organization_id"
   end
 
   add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
   add_index "data_parts", ["detail_id"], name: "index_data_parts_on_detail_id", using: :btree
+  add_index "data_parts", ["organization_id"], name: "index_data_parts_on_organization_id", using: :btree
   add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|
@@ -337,6 +339,7 @@ ActiveRecord::Schema.define(version: 20160426135850) do
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
   add_foreign_key "categories", "organizations"
+  add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "images", "categories"
   add_foreign_key "images", "data_parts"

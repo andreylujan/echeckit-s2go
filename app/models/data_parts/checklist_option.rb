@@ -19,6 +19,7 @@
 #  organization_id :integer
 #
 
-class ChecklistItem < DataPart
-	
+class ChecklistOption < DataPart
+	belongs_to :detail, class_name: :Subsection, foreign_key: :detail_id	
+	belongs_to :organization
 end

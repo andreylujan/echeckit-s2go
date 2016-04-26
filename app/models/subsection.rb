@@ -12,5 +12,5 @@
 class Subsection < ActiveRecord::Base
   belongs_to :section
   has_many :data_parts, -> { order(position: :asc) }
-  has_many :checklist_items, class_name: :ChecklistItem, foreign_key: :detail_id
+  has_many :checklist_options, class_name: :ChecklistOption, foreign_key: :detail_id
 end

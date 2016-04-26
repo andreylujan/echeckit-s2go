@@ -16,4 +16,6 @@ class Organization < ActiveRecord::Base
     has_many :platforms
     has_many :top_lists
     has_many :report_types
+    has_many :data_parts
+    has_many :checklist_options
 end

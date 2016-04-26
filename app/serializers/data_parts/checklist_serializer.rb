@@ -14,5 +14,7 @@
 #
 
 class ChecklistSerializer < DataPartSerializer
+	attributes :options
+
 	
 end

@@ -9,6 +9,6 @@
 #  updated_at      :datetime         not null
 #
 
-class ChecklistItemSerializer < DataPartSerializer
-	
+class ChecklistOptionSerializer < DataPartSerializer
+	attributes :detail_id
 end
