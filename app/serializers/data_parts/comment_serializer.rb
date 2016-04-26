@@ -14,5 +14,13 @@
 #
 
 class CommentSerializer < DataPartSerializer
-	attributes :max_length, :data
+	attributes :max_length, :multiline, :field_type
+
+	def multiline
+		object.data["multiline"] || false
+	end
+
+	def field_type
+		object.data["type"] || "text"
+	end
 end
