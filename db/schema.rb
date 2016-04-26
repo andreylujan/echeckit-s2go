@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422213053) do
+ActiveRecord::Schema.define(version: 20160426135850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -179,6 +180,14 @@ ActiveRecord::Schema.define(version: 20160422213053) do
   end
 
   add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
+
+  create_table "report_types_sections", id: false, force: :cascade do |t|
+    t.integer "report_type_id", null: false
+    t.integer "section_id",     null: false
+  end
+
+  add_index "report_types_sections", ["report_type_id"], name: "index_report_types_sections_on_report_type_id", using: :btree
+  add_index "report_types_sections", ["section_id"], name: "index_report_types_sections_on_section_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.integer  "organization_id",                 null: false

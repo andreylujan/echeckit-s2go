@@ -15,4 +15,5 @@ class Section < ActiveRecord::Base
   belongs_to :organization
   belongs_to :section_type
   has_many :subsections
+  has_and_belongs_to_many :report_types
 end
