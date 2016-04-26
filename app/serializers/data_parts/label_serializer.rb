@@ -14,5 +14,7 @@
 #
 
 class LabelSerializer < DataPartSerializer
-	attributes :data
+	attributes :columns
+
+	
 end

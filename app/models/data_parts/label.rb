@@ -20,4 +20,13 @@
 #
 
 class Label < DataPart
+
+	def columns
+		if data["columns"].nil?
+			[ name ]
+		else
+			data["columns"]
+		end
+	end
+
 end
