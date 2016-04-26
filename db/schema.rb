@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426162913) do
+ActiveRecord::Schema.define(version: 20160426174319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20160426162913) do
     t.string   "ancestry"
     t.integer  "max_images"
     t.integer  "max_length"
-    t.json     "data"
+    t.json     "data",            default: {},   null: false
     t.integer  "position",        default: 0,    null: false
     t.integer  "detail_id"
     t.integer  "organization_id"
