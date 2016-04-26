@@ -22,11 +22,11 @@
 class Checklist < DataPart
 	
     def options
-		object.data[:options]
+		self.data[:options]
 	end
 
 	def options=(value)
-		object.data ||= {}
-		object.data[:options] = value
+		self.data ||= {}
+		self.data[:options] = value
 	end
 end

@@ -132,7 +132,8 @@ CREATE TABLE data_parts (
     max_length integer,
     data json,
     "position" integer DEFAULT 0 NOT NULL,
-    detail_id integer
+    detail_id integer,
+    organization_id integer
 );
 
 
@@ -558,6 +559,18 @@ ALTER TABLE public.report_types_id_seq OWNER TO echeckit;
 
 ALTER SEQUENCE report_types_id_seq OWNED BY report_types.id;
 
+
+--
+-- Name: report_types_sections; Type: TABLE; Schema: public; Owner: echeckit; Tablespace: 
+--
+
+CREATE TABLE report_types_sections (
+    report_type_id integer NOT NULL,
+    section_id integer NOT NULL
+);
+
+
+ALTER TABLE public.report_types_sections OWNER TO echeckit;
 
 --
 -- Name: reports; Type: TABLE; Schema: public; Owner: echeckit; Tablespace: 
@@ -1245,28 +1258,28 @@ SELECT pg_catalog.setval('categories_id_seq', 6, true);
 -- Data for Name: data_parts; Type: TABLE DATA; Schema: public; Owner: echeckit
 --
 
-COPY data_parts (id, subsection_id, type, name, icon, required, created_at, updated_at, ancestry, max_images, max_length, data, "position", detail_id) FROM stdin;
-2	1	Comment	Observación	\N	t	2016-04-15 17:42:10.469244	2016-04-15 23:03:46.678793	\N	\N	\N	\N	0	\N
-5	\N	ChecklistItem	Limpieza y orden	\N	t	2016-04-15 17:42:10.522952	2016-04-15 23:03:46.696405	1	\N	\N	\N	0	\N
-6	\N	ChecklistItem	Encendido de interactivo	\N	t	2016-04-15 17:42:10.525578	2016-04-15 23:03:46.699564	1	\N	\N	\N	0	\N
-7	\N	ChecklistItem	Foco Visible	\N	t	2016-04-15 17:42:10.529164	2016-04-15 23:03:46.702524	3	\N	\N	\N	0	\N
-8	\N	ChecklistItem	Interactivo PS4	\N	t	2016-04-15 17:42:10.531593	2016-04-15 23:03:46.70543	3	\N	\N	\N	0	\N
-9	\N	ChecklistItem	Muebles PS4	\N	t	2016-04-15 17:42:10.53381	2016-04-15 23:03:46.708367	3	\N	\N	\N	0	\N
-17	5	Label	Zona	\N	t	2016-04-25 15:43:57.637724	2016-04-25 15:43:57.637724	\N	\N	\N	{"width":"100%"}	1	\N
-18	5	Label	Dealer	\N	t	2016-04-25 15:44:04.205912	2016-04-25 15:44:04.205912	\N	\N	\N	{"width":"100%"}	2	\N
-19	5	Label	Tienda	\N	t	2016-04-25 15:44:10.215188	2016-04-25 15:44:10.215188	\N	\N	\N	{"width":"100%"}	3	\N
-20	5	Label	Dirección	\N	t	2016-04-25 15:44:17.941773	2016-04-25 15:44:17.941773	\N	\N	\N	{"width":"100%"}	4	\N
-21	5	Label	Región	\N	t	2016-04-25 15:44:29.246072	2016-04-25 15:44:29.246072	\N	\N	\N	{"width":"50%"}	5	\N
-22	5	Label	Comuna	\N	t	2016-04-25 15:44:36.245802	2016-04-25 15:44:36.245802	\N	\N	\N	{"width":"50%"}	6	\N
-23	5	Comment	Referencia	\N	f	2016-04-25 15:45:35.350551	2016-04-25 15:45:35.350551	\N	\N	140	{"hint":"Ingrese una referencia para la ubicación"}	7	\N
-1	1	Checklist	Protocolo	/images/protocolo.png	t	2016-04-15 17:42:10.461723	2016-04-15 23:03:46.673051	\N	\N	\N	\N	0	\N
-3	2	Checklist	Kit punto de venta	/images/kit_punto_venta.png	t	2016-04-15 17:42:10.483137	2016-04-15 23:03:46.690222	\N	\N	\N	\N	0	\N
-4	2	Gallery	Fotos kit punto de venta	/images/fotos.png	t	2016-04-15 17:42:10.490415	2016-04-15 23:03:46.693363	\N	\N	\N	\N	0	\N
-11	4	Custom	Stock	/images/stock_venta.png	t	2016-04-15 22:17:30.676276	2016-04-15 23:12:30.359618	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"stock"}	0	\N
-12	4	Custom	Más vendidos	/images/mas_vendidos.png	t	2016-04-15 22:18:27.923577	2016-04-15 23:16:15.648643	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"top_sales"}	2	\N
-13	4	Custom	Quiebre de Stock	/images/quiebre_stock.png	t	2016-04-15 22:31:28.211666	2016-04-15 23:16:15.643817	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"stock_break"}	3	\N
-14	4	Custom	Acciones de Competencia	/images/acciones_competencia.png	t	2016-04-15 22:32:14.91753	2016-04-15 23:13:24.219779	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"competition"}	4	\N
-15	4	Custom	Venta	/images/ventas.png	t	2016-04-15 22:49:24.897771	2016-04-15 23:12:24.369667	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"sales"}	1	\N
+COPY data_parts (id, subsection_id, type, name, icon, required, created_at, updated_at, ancestry, max_images, max_length, data, "position", detail_id, organization_id) FROM stdin;
+2	1	Comment	Observación	\N	t	2016-04-15 17:42:10.469244	2016-04-15 23:03:46.678793	\N	\N	\N	\N	0	\N	\N
+5	\N	ChecklistItem	Limpieza y orden	\N	t	2016-04-15 17:42:10.522952	2016-04-15 23:03:46.696405	1	\N	\N	\N	0	\N	\N
+6	\N	ChecklistItem	Encendido de interactivo	\N	t	2016-04-15 17:42:10.525578	2016-04-15 23:03:46.699564	1	\N	\N	\N	0	\N	\N
+7	\N	ChecklistItem	Foco Visible	\N	t	2016-04-15 17:42:10.529164	2016-04-15 23:03:46.702524	3	\N	\N	\N	0	\N	\N
+8	\N	ChecklistItem	Interactivo PS4	\N	t	2016-04-15 17:42:10.531593	2016-04-15 23:03:46.70543	3	\N	\N	\N	0	\N	\N
+9	\N	ChecklistItem	Muebles PS4	\N	t	2016-04-15 17:42:10.53381	2016-04-15 23:03:46.708367	3	\N	\N	\N	0	\N	\N
+17	5	Label	Zona	\N	t	2016-04-25 15:43:57.637724	2016-04-25 15:43:57.637724	\N	\N	\N	{"width":"100%"}	1	\N	\N
+18	5	Label	Dealer	\N	t	2016-04-25 15:44:04.205912	2016-04-25 15:44:04.205912	\N	\N	\N	{"width":"100%"}	2	\N	\N
+19	5	Label	Tienda	\N	t	2016-04-25 15:44:10.215188	2016-04-25 15:44:10.215188	\N	\N	\N	{"width":"100%"}	3	\N	\N
+20	5	Label	Dirección	\N	t	2016-04-25 15:44:17.941773	2016-04-25 15:44:17.941773	\N	\N	\N	{"width":"100%"}	4	\N	\N
+21	5	Label	Región	\N	t	2016-04-25 15:44:29.246072	2016-04-25 15:44:29.246072	\N	\N	\N	{"width":"50%"}	5	\N	\N
+22	5	Label	Comuna	\N	t	2016-04-25 15:44:36.245802	2016-04-25 15:44:36.245802	\N	\N	\N	{"width":"50%"}	6	\N	\N
+23	5	Comment	Referencia	\N	f	2016-04-25 15:45:35.350551	2016-04-25 15:45:35.350551	\N	\N	140	{"hint":"Ingrese una referencia para la ubicación"}	7	\N	\N
+1	1	Checklist	Protocolo	/images/protocolo.png	t	2016-04-15 17:42:10.461723	2016-04-15 23:03:46.673051	\N	\N	\N	\N	0	\N	\N
+3	2	Checklist	Kit punto de venta	/images/kit_punto_venta.png	t	2016-04-15 17:42:10.483137	2016-04-15 23:03:46.690222	\N	\N	\N	\N	0	\N	\N
+4	2	Gallery	Fotos kit punto de venta	/images/fotos.png	t	2016-04-15 17:42:10.490415	2016-04-15 23:03:46.693363	\N	\N	\N	\N	0	\N	\N
+11	4	Custom	Stock	/images/stock_venta.png	t	2016-04-15 22:17:30.676276	2016-04-15 23:12:30.359618	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"stock"}	0	\N	\N
+12	4	Custom	Más vendidos	/images/mas_vendidos.png	t	2016-04-15 22:18:27.923577	2016-04-15 23:16:15.648643	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"top_sales"}	2	\N	\N
+13	4	Custom	Quiebre de Stock	/images/quiebre_stock.png	t	2016-04-15 22:31:28.211666	2016-04-15 23:16:15.643817	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"stock_break"}	3	\N	\N
+14	4	Custom	Acciones de Competencia	/images/acciones_competencia.png	t	2016-04-15 22:32:14.91753	2016-04-15 23:13:24.219779	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"competition"}	4	\N	\N
+15	4	Custom	Venta	/images/ventas.png	t	2016-04-15 22:49:24.897771	2016-04-15 23:12:24.369667	\N	\N	\N	{"companies":["Playstation","Nintendo","Xbox"],"type":"sales"}	1	\N	\N
 \.
 
 
@@ -1380,7 +1393,7 @@ COPY invitations (id, role_id, confirmation_token, email, created_at, updated_at
 20	1	tLypPd8FyCLMRZTfmTlsEkhtG-sFhsAsPzM3my2nds2KckeoSBRmvEBgu9Th0dkdbsegaGNoce_VeYiQ2SVQKg	orlandoflores1709@gmail.com	2016-04-22 12:08:56.406178	2016-04-22 12:40:53.695255	t
 33	1	ExyZwULRqIEubnKLyxxQ0N0agiml5svAyKHerlsf_zt7yagw4dwuuifvgGIXfsFV_ZShDlggY2ewWqkMt3pQrA	atroncoso@ewin.cl	2016-04-25 16:14:12.00924	2016-04-25 16:14:12.00924	f
 27	1	U6FHAXwgoCIdRAa6O6zq4gTiMBjfC1UoE1nhm2gJqv_pHmYT5GxmkfVoIxO8EFsapQsJvxSpazQnFLWRWQRFmw	dhernandez@ewin.cl	2016-04-22 17:01:46.172905	2016-04-22 17:01:57.68409	t
-36	1	017lqRTaWAm_lrrpMa9FqMaCd98ourwlySeIcAjp7IvaXxQBezPPKEz7IvfGMPO6-FXQY7rxNUB3Vl6yEu3w1g	alvaro.mc2@gmail.com	2016-04-25 16:24:02.719588	2016-04-25 16:24:12.322143	t
+40	1	N-RQ343dP62coDpySVKuX6qN5-Ri3EQW_T422bSnYbOp3NSbQi5FYsD1gSB7vBAJxdLAFoJHR8SDo0N75Hnrzw	alvaro.mc2@gmail.com	2016-04-26 14:43:21.70759	2016-04-26 14:43:33.522009	t
 \.
 
 
@@ -1388,7 +1401,7 @@ COPY invitations (id, role_id, confirmation_token, email, created_at, updated_at
 -- Name: invitations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: echeckit
 --
 
-SELECT pg_catalog.setval('invitations_id_seq', 36, true);
+SELECT pg_catalog.setval('invitations_id_seq', 40, true);
 
 
 --
@@ -1893,6 +1906,40 @@ COPY oauth_access_tokens (id, resource_owner_id, application_id, token, refresh_
 480	3	\N	3e4a8a34e5e25f46348c5dd9809fffe0cd3941513027f56c7d3b88a1965066d9	c581add855f9982aa1fbea0a1a9cf84af820a4056908b11d64512608d640c53e	7200	\N	2016-04-26 13:32:06.621258	user
 481	3	\N	a65e8e91974060901a0ee1cacf12ac2170b0eb29fffc41ae607008790c44d596	1110640caa0b09584983fe7f561f7b23eb34bf78f385cb8d0a5a984949c96d0f	7200	\N	2016-04-26 13:40:49.903425	user
 482	3	\N	b6f544ec5df64765684ec57b271520352549f8b217a628886a6e8a7198d99938	40afa08f24e07909ddc1043701a9b0b7f7090a43d6465945e638dcd6c2f59d47	7200	\N	2016-04-26 13:51:16.535804	user
+483	3	\N	e3a1c197a81e742b6f6ab40781a0af4762e1348040207387349b46a53c9c2d66	cfdacc372a4614ffe9c65bf05d9f548492a5f578af66c7fe8e7d16a80e08ea64	7200	\N	2016-04-26 14:02:18.605354	user
+484	3	\N	6d790b7273f5945e90834643d0b32181d89e0eb2c410274a0d917329e1c2bad7	20ba188682e9e0d9495c163c238e990b3c5c330f08ffe4994c64920c575c3a59	7200	\N	2016-04-26 14:05:44.435878	user
+485	3	\N	b697970d6007bff830941809bc63fa5ce79bf8dfdf0dc04c487c6831ae4ac14c	8750be89baf6e8fbd5fa84842b818af678e0a632e6ecd0b12c677593df81313d	7200	\N	2016-04-26 14:06:47.433695	user
+486	3	\N	3457348e4c12400dd0de60e261fa574b77eaa7ecb4eb0e5e6b411ce1ba5dde9e	62c8768c1ec035f593dc42ce9a55cc624aaf3dd7b7084990804ff5b924b87d98	7200	\N	2016-04-26 14:09:34.568644	user
+487	1	\N	a5e02bb0de2e1c26a1ff33a5286f881127f49bef6ddb8891531671a4b430a6dc	cdc6bc13ba8fc6c1c3e93a1a79c0a97231f3e6fcc2da070927661906ec824e9f	7200	\N	2016-04-26 14:27:50.16306	user
+488	1	\N	d389a614fa521d5f538421c2388a65d0544a844f13d7d058d8ec07d4a7d30f89	74d82e9cfe28b548c4e6c730fe65875c137e2bd7f40fd38954a98663207a9226	7200	\N	2016-04-26 14:28:40.996287	user
+489	3	\N	31e54f3531255225a185fc5da0f29b971fe360b61df4d893285bea368e57b266	e6e8b7b73c570ff22f9f451a4180f9f09517df2c1625cb4cfffba8da1f7bf23f	7200	\N	2016-04-26 14:30:28.780377	user
+490	3	\N	d19dbe4c5a8cedffe4f3fe3148a9c0e88789aebb67f34e62d1fe570b9f4c04b7	c4e36f0cf25bedfb3ba20672124e2384f3168e7c102a455ea0b724643ba9462a	7200	\N	2016-04-26 14:38:27.905822	user
+491	3	\N	8765d47baf2a41d6ea00f1b5e54590e13f93f6716f8c67ef690565ac2ebe2b53	a6c30671063d40486c0a78460a0ffec36d987ea297523d5fbbc57e870d3b1876	7200	\N	2016-04-26 14:39:09.68575	user
+492	3	\N	cba06d12fb5ebf67aa894d611f2d3acc4b28c5c17aba2f56b9af75b95abf9c9a	9f246e0291a0d84473640f744a428ad092768441c218d4efb052f32a6fe9c1a1	7200	\N	2016-04-26 14:41:55.099325	user
+493	3	\N	f4559a99192d8ce930ddf1b2b10ff168300cb1fc73cca5a976a0275fd2713405	05c5c4d298af9209b244b167261d0d7b066637b29dd2edb3217e139200094996	7200	\N	2016-04-26 14:48:55.034999	user
+494	3	\N	ef9dab081739b9261ac22ac1a5e1a33fd563be141cf4557322104c1b0fa41a90	bb22ee2210a4e7ca092b9a6aacb207954c2047737fb025928ab7d29aba241638	7200	\N	2016-04-26 14:51:15.7034	user
+495	3	\N	7fa2c676660eb00a47362ddbe74d1ae725532e3a1de911eab958c0145ba0addf	c94e493b1348b0bbaa7d42d311d4abdfc2df08b2e50d2f5725d6f1dc4860c5c4	7200	\N	2016-04-26 15:47:17.162555	user
+496	3	\N	edd416b949e6bec8cf7381cd23c5a10d3dd670e140b3d32df636e75b110a6925	75ff4f7e6804d35610f7cb472e9542e0537c848b2298f5322581308015637cfe	7200	\N	2016-04-26 15:51:21.075808	user
+497	3	\N	da048e615fe20a5f64bfdd8d3364c0bfe3ced3b3971fffc6490d4e21013e7e55	0eca0b3cd723ab33b8a7fbd65e3b044b49d0ddb9391b27b92eeac3bc220994f6	7200	\N	2016-04-26 15:52:26.116144	user
+498	3	\N	f5f7ac93b122db2decb5b4d6c66199ce6b36d04d54838067e663ec19903d2c71	b0c59e0b22bb70a4bb5c83fcd3b78c1f651bc941b1bf9e73660ae311e0d23504	7200	\N	2016-04-26 15:54:12.014385	user
+499	3	\N	2f0df3dd74db083289db45aeed9b1cbdccccafb0b12c1cc39e4af0e60e4f3438	664f5a5545537bec1a8b75978f5a5b937cd98e6aeb5a6849e7fc01882bdb7656	7200	\N	2016-04-26 15:55:11.497793	user
+500	3	\N	f25f94a70982caa0f448f3db1bd95c416ffe52556863edee01c90dbe87aa2b99	1d995625753512604d331941f8bd7e146c93d5130b88fea515271afa337ff0e4	7200	\N	2016-04-26 15:57:35.866403	user
+501	3	\N	3194c0cb9dc7e258acdeeb973c1011f681f00b0013873a364ed04e2daf9f16a7	8bc56d91d9c5c26fe5538fb29bf7ad34a42ccee3dc66f0c4159473041b9bac88	7200	\N	2016-04-26 15:59:03.588437	user
+502	3	\N	7120e87901d4e179e957640a34b0734180d9820d94ab844b529f19e0ce0add76	8521cc5f76a8c23593ab280bf8605418727692effacfa870345ca3c70a654858	7200	\N	2016-04-26 16:01:03.698607	user
+503	1	\N	e1ff6ac8cf997bc002f0848a6229fb198b5d6a9a269bcfe15db08bba5cc3f086	904b207e550a6feefe0eaf092efb63828daee59feea56d79c3a7e70e396e6c8d	7200	\N	2016-04-26 16:02:45.842465	user
+504	3	\N	3d29ecc2a1567c2d5bc86370c91f8ee79e55d843b636dea9bb83383585d41ee2	aeac04464c6e827234e47a41e257cf18a22d6b597e9c5a7f2e2ca7f7fd2eb801	7200	\N	2016-04-26 16:03:03.773257	user
+505	1	\N	378bf59eb3ff68e1c3bc519c5fcec98488624461502fe53974f852d40a0e37f1	29c1208914ceaac48bcc248ff952cff8f6c27dbf78c296949166178f8f9c4eb6	7200	\N	2016-04-26 16:03:51.134239	user
+506	3	\N	813e56462553b5e4b6c08ec406d0bf63513b1e8584b972705a6e819c2ba7559e	62d799d3c651aa65b03b46b2cccf9bf974a1749d7f82e33f7a5148a4275c64ee	7200	\N	2016-04-26 16:05:38.054152	user
+507	3	\N	767ef00907f1e5525d4613f68f192c6f24257bdcb3776f07443ac9c8c53f18f7	341fabcdaa3254574dcbca6786a7182e393940a2bcf492db8063f06a09811699	7200	\N	2016-04-26 16:08:13.776367	user
+508	3	\N	b9a7721be3495dab03c6b48429f65a534e0933da6ae8a251522deb65b6451e00	1bd0f10ef23a769729cbdd7bd7200a2e2ec12dae62a4e148acd0de2794bbbdfa	7200	\N	2016-04-26 16:09:54.730107	user
+509	3	\N	e677f23343304d259ff45ecb68bff78610beb61bd181ab2a33671f235331ee39	2de14a3377493462067e4e6d02771e8730694030a54358f376ae8405c9056467	7200	\N	2016-04-26 16:11:20.279697	user
+510	3	\N	5ee19b7cbf2963aa0e8cd24794d6e38d223168b643a3bc15f7c6ff5407020163	c794349c5644896b6829592b247db04664b04c35f44c7c26e05f3896ab878a11	7200	\N	2016-04-26 17:19:11.011489	user
+511	3	\N	56f9c45c3f5f22c91570b447427b3b44b4f1c66d7223f6f15c532a9d7c47383a	971773cc4c85b9d2ecfab458c8db05957523f76ee3a1c2afd514b00468f0ca7c	7200	\N	2016-04-26 17:22:14.90813	user
+512	3	\N	b45320e090430d20c92b87b8f129f713aa2b76b7b53dc0838557c95f48ce8c5e	1ba88c63380f0ff9607aa1b62772dafe8963e25146c657093a89b2611129ebe8	7200	\N	2016-04-26 17:24:52.42412	user
+513	3	\N	f46a45e0b240c5b7dfae99efe04d6262f0e57985f7ca296e68c54c7b0e8c4133	e387d825b34f8fa2f87873064e09cd8b804b00163a90a4e6c8df0f0229cd5af8	7200	\N	2016-04-26 17:34:53.371822	user
+514	3	\N	df4f9979f5284b969b094da5a48e152a977c33ac312148160161bca75d03ca57	bf392be3e6d3de2aa3d17c505a98091af5f9e84eb90f53991ab05296623a7715	7200	\N	2016-04-26 17:37:19.496008	user
+515	3	\N	74f3e71dccecee5be0e47fde3abb23258a660f44ec900850e2396688d6f3a947	e531ef8b965ecc2488df7e98b924439fc50e8395d11287b26241678a022432a9	7200	\N	2016-04-26 17:37:35.502359	user
+516	3	\N	154ac2e46f18718c079f787bf061d20dc5edc326db93dfa91a68832a8c89c9aa	e5c27a68454744430c754ca53dbb1a66cf745e148d4a52216d80c99522ff383b	7200	\N	2016-04-26 17:37:58.877867	user
 \.
 
 
@@ -1900,7 +1947,7 @@ COPY oauth_access_tokens (id, resource_owner_id, application_id, token, refresh_
 -- Name: oauth_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: echeckit
 --
 
-SELECT pg_catalog.setval('oauth_access_tokens_id_seq', 482, true);
+SELECT pg_catalog.setval('oauth_access_tokens_id_seq', 516, true);
 
 
 --
@@ -1993,9 +2040,8 @@ SELECT pg_catalog.setval('regions_id_seq', 1, true);
 --
 
 COPY report_types (id, name, organization_id, created_at, updated_at) FROM stdin;
-1	Reporte Diario	\N	2016-04-15 18:55:40.157292	2016-04-15 18:55:40.157292
 2	Promoción	1	2016-04-15 19:06:59.697493	2016-04-15 19:06:59.697493
-3	Reporte Diario	1	2016-04-15 21:57:53.998883	2016-04-15 21:57:53.998883
+1	Reporte Diario	1	2016-04-15 18:55:40.157292	2016-04-26 15:16:00.470273
 \.
 
 
@@ -2004,6 +2050,18 @@ COPY report_types (id, name, organization_id, created_at, updated_at) FROM stdin
 --
 
 SELECT pg_catalog.setval('report_types_id_seq', 3, true);
+
+
+--
+-- Data for Name: report_types_sections; Type: TABLE DATA; Schema: public; Owner: echeckit
+--
+
+COPY report_types_sections (report_type_id, section_id) FROM stdin;
+1	1
+1	2
+1	3
+1	4
+\.
 
 
 --
@@ -2088,6 +2146,8 @@ COPY schema_migrations (version) FROM stdin;
 20160420030309
 20160422145650
 20160422213053
+20160426135850
+20160426162913
 \.
 
 
@@ -2259,7 +2319,7 @@ COPY users (id, email, encrypted_password, reset_password_token, reset_password_
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: echeckit
 --
 
-SELECT pg_catalog.setval('users_id_seq', 17, true);
+SELECT pg_catalog.setval('users_id_seq', 18, true);
 
 
 --
@@ -2516,6 +2576,13 @@ CREATE INDEX index_data_parts_on_detail_id ON data_parts USING btree (detail_id)
 
 
 --
+-- Name: index_data_parts_on_organization_id; Type: INDEX; Schema: public; Owner: echeckit; Tablespace: 
+--
+
+CREATE INDEX index_data_parts_on_organization_id ON data_parts USING btree (organization_id);
+
+
+--
 -- Name: index_data_parts_on_subsection_id; Type: INDEX; Schema: public; Owner: echeckit; Tablespace: 
 --
 
@@ -2660,6 +2727,20 @@ CREATE UNIQUE INDEX index_regions_on_ordinal ON regions USING btree (ordinal);
 --
 
 CREATE INDEX index_report_types_on_organization_id ON report_types USING btree (organization_id);
+
+
+--
+-- Name: index_report_types_sections_on_report_type_id; Type: INDEX; Schema: public; Owner: echeckit; Tablespace: 
+--
+
+CREATE INDEX index_report_types_sections_on_report_type_id ON report_types_sections USING btree (report_type_id);
+
+
+--
+-- Name: index_report_types_sections_on_section_id; Type: INDEX; Schema: public; Owner: echeckit; Tablespace: 
+--
+
+CREATE INDEX index_report_types_sections_on_section_id ON report_types_sections USING btree (section_id);
 
 
 --
@@ -2915,6 +2996,14 @@ ALTER TABLE ONLY invitations
 
 ALTER TABLE ONLY categories
     ADD CONSTRAINT fk_rails_8fa20c9b22 FOREIGN KEY (organization_id) REFERENCES organizations(id);
+
+
+--
+-- Name: fk_rails_99365c3b2a; Type: FK CONSTRAINT; Schema: public; Owner: echeckit
+--
+
+ALTER TABLE ONLY data_parts
+    ADD CONSTRAINT fk_rails_99365c3b2a FOREIGN KEY (organization_id) REFERENCES organizations(id);
 
 
 --
