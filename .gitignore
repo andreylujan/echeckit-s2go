@@ -20,3 +20,4 @@ erd.pdf
 .DS_Store
 public/uploads
 *.sql
+/keys
