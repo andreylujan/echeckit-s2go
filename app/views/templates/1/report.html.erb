@@ -118,8 +118,14 @@
 	.wpi-80 {
 		width: 80px;
 	}
+	.wpi-100 {
+		width: 100px;
+	}
 	.wpi-120 {
 		width: 120px;
+	}
+	.wpi-140 {
+		width: 140px;
 	}
 	.wpi-160 {
 		width: 160px;
@@ -171,37 +177,37 @@
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-160">Tipo de reporte:</div>
+					<div class="label wpi-140">Tipo de reporte:</div>
 					<div class="value wpi-170">Reporte diario</div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Detalle solicitud:</div>
+					<div class="label wpi-140">Detalle solicitud:</div>
 						<div class="value wpi-170">Reporte diario <%= @report.dealer_name %></div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Fecha creación:</div>
+					<div class="label wpi-140">Fecha creación:</div>
 							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-160">Fecha de vencimiento:</div>
+					<div class="label wpi-140">Fecha de vencimiento:</div>
 							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%></div>
 				</div>
 			</div>
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-120">Zona:</div>
+					<div class="label wpi-100">Zona:</div>
 					<div class="value"><%= @report.zone_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-120">Dealer:</div>
+					<div class="label wpi-100">Dealer:</div>
 					<div class="value"><%= @report.dealer_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-120">Tienda:</div>
+					<div class="label wpi-100">Tienda:</div>
 					<div class="value"><%= @report.store_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-120">Creador reporte:</div>
+					<div class="label wpi-100">Creador reporte:</div>
 					<div class="value"><%= @report.creator.full_name %></div>
 				</div>
 			</div>
@@ -377,15 +383,17 @@
 			</div>
 
 			<div class="pictures">
-				<div class="picture">
+					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
+						<div class="picture">
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" />
+						</div>
+					<% %>
+				<!-- <div class="picture">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
 				</div>
 				<div class="picture">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
+				</div> -->
 			</div>
 
 			<div class="checklist">
@@ -551,228 +559,324 @@
 		
 		</div>
 
+		<hr>
+
+		<div id="checklistComercial">
+
+			<h3>CHECKLIST COMERCIAL</h3>
+			<div class="field">
+				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
+				<div class="value"><h4>STOCK</h4></div>
+			</div>
+
+			<div class="checklistTableContainer">
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Stock real hardware</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].each do |stock_hardware| %>
+							<tr>
+								<td><%= "#{stock_hardware['platform']}" %></td>
+								<td>$ <%= "#{stock_hardware['value']}" %></td>
+							</tr>
+						<% end %>
+						
+						<!-- <tr>
+							<td>Nintendo</td>
+							<td>$ 10.000</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>10</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Stock real accesorios</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][1]['sr_accesories'].each do |stock_accessory| %>
+							<tr>
+								<td><%= "#{stock_accessory['platform']}" %></td>
+								<td>$ <%= "#{stock_accessory['value']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>$ 20.000</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>$ 10.000</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>10</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Stock real juegos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][2]['sr_games'].each do |stock_game| %>
+							<tr>
+								<td><%= "#{stock_game['platform']}" %></td>
+								<td>$ <%= "#{stock_game['value']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>1</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+			</div>
+
+			<div class="checklistTableContainer">
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>HC Promotores Fulltime</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][3]['hc_promot_ft'].each do |hc_promoter_ft| %>
+							<tr>
+								<td><%= "#{hc_promoter_ft['platform']}" %></td>
+								<td>$ <%= "#{hc_promoter_ft['cant']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>13</td>
+						</tr>
+						<tr>
+							<td>Play Station</td>
+							<td>13</td>
+						</tr>
+						<tr>
+							<td>Play Station</td>
+							<td>13</td>
+						</tr>
+						<tr>
+							<td>Play Station</td>
+							<td>13</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>10</td>
+						</tr> -->
+					</tbody>
+				</table>
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>HC Promotores Part-time</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][4]['hc_promot_pt'].each do |hc_promoter_pt| %>
+							<tr>
+								<td><%= "#{hc_promoter_pt['platform']}" %></td>
+								<td>$ <%= "#{hc_promoter_pt['cant']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>7</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>16</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>20</td>
+						</tr> -->
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="field">
+				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
+				<div class="value"><h4>VENTA</h4></div>
+			</div>
+
+			<div class="checklistTableContainer">
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Valor real hardware</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][0]['vr_hardware'].each do |vr_hardware| %>
+							<tr>
+								<td><%= "#{vr_hardware['platform']}" %></td>
+								<td>$ <%= "#{vr_hardware['value']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>$ 20.000</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>$ 10.000</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>$ 10.000</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Valor real accesorios</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][1]['vr_accesories'].each do |vr_accesory| %>
+							<tr>
+								<td><%= "#{vr_accesory['platform']}" %></td>
+								<td>$ <%= "#{vr_accesory['value']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>$ 20.000</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>$ 10.000</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>10</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+
+				<table class="checklistTable">
+					<thead>
+						<tr>
+							<th>Valor real juegos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][2]['vr_games'].each do |vr_game| %>
+							<tr>
+								<td><%= "#{vr_game['platform']}" %></td>
+								<td>$ <%= "#{vr_game['value']}" %></td>
+							</tr>
+						<% end %>
+						<!-- <tr>
+							<td>Play Station</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>Nintendo</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td>XBOX</td>
+							<td>1</td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+			</div>
+		</div>
+
+		<div id="competition">
+			<div class="field">
+				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
+				<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
+			</div>
+
+			<% @report.dynamic_attributes['sections'][2]['data_section'][4]['competition']['list'].each do |competition_action| %>
+				<div class="field ">
+					<div class="label wpi-180">Acción:</div>
+					<div class="value wpi-170"><%= "#{competition_action['title_action']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-180">Producto:</div>
+						<div class="value wpi-170"><%= "#{competition_action['product_name']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-180">Cantidad:</div>
+							<div class="value wpi-170"><%= "#{competition_action['amount']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-180">Cual:</div>
+					<div class="value wpi-170"><%= "#{competition_action['details']['cual']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-180">Observación:</div>
+					<div class="value wpi-170"><%= "#{competition_action['details']['observacion']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-180">Cantidad:</div>
+					<div class="value wpi-170"><%= "#{competition_action['details']['cantidad']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-180">Fotos:</div>
+					<div class="value wpi-170"></div>
+				</div>
+
+				<div class="pictures">
+					<div class="picture">
+						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+					</div>
+					<div class="picture">
+						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+					</div>
+					<div class="picture">
+						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+					</div>
+				</div>
+			<% end %>
+
+			
+		</div>
 
 		<hr>
 
-		<h3>CHECKLIST COMERCIAL</h3>
-		<div class="field">
-			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
-			<div class="value"><h4>STOCK</h4></div>
-		</div>
-
-		<div class="checklistTableContainer">
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real hardware</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>$ 20.000</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>$ 10.000</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>10</td>
-					</tr>
-				</tbody>
-				
-			</table>
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real accesorios</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>$ 20.000</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>$ 10.000</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>10</td>
-					</tr>
-				</tbody>
-				
-			</table>
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real juegos</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>5</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>3</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>1</td>
-					</tr>
-				</tbody>
-				
-			</table>
-		</div>
-
-		<div class="checklistTableContainer">
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>HC Promotores Fulltime</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>13</td>
-					</tr>
-					<tr>
-						<td>Play Station</td>
-						<td>13</td>
-					</tr>
-					<tr>
-						<td>Play Station</td>
-						<td>13</td>
-					</tr>
-					<tr>
-						<td>Play Station</td>
-						<td>13</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>5</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>10</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>HC Promotores Part-time</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>7</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>16</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>20</td>
-					</tr>
-				</tbody>
-			</table>
-
-		</div>
-
-		<div class="field">
-			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
-			<div class="value"><h4>VENTA</h4></div>
-		</div>
-
-		<div class="checklistTableContainer">
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real hardware</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>$ 20.000</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>$ 10.000</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>$ 10.000</td>
-					</tr>
-				</tbody>
-				
-			</table>
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real accesorios</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>$ 20.000</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>$ 10.000</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>10</td>
-					</tr>
-				</tbody>
-				
-			</table>
-
-			<table class="checklistTable">
-				<thead>
-					<tr>
-						<th>Stock real juegos</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Play Station</td>
-						<td>5</td>
-					</tr>
-					<tr>
-						<td>Nintendo</td>
-						<td>3</td>
-					</tr>
-					<tr>
-						<td>XBOX</td>
-						<td>1</td>
-					</tr>
-				</tbody>
-				
-			</table>
-		</div>
-
-		<div class="field">
-			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
-			<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
-		</div>
-
-		<div class="field ">
+<!--<div class="field ">
 			<div class="label wpi-180">Acción:</div>
 			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
 		</div>
@@ -817,56 +921,7 @@
 			<div class="picture">
 				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
 			</div>
-		</div>
-
-		<hr>
-
-		<div class="field ">
-			<div class="label wpi-180">Acción:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field ">
-			<div class="label wpi-180">Producto:</div>
-				<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field ">
-			<div class="label wpi-180">Cantidad:</div>
-					<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Cual:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Observación:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Cantidad:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Fotos:</div>
-			<div class="value wpi-170"></div>
-		</div>
-
-		<div class="pictures">
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-		</div>
+		</div> -->
 
 		<h3>FOTOS</h3>
 
@@ -899,17 +954,6 @@
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
 				</div>
 			</div>
-
-			<div class="picsField">
-				<div class="picLabel">
-					<img src="http://3.bp.blogspot.com/-JhISDA9aj1Q/UTECr1GzirI/AAAAAAAAC2o/5qmvWZiCMRQ/s1600/Twitter.png" width="90%" />
-				</div>
-				<div class="commentValue">
-					<h5>Comentarios</h5>
-					<hr>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-				</div>
-			</div>	
 		</div>
 
 
