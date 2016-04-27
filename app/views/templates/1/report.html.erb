@@ -429,48 +429,47 @@
 			
 			<h4>Detalles</h4>
 			<hr align="left" width="50%">
-			<div class="field">
-				<div class="label wpi-120">Item checklist:</div>
-				<div class="value">Promociones destacadas</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cual:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Observación:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cantidad:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Fotos:</div>
-				<div class="value"></div>
-			</div>
 
-			<div class="pictures">
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-			</div>
+			<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
+				<% if checklist_item['detalle'] %>
+					<div class="field">
+						<div class="label wpi-120">Item checklist:</div>
+						<div class="value"><%= "#{checklist_item['name']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-120">Cual:</div>
+						<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-120">Observación:</div>
+						<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-120">Cantidad:</div>
+						<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-120">Fotos:</div>
+						<div class="value"></div>
+					</div>
 
-			<hr align="left" width="50%">
+					<div class="pictures">
+						<div class="picture">
+							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+						</div>
+						<div class="picture">
+							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+						</div>
+						<div class="picture">
+							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
+						</div>
+					</div>
 
-			<div class="field">
+					<hr align="left" width="50%">
+				<% end %>
+			<% end %>
+
+	<!--<div class="field">
 				<div class="label wpi-120">Item checklist:</div>
 				<div class="value">Interactivos PS3</div>
 			</div>
@@ -548,7 +547,7 @@
 				<div class="picture">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
 				</div>
-			</div>
+			</div> -->
 		
 		</div>
 
