@@ -213,7 +213,7 @@
 	<h3>GEOLOCALIZACIÓN</h3>
 	<div class="">
 		<div class="map left-content">
-			<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['latitude']}, #{@report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['longitude']}" %>" style="width: 100%;"/>
+			<img src="http://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['latitude']}, #{@report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['longitude']}" %>" style="width: 100%;"/>
 		</div>
 
 		<div class="right-content">
@@ -244,19 +244,35 @@
 	<div class="content">
 		<h3>CHECKLIST COMERCIAL</h3>
 		<div class="field">
-			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="marker" style="width:20px"></div>
+			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="marker" style="width:20px"></div>
 			<div class="value"><h4>PROTOCOLO</h4></div>
 		</div>
 		
 		<h4>Observación</h4>
-		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no seaest Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua, ugo consetetur Lorem Ipsum.</p>
+		<%= "#{ @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion']}" %>
+		<!-- <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no seaest Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua, ugo consetetur Lorem Ipsum.</p> -->
 
+		
 		<div class="checklist">
-			<div class="field">
+			<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
+				<div class="field">
+					<div class="value icon">
+						<!-- <img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" /> -->
+						<% if checklist_item['value'] %>
+							<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+						<% else %>
+							<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+						<% end %>
+					</div>
+					<!-- <div class="labelChecklist">Limpieza y orden PDV</div> -->
+					<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
+				</div>
+			<% end %>
+<!-- 			<div class="field">
 				<div class="value icon">
 					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-					</div>
-					<div class="labelChecklist">Limpieza y orden PDV</div>
+				</div>
+				<div class="labelChecklist">Limpieza y orden PDV</div>
 			</div>
 			<div class="field">
 				<div class="value icon">
@@ -275,7 +291,7 @@
 					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
 				</div>
 				<div class="labelChecklist">Funcionamiento de luminosos</div>
-			</div>
+			</div> -->
 		</div>
 
 		<h4>Detalles</h4>
@@ -356,7 +372,7 @@
 		<hr>
 
 		<div class="field">
-			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="marker" style="width:30px"></div>
+			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="marker" style="width:30px"></div>
 			<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
 		</div>
 
@@ -393,13 +409,13 @@
 			</div>
 			<div class="field">
 				<div class="value icon">
-					<img class="check" src="https://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_v" />
+					<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_v" />
 				</div>
 				<div class="labelChecklist">Interactivos PS3</div>
 			</div>
 			<div class="field">
 				<div class="value icon">
-					<img class="check" src="https://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_x" />
+					<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_x" />
 				</div>
 				<div class="labelChecklist">Muebles PS4</div>
 			</div>
@@ -532,7 +548,7 @@
 
 		<h3>CHECKLIST COMERCIAL</h3>
 		<div class="field">
-			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
+			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
 			<div class="value"><h4>STOCK</h4></div>
 		</div>
 
@@ -668,7 +684,7 @@
 		</div>
 
 		<div class="field">
-			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
+			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
 			<div class="value"><h4>VENTA</h4></div>
 		</div>
 
@@ -744,7 +760,7 @@
 		</div>
 
 		<div class="field">
-			<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
+			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
 			<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
 		</div>
 
@@ -849,7 +865,7 @@
 		<!-- REPETIR CATEGORÍAS -->
 		<div>
 			<div class="field">
-				<div class="label"><img src="https://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
+				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
 				<div class="value"><h4>NOMBRE CATEGORÍA</h4></div>
 			</div>
 			
