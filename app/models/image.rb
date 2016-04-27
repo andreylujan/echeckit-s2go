@@ -16,6 +16,6 @@ class Image < ActiveRecord::Base
   belongs_to :user
   mount_base64_uploader :image, ImageUploader
   belongs_to :category
-
+  belongs_to :report
   validates_presence_of [ :user, :image ]
 end

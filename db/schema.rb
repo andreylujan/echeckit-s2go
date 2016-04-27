@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426174319) do
+ActiveRecord::Schema.define(version: 20160427190758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -80,10 +79,13 @@ ActiveRecord::Schema.define(version: 20160426174319) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "category_id"
+    t.integer  "report_id"
+    t.integer  "detail_id"
   end
 
   add_index "images", ["category_id"], name: "index_images_on_category_id", using: :btree
   add_index "images", ["data_part_id"], name: "index_images_on_data_part_id", using: :btree
+  add_index "images", ["report_id"], name: "index_images_on_report_id", using: :btree
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
@@ -343,6 +345,7 @@ ActiveRecord::Schema.define(version: 20160426174319) do
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "images", "categories"
   add_foreign_key "images", "data_parts"
+  add_foreign_key "images", "reports"
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
   add_foreign_key "platforms", "organizations"

@@ -10,6 +10,6 @@ class Api::V1::ImagesController < ApplicationController
   end
   
   def create_params
-  	params.permit(:image, :data_part_id, :category_id)
+  	params.permit(:image, :data_part_id, :category_id, :report_id, :detail_id)
   end
 end
