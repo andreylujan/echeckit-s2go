@@ -385,7 +385,7 @@
 			<div class="pictures">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" />
+							<!-- <img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" /> -->
 						</div>
 					<% %>
 				<!-- <div class="picture">
@@ -577,12 +577,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].each do |stock_hardware| %>
 							<tr>
 								<td><%= "#{stock_hardware['platform']}" %></td>
 								<td>$ <%= "#{stock_hardware['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						
 						<!-- <tr>
 							<td>Nintendo</td>
@@ -603,12 +605,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][1]['sr_accesories'].each do |stock_accessory| %>
 							<tr>
 								<td><%= "#{stock_accessory['platform']}" %></td>
 								<td>$ <%= "#{stock_accessory['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>$ 20.000</td>
@@ -632,12 +636,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][2]['sr_games'].each do |stock_game| %>
 							<tr>
 								<td><%= "#{stock_game['platform']}" %></td>
 								<td>$ <%= "#{stock_game['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>5</td>
@@ -664,12 +670,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][3]['hc_promot_ft'].each do |hc_promoter_ft| %>
 							<tr>
 								<td><%= "#{hc_promoter_ft['platform']}" %></td>
 								<td>$ <%= "#{hc_promoter_ft['cant']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>13</td>
@@ -704,12 +712,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][4]['hc_promot_pt'].each do |hc_promoter_pt| %>
 							<tr>
 								<td><%= "#{hc_promoter_pt['platform']}" %></td>
 								<td>$ <%= "#{hc_promoter_pt['cant']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>7</td>
@@ -740,12 +750,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][0]['vr_hardware'].each do |vr_hardware| %>
 							<tr>
 								<td><%= "#{vr_hardware['platform']}" %></td>
 								<td>$ <%= "#{vr_hardware['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>$ 20.000</td>
@@ -769,12 +781,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][1]['vr_accesories'].each do |vr_accesory| %>
 							<tr>
 								<td><%= "#{vr_accesory['platform']}" %></td>
 								<td>$ <%= "#{vr_accesory['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>$ 20.000</td>
@@ -798,12 +812,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!--  
 						<% @report.dynamic_attributes['sections'][2]['data_section'][1]['venta']['amount_value'][2]['vr_games'].each do |vr_game| %>
 							<tr>
 								<td><%= "#{vr_game['platform']}" %></td>
 								<td>$ <%= "#{vr_game['value']}" %></td>
 							</tr>
 						<% end %>
+						-->
 						<!-- <tr>
 							<td>Play Station</td>
 							<td>5</td>
@@ -835,11 +851,11 @@
 				</div>
 				<div class="field ">
 					<div class="label wpi-180">Producto:</div>
-						<div class="value wpi-170"><%= "#{competition_action['product_name']}" %></div>
+					<div class="value wpi-170"><%= "#{competition_action['product_name']}" %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-180">Cantidad:</div>
-							<div class="value wpi-170"><%= "#{competition_action['amount']}" %></div>
+					<div class="value wpi-170"><%= "#{competition_action['amount']}" %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-180">Cual:</div>
