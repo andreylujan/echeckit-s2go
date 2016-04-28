@@ -387,7 +387,7 @@
 						<div class="picture">
 							<img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" />
 						</div>
-					<% %>
+					<% end %>
 				<!-- <div class="picture">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
 				</div>
@@ -870,7 +870,6 @@
 					</div>
 				</div>
 			<% end %>
-
 			
 		</div>
 
@@ -931,9 +930,20 @@
 				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
 				<div class="value"><h4>NOMBRE CATEGORÍA</h4></div>
 			</div>
+			<% @report.dynamic_attributes['sections'][3]['detalle_foto'].each do |pic_details| %>
+				<div class="picsField">
+					<div class="picLabel">
+						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
+					</div>
+					<div class="commentValue">
+						<h5>Comentarios</h5>
+						<hr>
+						<p><%= "#{pic_details['comentario']}" %></p>
+					</div>
+				</div>
+			<% end %>
 			
-
-			<div class="picsField">
+<!-- 	<div class="picsField">
 				<div class="picLabel">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
 				</div>
@@ -953,7 +963,7 @@
 					<hr>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 
