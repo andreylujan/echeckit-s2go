@@ -29,7 +29,7 @@ class Report < ActiveRecord::Base
   validates :report_type, presence: true
 
   def generate_pdf
-    UploadPdfJob.perform_later self.id
+    UploadPdfJob.set(wait: 3.seconds).perform_later(self.id)
   end
 
   def cache_data
