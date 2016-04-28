@@ -23,7 +23,7 @@ class ApplicationController < ActionController::API
         status: '422',
         detail: exception.message
       ]
-    }
+    }, status: :bad_request
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
           detail: exception.message
         }
       ]
-    }
+    }, status: :bad_request
   end
 
   def unauthorized_error
