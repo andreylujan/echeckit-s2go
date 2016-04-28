@@ -385,7 +385,7 @@
 			<div class="pictures">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
-							<!-- <img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" /> -->
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url %>" width="180px" /> 
 						</div>
 					<% end %>
 				<!-- <div class="picture">
@@ -667,7 +667,7 @@
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][3]['hc_promot_ft'].each do |hc_promoter_ft| %>
 							<tr>
 								<td><%= "#{hc_promoter_ft['platform']}" %></td>
-								<td>$ <%= "#{hc_promoter_ft['cant']}" %></td>
+								<td><%= "#{hc_promoter_ft['cant']}" %></td>
 							</tr>
 						<% end %>
 						<!-- <tr>
@@ -707,7 +707,7 @@
 						<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][4]['hc_promot_pt'].each do |hc_promoter_pt| %>
 							<tr>
 								<td><%= "#{hc_promoter_pt['platform']}" %></td>
-								<td>$ <%= "#{hc_promoter_pt['cant']}" %></td>
+								<td><%= "#{hc_promoter_pt['cant']}" %></td>
 							</tr>
 						<% end %>
 						<!-- <tr>
@@ -843,15 +843,15 @@
 				</div>
 				<div class="field">
 					<div class="label wpi-180">Cual:</div>
-					<div class="value wpi-170"><%= "#{competition_action['details']['cual']}" %></div>
+					<div class="value wpi-170"><%= "#{competition_action['detalle']['cual']}" %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-180">Observación:</div>
-					<div class="value wpi-170"><%= "#{competition_action['details']['observacion']}" %></div>
+					<div class="value wpi-170"><%= "#{competition_action['detalle']['observacion']}" %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-180">Cantidad:</div>
-					<div class="value wpi-170"><%= "#{competition_action['details']['cantidad']}" %></div>
+					<div class="value wpi-170"><%= "#{competition_action['detalle']['cantidad']}" %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-180">Fotos:</div>
@@ -930,7 +930,7 @@
 				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
 				<div class="value"><h4>NOMBRE CATEGORÍA</h4></div>
 			</div>
-			<% @report.dynamic_attributes['sections'][3]['detalle_foto'].each do |pic_details| %>
+			<% @report.dynamic_attributes['sections'][3]['detalleFoto'].each do |pic_details| %>
 				<div class="picsField">
 					<div class="picLabel">
 						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />

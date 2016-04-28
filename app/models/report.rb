@@ -24,7 +24,7 @@ class Report < ActiveRecord::Base
   mount_uploader :pdf, PdfUploader
   has_many :images
   before_save :cache_data
-  after_commit :generate_pdf, on: [ :create ]
+  # after_commit :generate_pdf, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
 
