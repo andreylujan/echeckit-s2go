@@ -385,7 +385,7 @@
 			<div class="pictures">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" />
+							<!-- <img src="<%= Image.find_by_detail_id_and_report_id(pic.id, @report.id).image.url %>" width="180px" /> -->
 						</div>
 					<% end %>
 				<!-- <div class="picture">
@@ -943,7 +943,7 @@
 				</div>
 			<% end %>
 			
-<!-- 	<div class="picsField">
+	<!--<div class="picsField">
 				<div class="picLabel">
 					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
 				</div>
