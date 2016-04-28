@@ -4,9 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Reporte</title>
 	<style>
-	body {
+		body {
 		font-family: 'Helvetica';
 		font-size: 14px;
+		color: #3F5B71;
 	}
 	html {
 		text-align: center;
@@ -25,7 +26,7 @@
 		font-size: 1.1em;
 	}
 	h4 {
-		margin: 0;
+		margin: 10px 0;
 	}
 	.field {
 		/*margin-left: 20px;*/
@@ -64,7 +65,7 @@
 		text-justify: inter-word;
 	}
 	.value {
-		color: #4078c0;
+		/*color: #4078c0;*/
 		display: inline-block;
 		margin-left: 15px;
 		text-align: justify;
@@ -169,11 +170,14 @@
 		vertical-align: top;
 		text-align: justify;
 	}
+	.icon-section {
+		width: 30px;
+	}
 	</style>
 </head>
 <body>
 	<div style="margin: 10px 0;">
-		<img src="http://logok.org/wp-content/uploads/2014/07/Playstation-logo-colour.png" alt="dom_logo" style="width: 150px">
+		<img src="http://logok.org/wp-content/uploads/2014/07/Playstation-logo-colour.png" alt="dom_logo" style="width: 140px">
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
@@ -195,19 +199,19 @@
 			</div>
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-100">Zona:</div>
+					<div class="label wpi-80">Zona:</div>
 					<div class="value"><%= @report.zone_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-100">Dealer:</div>
+					<div class="label wpi-80">Dealer:</div>
 					<div class="value"><%= @report.dealer_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-100">Tienda:</div>
+					<div class="label wpi-80">Tienda:</div>
 					<div class="value"><%= @report.store_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-100">Creador reporte:</div>
+					<div class="label wpi-80">Creador reporte:</div>
 					<div class="value"><%= @report.creator.full_name %></div>
 				</div>
 			</div>
@@ -217,7 +221,7 @@
 	<hr>
 
 	<h3>GEOLOCALIZACIÓN</h3>
-	<div class="">
+	<div>
 		<div class="map left-content">
 			<img src="http://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['latitude']}, #{@report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['longitude']}" %>" style="width: 100%;"/>
 		</div>
@@ -244,156 +248,54 @@
 		</div>
 	</div>
 
-
 	<hr>
 
+	<h3>CHECKLIST COMERCIAL</h3>
+	
 	<div class="content">
-		<h3>CHECKLIST COMERCIAL</h3>
-		<div class="field">
-			<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="marker" style="width:20px"></div>
-			<div class="value"><h4>PROTOCOLO</h4></div>
-		</div>
-		
-		<h4>Observación</h4>
-		<%= "#{ @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion']}" %>
-		<!-- <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no seaest Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua, ugo consetetur Lorem Ipsum.</p> -->
 
-		
-		<div class="checklist">
-			<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
-				<div class="field">
-					<div class="value icon">
-						<% if checklist_item['value'] == "true" %>
-							<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
-						<% else %>
-							<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-						<% end %>
+		<section id="protocolSection">
+
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="protocol"></div>
+				<div class="value"><h4>PROTOCOLO</h4></div>
+			</div>
+			
+			<h4>Observación</h4>
+			<%= "#{ @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion']}" %>
+
+			<div class="checklist">
+				<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
+					<div class="field">
+						<div class="value icon">
+							<% if checklist_item['value'] == "true" %>
+								<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+							<% else %>
+								<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+							<% end %>
+						</div>
+						<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
 					</div>
-					<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
-				</div>
-			<% end %>
-	<!--<div class="field">
-				<div class="value icon">
-					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-				</div>
-				<div class="labelChecklist">Limpieza y orden PDV</div>
+				<% end %>
 			</div>
-			<div class="field">
-				<div class="value icon">
-					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
-				</div>
-				<div class="labelChecklist">Encendido de interactivos</div>
-			</div>
-			<div class="field">
-				<div class="value icon">
-					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
-				</div>
-				<div class="labelChecklist">Revisar operatividad</div>
-			</div>
-			<div class="field">
-				<div class="value icon">
-					<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-				</div>
-				<div class="labelChecklist">Funcionamiento de luminosos</div>
-			</div> -->
-		</div>
 
-<!-- 		<h4>Detalles</h4>
-		<div class="field">
-			<div class="label wpi-120">Item checklist:</div>
-			<div class="value">Limpieza y orden PDv</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Cual:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Observación:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Cantidad:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Fotos:</div>
-			<div class="value"></div>
-		</div> 
-
-		<div class="pictures">
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-		</div>
-
-		<hr align="left" width="50%">
-
-		<div class="field">
-			<div class="label wpi-120">Item checklist:</div>
-			<div class="value">Funcionamiento de luminosos</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Cual:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Observación:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Cantidad:</div>
-			<div class="value">Lorem ipsum dolor sit amet</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-120">Fotos:</div>
-			<div class="value"></div>
-		</div>
-
-		<div class="pictures">
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-		</div> -->
+		</section>
 
 		<hr>
 
-		<div id="kitPuntoDeVenta">
+		<section id="kitPuntoVentaSection">
 			
 			<div class="field">
-				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="marker" style="width:30px"></div>
+				<div class="label section"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="pos_kit"></div>
 				<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
 			</div>
 
 			<div class="pictures">
-					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
-						<div class="picture">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url %>" width="180px" /> 
-						</div>
-					<% end %>
-				<!-- <div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div> -->
+				<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
+					<div class="picture">
+						<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url %>" width="180px" />
+					</div>
+				<% end %>
 			</div>
 
 			<div class="checklist">
@@ -415,24 +317,6 @@
 						<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
 					</div>
 				<% end %>
-			<!--<div class="field">
-						<div class="value icon">
-							<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-							</div>
-							<div class="labelChecklist">Promociones destacadas</div>
-					</div>
-					<div class="field">
-						<div class="value icon">
-							<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_c" />
-						</div>
-						<div class="labelChecklist">Interactivos PS3</div>
-					</div>
-					<div class="field">
-						<div class="value icon">
-							<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_o" />
-						</div>
-						<div class="labelChecklist">Muebles PS4</div>
-					</div> -->
 			</div>
 			
 			<h4>Detalles</h4>
@@ -469,111 +353,20 @@
 						<% end %>
 					</div>
 
-					<!-- <div class="pictures">
-						<div class="picture">
-							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-						</div>
-						<div class="picture">
-							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-						</div>
-						<div class="picture">
-							<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-						</div>
-					</div> -->
-
 					<hr align="left" width="50%">
 				<% end %>
 			<% end %>
 
-	<!--<div class="field">
-				<div class="label wpi-120">Item checklist:</div>
-				<div class="value">Interactivos PS3</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cual:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Observación:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cantidad:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Fotos:</div>
-				<div class="value"></div>
-			</div>
-
-			<div class="pictures">
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-			</div>
-
-			<hr align="left" width="50%">
-
-			<div class="field">
-				<div class="label wpi-120">Item checklist:</div>
-				<div class="value">Muebles PS4</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cual:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Observación:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Cantidad:</div>
-				<div class="value">Lorem ipsum dolor sit amet</div>
-			</div>
-			<div class="field">
-				<div class="label wpi-120">Fotos:</div>
-				<div class="value"></div>
-			</div>
-
-			<div class="pictures">
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-				<div class="picture">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-				</div>
-			</div> -->
-		
-		</div>
+		</section>
 
 		<hr>
 
-		<div id="checklistComercial">
+		<h3>CHECKLIST PRODUCTOS</h3>
 
-			<h3>CHECKLIST COMERCIAL</h3>
+		<section id="stockSection">
+
 			<div class="field">
-				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="marker" style="width:20px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="stock"></div>
 				<div class="value"><h4>STOCK</h4></div>
 			</div>
 
@@ -591,15 +384,6 @@
 								<td>$ <%= "#{stock_hardware['value']}" %></td>
 							</tr>
 						<% end %>
-						
-						<!-- <tr>
-							<td>Nintendo</td>
-							<td>$ 10.000</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>10</td>
-						</tr> -->
 					</tbody>
 					
 				</table>
@@ -617,18 +401,6 @@
 								<td>$ <%= "#{stock_accessory['value']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>$ 20.000</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>$ 10.000</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>10</td>
-						</tr> -->
 					</tbody>
 					
 				</table>
@@ -646,18 +418,6 @@
 								<td>$ <%= "#{stock_game['value']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>3</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>1</td>
-						</tr> -->
 					</tbody>
 					
 				</table>
@@ -678,30 +438,6 @@
 								<td><%= "#{hc_promoter_ft['cant']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>13</td>
-						</tr>
-						<tr>
-							<td>Play Station</td>
-							<td>13</td>
-						</tr>
-						<tr>
-							<td>Play Station</td>
-							<td>13</td>
-						</tr>
-						<tr>
-							<td>Play Station</td>
-							<td>13</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>10</td>
-						</tr> -->
 					</tbody>
 				</table>
 
@@ -718,25 +454,15 @@
 								<td><%= "#{hc_promoter_pt['cant']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>7</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>16</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>20</td>
-						</tr> -->
 					</tbody>
 				</table>
 
 			</div>
+		</section>
 
+		<section id="saleSection">
 			<div class="field">
-				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="marker" style="width:20px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="sale"></div>
 				<div class="value"><h4>VENTA</h4></div>
 			</div>
 
@@ -754,20 +480,7 @@
 								<td>$ <%= "#{vr_hardware['value']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>$ 20.000</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>$ 10.000</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>$ 10.000</td>
-						</tr> -->
 					</tbody>
-					
 				</table>
 
 				<table class="checklistTable">
@@ -783,20 +496,7 @@
 								<td>$ <%= "#{vr_accesory['value']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>$ 20.000</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>$ 10.000</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>10</td>
-						</tr> -->
 					</tbody>
-					
 				</table>
 
 				<table class="checklistTable">
@@ -812,27 +512,148 @@
 								<td>$ <%= "#{vr_game['value']}" %></td>
 							</tr>
 						<% end %>
-						<!-- <tr>
-							<td>Play Station</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>Nintendo</td>
-							<td>3</td>
-						</tr>
-						<tr>
-							<td>XBOX</td>
-							<td>1</td>
-						</tr> -->
 					</tbody>
-					
 				</table>
 			</div>
-		</div>
+		</section>
 
-		<div id="competition">
+		<section id="moreSaleSection">
 			<div class="field">
-				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="marker" style="width:20px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/mas_vendidos.png" alt="more_sale"></div>
+				<div class="value"><h4>MÁS VENDIDOS</h4></div>
+			</div>
+
+			<% @report.dynamic_attributes['sections'][2]['data_section'][1]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
+				<div class="tablesItemMoreSale">
+					<h4><% "#{index}"%>. <%= "#{item_more_sale['game_name']}" %></h4>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Cantidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_more_sale['game_amount'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= "#{product['cant']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Precio</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_more_sale['game_value'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= $ "#{product['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>SKU</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_more_sale['game_sku'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= $ "#{product['sku']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="imagesItemMoreSale">
+					<div class="pictures">
+						<% item_more_sale['foto_more_sale'].each do |image_more_sale| %>
+							<div class="picture">
+								<img src="<%= Image.find_by_detail_id_and_report_id(image_more_sale['id'], @report.id).image.url %>" width="180px" />
+							</div>
+						<% end %>
+					</div>
+				</div>
+			<% end %>
+		</section>
+
+		<section id="brakeStockSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
+				<div class="value"><h4>QUIEBRE DE STOCK</h4></div>
+			</div>
+			<% @report.dynamic_attributes['sections'][2]['data_section'][1]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
+				<div class="tablesItemMoreSale">
+					<h4><% "#{index}"%>. <%= "#{item_stock_break['game_name']}" %></h4>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Cantidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_stock_break['game_amount'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= "#{product['cant']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Precio</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_stock_break['game_value'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= "#{product['cant']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>SKU</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% item_stock_break['game_sku'].each do |product| %>
+								<tr>
+									<td><%= "#{product['platform']}" %></td>
+									<td><%= "#{product['sku']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+				<div class="imagesItemMoreSale">
+					<div class="pictures">
+						<% item_more_sale['foto_stock_break'].each do |image_stock_break| %>
+							<div class="picture">
+								<img src="<%= Image.find_by_detail_id_and_report_id(image_stock_break['id'], @report.id).image.url %>" width="180px" />
+							</div>
+						<% end %>
+					</div>
+				</div>
+			<% end %>
+		</section>
+
+		<section id="competitionSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="competition" style="width:30px"></div>
 				<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
 			</div>
 
@@ -867,81 +688,30 @@
 				</div>
 
 				<div class="pictures">
-					<div class="picture">
-						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-					</div>
-					<div class="picture">
-						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-					</div>
-					<div class="picture">
-						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-					</div>
+					<% competition_action['foto_competition'].each do |competition_pic| %>
+						<div class="picture">
+							<img src="<%= Image.find_by_detail_id_and_report_id(competition_pic['id'], @report.id).image.url %>" width="180px" />
+						</div>
+					<% end %>
 				</div>
+				
 			<% end %>
 			
-		</div>
+		</section>
 
 		<hr>
 
-<!--<div class="field ">
-			<div class="label wpi-180">Acción:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field ">
-			<div class="label wpi-180">Producto:</div>
-				<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field ">
-			<div class="label wpi-180">Cantidad:</div>
-					<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Cual:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Observación:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Cantidad:</div>
-			<div class="value wpi-170">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-		</div>
-		<div class="field">
-			<div class="label wpi-180">Fotos:</div>
-			<div class="value wpi-170"></div>
-		</div>
-
-		<div class="pictures">
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-			<div class="picture">
-				<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="180px" />
-			</div>
-		</div> -->
-
 		<h3>FOTOS</h3>
 
-		<!-- REPETIR CATEGORÍAS -->
-		<div>
+		<section id="imagesSection">
 			<div class="field">
-				<div class="label"><img src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="marker" style="width:20px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="category"></div>
 				<div class="value"><h4>NOMBRE CATEGORÍA</h4></div>
 			</div>
 			<% @report.dynamic_attributes['sections'][3]['detalleFoto'].each do |pic_details| %>
 				<div class="picsField">
 					<div class="picLabel">
-						<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
+						<img src="<%= Image.find_by_detail_id_and_report_id(pic_details['id'], @report.id).image.url %>" width="90%" alt="report_pic"/>
 					</div>
 					<div class="commentValue">
 						<h5>Comentarios</h5>
@@ -950,30 +720,7 @@
 					</div>
 				</div>
 			<% end %>
-			
-	<!--<div class="picsField">
-				<div class="picLabel">
-					<img src="http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png" width="90%" />
-				</div>
-				<div class="commentValue">
-					<h5>Comentarios</h5>
-					<hr>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-				</div>
-			</div>
-			
-			<div class="picsField">
-				<div class="picLabel">
-					<img src="http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg" width="90%" />
-				</div>
-				<div class="commentValue">
-					<h5>Comentarios</h5>
-					<hr>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-				</div>
-			</div> -->
-		</div>
-
+		</section>
 
 	</div>
 </body>
