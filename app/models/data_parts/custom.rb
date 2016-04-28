@@ -13,7 +13,7 @@
 #  ancestry        :string
 #  max_images      :integer
 #  max_length      :integer
-#  data            :json
+#  data            :json             not null
 #  position        :integer          default(0), not null
 #  detail_id       :integer
 #  organization_id :integer

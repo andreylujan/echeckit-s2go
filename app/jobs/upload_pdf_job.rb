@@ -15,6 +15,7 @@ class UploadPdfJob < ActiveJob::Base
 		   file.write(pdf)
 		   report.pdf = file
 		   report.save
+		   report.update_attribute :pdf_uploaded, true
 		ensure
 		   file.close
 		   file.unlink   # deletes the temp file

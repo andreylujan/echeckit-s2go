@@ -9,6 +9,8 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  category_id  :integer
+#  report_id    :integer
+#  detail_id    :integer
 #
 
 class ImageSerializer < ActiveModel::Serializer

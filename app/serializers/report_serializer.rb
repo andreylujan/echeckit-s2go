@@ -17,7 +17,7 @@
 
 class ReportSerializer < ActiveModel::Serializer
     attributes :id, :created_at, :updated_at, :dynamic_attributes, :creator_id,
-    	:finished, :assigned_user_id, :pdf
+    	:finished, :assigned_user_id, :pdf, :pdf_uploaded
 
     def pdf
     	object.pdf.url

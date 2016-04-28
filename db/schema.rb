@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427190758) do
+ActiveRecord::Schema.define(version: 20160428153239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -194,16 +195,17 @@ ActiveRecord::Schema.define(version: 20160427190758) do
   add_index "report_types_sections", ["section_id"], name: "index_report_types_sections_on_section_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "organization_id",                 null: false
-    t.integer  "report_type_id",                  null: false
-    t.json     "dynamic_attributes", default: {}, null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.integer  "creator_id",                      null: false
+    t.integer  "organization_id",                    null: false
+    t.integer  "report_type_id",                     null: false
+    t.json     "dynamic_attributes", default: {},    null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "creator_id",                         null: false
     t.datetime "limit_date"
     t.boolean  "finished"
     t.integer  "assigned_user_id"
     t.text     "pdf"
+    t.boolean  "pdf_uploaded",       default: false, null: false
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
