@@ -25,6 +25,8 @@ class Report < ActiveRecord::Base
   has_many :images
   before_save :cache_data
   after_commit :generate_pdf, on: [ :create ]
+  validates :report_type_id, presence: true
+  validates :report_type, presence: true
 
   def generate_pdf
     UploadPdfJob.perform_later self.id

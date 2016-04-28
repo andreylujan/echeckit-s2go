@@ -8,10 +8,9 @@ class Api::V1::ReportsController < ApplicationController
   	user = current_user
   	@report.creator = user
   	@report.organization_id = user.role.organization_id
-  	if @report.save
+  	if @report.save!
   		render json: @report
   	else
-
   	end
   end
 
