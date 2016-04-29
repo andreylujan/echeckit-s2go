@@ -346,10 +346,12 @@
 					</div>
 					
 					<div class="pictures">
-						<% checklist_item['detalle']['detalleFoto'].each do |item_pic| %>
-							<div class="picture">
-								<img src="<%= Image.find_by_detail_id_and_report_id(item_pic['id'], @report.id).image.url %>" width="180px" /> 
-							</div>
+						<% if checklist_item['detalleFoto'].length > 0 %>
+							<% checklist_item['detalleFoto'].each do |item_pic| %>
+								<div class="picture">
+									<img src="<%= Image.find_by_detail_id_and_report_id(item_pic['id'], @report.id).image.url %>" width="180px" /> 
+								</div>
+							<% end %>
 						<% end %>
 					</div>
 
