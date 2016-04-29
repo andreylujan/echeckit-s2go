@@ -303,14 +303,14 @@
 					<div class="field">
 						<div class="value icon">
 							<% if checklist_item['type'] == "boolean" %>
-								<% if checklist_item['value'] == "true" %>
+								<% if checklist_item['value'] == true %>
 									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
 								<% else %>
 									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
 								<% end %>
-							<% elsif checklist_item['type'] == "cantidad" %>
+							<% elsif checklist_item['type'] == "Cantidad" %>
 								<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_c" />
-							<% elsif checklist_item['type'] == "observ." %>
+							<% elsif checklist_item['type'] == "Observ." %>
 								<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_o" />
 							<% end %>
 						</div>
@@ -323,22 +323,34 @@
 			<hr align="left" width="50%">
 
 			<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
-				<% if checklist_item['detalle'] %>
+				<% if checklist_item['detalle'] !== nil %>
 					<div class="field">
 						<div class="label wpi-120">Item checklist:</div>
 						<div class="value"><%= "#{checklist_item['name']}" %></div>
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Cual:</div>
-						<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+						<% if checklist_item['detalle']['cual'] !== nil %>
+							<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+						<% else %>
+							<div class="value"> - </div>
+						<% end %>
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Observación:</div>
-						<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+						<% if checklist_item['detalle']['observacion'] !== nil %>
+							<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+						<% else %>
+							<div class="value"> - </div>
+						<% end %>
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Cantidad:</div>
-						<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+						<% if checklist_item['detalle']['cantidad'] !== nil %>
+							<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+						<% else %>
+							<div class="value"> - </div>
+						<% end %>
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Fotos:</div>
