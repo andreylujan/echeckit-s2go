@@ -323,14 +323,14 @@
 			<hr align="left" width="50%">
 
 			<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
-				<% if checklist_item['detalle'] !== nil %>
+				<% if checklist_item['detalle'] != nil %>
 					<div class="field">
 						<div class="label wpi-120">Item checklist:</div>
 						<div class="value"><%= "#{checklist_item['name']}" %></div>
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Cual:</div>
-						<% if checklist_item['detalle']['cual'] !== nil %>
+						<% if checklist_item['detalle']['cual'] != nil %>
 							<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
 						<% else %>
 							<div class="value"> - </div>
@@ -338,7 +338,7 @@
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Observación:</div>
-						<% if checklist_item['detalle']['observacion'] !== nil %>
+						<% if checklist_item['detalle']['observacion'] != nil %>
 							<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
 						<% else %>
 							<div class="value"> - </div>
@@ -346,7 +346,7 @@
 					</div>
 					<div class="field">
 						<div class="label wpi-120">Cantidad:</div>
-						<% if checklist_item['detalle']['cantidad'] !== nil %>
+						<% if checklist_item['detalle']['cantidad'] != nil %>
 							<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
 						<% else %>
 							<div class="value"> - </div>
