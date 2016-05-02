@@ -16,5 +16,17 @@
 class ChecklistSerializer < DataPartSerializer
 	has_many :options
 
+	def options
+		parts = []
+		object.children.each do |part|
+			
+			arr = part.subtree.arrange_serializable do |parent, children|
+				serializer = Object.const_get "#{parent.type}Serializer"
+				serializer.new(parent, children: children).as_json
+			end
+			parts << arr[0]
+		end
+		parts
+	end
 	
 end

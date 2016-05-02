@@ -5,7 +5,10 @@ class Api::V1::DataPartsController < ApplicationController
   def index
   	parts = 
   		current_user.organization.data_parts.where(type: params.require(:type))
-  	render json: parts
+
+  	each_serializer = Object.const_get("#{params[:type]}Serializer")
+  		render json: parts, each_serializer: each_serializer
+  	
   end
   
 end
