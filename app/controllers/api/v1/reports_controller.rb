@@ -3,6 +3,10 @@ class Api::V1::ReportsController < ApplicationController
   before_action :doorkeeper_authorize!
   include JSONAPI::ActsAsResourceController
   
+  def context
+    {current_user: current_user}
+  end
+  
   def create
   	@report = Report.new(create_params)
   	user = current_user
@@ -14,6 +18,9 @@ class Api::V1::ReportsController < ApplicationController
   	end
   end
 
+  def index
+    super
+  end
 
   def create_params
   	params.permit(:report_type_id, :finished, :assigned_user_id).tap do |whitelisted|

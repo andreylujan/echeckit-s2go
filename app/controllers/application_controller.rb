@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
 
+  
+  
   def cors_preflight_check
     logger.info ">>> responding to CORS request"
     render :text => '', :content_type => 'text/plain'

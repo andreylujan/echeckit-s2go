@@ -13,6 +13,7 @@
 #  finished           :boolean
 #  assigned_user_id   :integer
 #  pdf                :text
+#  pdf_uploaded       :boolean          default(FALSE), not null
 #
 
 class ReportSerializer < ActiveModel::Serializer

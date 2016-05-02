@@ -11,6 +11,12 @@ class Api::V1::ReportResource < JSONAPI::Resource
   	@model.pdf.url
   end
 
+  def self.records(options = {})
+    context = options[:context]
+    user = context[:current_user]
+    user.viewable_reports
+  end
+
   def fetchable_fields
     super
   end
