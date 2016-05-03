@@ -14,5 +14,13 @@
 #
 
 class CustomSerializer < DataPartSerializer
-	attributes :data
+	attributes :data, :detail
+
+	def detail
+		if object.detail.present?
+			DataPart.unscoped do
+				SubsectionSerializer.new(object.detail).as_json
+			end
+		end
+	end
 end

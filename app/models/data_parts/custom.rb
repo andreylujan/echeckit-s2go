@@ -20,5 +20,5 @@
 #
 
 class Custom < DataPart
-    
+    belongs_to :detail, class_name: :Subsection, foreign_key: :detail_id	
 end
