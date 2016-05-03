@@ -11,7 +11,4 @@ class Api::V1::UserResource < JSONAPI::Resource
     super - [ :password, :password_confirmation ]
   end
 
-  filter :organization_id, apply: ->(records, value, _options) {
-  		User.all.includes(:role).where(roles: { organization_id: value })
-	}
 end

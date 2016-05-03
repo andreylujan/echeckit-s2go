@@ -7,7 +7,9 @@ class Api::V1::UsersController < ApplicationController
     :create,
   :password ]
 
-  before_action :filter_organization, only: :index
+  def context
+    {current_user: current_user}
+  end
 
   before_action :verify_invitation, only: :create
 
@@ -26,6 +28,35 @@ class Api::V1::UsersController < ApplicationController
         }
       }
     }
+  end
+
+  def index
+    org_id = current_user.role.organization_id
+    org_users = User.includes(:role).
+      where(roles: { organization_id: org_id })
+    user_emails = org_users.map { |u| u.email }
+    invitations = Invitation.includes(:role)
+      .where(roles: { organization_id: org_id })
+      .where.not(email: user_emails)
+    inv_users = []
+    invitations.each do |i|
+      inv_users << User.new(email: i.email, role: i.role)
+    end
+    all_users = org_users.to_a.concat(inv_users)
+    json = {}
+    data = []
+    all_users.each do |user|
+      attributes = UserIndexSerializer.new(user).as_json
+      attributes[:active] = user.persisted?
+      user_data = {
+        "id": user.id ? user.id.to_s : "",
+        "type": "users",
+        "attributes": attributes
+      }
+      data << user_data
+    end
+    json[:data] = data
+    render json: json
   end
 
   def show
@@ -74,10 +105,6 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_params
-  end
-
-  def filter_organization
-    params[:filter] = { "organization_id"=> current_user.organization_id.to_s }
   end
 
   def verify_invitation

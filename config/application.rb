@@ -36,6 +36,17 @@ module EcheckitApi
       end
     end
 
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :address        => 'smtp.office365.com',
+        :port           => '587',
+        :authentication => :login,
+        :user_name      => ENV['SMTP_USERNAME'],
+        :password       => ENV['SMTP_PASSWORD'],
+        :domain         => 'ewin.cl',
+        :enable_starttls_auto => true
+    }
+
   end
 end
 
