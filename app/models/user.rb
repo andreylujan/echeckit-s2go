@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   end
 
   def assign_role_id
-    inv = Invitation.find_by_email(self)
+    inv = Invitation.find_by_email(self.email)
     if inv.present?
       self.role_id = inv.role_id
     end
