@@ -4,7 +4,10 @@ class Api::V1::ReportsController < ApplicationController
   include JSONAPI::ActsAsResourceController
   
   def context
-    {current_user: current_user}
+    {
+      current_user: current_user,
+      all: params[:all]
+    }
   end
   
   def create

@@ -62,11 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def viewable_reports
-    if self.role_id == 2
-      Report.where("assigned_user_id = ? or creator_id = ?", self.id, self.id)
-    else
-      Report.where(organization: self.role.organization)
-    end
+    Report.where("assigned_user_id = ? or creator_id = ?", self.id, self.id)
   end
 
   def assign_role_id

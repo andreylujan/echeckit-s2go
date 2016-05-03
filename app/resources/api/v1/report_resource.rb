@@ -14,7 +14,12 @@ class Api::V1::ReportResource < JSONAPI::Resource
   def self.records(options = {})
     context = options[:context]
     user = context[:current_user]
-    user.viewable_reports
+
+    if user.role_id == 2 or !context[:all]
+      user.viewable_reports
+    else
+      Report.where(organization: user.role.organization)
+    end
   end
 
   def fetchable_fields
