@@ -19,8 +19,8 @@ class Image < ActiveRecord::Base
   mount_base64_uploader :image, ImageUploader
   belongs_to :category
   belongs_to :report
-  validates_presence_of [ :user, :image ]
-  after_create :check_pdf_report
+  validates_presence_of [ :user, :image, :report ]
+  # after_create :check_pdf_report
 
   def check_pdf_report
   	image_count = self.report.dynamic_attributes["num_images"]

@@ -6,6 +6,9 @@ class Api::V1::ImagesController < ApplicationController
   	image = Image.new(create_params)
   	image.user = current_user
   	image.save!
+    if params[:last_image]
+      image.report.generate_pdf
+    end
   	render json: image
   end
   
