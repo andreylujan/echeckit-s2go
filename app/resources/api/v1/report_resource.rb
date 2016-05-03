@@ -22,6 +22,8 @@ class Api::V1::ReportResource < JSONAPI::Resource
     end
   end
 
+  filters :creator_id, :assigned_user_id
+  
   def fetchable_fields
     super
   end
