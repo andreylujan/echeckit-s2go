@@ -41,20 +41,16 @@ class User < ActiveRecord::Base
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id
   has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id
+  after_create :send_confirmation_email
+
+
+  def send_confirmation_email
+    UserMailer.delay.confirmation_email(self)
+  end
 
   def send_reset_password_instructions
     token = set_reset_password_token
-    file = Tempfile.new('reset_password')
-    file.write("Subject: 'Solicitud para reestablecer tu contraseña de eCheckit'\n")
-    file.write("From: Solutions2Go<s2go@echeckit.cl>\n")
-    file.write("To: #{full_name}<#{email}>\n")
-    file.write("Hola #{full_name}!\n\n")
-    file.write("Has solicitado reestablecer tu contraseña.\n\n")
-    file.write("Para realizar la operacion introduce el siguente código en la aplicación: #{token}\n\n\n")
-    file.write("Si no has solicitado reestablecer tu contraseña, por favor ignora este email")
-    file.close
-    system "sendmail -t -f #{email} -v -i < #{file.path}"
-    file.unlink
+    UserMailer.delay.reset_password_email(self)
   end
 
   def full_name

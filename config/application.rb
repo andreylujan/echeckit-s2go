@@ -6,6 +6,7 @@ require 'dotenv'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+Dotenv.load
 
 module EcheckitApi
   class Application < Rails::Application
@@ -37,12 +38,13 @@ module EcheckitApi
     end
 
     config.action_mailer.delivery_method = :smtp
+
     config.action_mailer.smtp_settings = {
       :address        => 'smtp.office365.com',
         :port           => '587',
         :authentication => :login,
-        :user_name      => ENV['SMTP_USERNAME'],
-        :password       => ENV['SMTP_PASSWORD'],
+        :user_name      => ENV['TROKA_EMAIL_USERNAME'],
+        :password       => ENV['TROKA_EMAIL_PASSWORD'],
         :domain         => 'ewin.cl',
         :enable_starttls_auto => true
     }
@@ -50,4 +52,4 @@ module EcheckitApi
   end
 end
 
-Dotenv.load
+
