@@ -268,7 +268,7 @@
 			</div>
 			
 			<h4>Observación</h4>
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion']? %>
+			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'] != nil %>
 				<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'] == "" %>
 					<p>No se indica</p>
 				<% else %>
@@ -278,7 +278,7 @@
 				<p>No se indica</p>
 			<% end %>
 
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist']? %>
+			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'] != nil %>
 				<div class="checklist">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
 						<div class="field">
@@ -306,7 +306,7 @@
 				<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
 			</div>
 			
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta']? %>
+			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'] != nil %>
 				<div class="pictures">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
@@ -319,7 +319,7 @@
 			<% end %>
 
 
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist']? %>
+			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'] != nil  %>
 				<div class="checklist">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
 						<div class="field">
@@ -345,7 +345,7 @@
 			<h4>Detalles</h4>
 			<hr align="left" width="50%">
 
-			<% if  @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist']? %>
+			<% if  @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'] != nil %>
 				<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
 					<% if checklist_item['detalle'] != nil %>
 						<div class="field">
