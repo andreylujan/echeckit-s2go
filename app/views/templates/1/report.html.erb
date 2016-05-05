@@ -400,6 +400,386 @@
 
 		<hr>
 
+		<h3>CHECKLIST PRODUCTOS</h3>
+
+		<section id="stockSection">
+
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="stock"></div>
+				<div class="value"><h4>STOCK</h4></div>
+			</div>
+
+			
+			<div class="checklistTableContainer">
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real hardware</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].each do |stock_hardware| %>
+								<tr>
+									<td><%= "#{stock_hardware['platform']}" %></td>
+									<td>$ <%= "#{stock_hardware['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registró el stock real de hardware</span>
+				<% end %>
+				
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real accesorios</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories'].each do |stock_accessory| %>
+								<tr>
+									<td><%= "#{stock_accessory['platform']}" %></td>
+									<td>$ <%= "#{stock_accessory['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registró el stock real de accesorios</span>
+				<% end %>
+
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real juegos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games'].each do |stock_game| %>
+								<tr>
+									<td><%= "#{stock_game['platform']}" %></td>
+									<td>$ <%= "#{stock_game['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registró el stock real de juegos</span>
+				<% end %>
+
+			</div>
+
+			<div class="checklistTableContainer">
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>HC Promotores Fulltime</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][3]['hc_promot_ft'].each do |hc_promoter_ft| %>
+								<tr>
+									<td><%= "#{hc_promoter_ft['platform']}" %></td>
+									<td><%= "#{hc_promoter_ft['cant']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registró head count de promotores full time</span>
+				<% end %>
+
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>HC Promotores Part-time</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][4]['hc_promot_pt'].each do |hc_promoter_pt| %>
+								<tr>
+									<td><%= "#{hc_promoter_pt['platform']}" %></td>
+									<td><%= "#{hc_promoter_pt['cant']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registró head count de promotores part time</span>
+				<% end %>
+
+			</div>
+		</section>
+
+		<section id="saleSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="sale"></div>
+				<div class="value"><h4>VENTA</h4></div>
+			</div>
+
+			<div class="checklistTableContainer">
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real hardware</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware'].each do |vr_hardware| %>
+								<tr>
+									<td><%= "#{vr_hardware['platform']}" %></td>
+									<td>$ <%= "#{vr_hardware['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registraron ventas de hardware</span>
+				<% end %>
+				
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_accesories']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real accesorios</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_accesories'].each do |vr_accesory| %>
+								<tr>
+									<td><%= "#{vr_accesory['platform']}" %></td>
+									<td>$ <%= "#{vr_accesory['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registraron ventas de accesorios</span>
+				<% end %>
+
+				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_games']? != nil %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real juegos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_games'].each do |vr_game| %>
+								<tr>
+									<td><%= "#{vr_game['platform']}" %></td>
+									<td>$ <%= "#{vr_game['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<span style="margin-right: 10px;">No se registraron ventas de juegos</span>
+				<% end %>
+			</div>
+		</section>
+
+		<section id="moreSaleSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/mas_vendidos.png" alt="more_sale"></div>
+				<div class="value"><h4>MÁS VENDIDOS</h4></div>
+			</div>
+
+			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list']? != nil %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
+					<div class="tablesItemMoreSale">
+						<h4><% "#{index}"%>. <%= "#{item_more_sale['game_name']}" %></h4>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_amount'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['cant']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_value'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= $ "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>SKU</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_sku'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= $ "#{product['sku']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="imagesItemMoreSale">
+						<div class="pictures">
+							<% item_more_sale['foto_more_sale'].each do |image_more_sale| %>
+								<div class="picture">
+									<img src="<%= Image.find_by_detail_id_and_report_id(image_more_sale['id'], @report.id).image.url %>" width="180px" />
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			<% else %>
+				<span style="margin-right: 10px;">No se registraron productos más vendidos</span>
+			<% end %>
+		</section>
+
+		<section id="brakeStockSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
+				<div class="value"><h4>QUIEBRE DE STOCK</h4></div>
+			</div>
+			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list']? != nil %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
+					<div class="tablesItemMoreSale">
+						<h4><% "#{index}"%>. <%= "#{item_stock_break['game_name']}" %></h4>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_amount'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['cant']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_value'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['cant']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>SKU</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_sku'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['sku']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+					<div class="imagesItemMoreSale">
+						<div class="pictures">
+							<% item_more_sale['foto_stock_break'].each do |image_stock_break| %>
+								<div class="picture">
+									<img src="<%= Image.find_by_detail_id_and_report_id(image_stock_break['id'], @report.id).image.url %>" width="180px" />
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			<% else %>
+				<span style="margin-right: 10px;">No se registró quiebre de stock de productos</span>
+			<% end %>
+		</section>
+
+		<section id="competitionSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="competition" style="width:30px"></div>
+				<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
+			</div>
+
+			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list']? != nil %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].each do |competition_action| %>
+					<div class="field ">
+						<div class="label wpi-180">Acción:</div>
+						<div class="value wpi-170"><%= "#{competition_action['title_action']}" %></div>
+					</div>
+					<div class="field ">
+						<div class="label wpi-180">Producto:</div>
+						<div class="value wpi-170"><%= "#{competition_action['product_name']}" %></div>
+					</div>
+					<div class="field ">
+						<div class="label wpi-180">Cantidad:</div>
+						<div class="value wpi-170"><%= "#{competition_action['amount']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Cual:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['cual']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Observación:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['observacion']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Cantidad:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['cantidad']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Fotos:</div>
+						<div class="value wpi-170"></div>
+					</div>
+
+					<div class="pictures">
+						<% competition_action['foto_competition'].each do |competition_pic| %>
+							<div class="picture">
+								<img src="<%= Image.find_by_detail_id_and_report_id(competition_pic['id'], @report.id).image.url %>" width="180px" />
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			<% else %>
+				<span style="margin-right: 10px;">No se registraron acciones de la competencia</span>
+			<% end %>
+		</section>
+
+		<hr>
+
 		<!-- <h3>FOTOS</h3> -->
 
 		<section id="imagesSection">
