@@ -41,7 +41,9 @@ class User < ActiveRecord::Base
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id
   has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id
+  has_many :created_promotions, class_name: :Promotion, foreign_key: :creator_id
   after_create :send_confirmation_email
+  has_and_belongs_to_many :promotions
 
 
   def send_confirmation_email

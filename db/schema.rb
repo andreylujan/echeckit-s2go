@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428153239) do
+ActiveRecord::Schema.define(version: 20160505053937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -65,6 +64,14 @@ ActiveRecord::Schema.define(version: 20160428153239) do
   end
 
   add_index "dealers", ["name"], name: "index_dealers_on_name", unique: true, using: :btree
+
+  create_table "dealers_promotions", id: false, force: :cascade do |t|
+    t.integer "promotion_id", null: false
+    t.integer "dealer_id",    null: false
+  end
+
+  add_index "dealers_promotions", ["dealer_id"], name: "index_dealers_promotions_on_dealer_id", using: :btree
+  add_index "dealers_promotions", ["promotion_id"], name: "index_dealers_promotions_on_promotion_id", using: :btree
 
   create_table "dealers_zones", id: false, force: :cascade do |t|
     t.integer "dealer_id"
@@ -166,6 +173,38 @@ ActiveRecord::Schema.define(version: 20160428153239) do
 
   add_index "platforms_top_list_items", ["platform_id"], name: "index_platforms_top_list_items_on_platform_id", using: :btree
   add_index "platforms_top_list_items", ["top_list_item_id"], name: "index_platforms_top_list_items_on_top_list_item_id", using: :btree
+
+  create_table "promotions", force: :cascade do |t|
+    t.datetime "start_date",   null: false
+    t.datetime "end_date",     null: false
+    t.text     "title",        null: false
+    t.text     "html",         null: false
+    t.integer  "data_part_id", null: false
+    t.integer  "creator_id",   null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "promotions", ["creator_id"], name: "index_promotions_on_creator_id", using: :btree
+  add_index "promotions", ["data_part_id"], name: "index_promotions_on_data_part_id", using: :btree
+  add_index "promotions", ["deleted_at"], name: "index_promotions_on_deleted_at", using: :btree
+
+  create_table "promotions_users", id: false, force: :cascade do |t|
+    t.integer "promotion_id", null: false
+    t.integer "user_id",      null: false
+  end
+
+  add_index "promotions_users", ["promotion_id"], name: "index_promotions_users_on_promotion_id", using: :btree
+  add_index "promotions_users", ["user_id"], name: "index_promotions_users_on_user_id", using: :btree
+
+  create_table "promotions_zones", id: false, force: :cascade do |t|
+    t.integer "promotion_id", null: false
+    t.integer "zone_id",      null: false
+  end
+
+  add_index "promotions_zones", ["promotion_id"], name: "index_promotions_zones_on_promotion_id", using: :btree
+  add_index "promotions_zones", ["zone_id"], name: "index_promotions_zones_on_zone_id", using: :btree
 
   create_table "regions", force: :cascade do |t|
     t.text     "name",       null: false
@@ -351,6 +390,7 @@ ActiveRecord::Schema.define(version: 20160428153239) do
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
   add_foreign_key "platforms", "organizations"
+  add_foreign_key "promotions", "data_parts"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"

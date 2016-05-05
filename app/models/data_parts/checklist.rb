@@ -20,7 +20,7 @@
 #
 
 class Checklist < DataPart
-	
+	has_many :promotions
     def options
     	org_id = self.subsection.section.organization_id    	
     	ChecklistOption.unscoped.where(organization_id: org_id)    	
