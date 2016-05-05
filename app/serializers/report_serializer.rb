@@ -21,6 +21,6 @@ class ReportSerializer < ActiveModel::Serializer
     	:finished, :assigned_user_id, :pdf, :pdf_uploaded
 
     def pdf
-    	object.pdf.url if object.pdf_uploaded?
+    	object.pdf.url
     end
 end

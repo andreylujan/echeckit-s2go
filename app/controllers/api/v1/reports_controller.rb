@@ -12,6 +12,7 @@ class Api::V1::ReportsController < ApplicationController
   
   def create
   	@report = Report.new(create_params)
+    @report.set_uuid
   	user = current_user
   	@report.creator = user
   	@report.organization_id = user.role.organization_id

@@ -25,7 +25,6 @@ class Report < ActiveRecord::Base
   mount_uploader :pdf, PdfUploader
   has_many :images
   before_save :cache_data
-  before_save :set_uuid
   # after_commit :set_pdf_url, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
@@ -35,7 +34,7 @@ class Report < ActiveRecord::Base
   end
 
   def set_uuid
-    self.uuid = SecureRandom.uuid if self.uuid.nil?
+    self.uuid = SecureRandom.uuid
   end
 
   def cache_data
