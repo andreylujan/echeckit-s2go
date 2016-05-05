@@ -20,12 +20,5 @@ class Image < ActiveRecord::Base
   belongs_to :category
   belongs_to :report
   validates_presence_of [ :user, :image, :report ]
-  # after_create :check_pdf_report
 
-  def check_pdf_report
-  	image_count = self.report.dynamic_attributes["num_images"]
-  	if report.images.count == image_count
-  		report.generate_pdf
-  	end
-  end
 end
