@@ -25,12 +25,17 @@ class Report < ActiveRecord::Base
   mount_uploader :pdf, PdfUploader
   has_many :images
   before_save :cache_data
-  # after_commit :generate_pdf, on: [ :create ]
+  before_save :set_uuid
+  # after_commit :set_pdf_url, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
 
   def generate_pdf
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id)
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid if self.uuid.nil?
   end
 
   def cache_data

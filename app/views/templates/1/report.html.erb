@@ -306,11 +306,11 @@
 				<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
 			</div>
 			
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'] != nil %>
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].nil? %>
 				<div class="pictures">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url %>" width="180px" />
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
 						</div>
 					<% end %>
 				</div>
@@ -383,9 +383,9 @@
 						
 						<div class="pictures">
 							<% if checklist_item['detalleFoto'].length > 0 %>
-								<% checklist_item['detalleFoto'].each do |item_pic| %>
+								<% checklist_item['detalleFoto'].each do |pic| %>
 									<div class="picture">
-										<img src="<%= Image.find_by_detail_id_and_report_id(item_pic['id'], @report.id).image.url %>" width="180px" /> 
+										<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" /> 
 									</div>
 								<% end %>
 							<% end %>
@@ -411,7 +411,7 @@
 
 			
 			<div class="checklistTableContainer">
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -431,7 +431,7 @@
 					<span style="margin-right: 10px;">No se registró el stock real de hardware</span>
 				<% end %>
 				
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -451,7 +451,7 @@
 					<span style="margin-right: 10px;">No se registró el stock real de accesorios</span>
 				<% end %>
 
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -474,7 +474,7 @@
 			</div>
 
 			<div class="checklistTableContainer">
-				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -494,7 +494,7 @@
 					<span style="margin-right: 10px;">No se registró head count de promotores full time</span>
 				<% end %>
 
-				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -524,7 +524,7 @@
 			</div>
 
 			<div class="checklistTableContainer">
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -544,7 +544,7 @@
 					<span style="margin-right: 10px;">No se registraron ventas de hardware</span>
 				<% end %>
 				
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_accesories']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_accesories'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -552,7 +552,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_accesories'].each do |vr_accesory| %>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_accesories'].each do |vr_accesory| %>
 								<tr>
 									<td><%= "#{vr_accesory['platform']}" %></td>
 									<td>$ <%= "#{vr_accesory['value']}" %></td>
@@ -564,7 +564,7 @@
 					<span style="margin-right: 10px;">No se registraron ventas de accesorios</span>
 				<% end %>
 
-				<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_games']? != nil %>
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_games'].nil? %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -572,7 +572,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['venta']['amount_value'][0]['vr_games'].each do |vr_game| %>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_games'].each do |vr_game| %>
 								<tr>
 									<td><%= "#{vr_game['platform']}" %></td>
 									<td>$ <%= "#{vr_game['value']}" %></td>
@@ -592,7 +592,7 @@
 				<div class="value"><h4>MÁS VENDIDOS</h4></div>
 			</div>
 
-			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list']? != nil %>
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
 					<div class="tablesItemMoreSale">
 						<h4><% "#{index}"%>. <%= "#{item_more_sale['game_name']}" %></h4>
@@ -621,7 +621,7 @@
 								<% item_more_sale['game_value'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= $ "#{product['value']}" %></td>
+										<td>$<%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -636,7 +636,7 @@
 								<% item_more_sale['game_sku'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= $ "#{product['sku']}" %></td>
+										<td>$<%= "#{product['sku']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -645,9 +645,9 @@
 
 					<div class="imagesItemMoreSale">
 						<div class="pictures">
-							<% item_more_sale['foto_more_sale'].each do |image_more_sale| %>
+							<% item_more_sale['foto_more_sale'].each do |pic| %>
 								<div class="picture">
-									<img src="<%= Image.find_by_detail_id_and_report_id(image_more_sale['id'], @report.id).image.url %>" width="180px" />
+									<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
 								</div>
 							<% end %>
 						</div>
@@ -663,7 +663,7 @@
 				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
 				<div class="value"><h4>QUIEBRE DE STOCK</h4></div>
 			</div>
-			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list']? != nil %>
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
 					<div class="tablesItemMoreSale">
 						<h4><% "#{index}"%>. <%= "#{item_stock_break['game_name']}" %></h4>
@@ -715,9 +715,9 @@
 					</div>
 					<div class="imagesItemMoreSale">
 						<div class="pictures">
-							<% item_more_sale['foto_stock_break'].each do |image_stock_break| %>
+							<% item_more_sale['foto_stock_break'].each do |pic| %>
 								<div class="picture">
-									<img src="<%= Image.find_by_detail_id_and_report_id(image_stock_break['id'], @report.id).image.url %>" width="180px" />
+									<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
 								</div>
 							<% end %>
 						</div>
@@ -734,7 +734,7 @@
 				<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
 			</div>
 
-			<% if @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list']? != nil %>
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].each do |competition_action| %>
 					<div class="field ">
 						<div class="label wpi-180">Acción:</div>
@@ -766,9 +766,9 @@
 					</div>
 
 					<div class="pictures">
-						<% competition_action['foto_competition'].each do |competition_pic| %>
+						<% competition_action['foto_competition'].each do |pic| %>
 							<div class="picture">
-								<img src="<%= Image.find_by_detail_id_and_report_id(competition_pic['id'], @report.id).image.url %>" width="180px" />
+								<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
 							</div>
 						<% end %>
 					</div>
@@ -788,18 +788,18 @@
 				<div class="value"><h4>FOTOS</h4></div>
 			</div>
 			<% if @report.dynamic_attributes['sections'][3]['detalleFoto'].length > 0 %>
-				<% @report.dynamic_attributes['sections'][3]['detalleFoto'].each do |pic_details| %>
+				<% @report.dynamic_attributes['sections'][3]['detalleFoto'].each do |pic| %>
 					<div class="picsField">
 						<div class="picLabel">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic_details['id'], @report.id).image.url %>" width="90%" alt="report_pic"/>
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="90%" alt="report_pic"/>
 						</div>
 						<div class="commentValue">
 							<h5>Comentarios</h5>
 							<hr>
-							<% if pic_details['comentario'] == "" %>
+							<% if pic['comentario'] == "" %>
 								<p>No se indica</p>
 							<% else %>
-								<p><%= "#{pic_details['comentario']}" %></p>
+								<p><%= "#{pic['comentario']}" %></p>
 							<% end %>
 						</div>
 					</div>

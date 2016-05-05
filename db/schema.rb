@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505053937) do
+ActiveRecord::Schema.define(version: 20160505193513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -245,12 +246,14 @@ ActiveRecord::Schema.define(version: 20160505053937) do
     t.integer  "assigned_user_id"
     t.text     "pdf"
     t.boolean  "pdf_uploaded",       default: false, null: false
+    t.text     "uuid"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
+  add_index "reports", ["uuid"], name: "index_reports_on_uuid", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.integer  "organization_id", null: false
