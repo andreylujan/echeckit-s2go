@@ -30,8 +30,8 @@ class Report < ActiveRecord::Base
   validates :report_type_id, presence: true
   validates :report_type, presence: true
 
-  def generate_pdf
-    UploadPdfJob.set(wait: 3.seconds).perform_later(self.id)
+  def generate_pdf(regenerate=false)
+    UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
   end
 
   def set_uuid

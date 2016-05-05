@@ -1,7 +1,7 @@
 class UploadPdfJob < ActiveJob::Base
 	queue_as :default
 
-	def perform(report_id)
+	def perform(report_id, regenerate_uuid)
 		report = Report.find(report_id)
 		ac = ActionController::Base.new()
 		# html = ac.render_to_string('templates/report.html.erb', 
@@ -14,6 +14,9 @@ class UploadPdfJob < ActiveJob::Base
 		file = Tempfile.new('pdf', encoding: 'ascii-8bit')
 		begin
 		   file.write(pdf)
+		   if regenerate_uuid
+		   	report.set_uuid
+		   end
 		   report.pdf = file
 		   report.save
 		   report.update_attribute :pdf_uploaded, true
