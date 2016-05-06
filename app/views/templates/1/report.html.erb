@@ -486,7 +486,7 @@
 							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft'].each do |hc_promoter_ft| %>
 								<tr>
 									<td><%= "#{hc_promoter_ft['platform']}" %></td>
-									<td><%= "#{hc_promoter_ft['cant']}" %></td>
+									<td><%= "#{hc_promoter_ft['value']}" %></td>
 								</tr>
 							<% end %>
 						</tbody>
@@ -506,7 +506,7 @@
 							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt'].each do |hc_promoter_pt| %>
 								<tr>
 									<td><%= "#{hc_promoter_pt['platform']}" %></td>
-									<td><%= "#{hc_promoter_pt['cant']}" %></td>
+									<td><%= "#{hc_promoter_pt['value']}" %></td>
 								</tr>
 							<% end %>
 						</tbody>
@@ -607,7 +607,7 @@
 								<% item_more_sale['game_amount'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= "#{product['cant']}" %></td>
+										<td><%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -637,7 +637,7 @@
 								<% item_more_sale['game_sku'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td>$<%= "#{product['sku']}" %></td>
+										<td><%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -669,7 +669,7 @@
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
 					<div class="tablesItemMoreSale">
-						<h4><% "#{index}"%>. <%= "#{item_stock_break['game_name']}" %></h4>
+						<h4><%= index %>. <%= "#{item_stock_break['game_name']}" %></h4>
 						<table class="checklistTable">
 							<thead>
 								<tr>
@@ -680,7 +680,7 @@
 								<% item_stock_break['game_amount'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= "#{product['cant']}" %></td>
+										<td><%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -695,7 +695,7 @@
 								<% item_stock_break['game_value'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= "#{product['cant']}" %></td>
+										<td><%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -710,7 +710,7 @@
 								<% item_stock_break['game_sku'].each do |product| %>
 									<tr>
 										<td><%= "#{product['platform']}" %></td>
-										<td><%= "#{product['sku']}" %></td>
+										<td><%= "#{product['value']}" %></td>
 									</tr>
 								<% end %>
 							</tbody>
