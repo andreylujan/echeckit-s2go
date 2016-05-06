@@ -716,7 +716,7 @@
 					</div>
 					<div class="imagesItemMoreSale">
 						<div class="pictures">
-							<% item_more_sale['foto_stock_break'].each do |pic| %>
+							<% item_stock_break['foto_stock_break'].each do |pic| %>
 								<div class="picture">
 									<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
 								</div>
