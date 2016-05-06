@@ -248,7 +248,11 @@
 				</div>
 				<div class="field">
 					<div class="label wpi-80">Referencia:</div>
-					<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference']}" %></div>
+					<% if @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference'] != ""  %>
+						<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference']}" %></div>
+					<% else %>
+						<div class="value wpi-170">No se indica</div>
+					<% end %>
 				</div>
 			</div>
 		</div>
@@ -673,7 +677,7 @@
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
 					<div class="tablesItemMoreSale">
-						<h4><%= index %>. <%= "#{item_stock_break['game_name']}" %></h4>
+						<h4><%= "#{(index + 1)}" %>. <%= "#{item_stock_break['game_name']}" %></h4>
 						<table class="checklistTable">
 							<thead>
 								<tr>
