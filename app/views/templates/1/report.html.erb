@@ -321,7 +321,7 @@
 			<% end %>
 
 
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].nil?  %>
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].nil? %>
 				<div class="checklist">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
 						<div class="field">
