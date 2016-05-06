@@ -483,7 +483,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][3]['hc_promot_ft'].each do |hc_promoter_ft| %>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft'].each do |hc_promoter_ft| %>
 								<tr>
 									<td><%= "#{hc_promoter_ft['platform']}" %></td>
 									<td><%= "#{hc_promoter_ft['cant']}" %></td>
@@ -503,7 +503,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][4]['hc_promot_pt'].each do |hc_promoter_pt| %>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt'].each do |hc_promoter_pt| %>
 								<tr>
 									<td><%= "#{hc_promoter_pt['platform']}" %></td>
 									<td><%= "#{hc_promoter_pt['cant']}" %></td>
