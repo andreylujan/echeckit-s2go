@@ -268,7 +268,7 @@
 			</div>
 			
 			<h4>Observación</h4>
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'].nil? %>
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'].nil? %>
 				<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'] == "" %>
 					<p>No se indica</p>
 				<% else %>
@@ -278,7 +278,7 @@
 				<p>No se indica</p>
 			<% end %>
 
-			<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].nil? %>
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].nil? %>
 				<div class="checklist">
 					<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
 						<div class="field">
@@ -293,6 +293,8 @@
 						</div>
 					<% end %>
 				</div>
+			<% else %>
+				<p>No hay checklist asociado a protocolo</p>
 			<% end %>
 
 		</section>
