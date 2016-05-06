@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20160506041039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"

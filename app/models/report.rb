@@ -26,6 +26,7 @@ class Report < ActiveRecord::Base
   mount_uploader :pdf, PdfUploader
   has_many :images
   before_save :cache_data
+  before_create :check_num_images
   # after_commit :set_pdf_url, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
@@ -34,6 +35,18 @@ class Report < ActiveRecord::Base
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
   end
 
+
+  def check_num_images
+    if self.dynamic_attributes.nil?
+      self.dynamic_attributes = {}
+    end
+    if self.dynamic_attributes["num_images"].nil? or self.dynamic_attributes["num_images"] == 0 or 
+      self.dynamic_attributes["num_images"] == "0"
+      self.generate_pdf(false)
+      self.pdf_uploaded = true
+    end
+  end
+  
   def set_uuid
     self.uuid = SecureRandom.uuid
   end
