@@ -600,7 +600,7 @@
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
 					<div class="tablesItemMoreSale">
-						<h4><%= "#{index}" %>. <%= "#{item_more_sale['game_name']}" %></h4>
+						<h4><%= "#{(index + 1)}" %>. <%= "#{item_more_sale['game_name']}" %></h4>
 						<table class="checklistTable">
 							<thead>
 								<tr>
