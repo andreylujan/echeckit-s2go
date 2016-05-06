@@ -384,15 +384,17 @@
 							<div class="value"></div>
 						</div>
 						
-						<div class="pictures">
-							<% if checklist_item['detalleFoto'].length > 0 %>
-								<% checklist_item['detalleFoto'].each do |pic| %>
-									<div class="picture">
-										<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" /> 
-									</div>
+						<% if not checklist_item['detalleFoto'].nil? %>
+							<div class="pictures">
+								<% if checklist_item['detalleFoto'].length > 0 %>
+									<% checklist_item['detalleFoto'].each do |pic| %>
+										<div class="picture">
+											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" /> 
+										</div>
+									<% end %>
 								<% end %>
-							<% end %>
-						</div>
+							</div>
+						<% end %>
 
 						<hr align="left" width="50%">
 					<% end %>
@@ -598,7 +600,7 @@
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
 					<div class="tablesItemMoreSale">
-						<h4><% "#{index}"%>. <%= "#{item_more_sale['game_name']}" %></h4>
+						<h4><%= "#{index}" %>. <%= "#{item_more_sale['game_name']}" %></h4>
 						<table class="checklistTable">
 							<thead>
 								<tr>
