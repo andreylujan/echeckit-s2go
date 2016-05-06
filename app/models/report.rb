@@ -39,7 +39,7 @@ class Report < ActiveRecord::Base
     if self.dynamic_attributes.nil?
       self.dynamic_attributes = {}
     end
-    self.dynamic_attributes["num_images"].nil? or self.dynamic_attributes["num_images"] == 0 or self.dynamic_attributes["num_images"] == "0"
+    if self.dynamic_attributes["num_images"].nil? or self.dynamic_attributes["num_images"] == 0 or self.dynamic_attributes["num_images"] == "0"
       self.pdf_uploaded = true
     end
   end
