@@ -16,4 +16,5 @@
 class Store < ActiveRecord::Base
     belongs_to :dealer
     belongs_to :zone
+    has_many :checkins
 end

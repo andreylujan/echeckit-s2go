@@ -5,4 +5,7 @@ JSONAPI.configure do |config|
 
   config.default_page_size = 99999
   config.maximum_page_size = 99999
+
+  config.top_level_links_include_pagination = false
+  config.always_include_to_one_linkage_data = false
 end

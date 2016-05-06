@@ -3,6 +3,7 @@ class Api::V1::DealerResource < JSONAPI::Resource
 
   has_many :zones
   has_many :stores
+  has_many :promotions
   
   def fetchable_fields
     super

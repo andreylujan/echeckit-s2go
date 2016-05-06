@@ -14,6 +14,7 @@
 #  assigned_user_id   :integer
 #  pdf                :text
 #  pdf_uploaded       :boolean          default(FALSE), not null
+#  uuid               :text
 #
 
 class ReportSerializer < ActiveModel::Serializer

@@ -3,6 +3,8 @@ class Api::V1::UserResource < JSONAPI::Resource
     :password, :password_confirmation, :email, :role_id,
     :image, :role_name
 
+  has_many :promotions
+  
   def role_name
   	@model.organization.name
   end

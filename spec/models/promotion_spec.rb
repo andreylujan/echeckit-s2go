@@ -7,7 +7,7 @@
 #  end_date     :datetime         not null
 #  title        :text             not null
 #  html         :text             not null
-#  data_part_id :integer          not null
+#  checklist_id :integer          not null
 #  creator_id   :integer          not null
 #  deleted_at   :datetime
 #  created_at   :datetime         not null

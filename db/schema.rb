@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505193513) do
+ActiveRecord::Schema.define(version: 20160506041039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -32,6 +31,24 @@ ActiveRecord::Schema.define(version: 20160505193513) do
 
   add_index "categories", ["organization_id", "name"], name: "index_categories_on_organization_id_and_name", unique: true, using: :btree
   add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
+
+  create_table "checkins", force: :cascade do |t|
+    t.integer  "user_id",       null: false
+    t.integer  "zone_id",       null: false
+    t.integer  "dealer_id",     null: false
+    t.integer  "store_id",      null: false
+    t.datetime "arrival_time",  null: false
+    t.datetime "exit_time"
+    t.integer  "subsection_id", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "checkins", ["dealer_id"], name: "index_checkins_on_dealer_id", using: :btree
+  add_index "checkins", ["store_id"], name: "index_checkins_on_store_id", using: :btree
+  add_index "checkins", ["subsection_id"], name: "index_checkins_on_subsection_id", using: :btree
+  add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
+  add_index "checkins", ["zone_id"], name: "index_checkins_on_zone_id", using: :btree
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
@@ -180,15 +197,15 @@ ActiveRecord::Schema.define(version: 20160505193513) do
     t.datetime "end_date",     null: false
     t.text     "title",        null: false
     t.text     "html",         null: false
-    t.integer  "data_part_id", null: false
+    t.integer  "checklist_id", null: false
     t.integer  "creator_id",   null: false
     t.datetime "deleted_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
+  add_index "promotions", ["checklist_id"], name: "index_promotions_on_checklist_id", using: :btree
   add_index "promotions", ["creator_id"], name: "index_promotions_on_creator_id", using: :btree
-  add_index "promotions", ["data_part_id"], name: "index_promotions_on_data_part_id", using: :btree
   add_index "promotions", ["deleted_at"], name: "index_promotions_on_deleted_at", using: :btree
 
   create_table "promotions_users", id: false, force: :cascade do |t|
@@ -385,6 +402,11 @@ ActiveRecord::Schema.define(version: 20160505193513) do
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
   add_foreign_key "categories", "organizations"
+  add_foreign_key "checkins", "dealers"
+  add_foreign_key "checkins", "stores"
+  add_foreign_key "checkins", "subsections"
+  add_foreign_key "checkins", "users"
+  add_foreign_key "checkins", "zones"
   add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "images", "categories"
@@ -393,7 +415,7 @@ ActiveRecord::Schema.define(version: 20160505193513) do
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
   add_foreign_key "platforms", "organizations"
-  add_foreign_key "promotions", "data_parts"
+  add_foreign_key "promotions", "data_parts", column: "checklist_id"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
