@@ -12,7 +12,7 @@
 class Zone < ActiveRecord::Base
     belongs_to :region
     has_and_belongs_to_many :dealers
-    has_many :stores
+    has_and_belongs_to_many :stores
     has_many :checkins
     has_and_belongs_to_many :promotions
 end

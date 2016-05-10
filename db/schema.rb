@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506041039) do
+ActiveRecord::Schema.define(version: 20160510130118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,14 @@ ActiveRecord::Schema.define(version: 20160506041039) do
 
   add_index "dealers_promotions", ["dealer_id"], name: "index_dealers_promotions_on_dealer_id", using: :btree
   add_index "dealers_promotions", ["promotion_id"], name: "index_dealers_promotions_on_promotion_id", using: :btree
+
+  create_table "dealers_stores", id: false, force: :cascade do |t|
+    t.integer "dealer_id", null: false
+    t.integer "store_id",  null: false
+  end
+
+  add_index "dealers_stores", ["dealer_id"], name: "index_dealers_stores_on_dealer_id", using: :btree
+  add_index "dealers_stores", ["store_id"], name: "index_dealers_stores_on_store_id", using: :btree
 
   create_table "dealers_zones", id: false, force: :cascade do |t|
     t.integer "dealer_id"
@@ -303,18 +311,20 @@ ActiveRecord::Schema.define(version: 20160506041039) do
 
   create_table "stores", force: :cascade do |t|
     t.text     "name",         null: false
-    t.integer  "dealer_id",    null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.integer  "zone_id",      null: false
     t.text     "contact"
     t.text     "phone_number"
     t.text     "address"
   end
 
-  add_index "stores", ["dealer_id", "name"], name: "index_stores_on_dealer_id_and_name", unique: true, using: :btree
-  add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
-  add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
+  create_table "stores_zones", id: false, force: :cascade do |t|
+    t.integer "store_id", null: false
+    t.integer "zone_id",  null: false
+  end
+
+  add_index "stores_zones", ["store_id"], name: "index_stores_zones_on_store_id", using: :btree
+  add_index "stores_zones", ["zone_id"], name: "index_stores_zones_on_zone_id", using: :btree
 
   create_table "subsection_item_types", force: :cascade do |t|
     t.text     "name"
@@ -423,8 +433,6 @@ ActiveRecord::Schema.define(version: 20160506041039) do
   add_foreign_key "roles", "organizations"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
-  add_foreign_key "stores", "dealers"
-  add_foreign_key "stores", "zones"
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
   add_foreign_key "top_list_items", "top_lists"
