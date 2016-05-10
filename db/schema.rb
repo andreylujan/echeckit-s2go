@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510130118) do
+ActiveRecord::Schema.define(version: 20160510183509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -205,7 +206,7 @@ ActiveRecord::Schema.define(version: 20160510130118) do
     t.datetime "end_date",     null: false
     t.text     "title",        null: false
     t.text     "html",         null: false
-    t.integer  "checklist_id", null: false
+    t.integer  "checklist_id"
     t.integer  "creator_id",   null: false
     t.datetime "deleted_at"
     t.datetime "created_at",   null: false

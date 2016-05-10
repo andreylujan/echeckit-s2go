@@ -18,7 +18,7 @@ class Promotion < ActiveRecord::Base
 	acts_as_paranoid
 	belongs_to :creator, class_name: :User, foreign_key: :creator_id
 	belongs_to :checklist
-	validates_presence_of [ :start_date, :end_date, :title, :html, :creator, :checklist ]
+	validates_presence_of [ :start_date, :end_date, :title, :html, :creator  ]
 
 	has_and_belongs_to_many :users
 	has_and_belongs_to_many :zones
