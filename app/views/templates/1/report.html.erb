@@ -287,20 +287,22 @@
 			<% end %>
 
 			<% if not @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].nil? %>
-				<div class="checklist">
-					<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
-						<div class="field">
-							<div class="value icon">
-								<% if checklist_item['value'] == true %>
-									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
-								<% else %>
-									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
-								<% end %>
-							</div>
-							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
+				<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
+					<% if not checklist_item.blank? %>
+						<div class="checklist">
+								<div class="field">
+									<div class="value icon">
+										<% if checklist_item['value'] == true %>
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+										<% else %>
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+										<% end %>
+									</div>
+									<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
+								</div>
 						</div>
 					<% end %>
-				</div>
+				<% end %>
 			<% else %>
 				<p>No hay checklist asociado a protocolo</p>
 			<% end %>
