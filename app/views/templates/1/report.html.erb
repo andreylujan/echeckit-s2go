@@ -144,6 +144,9 @@
 	.mw-70 {
 		max-width: 65%;
 	}
+	.ml-50 {
+		margin-left: 50px;
+	}
 	.right-content {
 		display: inline-block;
 		vertical-align: top;
@@ -348,9 +351,7 @@
 							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
 						</div>
 						<% if (checklist_item['type'] == "boolean" && checklist_item['value'] != true) || checklist_item['type'] != "boolean"  %>
-							<div class="itemKitPuntoVentDatails">
-								<h4>Detalles</h4>
-								<hr align="left" width="50%">
+							<div class="itemKitPuntoVentDatails ml-50">
 								<% if not checklist_item['detalle'].nil? %>
 									<% if not checklist_item['detalle']['cual'].nil? %>
 										<div class="field">
@@ -388,7 +389,6 @@
 											</div>
 										<% end %>
 									<% end %>
-									<hr align="left" width="50%">
 								<% end %>
 							</div>
 						<% end %>
