@@ -347,52 +347,53 @@
 							</div>
 							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
 						</div>
-
-						<div class="itemKitPuntoVentDatails">
-							<h4>Detalles</h4>
-							<hr align="left" width="50%">
-							<% if not checklist_item['detalle'].nil? %>
-								<% if not checklist_item['detalle']['cual'].nil? %>
-									<div class="field">
-										<div class="label wpi-120">Cual:</div>
-										<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
-									</div>
-								<% end %>
-								<% if not checklist_item['detalle']['observacion'].nil? %>
-									<div class="field">
-										<div class="label wpi-120">Observación:</div>
-										<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
-									</div>
-								<% end %>
-								<% if not checklist_item['detalle']['cantidad'].nil? %>
-									<div class="field">
-										<div class="label wpi-120">Cantidad:</div>
-										<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
-									</div>
-								<% end %>
-								<div class="field">
-									<div class="label wpi-120">Fotos:</div>
-									<div class="value"></div>
-								</div>
-								<% if not checklist_item['detalleFoto'].nil? %>
-									<div class="pictures">
-										<% if checklist_item['detalleFoto'].length > 0 %>
-											<% checklist_item['detalleFoto'].each do |pic| %>
-												<div class="picture">
-													<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
-													<% if not pic['comentario'].nil? %>
-														<p><%= "#{pic['comentario']}" %></p>
-													<% end %>
+						<% if checklist_item['type'] == "boolean" %>
+							<% if checklist_item['value'] != true %>
+								<div class="itemKitPuntoVentDatails">
+									<h4>Detalles</h4>
+									<hr align="left" width="50%">
+									<% if not checklist_item['detalle'].nil? %>
+										<% if not checklist_item['detalle']['cual'].nil? %>
+											<div class="field">
+												<div class="label wpi-120">Cual:</div>
+												<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+											</div>
+										<% end %>
+										<% if not checklist_item['detalle']['observacion'].nil? %>
+											<div class="field">
+												<div class="label wpi-120">Observación:</div>
+												<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+											</div>
+										<% end %>
+										<% if not checklist_item['detalle']['cantidad'].nil? %>
+											<div class="field">
+												<div class="label wpi-120">Cantidad:</div>
+												<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+											</div>
+										<% end %>
+										<% if not checklist_item['detalleFoto'].nil? %>
+											<div class="field">
+												<div class="label wpi-120">Fotos:</div>
+												<div class="value"></div>
+											</div>
+											<% if checklist_item['detalleFoto'].length > 0 %>
+												<div class="pictures">
+														<% checklist_item['detalleFoto'].each do |pic| %>
+															<div class="picture">
+																<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+																<% if not pic['comentario'].nil? %>
+																	<p><%= "#{pic['comentario']}" %></p>
+																<% end %>
+															</div>
+														<% end %>
 												</div>
 											<% end %>
 										<% end %>
-									</div>
-								<% else %>
-									<p>No se registraron fotos para el item <%= "#{checklist_item['name']}" %></p>
-								<% end %>
-								<hr align="left" width="50%">
+										<hr align="left" width="50%">
+									<% end %>
+								</div>
 							<% end %>
-						</div>
+						<% end %>
 					<% end %>
 				</div>
 			<% else %>
