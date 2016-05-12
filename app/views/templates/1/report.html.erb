@@ -87,7 +87,7 @@
 		margin-bottom: 15px;
 		margin-top: 10px;
 		vertical-align: top;
-		width: 49%;
+		width: 99%;
 	}
 	.maps {
 		margin-left: 20px;
@@ -104,6 +104,7 @@
 		display: inline-block;
 		margin: 7px 3px;
 		vertical-align: top;
+		max-width: 180px;
 		/*border: 1px  blue solid;*/
 	}
 	.pictureComment {
@@ -287,7 +288,7 @@
 					<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
 						<div class="field">
 							<div class="value icon">
-								<% if checklist_item['value'] == "true" %>
+								<% if checklist_item['value'] == true %>
 									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
 								<% else %>
 									<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
@@ -317,13 +318,15 @@
 					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
 						<div class="picture">
 							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+							<% if not pic['comentario'].nil? %>
+								<p><%= "#{pic['comentario']}" %></p>
+							<% end %>
 						</div>
 					<% end %>
 				</div>
 			<% else %>
 				<p>No se registraron fotos en kit punto de venta</p>
 			<% end %>
-
 
 			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].nil? %>
 				<div class="checklist">
@@ -344,65 +347,70 @@
 							</div>
 							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
 						</div>
+
+						<div class="itemKitPuntoVentDatails">
+							<h4>Detalles</h4>
+							<hr align="left" width="50%">
+							<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
+								<% if not checklist_item['detalle'].nil? %>
+									<div class="field">
+										<div class="label wpi-120">Item checklist:</div>
+										<div class="value"><%= "#{checklist_item['name']}" %></div>
+									</div>
+									<div class="field">
+										<div class="label wpi-120">Cual:</div>
+										<% if not checklist_item['detalle']['cual'].nil? %>
+											<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+										<% else %>
+											<div class="value"> - </div>
+										<% end %>
+									</div>
+									<div class="field">
+										<div class="label wpi-120">Observación:</div>
+										<% if not checklist_item['detalle']['observacion'].nil? %>
+											<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+										<% else %>
+											<div class="value"> - </div>
+										<% end %>
+									</div>
+									<div class="field">
+										<div class="label wpi-120">Cantidad:</div>
+										<% if not checklist_item['detalle']['cantidad'].nil? %>
+											<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+										<% else %>
+											<div class="value"> - </div>
+										<% end %>
+									</div>
+									<div class="field">
+										<div class="label wpi-120">Fotos:</div>
+										<div class="value"></div>
+									</div>
+									
+									<% if not checklist_item['detalleFoto'].nil? %>
+										<div class="pictures">
+											<% if checklist_item['detalleFoto'].length > 0 %>
+												<% checklist_item['detalleFoto'].each do |pic| %>
+													<div class="picture">
+														<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+														<% if not pic['comentario'].nil? %>
+															<p><%= "#{pic['comentario']}" %></p>
+														<% end %>
+													</div>
+												<% end %>
+											<% end %>
+										</div>
+									<% else %>
+										<p>No se registraron fotos para el item <%= "#{checklist_item['name']}" %></p>
+									<% end %>
+									<hr align="left" width="50%">
+								<% end %>
+							<% end %>
+						</div>
+
 					<% end %>
 				</div>
 			<% else %>
 				<p>No se registró checklist para kit punto de venta</p>
-			<% end %>
-			
-			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].nil? %>
-				<h4>Detalles</h4>
-				<hr align="left" width="50%">
-				<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
-					<% if not checklist_item['detalle'].nil? %>
-						<div class="field">
-							<div class="label wpi-120">Item checklist:</div>
-							<div class="value"><%= "#{checklist_item['name']}" %></div>
-						</div>
-						<div class="field">
-							<div class="label wpi-120">Cual:</div>
-							<% if not checklist_item['detalle']['cual'].nil? %>
-								<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
-							<% else %>
-								<div class="value"> - </div>
-							<% end %>
-						</div>
-						<div class="field">
-							<div class="label wpi-120">Observación:</div>
-							<% if not checklist_item['detalle']['observacion'].nil? %>
-								<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
-							<% else %>
-								<div class="value"> - </div>
-							<% end %>
-						</div>
-						<div class="field">
-							<div class="label wpi-120">Cantidad:</div>
-							<% if not checklist_item['detalle']['cantidad'].nil? %>
-								<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
-							<% else %>
-								<div class="value"> - </div>
-							<% end %>
-						</div>
-						<div class="field">
-							<div class="label wpi-120">Fotos:</div>
-							<div class="value"></div>
-						</div>
-						
-						<% if not checklist_item['detalleFoto'].nil? %>
-							<div class="pictures">
-								<% if checklist_item['detalleFoto'].length > 0 %>
-									<% checklist_item['detalleFoto'].each do |pic| %>
-										<div class="picture">
-											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" /> 
-										</div>
-									<% end %>
-								<% end %>
-							</div>
-						<% end %>
-
-						<hr align="left" width="50%">
-					<% end %>
-				<% end %>
 			<% end %>
 
 		</section>
@@ -658,6 +666,9 @@
 									<% item_more_sale['foto_more_sale'].each do |pic| %>
 										<div class="picture">
 											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+											<% if not pic['comentario'].nil? %>
+												<p><%= "#{pic['comentario']}" %></p>
+											<% end %>
 										</div>
 									<% end %>
 							</div>
@@ -730,6 +741,10 @@
 									<% item_stock_break['foto_stock_break'].each do |pic| %>
 										<div class="picture">
 											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+												<% if not pic['comentario'].nil? %>
+													<p><%= "#{pic['comentario']}" %></p>
+												<% end %>
+											</div>
 										</div>
 									<% end %>
 							</div>
@@ -783,6 +798,9 @@
 							<% competition_action['foto_competition'].each do |pic| %>
 								<div class="picture">
 									<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+									<% if not pic['comentario'].nil? %>
+										<p><%= "#{pic['comentario']}" %></p>
+									<% end %>
 								</div>
 							<% end %>
 						</div>
