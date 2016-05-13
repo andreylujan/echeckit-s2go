@@ -6,7 +6,7 @@ class Api::V1::PromotionResource < JSONAPI::Resource
   has_many :users
   has_many :zones
   has_many :dealers
-
+  has_many :images
   
   def set_creator(promotion = @model, context = @context)
     user = context[:current_user]

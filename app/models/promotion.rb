@@ -7,7 +7,7 @@
 #  end_date     :datetime         not null
 #  title        :text             not null
 #  html         :text             not null
-#  checklist_id :integer          not null
+#  checklist_id :integer
 #  creator_id   :integer          not null
 #  deleted_at   :datetime
 #  created_at   :datetime         not null
@@ -23,4 +23,5 @@ class Promotion < ActiveRecord::Base
 	has_and_belongs_to_many :users
 	has_and_belongs_to_many :zones
 	has_and_belongs_to_many :dealers
+	has_many :images, as: :resource
 end

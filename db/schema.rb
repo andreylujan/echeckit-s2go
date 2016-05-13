@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510183509) do
+ActiveRecord::Schema.define(version: 20160513183239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,17 +110,21 @@ ActiveRecord::Schema.define(version: 20160510183509) do
   create_table "images", force: :cascade do |t|
     t.text     "image"
     t.integer  "data_part_id"
-    t.integer  "user_id",      null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "user_id",       null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "category_id"
     t.integer  "report_id"
     t.integer  "detail_id"
+    t.integer  "resource_id"
+    t.text     "resource_type"
   end
 
   add_index "images", ["category_id"], name: "index_images_on_category_id", using: :btree
   add_index "images", ["data_part_id"], name: "index_images_on_data_part_id", using: :btree
   add_index "images", ["report_id"], name: "index_images_on_report_id", using: :btree
+  add_index "images", ["resource_id"], name: "index_images_on_resource_id", using: :btree
+  add_index "images", ["resource_type"], name: "index_images_on_resource_type", using: :btree
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
