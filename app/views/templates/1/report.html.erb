@@ -200,11 +200,11 @@
 				</div>
 				<div class="field ">
 					<div class="label wpi-140">Fecha creación:</div>
-							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %></div>
+							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %> <%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-140">Fecha de vencimiento:</div>
-							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%></div>
+							<div class="value wpi-170"><%= @report.limit_date.end_of_day.strftime("%d/%m/%Y")%> <%= @report.limit_date.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
 				</div>
 			</div>
 			<div class="formHeader">
@@ -746,7 +746,7 @@
 		<section id="competitionSection">
 			<div class="field">
 				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="competition" style="width:30px"></div>
-				<div class="value"><h4>ACCIONES DE COMPETENCIA</h4></div>
+				<div class="value"><h4>ACCIONES DE LA COMPETENCIA</h4></div>
 			</div>
 
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].nil? %>
@@ -791,12 +791,14 @@
 								</div>
 							<% end %>
 						</div>
+						<hr align="left">
+					<% else %>
+						<p>No se registraron fotos</p>
 					<% end %>
 				<% end %>
 			<% else %>
 				<p style="margin-right: 10px;">No se registraron acciones de la competencia</p>
 			<% end %>
-			<hr align="left" width="50%">
 		</section>
 
 		<hr>
