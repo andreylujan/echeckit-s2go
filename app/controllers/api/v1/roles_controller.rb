@@ -1,4 +1,3 @@
-class Api::V1::RolesController < ApplicationController
+class Api::V1::RolesController < Api::V1::JsonApiController
 	before_action :doorkeeper_authorize!
-  	include JSONAPI::ActsAsResourceController
 end

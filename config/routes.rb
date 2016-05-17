@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
 
   match '/*path', to: 'application#cors_preflight_check', via: :options
-  resources :organizations, except: [:new, :edit]
-  resources :regions, except: [:new, :edit]
-
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq'
@@ -13,46 +10,50 @@ Rails.application.routes.draw do
       :authorized_applications, :token_info
     controllers :tokens => 'tokens'
   end
+
   namespace :api do
     namespace :v1 do
 
-      jsonapi_resources :promotions
-      jsonapi_resources :zones do
-        jsonapi_relationships
+      jsonapi_resources :promotions, only: [ :show, :index, :update, :create, :destroy ] do
       end
-      jsonapi_resources :regions do
-        jsonapi_relationships
+      jsonapi_resources :zones, only: [ :index ] do
       end
 
-      resources :data_parts, only: [ :index ]
+      # jsonapi_resources :regions, only: [ :index ] do
+      # end
 
-      resources :subsections, only: :index
-      jsonapi_resources :stores do
-        jsonapi_relationships
-      end
-      jsonapi_resources :dealers do
-        jsonapi_relationships
+      jsonapi_resources :stores, only: [ :index ] do
       end
 
-      resources :categories, only: [ :index ]
-      resources :images, only: [ :create ]
-      
-      resources :sections
-      resources :platforms, only: [ :index ]
+      jsonapi_resources :dealers, only: [ :index ] do
+      end
+
       jsonapi_resources :organizations,
       only: [ :index, :show ] do
-        jsonapi_relationships   
-        jsonapi_resources :report_types   
+        jsonapi_related_resources :roles, only: [ :index ]
+        jsonapi_related_resources :report_types, only: [ :index ]
       end
 
-      resource :top_list, only: [ :show ]
-      jsonapi_resources :reports
-      
+      jsonapi_resources :reports, only: [ :create, :index, :show, :destroy ]
       jsonapi_resources :roles, only: :index
       jsonapi_resources :invitations, only: [
         :create,
         :update
       ]
+
+      jsonapi_resources :top_lists, only: [ :index ] do
+      end
+
+      jsonapi_resources :platforms, only: [ :index ] do
+      end
+
+      jsonapi_resources :categories, only: [ :index ] do
+      end
+      
+      resources :data_parts, only: [ :index ]
+      resources :subsections, only: [ :index ]
+      resources :images, only: [ :create ]
+      resources :sections, only: [ :show, :index ]
 
       resources :users, only: [
         :create,

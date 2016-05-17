@@ -1,13 +1,9 @@
-class Api::V1::ReportsController < ApplicationController
+class Api::V1::ReportsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
-  include JSONAPI::ActsAsResourceController
   
   def context
-    {
-      current_user: current_user,
-      all: params[:all]
-    }
+    super.merge({ all: params[:all] })
   end
   
   def create
@@ -22,9 +18,6 @@ class Api::V1::ReportsController < ApplicationController
   	end
   end
 
-  def index
-    super
-  end
 
   def create_params
   	params.permit(:report_type_id, :finished, :assigned_user_id).tap do |whitelisted|

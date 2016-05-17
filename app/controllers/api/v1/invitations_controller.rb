@@ -1,9 +1,7 @@
-class Api::V1::InvitationsController < ApplicationController
+class Api::V1::InvitationsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!, only: :create
   before_action :authorize_confirmation_token!, only: :update
-
-  include JSONAPI::ActsAsResourceController
 
   private
   def authorize_confirmation_token!

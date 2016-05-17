@@ -1,10 +1,5 @@
-class Api::V1::TopListsController < ApplicationController
+class Api::V1::TopListsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
-  
-  def show
-  	top_list = current_user.organization.top_lists.last
-  	render json: top_list, include: [ :top_list_items ]
-  end
 
 end

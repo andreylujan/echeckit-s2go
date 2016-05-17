@@ -1,9 +1,6 @@
-class Api::V1::CategoriesController < ApplicationController
+class Api::V1::CategoriesController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
 
-  def index
-  	categories = current_user.organization.categories
-  	render json: categories
-  end
+ 
 end

@@ -1,15 +1,10 @@
-class Api::V1::UsersController < ApplicationController
+class Api::V1::UsersController < Api::V1::JsonApiController
 
-  include JSONAPI::ActsAsResourceController
   before_action :doorkeeper_authorize!, except: [
     :reset_password_token,
     :verify,
     :create,
   :password ]
-
-  def context
-    {current_user: current_user}
-  end
 
   before_action :verify_invitation, only: :create
 
