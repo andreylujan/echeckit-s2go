@@ -27,4 +27,9 @@ class DataPart < ActiveRecord::Base
   # belongs_to :parent, class_name: :DataPart, foreign_key: :data_part_id
   has_ancestry
   belongs_to :organization
+
+  amoeba do
+    enable
+  end
+  
 end

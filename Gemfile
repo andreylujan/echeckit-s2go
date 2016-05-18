@@ -24,6 +24,8 @@ gem 'redis', '~> 3.3'
 gem 'wicked_pdf', '~> 1.0', '>= 1.0.6'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
 gem 'sinatra'
+gem 'amoeba', '~> 3.0'
+
 # Auth
 gem 'devise', '~> 4.1'
 gem 'doorkeeper', '~> 3.1'
