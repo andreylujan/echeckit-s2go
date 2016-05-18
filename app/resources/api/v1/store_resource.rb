@@ -1,9 +1,9 @@
 class Api::V1::StoreResource < JSONAPI::Resource
   attributes :name, :contact, :phone_number, :address,
-  	:dealer_ids, :zone_ids
+  	:dealer_id, :zone_id
 
-  has_many :zones
-  has_many :dealers
+  has_one :zone
+  has_one :dealer
   
   def fetchable_fields
     super

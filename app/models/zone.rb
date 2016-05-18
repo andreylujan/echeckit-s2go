@@ -10,7 +10,7 @@
 
 class Zone < ActiveRecord::Base
     has_and_belongs_to_many :dealers
-    has_and_belongs_to_many :stores
+    has_many :stores
     has_and_belongs_to_many :promotions
 
     validates_presence_of :name

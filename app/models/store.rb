@@ -14,9 +14,9 @@
 #
 
 class Store < ActiveRecord::Base
-    has_and_belongs_to_many :dealers
-    has_and_belongs_to_many :zones
 
-    validates_uniqueness_of :name
+    belongs_to :zone
+    belongs_to :dealer
+
     validates_presence_of :name
 end
