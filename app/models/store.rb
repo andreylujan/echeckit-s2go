@@ -18,5 +18,7 @@ class Store < ActiveRecord::Base
     belongs_to :zone
     belongs_to :dealer
 
+    acts_as_paranoid
+    
     validates_presence_of :name
 end

@@ -9,8 +9,11 @@
 #
 
 class Zone < ActiveRecord::Base
+
+	acts_as_paranoid
+
     has_and_belongs_to_many :dealers
-    has_many :stores
+    has_many :stores, dependent: :destroy
     has_and_belongs_to_many :promotions
 
     validates_presence_of :name

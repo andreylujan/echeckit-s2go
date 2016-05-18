@@ -12,8 +12,11 @@
 #
 
 class Dealer < ActiveRecord::Base
+
+	acts_as_paranoid
+
     has_and_belongs_to_many :zones
-    has_many :stores
+    has_many :stores, dependent: :destroy
     has_and_belongs_to_many :promotions
     validates_presence_of :name
     validates_uniqueness_of :name

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518202322) do
+ActiveRecord::Schema.define(version: 20160518224436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,10 @@ ActiveRecord::Schema.define(version: 20160518202322) do
     t.text     "contact"
     t.text     "phone_number"
     t.text     "address"
+    t.datetime "deleted_at"
   end
 
+  add_index "dealers", ["deleted_at"], name: "index_dealers_on_deleted_at", using: :btree
   add_index "dealers", ["name"], name: "index_dealers_on_name", unique: true, using: :btree
 
   create_table "dealers_promotions", id: false, force: :cascade do |t|
@@ -301,9 +303,11 @@ ActiveRecord::Schema.define(version: 20160518202322) do
     t.text     "address"
     t.integer  "zone_id"
     t.integer  "dealer_id"
+    t.datetime "deleted_at"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
+  add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
 
   create_table "subsection_item_types", force: :cascade do |t|
@@ -386,8 +390,10 @@ ActiveRecord::Schema.define(version: 20160518202322) do
     t.text     "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "zones", ["deleted_at"], name: "index_zones_on_deleted_at", using: :btree
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
 
   add_foreign_key "categories", "organizations"
