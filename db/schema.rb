@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513183239) do
+ActiveRecord::Schema.define(version: 20160518173120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -33,22 +34,19 @@ ActiveRecord::Schema.define(version: 20160513183239) do
   add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
 
   create_table "checkins", force: :cascade do |t|
-    t.integer  "user_id",       null: false
-    t.integer  "zone_id",       null: false
-    t.integer  "dealer_id",     null: false
-    t.integer  "store_id",      null: false
-    t.datetime "arrival_time",  null: false
+    t.integer  "user_id",                                                        null: false
+    t.datetime "arrival_time",                                                   null: false
     t.datetime "exit_time"
-    t.integer  "subsection_id", null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+    t.json     "data",                                              default: {}, null: false
+    t.geometry "arrival_lonlat", limit: {:srid=>0, :type=>"point"}
+    t.geometry "exit_lonlat",    limit: {:srid=>0, :type=>"point"}
   end
 
-  add_index "checkins", ["dealer_id"], name: "index_checkins_on_dealer_id", using: :btree
-  add_index "checkins", ["store_id"], name: "index_checkins_on_store_id", using: :btree
-  add_index "checkins", ["subsection_id"], name: "index_checkins_on_subsection_id", using: :btree
+  add_index "checkins", ["arrival_lonlat"], name: "index_checkins_on_arrival_lonlat", using: :gist
+  add_index "checkins", ["exit_lonlat"], name: "index_checkins_on_exit_lonlat", using: :gist
   add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
-  add_index "checkins", ["zone_id"], name: "index_checkins_on_zone_id", using: :btree
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
@@ -416,11 +414,7 @@ ActiveRecord::Schema.define(version: 20160513183239) do
   add_index "zones", ["region_id"], name: "index_zones_on_region_id", using: :btree
 
   add_foreign_key "categories", "organizations"
-  add_foreign_key "checkins", "dealers"
-  add_foreign_key "checkins", "stores"
-  add_foreign_key "checkins", "subsections"
   add_foreign_key "checkins", "users"
-  add_foreign_key "checkins", "zones"
   add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "images", "categories"

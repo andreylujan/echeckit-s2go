@@ -14,8 +14,7 @@
 #  address        :text
 #
 
-require 'rails_helper'
-
-RSpec.describe Checkin, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+class CheckinSerializer < ActiveModel::Serializer
+	attributes :arrival_time, :exit_time, :user_id, :data,
+		:arrival_lonlat, :exit_lonlat
 end

@@ -19,6 +19,12 @@ Rails.application.routes.draw do
       jsonapi_resources :zones, only: [ :index ] do
       end
 
+      resources :checkins, only: [ :create ]
+
+      post :checkouts, to: 'checkins#update'
+
+
+
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
