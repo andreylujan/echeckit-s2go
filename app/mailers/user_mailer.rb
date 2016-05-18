@@ -16,4 +16,14 @@ class UserMailer < ApplicationMailer
 		@user = user
 		mail(to: @user.email, subject: 'Recuperación de contraseña')
 	end
+
+	def checkin_email(user)
+		@user = user
+		mail(to: @user.email, subject: 'Confirmación de Llegada')
+	end
+
+	def checkout_email(checkin)
+		@checkin = checkin
+		mail(to: @checkin.user.email, subject: 'Confirmación de Salida')
+	end
 end
