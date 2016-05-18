@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
       jsonapi_resources :promotions, only: [ :show, :index, :update, :create, :destroy ] do
       end
-      jsonapi_resources :zones, only: [ :index ] do
+      jsonapi_resources :zones, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
       resources :checkins, only: [ :create ]
@@ -28,10 +28,10 @@ Rails.application.routes.draw do
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
-      jsonapi_resources :stores, only: [ :index ] do
+      jsonapi_resources :stores, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
-      jsonapi_resources :dealers, only: [ :index ] do
+      jsonapi_resources :dealers, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
       jsonapi_resources :organizations,

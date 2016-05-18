@@ -1,6 +1,6 @@
 class Api::V1::ZoneResource < JSONAPI::Resource
     
-  attributes :name
+  attributes :name, :dealer_ids, :store_ids
 
   has_many :dealers
   has_many :stores

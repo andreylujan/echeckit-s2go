@@ -11,7 +11,6 @@
 #  data           :json             not null
 #  arrival_lonlat :geometry({:srid= point, 0
 #  exit_lonlat    :geometry({:srid= point, 0
-#  address        :text
 #
 
 class CheckinSerializer < ActiveModel::Serializer

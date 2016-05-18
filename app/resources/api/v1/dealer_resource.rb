@@ -1,5 +1,6 @@
 class Api::V1::DealerResource < JSONAPI::Resource
-  attributes :name
+  attributes :name, :contact, :phone_number, :address,
+  	:store_ids, :zone_ids
 
   has_many :zones
   has_many :stores
