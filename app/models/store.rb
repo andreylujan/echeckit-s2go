@@ -2,15 +2,18 @@
 #
 # Table name: stores
 #
-#  id           :integer          not null, primary key
-#  name         :text             not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  contact      :text
-#  phone_number :text
-#  address      :text
-#  zone_id      :integer
-#  dealer_id    :integer
+#  id               :integer          not null, primary key
+#  name             :text             not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  contact          :text
+#  phone_number     :text
+#  address          :text
+#  zone_id          :integer
+#  dealer_id        :integer
+#  deleted_at       :datetime
+#  monthly_goal_clp :integer
+#  monthly_goal_usd :decimal(8, 2)
 #
 
 class Store < ActiveRecord::Base
@@ -21,4 +24,6 @@ class Store < ActiveRecord::Base
     acts_as_paranoid
     
     validates_presence_of :name
+    validates :monthly_goal_clp, numericality: { only_integer: true }
+    validates :monthly_goal_usd, numericality: true
 end

@@ -9,6 +9,7 @@
 #  contact      :text
 #  phone_number :text
 #  address      :text
+#  deleted_at   :datetime
 #
 
 class Dealer < ActiveRecord::Base

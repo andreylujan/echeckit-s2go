@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518224436) do
+ActiveRecord::Schema.define(version: 20160520181906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,15 +295,17 @@ ActiveRecord::Schema.define(version: 20160518224436) do
   add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
 
   create_table "stores", force: :cascade do |t|
-    t.text     "name",         null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.text     "name",                                     null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.text     "contact"
     t.text     "phone_number"
     t.text     "address"
     t.integer  "zone_id"
     t.integer  "dealer_id"
     t.datetime "deleted_at"
+    t.integer  "monthly_goal_clp"
+    t.decimal  "monthly_goal_usd", precision: 8, scale: 2
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
