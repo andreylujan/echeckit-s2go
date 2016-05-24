@@ -200,11 +200,11 @@
 				</div>
 				<div class="field ">
 					<div class="label wpi-140">Fecha creación:</div>
-							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %> <%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %> <%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p") %></div>
 				</div>
 				<div class="field">
 					<div class="label wpi-140">Fecha de vencimiento:</div>
-							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%> <%= @report.created_at.end_of_day.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%> <%= @report.created_at.end_of_day.in_time_zone("Santiago").strftime("%I:%M %p") %></div>
 				</div>
 			</div>
 			<div class="formHeader">
