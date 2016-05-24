@@ -23,7 +23,7 @@ class Store < ActiveRecord::Base
 
     acts_as_paranoid
     
-    validates_presence_of :name
+    validates_presence_of [ :name, :zone, :dealer ]
     validates :monthly_goal_clp, numericality: { only_integer: true }
     validates :monthly_goal_usd, numericality: true
 end
