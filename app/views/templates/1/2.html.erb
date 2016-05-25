@@ -268,15 +268,7 @@
 	
 	<div class="content">
 
-		<section id="protocolSection">
-
-			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="protocol"></div>
-				<div class="value"><h4>PROTOCOLO</h4></div>
-			</div>
-			
-			<h4>Observación</h4>
-
+		<section id="checklistPromotionSection">
 
 			<% if not @report.dynamic_attributes['sections'][1]['checklist'].nil? %>
 				<div class="checklist">
@@ -342,14 +334,12 @@
 					<% end %>
 				</div>
 			<% else %>
-				<p>No se indica</p>
+				<p>Campo sin completar</p>
 			<% end %>
 
 		</section>
 
 		<hr>
-
-		<!-- <h3>FOTOS</h3> -->
 
 		<section id="imagesSection">
 			<div class="field">
