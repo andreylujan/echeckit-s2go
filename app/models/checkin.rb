@@ -18,7 +18,7 @@ class Checkin < ActiveRecord::Base
   belongs_to :user
   validates_presence_of [ :user, :arrival_time ]
   before_validation :set_arrival_time, on: :create
-  before_create :fill_data_attributes
+  # before_create :fill_data_attributes
   after_create :send_checkin_email
   after_save :send_checkout_email, if: :exit_time_changed?
 
