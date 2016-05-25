@@ -90,7 +90,9 @@ class Checkin < ActiveRecord::Base
   end
 
   def send_checkout_email
-    UserMailer.delay.checkout_email(self)
+    if exit_time.present?
+      UserMailer.delay.checkout_email(self)
+    end
   end
 
   private
