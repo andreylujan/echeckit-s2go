@@ -28,6 +28,9 @@ module EcheckitApi
     config.autoload_paths += Dir[Rails.root.join('app', 'serializers', 'data_parts')]
     config.active_job.queue_adapter = :sidekiq
     
+    # config.time_zone = "Santiago"
+    # config.active_record.default_timezone = "Santiago"
+
     ActiveModelSerializers.config.adapter = :json_api
     ActiveModelSerializers.config.key_transform = :underscore
     config.middleware.insert_before 0, "Rack::Cors" do

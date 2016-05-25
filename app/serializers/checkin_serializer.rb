@@ -16,4 +16,5 @@
 class CheckinSerializer < ActiveModel::Serializer
 	attributes :arrival_time, :exit_time, :user_id, :data,
 		:arrival_lonlat, :exit_lonlat
+
 end
