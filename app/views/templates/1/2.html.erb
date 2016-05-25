@@ -278,7 +278,7 @@
 			<h4>Observación</h4>
 
 
-			<% if not @report.dynamic_attributes['sections'][1][['checklist'].nil? %>
+			<% if not @report.dynamic_attributes['sections'][1]['checklist'].nil? %>
 				<div class="checklist">
 					<% @report.dynamic_attributes['sections'][1]['checklist'].each do |checklist_item| %>
 						<div class="field">
