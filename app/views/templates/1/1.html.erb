@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Reporte</title>
+	<style>
+		body {
+		font-family: 'Helvetica';
+		font-size: 14px;
+		color: #3F5B71;
+	}
+	html {
+		text-align: center;
+		width: 100%;
+	}
+	body {
+		display: inline-block;
+		margin: 0px auto;
+		text-align: left;
+		width: 90%;
+	}
+	h3 {
+		color: #f19122;
+		margin-left: 20px;
+		margin-right: 20px;
+		font-size: 1.1em;
+	}
+	h4 {
+		margin: 10px 0;
+	}
+	.field {
+		/*margin-left: 20px;*/
+		margin: 10px 0;
+	}
+	.formHeaders {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 10px;
+	}
+	.formHeader {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 10px;
+	}
+	.label {
+		display: inline-block;
+		font-weight: bold;
+		/*text-align: justify;*/
+		vertical-align: middle;
+	}
+	.labelChecklist {
+		display: inline-block;
+		font-weight: bold;
+		margin-left: 10px;
+		max-width: 86%;
+		margin-top: 2px;
+		/*text-align: justify;*/
+	}
+	.suggestion {
+		display: block;
+		margin-left: 60px;
+		margin-top: 5px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
+	}
+	.value {
+		/*color: #4078c0;*/
+		display: inline-block;
+		margin-left: 15px;
+		text-align: justify;
+		vertical-align: middle;
+	}
+	.value.icon {
+		display: inline-block;
+		max-width: 100%;
+		max-height : 100%;
+	}
+	.value.images {
+		display: block;
+	}
+	.check {
+		width: 17px;
+	}
+	.checklist {
+		display: inline-block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		vertical-align: top;
+		width: 99%;
+	}
+	.maps {
+		margin-left: 20px;
+		margin-bottom: 20px;
+		display: inline-block;
+	}
+	.pictures {
+		display: block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	.picture {
+		display: inline-block;
+		margin: 7px 3px;
+		vertical-align: top;
+		max-width: 180px;
+		/*border: 1px  blue solid;*/
+	}
+	.pictureComment {
+		max-width: 250px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
+	}
+	.general-comments {
+		margin-left: 15px;
+		text-align: justify;
+	}
+	.wpi-60 {
+		width: 60px;
+	}
+	.wpi-80 {
+		width: 80px;
+	}
+	.wpi-100 {
+		width: 100px;
+	}
+	.wpi-120 {
+		width: 120px;
+	}
+	.wpi-140 {
+		width: 140px;
+	}
+	.wpi-160 {
+		width: 160px;
+	}
+	.wpi-180 {
+		width: 180px;
+	}
+	.wpe-30 {
+		width: 30%;
+	}
+	.mw-70 {
+		max-width: 65%;
+	}
+	.ml-50 {
+		margin-left: 50px;
+	}
+	.right-content {
+		display: inline-block;
+		vertical-align: top;
+		width:45%;
+	}
+	.left-content {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 1%;
+		width: 45%;
+	}
+	.checklistTable {
+		display: inline-block;
+		width: 32.9%;
+		margin-bottom: 20px;
+		vertical-align: top;
+	}
+	.picsField {
+		margin: 20px 0;
+	}
+	.picLabel {
+		display: inline-block;
+		width: 25%;
+	}
+	.commentValue {
+		display: inline-block;
+		width: 74%;
+		vertical-align: top;
+		text-align: justify;
+	}
+	.icon-section {
+		width: 30px;
+	}
+	h5 {
+		font-size: 1em;
+	}
+	</style>
+</head>
+<body>
+	<div style="margin: 10px 0;">
+		<img src="http://logok.org/wp-content/uploads/2014/07/Playstation-logo-colour.png" alt="dom_logo" style="width: 130px">
+		<div class="formHeaders">
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-140">Tipo de reporte:</div>
+					<div class="value wpi-170">Reporte diario</div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-140">Detalle solicitud:</div>
+						<div class="value wpi-170">Reporte diario <%= @report.dealer_name %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-140">Fecha creación:</div>
+							<div class="value wpi-170"><%= @report.created_at.strftime("%d/%m/%Y") %> <%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p") %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-140">Fecha de vencimiento:</div>
+							<div class="value wpi-170"><%= @report.created_at.end_of_day.strftime("%d/%m/%Y")%> <%= @report.created_at.end_of_day.in_time_zone("Santiago").strftime("%I:%M %p") %></div>
+				</div>
+			</div>
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-60">Zona:</div>
+					<div class="value"><%= @report.zone_name %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-60">Dealer:</div>
+					<div class="value"><%= @report.dealer_name %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-60">Tienda:</div>
+					<div class="value"><%= @report.store_name %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-60">Creador reporte:</div>
+					<div class="value"><%= @report.creator.full_name %></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<h3>GEOLOCALIZACIÓN</h3>
+	<div>
+		<div class="map left-content">
+			<img src="http://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['latitude']}, #{@report.dynamic_attributes['sections'][0]['data_section'][0]['map_location']['longitude']}" %>" style="width: 100%;"/>
+		</div>
+
+		<div class="right-content">
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-80">Dirección:</div>
+					<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['address']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-80">Región:</div>
+						<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['region']}" %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-80">Comuna:</div>
+							<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['comuna']}" %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-80">Referencia:</div>
+					<% if @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference'] != ""  %>
+						<div class="value wpi-170"><%= "#{ @report.dynamic_attributes['sections'][0]['data_section'][2]['address_location']['reference']}" %></div>
+					<% else %>
+						<div class="value wpi-170">No se indica</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<h3>CHECKLIST COMERCIAL</h3>
+	
+	<div class="content">
+
+		<section id="protocolSection">
+
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="protocol"></div>
+				<div class="value"><h4>PROTOCOLO</h4></div>
+			</div>
+			
+			<h4>Observación</h4>
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'].nil? %>
+				<% if @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion'] == "" %>
+					<p>No se indica</p>
+				<% else %>
+					<%= "#{ @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['observacion']}" %>
+				<% end %>
+			<% else %>
+				<p>No se indica</p>
+			<% end %>
+
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].nil? %>
+				<% @report.dynamic_attributes['sections'][1]['data_section'][0]['protocolo']['checklist'].each do |checklist_item| %>
+					<% if not checklist_item.blank? %>
+						<div class="checklist">
+								<div class="field">
+									<div class="value icon">
+										<% if checklist_item['value'] == true %>
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+										<% else %>
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+										<% end %>
+									</div>
+									<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
+								</div>
+						</div>
+					<% end %>
+				<% end %>
+			<% else %>
+				<p>No hay checklist asociado a protocolo</p>
+			<% end %>
+
+		</section>
+
+		<hr>
+
+		<section id="kitPuntoVentaSection">
+			
+			<div class="field">
+				<div class="label section"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="pos_kit"></div>
+				<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
+			</div>
+			
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].nil? %>
+				<div class="pictures">
+					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['fotos_kit_punto_venta'].each do |pic| %>
+						<div class="picture">
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+							<% if not pic['comentario'].nil? %>
+								<p><%= "#{pic['comentario']}" %></p>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
+			<% else %>
+				<p>No se registraron fotos en kit punto de venta</p>
+			<% end %>
+
+			<% if not @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].nil? %>
+				<div class="checklist">
+					<% @report.dynamic_attributes['sections'][1]['data_section'][1]['kit_punto_venta']['checklist'].each do |checklist_item| %>
+						<div class="field">
+							<div class="value icon">
+								<% if checklist_item['type'] == "boolean" %>
+									<% if checklist_item['value'] == true %>
+										<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+									<% else %>
+										<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+									<% end %>
+								<% elsif checklist_item['type'] == "Cantidad" %>
+									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_c" />
+								<% elsif checklist_item['type'] == "Observ." %>
+									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_o" />
+								<% end %>
+							</div>
+							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
+						</div>
+						<% if (checklist_item['type'] == "boolean" && checklist_item['value'] != true) || checklist_item['type'] != "boolean"  %>
+							<div class="itemKitPuntoVentDatails ml-50">
+								<% if not checklist_item['detalle'].nil? %>
+									<% if not checklist_item['detalle']['cual'].nil? %>
+										<div class="field">
+											<div class="label wpi-120">Cual:</div>
+											<div class="value"><%= "#{checklist_item['detalle']['cual']}" %></div>
+										</div>
+									<% end %>
+									<% if not checklist_item['detalle']['observacion'].nil? %>
+										<div class="field">
+											<div class="label wpi-120">Observación:</div>
+											<div class="value"><%= "#{checklist_item['detalle']['observacion']}" %></div>
+										</div>
+									<% end %>
+									<% if not checklist_item['detalle']['cantidad'].nil? %>
+										<div class="field">
+											<div class="label wpi-120">Cantidad:</div>
+											<div class="value"><%= "#{checklist_item['detalle']['cantidad']}" %></div>
+										</div>
+									<% end %>
+									<% if not checklist_item['detalleFoto'].nil? %>
+										<div class="field">
+											<div class="label wpi-120">Fotos:</div>
+											<div class="value"></div>
+										</div>
+										<% if checklist_item['detalleFoto'].length > 0 %>
+											<div class="pictures">
+													<% checklist_item['detalleFoto'].each do |pic| %>
+														<div class="picture">
+															<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+															<% if not pic['comentario'].nil? %>
+																<p><%= "#{pic['comentario']}" %></p>
+															<% end %>
+														</div>
+													<% end %>
+											</div>
+										<% end %>
+									<% end %>
+								<% end %>
+							</div>
+						<% end %>
+					<% end %>
+				</div>
+			<% else %>
+				<p>No se registró checklist para kit punto de venta</p>
+			<% end %>
+
+		</section>
+
+		<hr>
+
+		<h3>CHECKLIST PRODUCTOS</h3>
+
+		<section id="stockSection">
+
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="stock"></div>
+				<div class="value"><h4>STOCK</h4></div>
+			</div>
+
+			
+			<div class="checklistTableContainer">
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real hardware</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].each do |stock_hardware| %>
+								<tr>
+									<td><%= "#{stock_hardware['platform']}" %></td>
+									<td>$ <%= "#{stock_hardware['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registró el stock real de hardware</p>
+				<% end %>
+				
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real accesorios</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories'].each do |stock_accessory| %>
+								<tr>
+									<td><%= "#{stock_accessory['platform']}" %></td>
+									<td>$ <%= "#{stock_accessory['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registró el stock real de accesorios</p>
+				<% end %>
+
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Stock real juegos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games'].each do |stock_game| %>
+								<tr>
+									<td><%= "#{stock_game['platform']}" %></td>
+									<td>$ <%= "#{stock_game['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registró el stock real de juegos</p>
+				<% end %>
+
+			</div>
+
+			<div class="checklistTableContainer">
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>HC Promotores Fulltime</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_ft'].each do |hc_promoter_ft| %>
+								<tr>
+									<td><%= "#{hc_promoter_ft['platform']}" %></td>
+									<td><%= "#{hc_promoter_ft['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registró head count de promotores full time</p>
+				<% end %>
+
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>HC Promotores Part-time</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['hc_promot_pt'].each do |hc_promoter_pt| %>
+								<tr>
+									<td><%= "#{hc_promoter_pt['platform']}" %></td>
+									<td><%= "#{hc_promoter_pt['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registró head count de promotores part time</p>
+				<% end %>
+
+			</div>
+		</section>
+
+		<section id="saleSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="sale"></div>
+				<div class="value"><h4>VENTA</h4></div>
+			</div>
+
+			<div class="checklistTableContainer">
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real hardware</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_hardware'].each do |vr_hardware| %>
+								<tr>
+									<td><%= "#{vr_hardware['platform']}" %></td>
+									<td>$ <%= "#{vr_hardware['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registraron ventas de hardware</p>
+				<% end %>
+				
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_accesories'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real accesorios</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_accesories'].each do |vr_accesory| %>
+								<tr>
+									<td><%= "#{vr_accesory['platform']}" %></td>
+									<td>$ <%= "#{vr_accesory['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registraron ventas de accesorios</p>
+				<% end %>
+
+				<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_games'].nil? %>
+					<table class="checklistTable">
+						<thead>
+							<tr>
+								<th>Valor real juegos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['ventas']['amount_value'][0]['vr_games'].each do |vr_game| %>
+								<tr>
+									<td><%= "#{vr_game['platform']}" %></td>
+									<td>$ <%= "#{vr_game['value']}" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<p style="margin-right: 10px;">No se registraron ventas de juegos</p>
+				<% end %>
+			</div>
+		</section>
+
+		<section id="moreSaleSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/mas_vendidos.png" alt="more_sale"></div>
+				<div class="value"><h4>MÁS VENDIDOS</h4></div>
+			</div>
+
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].nil? %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
+					<div class="tablesItemMoreSale">
+						<h4><%= "#{(index + 1)}" %>. <%= "#{item_more_sale['game_name']}" %></h4>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_amount'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_value'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td>$<%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>SKU</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_more_sale['game_sku'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+
+					<% if not item_more_sale['foto_more_sale'].nil? %>
+						<div class="imagesItemMoreSale">
+							<div class="pictures">
+									<% item_more_sale['foto_more_sale'].each do |pic| %>
+										<div class="picture">
+											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+											<% if not pic['comentario'].nil? %>
+												<p><%= "#{pic['comentario']}" %></p>
+											<% end %>
+										</div>
+									<% end %>
+							</div>
+						</div>
+					<% end %>
+				<% end %>
+			<% else %>
+				<p style="margin-right: 10px;">No se registraron productos más vendidos</p>
+			<% end %>
+		</section>
+
+		<section id="brakeStockSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
+				<div class="value"><h4>QUIEBRE DE STOCK</h4></div>
+			</div>
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
+					<div class="tablesItemMoreSale">
+						<h4><%= "#{(index + 1)}" %>. <%= "#{item_stock_break['game_name']}" %></h4>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Cantidad</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_amount'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_value'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+						<table class="checklistTable">
+							<thead>
+								<tr>
+									<th>SKU</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% item_stock_break['game_sku'].each do |product| %>
+									<tr>
+										<td><%= "#{product['platform']}" %></td>
+										<td><%= "#{product['value']}" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+					<% if not item_stock_break['foto_stock_break'].nil? %>
+						<div class="imagesItemMoreSale">
+							<div class="pictures">
+									<% item_stock_break['foto_stock_break'].each do |pic| %>
+										<div class="picture">
+											<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+												<% if not pic['comentario'].nil? %>
+													<p><%= "#{pic['comentario']}" %></p>
+												<% end %>
+											</div>
+										</div>
+									<% end %>
+							</div>
+						</div>
+					<% end %>
+				<% end %>
+			<% else %>
+				<p style="margin-right: 10px;">No se registró quiebre de stock de productos</p>
+			<% end %>
+		</section>
+
+		<section id="competitionSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="competition" style="width:30px"></div>
+				<div class="value"><h4>ACCIONES DE LA COMPETENCIA</h4></div>
+			</div>
+
+			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].nil? %>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['competition']['list'].each do |competition_action| %>
+					<div class="field ">
+						<div class="label wpi-180">Acción:</div>
+						<div class="value wpi-170"><%= "#{competition_action['title_action']}" %></div>
+					</div>
+					<div class="field ">
+						<div class="label wpi-180">Producto:</div>
+						<div class="value wpi-170"><%= "#{competition_action['product_name']}" %></div>
+					</div>
+					<div class="field ">
+						<div class="label wpi-180">Cantidad:</div>
+						<div class="value wpi-170"><%= "#{competition_action['amount']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Cual:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['cual']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Observación:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['observacion']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Cantidad:</div>
+						<div class="value wpi-170"><%= "#{competition_action['detalle']['cantidad']}" %></div>
+					</div>
+					<div class="field">
+						<div class="label wpi-180">Fotos:</div>
+						<div class="value wpi-170"></div>
+					</div>
+
+					<% if not competition_action['foto_competition'].nil? %>
+						<div class="pictures">
+							<% competition_action['foto_competition'].each do |pic| %>
+								<div class="picture">
+									<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="180px" />
+									<% if not pic['comentario'].nil? %>
+										<p><%= "#{pic['comentario']}" %></p>
+									<% end %>
+								</div>
+							<% end %>
+						</div>
+						<hr align="left">
+					<% else %>
+						<p>No se registraron fotos</p>
+					<% end %>
+				<% end %>
+			<% else %>
+				<p style="margin-right: 10px;">No se registraron acciones de la competencia</p>
+			<% end %>
+		</section>
+
+		<hr>
+
+		<!-- <h3>FOTOS</h3> -->
+
+		<section id="imagesSection">
+			<div class="field">
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="category"></div>
+				<div class="value"><h4>FOTOS</h4></div>
+			</div>
+			<% if @report.dynamic_attributes['sections'][3]['detalleFoto'].length > 0 %>
+				<% @report.dynamic_attributes['sections'][3]['detalleFoto'].each do |pic| %>
+					<div class="picsField">
+						<div class="picLabel">
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="90%" alt="report_pic"/>
+						</div>
+						<div class="commentValue">
+							<h5>Comentarios</h5>
+							<hr>
+							<% if pic['comentario'] == "" %>
+								<p>No se indica</p>
+							<% else %>
+								<p><%= "#{pic['comentario']}" %></p>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+
+			<% else %>
+				<p>No se registraron fotos en este reporte</p>
+			<% end %>
+		</section>
+
+	</div>
+</body>
+</html>
