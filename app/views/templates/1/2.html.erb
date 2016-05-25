@@ -346,7 +346,7 @@
 				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="category"></div>
 				<div class="value"><h4>FOTOS</h4></div>
 			</div>
-			<% if @report.dynamic_attributes['sections'][2]['detalleFoto'].length > 0 %>
+			<% if not @report.dynamic_attributes['sections'][2]['detalleFoto'].nil?%>
 				<% @report.dynamic_attributes['sections'][2]['detalleFoto'].each do |pic| %>
 					<div class="picsField">
 						<div class="picLabel">
@@ -363,7 +363,6 @@
 						</div>
 					</div>
 				<% end %>
-
 			<% else %>
 				<p>No se registraron fotos</p>
 			<% end %>
