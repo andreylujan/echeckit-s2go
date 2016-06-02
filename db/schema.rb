@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520181906) do
+ActiveRecord::Schema.define(version: 20160602205555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,27 @@ ActiveRecord::Schema.define(version: 20160520181906) do
   end
 
   add_index "dealers_zones", ["dealer_id", "zone_id"], name: "index_dealers_zones_on_dealer_id_and_zone_id", unique: true, using: :btree
+
+  create_table "devices", force: :cascade do |t|
+    t.integer  "user_id"
+    t.text     "device_token"
+    t.text     "registration_id"
+    t.text     "uuid"
+    t.text     "architecture"
+    t.text     "address"
+    t.text     "locale"
+    t.text     "manufacturer"
+    t.text     "model"
+    t.text     "name"
+    t.text     "os_name"
+    t.integer  "processor_count"
+    t.text     "version"
+    t.text     "os_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
 
   create_table "images", force: :cascade do |t|
     t.text     "image"
@@ -402,6 +423,7 @@ ActiveRecord::Schema.define(version: 20160520181906) do
   add_foreign_key "checkins", "users"
   add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
+  add_foreign_key "devices", "users"
   add_foreign_key "images", "categories"
   add_foreign_key "images", "data_parts"
   add_foreign_key "images", "reports"

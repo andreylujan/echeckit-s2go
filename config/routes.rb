@@ -28,6 +28,9 @@ Rails.application.routes.draw do
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
+      jsonapi_resources :devices, only: [ :create, :destroy, :update ] do
+      end
+      
       jsonapi_resources :stores, only: [ :index, :create, :update, :destroy, :show ] do
       end
 

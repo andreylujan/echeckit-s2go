@@ -45,6 +45,7 @@ class User < ActiveRecord::Base
   after_create :send_confirmation_email
   has_and_belongs_to_many :promotions
   has_many :checkins
+  has_many :devices
 
   def send_confirmation_email
     UserMailer.delay.confirmation_email(self)
