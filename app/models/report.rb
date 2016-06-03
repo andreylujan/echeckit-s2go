@@ -30,7 +30,7 @@ class Report < ActiveRecord::Base
   after_commit :check_num_images, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
   
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
