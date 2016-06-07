@@ -43,7 +43,7 @@ Rails.application.routes.draw do
         jsonapi_related_resources :report_types, only: [ :index ]
       end
 
-      jsonapi_resources :reports, only: [ :create, :index, :show, :destroy ]
+      jsonapi_resources :reports, only: [ :create, :index, :show, :destroy, :update ]
       jsonapi_resources :roles, only: :index
       jsonapi_resources :invitations, only: [
         :create,
