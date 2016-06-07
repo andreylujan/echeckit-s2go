@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602205555) do
+ActiveRecord::Schema.define(version: 20160607193744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,18 @@ ActiveRecord::Schema.define(version: 20160602205555) do
   add_index "promotions_zones", ["promotion_id"], name: "index_promotions_zones_on_promotion_id", using: :btree
   add_index "promotions_zones", ["zone_id"], name: "index_promotions_zones_on_zone_id", using: :btree
 
+  create_table "report_colunms", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.text     "field_name"
+    t.text     "column_name"
+    t.integer  "column_type"
+    t.integer  "position"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_colunms", ["organization_id"], name: "index_report_colunms_on_organization_id", using: :btree
+
   create_table "report_types", force: :cascade do |t|
     t.text     "name"
     t.integer  "organization_id"
@@ -274,7 +286,7 @@ ActiveRecord::Schema.define(version: 20160602205555) do
     t.datetime "updated_at",                         null: false
     t.integer  "creator_id",                         null: false
     t.datetime "limit_date"
-    t.boolean  "finished"
+    t.boolean  "finished",           default: false, null: false
     t.integer  "assigned_user_id"
     t.text     "pdf"
     t.boolean  "pdf_uploaded",       default: false, null: false
@@ -431,6 +443,7 @@ ActiveRecord::Schema.define(version: 20160602205555) do
   add_foreign_key "invitations", "roles"
   add_foreign_key "platforms", "organizations"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"
+  add_foreign_key "report_colunms", "organizations"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
