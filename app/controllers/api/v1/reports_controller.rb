@@ -30,6 +30,7 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
   def update_params
     params.permit(:finished).tap do |whitelisted|
       whitelisted[:dynamic_attributes] = params[:dynamic_attributes]
+    end
   end
 
   def create_params
