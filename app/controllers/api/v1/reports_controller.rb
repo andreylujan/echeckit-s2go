@@ -18,8 +18,10 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
   	end
   end
 
-  def update
+  def update    
     @report = Report.find(params.require(:id))
+    @report.finished = true
+
     if @report.update_attributes update_params
       render json: @report
     else
