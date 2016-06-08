@@ -3,6 +3,8 @@ class Api::V1::ReportResource < JSONAPI::Resource
   :finished, :assigned_user_id, :pdf, :pdf_uploaded
 
 
+
+
   def custom_links(options)
     {self: nil}
   end
@@ -14,7 +16,6 @@ class Api::V1::ReportResource < JSONAPI::Resource
   def self.records(options = {})
     context = options[:context]
     user = context[:current_user]
-    
     if user.role_id == 2 or !context[:all]
       user.viewable_reports
     else
@@ -22,8 +23,12 @@ class Api::V1::ReportResource < JSONAPI::Resource
     end
   end
 
-  filters :creator_id, :assigned_user_id
+  filters :assigned_user_id
   
+  filter :creator_id, apply: ->(records, value, _options) {
+    records.where('assigned_user_id != ? or assigned_user_id is NULL', value)
+  }
+
   def fetchable_fields
     super
   end
