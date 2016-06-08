@@ -26,7 +26,7 @@ class Api::V1::ReportResource < JSONAPI::Resource
   filters :assigned_user_id
   
   filter :creator_id, apply: ->(records, value, _options) {
-    records.where('assigned_user_id != ? or assigned_user_id is NULL', value)
+    records.where('assigned_user_id is NULL')
   }
 
   def fetchable_fields
