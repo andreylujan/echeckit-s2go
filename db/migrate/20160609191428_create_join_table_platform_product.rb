@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateJoinTablePlatformProduct < ActiveRecord::Migration
   def change
     create_join_table :platforms, :products do |t|

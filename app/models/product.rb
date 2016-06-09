@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # == Schema Information
 #
 # Table name: products
@@ -32,6 +33,6 @@ class Product < ActiveRecord::Base
   validates :product_destination, presence: true
   validates :name, presence: true
   validates :sku, uniqueness: true, allow_nil: true
-
+  validates :plu, uniqueness: true, allow_nil: true
 
 end

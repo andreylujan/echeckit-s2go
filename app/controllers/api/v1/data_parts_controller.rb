@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::DataPartsController < ApplicationController
 
   before_action :doorkeeper_authorize!

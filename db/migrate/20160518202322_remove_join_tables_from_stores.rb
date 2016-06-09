@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class RemoveJoinTablesFromStores < ActiveRecord::Migration
   def change
   	Zone.all.each do |zone|

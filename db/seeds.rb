@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 Organization.create!([
                        {name: "Playstation"}

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
 
   match '/*path', to: 'application#cors_preflight_check', via: :options
@@ -29,6 +30,12 @@ Rails.application.routes.draw do
       # end
 
       jsonapi_resources :products do
+      end
+
+      jsonapi_resources :product_types do
+      end
+
+      jsonapi_resources :product_destinations do
       end
 
       jsonapi_resources :devices, only: [ :create, :destroy, :update ] do

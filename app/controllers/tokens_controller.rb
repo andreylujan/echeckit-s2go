@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class TokensController < Doorkeeper::TokensController
 
   # Overriding create action

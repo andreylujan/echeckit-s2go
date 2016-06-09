@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::SectionResource < JSONAPI::Resource
   attributes :name
 

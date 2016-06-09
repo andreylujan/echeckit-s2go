@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class DropTableCategoriesImage < ActiveRecord::Migration
   def change
   	drop_table :categories_images

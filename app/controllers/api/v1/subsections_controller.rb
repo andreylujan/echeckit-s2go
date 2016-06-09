@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::SubsectionsController < ApplicationController
 	before_action :doorkeeper_authorize!
 	def index

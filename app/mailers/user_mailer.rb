@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class UserMailer < ApplicationMailer
 
 	default from: 'e-Retail Admin<solutions@ewin.cl>'

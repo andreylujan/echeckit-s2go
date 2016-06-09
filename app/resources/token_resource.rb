@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class TokenResource < JSONAPI::Resource
     attributes :access_token,
     :token_type,

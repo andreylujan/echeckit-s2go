@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::OrganizationResource < JSONAPI::Resource
   attributes :name
   has_many :roles

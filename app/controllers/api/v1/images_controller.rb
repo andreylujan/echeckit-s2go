@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::ImagesController < ApplicationController
 
   before_action :doorkeeper_authorize!

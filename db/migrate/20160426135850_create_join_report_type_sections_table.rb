@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateJoinReportTypeSectionsTable < ActiveRecord::Migration
   def change
     create_join_table :report_types, :sections do |t|

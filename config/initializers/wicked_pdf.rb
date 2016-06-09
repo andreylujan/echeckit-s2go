@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 cmd = "wkhtmltopdf"
 exe_path = nil

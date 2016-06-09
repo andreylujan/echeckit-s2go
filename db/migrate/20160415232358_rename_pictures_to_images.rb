@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class RenamePicturesToImages < ActiveRecord::Migration
   def change
   	rename_table :pictures, :images

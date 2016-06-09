@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 JSONAPI.configure do |config|
 	
   # built in key format options are :underscored_key, :camelized_key and :dasherized_key

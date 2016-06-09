@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateJoinTablesForPromotions < ActiveRecord::Migration
   def change
   	create_join_table :promotions, :users do |t|

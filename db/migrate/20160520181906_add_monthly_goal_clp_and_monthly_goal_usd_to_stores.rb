@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddMonthlyGoalClpAndMonthlyGoalUsdToStores < ActiveRecord::Migration
   def change
     add_column :stores, :monthly_goal_clp, :integer

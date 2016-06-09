@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class RemoveAssociationsAndAddDataToCheckins < ActiveRecord::Migration
   def change
   	remove_column :checkins, :zone_id

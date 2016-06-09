@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateProductDestinations < ActiveRecord::Migration
   def change
     create_table :product_destinations do |t|

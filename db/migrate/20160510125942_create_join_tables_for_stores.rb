@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateJoinTablesForStores < ActiveRecord::Migration
   def change
   	create_join_table :dealers, :stores do |t|

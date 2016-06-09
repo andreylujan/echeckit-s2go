@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::ZoneResource < JSONAPI::Resource
     
   attributes :name, :dealer_ids

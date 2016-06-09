@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddUserReferenceToReports < ActiveRecord::Migration
   def change
   	add_column :reports, :creator_id, :integer, null: false

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # == Schema Information
 #
 # Table name: products
@@ -29,5 +30,7 @@ class Api::V1::ProductResource < JSONAPI::Resource
 	has_one :product_type
 	has_one :product_destination
 	has_many :platforms
+
+	filters :is_listed, :is_top
 
 end
