@@ -21,7 +21,7 @@
 #  updated_at             :datetime         not null
 #
 
-class Api::V1::ProductResource < JSONAPI::Resource
+class Api::V1::ProductResource < BaseResource
 
 	attributes :name, :description, :sku, :plu, :validity_code,
 		:brand, :min_price, :max_price, :stock, :is_top,
@@ -30,6 +30,7 @@ class Api::V1::ProductResource < JSONAPI::Resource
 	has_one :product_type
 	has_one :product_destination
 	has_many :platforms
+	has_many :images
 
 	filters :is_listed, :is_top
 

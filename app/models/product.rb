@@ -34,5 +34,6 @@ class Product < ActiveRecord::Base
   validates :name, presence: true
   validates :sku, uniqueness: true, allow_nil: true
   validates :plu, uniqueness: true, allow_nil: true
+  has_many :images, as: :resource
 
 end

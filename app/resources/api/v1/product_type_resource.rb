@@ -10,6 +10,6 @@
 #  updated_at      :datetime         not null
 #
 
-class Api::V1::ProductTypeResource < JSONAPI::Resource
+class Api::V1::ProductTypeResource < BaseResource
 	attributes :name
 end
