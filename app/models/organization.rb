@@ -14,7 +14,7 @@ class Organization < ActiveRecord::Base
     has_many :sections
     has_many :categories
     has_many :platforms
-    has_many :top_lists
+    has_many :product_types
     has_many :report_types
     has_many :data_parts
 end

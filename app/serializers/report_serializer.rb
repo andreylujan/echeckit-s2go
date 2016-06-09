@@ -10,7 +10,7 @@
 #  updated_at         :datetime         not null
 #  creator_id         :integer          not null
 #  limit_date         :datetime
-#  finished           :boolean
+#  finished           :boolean          default(FALSE), not null
 #  assigned_user_id   :integer
 #  pdf                :text
 #  pdf_uploaded       :boolean          default(FALSE), not null

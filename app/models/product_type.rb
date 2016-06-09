@@ -1,15 +1,15 @@
 # == Schema Information
 #
-# Table name: platforms
+# Table name: product_types
 #
 #  id              :integer          not null, primary key
 #  name            :text             not null
-#  organization_id :integer          not null
+#  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-class Platform < ActiveRecord::Base
+class ProductType < ActiveRecord::Base
   belongs_to :organization
-  has_and_belongs_to_many :products
+  has_many :products
 end

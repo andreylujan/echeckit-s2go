@@ -1,15 +1,16 @@
 # == Schema Information
 #
-# Table name: platforms
+# Table name: product_destinations
 #
 #  id              :integer          not null, primary key
 #  name            :text             not null
-#  organization_id :integer          not null
+#  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-class Platform < ActiveRecord::Base
-  belongs_to :organization
-  has_and_belongs_to_many :products
+require 'rails_helper'
+
+RSpec.describe ProductDestination, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

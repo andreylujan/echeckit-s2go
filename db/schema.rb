@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607193744) do
+ActiveRecord::Schema.define(version: 20160609191428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,13 +209,57 @@ ActiveRecord::Schema.define(version: 20160607193744) do
   add_index "platforms", ["organization_id", "name"], name: "index_platforms_on_organization_id_and_name", unique: true, using: :btree
   add_index "platforms", ["organization_id"], name: "index_platforms_on_organization_id", using: :btree
 
-  create_table "platforms_top_list_items", id: false, force: :cascade do |t|
-    t.integer "platform_id"
-    t.integer "top_list_item_id"
+  create_table "platforms_products", id: false, force: :cascade do |t|
+    t.integer "platform_id", null: false
+    t.integer "product_id",  null: false
   end
 
-  add_index "platforms_top_list_items", ["platform_id"], name: "index_platforms_top_list_items_on_platform_id", using: :btree
-  add_index "platforms_top_list_items", ["top_list_item_id"], name: "index_platforms_top_list_items_on_top_list_item_id", using: :btree
+  add_index "platforms_products", ["platform_id", "product_id"], name: "index_platforms_products_on_platform_id_and_product_id", using: :btree
+  add_index "platforms_products", ["product_id", "platform_id"], name: "index_platforms_products_on_product_id_and_platform_id", using: :btree
+
+  create_table "product_destinations", force: :cascade do |t|
+    t.text     "name",            null: false
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "product_destinations", ["organization_id", "name"], name: "index_product_destinations_on_organization_id_and_name", unique: true, using: :btree
+  add_index "product_destinations", ["organization_id"], name: "index_product_destinations_on_organization_id", using: :btree
+
+  create_table "product_types", force: :cascade do |t|
+    t.text     "name",            null: false
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "product_types", ["organization_id", "name"], name: "index_product_types_on_organization_id_and_name", unique: true, using: :btree
+  add_index "product_types", ["organization_id"], name: "index_product_types_on_organization_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.text     "name",                                   null: false
+    t.text     "description"
+    t.text     "sku"
+    t.text     "plu"
+    t.text     "validity_code"
+    t.integer  "product_type_id",                        null: false
+    t.text     "brand"
+    t.integer  "min_price"
+    t.integer  "max_price"
+    t.integer  "stock"
+    t.integer  "product_destination_id",                 null: false
+    t.boolean  "is_top",                 default: false, null: false
+    t.boolean  "is_listed",              default: false, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  add_index "products", ["is_listed"], name: "index_products_on_is_listed", using: :btree
+  add_index "products", ["plu"], name: "index_products_on_plu", unique: true, using: :btree
+  add_index "products", ["product_destination_id"], name: "index_products_on_product_destination_id", using: :btree
+  add_index "products", ["product_type_id"], name: "index_products_on_product_type_id", using: :btree
+  add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
 
   create_table "promotions", force: :cascade do |t|
     t.datetime "start_date",   null: false
@@ -248,18 +292,6 @@ ActiveRecord::Schema.define(version: 20160607193744) do
 
   add_index "promotions_zones", ["promotion_id"], name: "index_promotions_zones_on_promotion_id", using: :btree
   add_index "promotions_zones", ["zone_id"], name: "index_promotions_zones_on_zone_id", using: :btree
-
-  create_table "report_colunms", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.text     "field_name"
-    t.text     "column_name"
-    t.integer  "column_type"
-    t.integer  "position"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "report_colunms", ["organization_id"], name: "index_report_colunms_on_organization_id", using: :btree
 
   create_table "report_types", force: :cascade do |t|
     t.text     "name"
@@ -373,27 +405,6 @@ ActiveRecord::Schema.define(version: 20160607193744) do
 
   add_index "subsections", ["section_id"], name: "index_subsections_on_section_id", using: :btree
 
-  create_table "top_list_items", force: :cascade do |t|
-    t.integer  "top_list_id"
-    t.text     "name",                     null: false
-    t.text     "images",      default: [], null: false, array: true
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "top_list_items", ["top_list_id", "name"], name: "index_top_list_items_on_top_list_id_and_name", unique: true, using: :btree
-  add_index "top_list_items", ["top_list_id"], name: "index_top_list_items_on_top_list_id", using: :btree
-
-  create_table "top_lists", force: :cascade do |t|
-    t.integer  "organization_id", null: false
-    t.text     "name"
-    t.text     "icon"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "top_lists", ["organization_id"], name: "index_top_lists_on_organization_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -442,8 +453,11 @@ ActiveRecord::Schema.define(version: 20160607193744) do
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
   add_foreign_key "platforms", "organizations"
+  add_foreign_key "product_destinations", "organizations"
+  add_foreign_key "product_types", "organizations"
+  add_foreign_key "products", "product_destinations"
+  add_foreign_key "products", "product_types"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"
-  add_foreign_key "report_colunms", "organizations"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
@@ -454,7 +468,5 @@ ActiveRecord::Schema.define(version: 20160607193744) do
   add_foreign_key "stores", "zones"
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
-  add_foreign_key "top_list_items", "top_lists"
-  add_foreign_key "top_lists", "organizations"
   add_foreign_key "users", "roles"
 end

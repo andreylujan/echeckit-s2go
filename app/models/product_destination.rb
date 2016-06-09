@@ -1,16 +1,15 @@
 # == Schema Information
 #
-# Table name: top_lists
+# Table name: product_destinations
 #
 #  id              :integer          not null, primary key
-#  organization_id :integer          not null
-#  name            :text
-#  icon            :text
+#  name            :text             not null
+#  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-class TopList < ActiveRecord::Base
+class ProductDestination < ActiveRecord::Base
   belongs_to :organization
-  has_many :top_list_items
+  has_many :products
 end

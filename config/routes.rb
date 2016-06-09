@@ -28,6 +28,9 @@ Rails.application.routes.draw do
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
+      jsonapi_resources :products do
+      end
+
       jsonapi_resources :devices, only: [ :create, :destroy, :update ] do
       end
       
@@ -49,10 +52,7 @@ Rails.application.routes.draw do
         :create,
         :update
       ]
-
-      jsonapi_resources :top_lists, only: [ :index ] do
-      end
-
+      
       jsonapi_resources :platforms, only: [ :index ] do
       end
 
