@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609191428) do
+ActiveRecord::Schema.define(version: 20160609201517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,14 +200,10 @@ ActiveRecord::Schema.define(version: 20160609191428) do
   add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
 
   create_table "platforms", force: :cascade do |t|
-    t.text     "name",            null: false
-    t.integer  "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "platforms", ["organization_id", "name"], name: "index_platforms_on_organization_id_and_name", unique: true, using: :btree
-  add_index "platforms", ["organization_id"], name: "index_platforms_on_organization_id", using: :btree
 
   create_table "platforms_products", id: false, force: :cascade do |t|
     t.integer "platform_id", null: false
@@ -218,24 +214,16 @@ ActiveRecord::Schema.define(version: 20160609191428) do
   add_index "platforms_products", ["product_id", "platform_id"], name: "index_platforms_products_on_product_id_and_platform_id", using: :btree
 
   create_table "product_destinations", force: :cascade do |t|
-    t.text     "name",            null: false
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "product_destinations", ["organization_id", "name"], name: "index_product_destinations_on_organization_id_and_name", unique: true, using: :btree
-  add_index "product_destinations", ["organization_id"], name: "index_product_destinations_on_organization_id", using: :btree
 
   create_table "product_types", force: :cascade do |t|
-    t.text     "name",            null: false
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "product_types", ["organization_id", "name"], name: "index_product_types_on_organization_id_and_name", unique: true, using: :btree
-  add_index "product_types", ["organization_id"], name: "index_product_types_on_organization_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.text     "name",                                   null: false
@@ -452,9 +440,6 @@ ActiveRecord::Schema.define(version: 20160609191428) do
   add_foreign_key "images", "reports"
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
-  add_foreign_key "platforms", "organizations"
-  add_foreign_key "product_destinations", "organizations"
-  add_foreign_key "product_types", "organizations"
   add_foreign_key "products", "product_destinations"
   add_foreign_key "products", "product_types"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"

@@ -13,8 +13,6 @@ class Organization < ActiveRecord::Base
     has_many :roles
     has_many :sections
     has_many :categories
-    has_many :platforms
-    has_many :product_types
     has_many :report_types
     has_many :data_parts
 end
