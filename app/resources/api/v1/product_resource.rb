@@ -24,12 +24,12 @@
 class Api::V1::ProductResource < BaseResource
 
 	attributes :name, :description, :sku, :plu, :validity_code,
-		:brand, :min_price, :max_price, :stock, :is_top,
+		:brand, :min_price, :max_price, :is_top,
 		:is_listed, :created_at
 
 	has_one :product_type
 	has_one :product_destination
-	has_many :platforms
+	has_one :platform
 	has_many :images
 
 	filters :is_listed, :is_top

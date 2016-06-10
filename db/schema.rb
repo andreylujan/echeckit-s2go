@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609201517) do
+ActiveRecord::Schema.define(version: 20160610164012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,14 +205,6 @@ ActiveRecord::Schema.define(version: 20160609201517) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "platforms_products", id: false, force: :cascade do |t|
-    t.integer "platform_id", null: false
-    t.integer "product_id",  null: false
-  end
-
-  add_index "platforms_products", ["platform_id", "product_id"], name: "index_platforms_products_on_platform_id_and_product_id", using: :btree
-  add_index "platforms_products", ["product_id", "platform_id"], name: "index_platforms_products_on_product_id_and_platform_id", using: :btree
-
   create_table "product_destinations", force: :cascade do |t|
     t.text     "name",       null: false
     t.datetime "created_at", null: false
@@ -235,15 +227,16 @@ ActiveRecord::Schema.define(version: 20160609201517) do
     t.text     "brand"
     t.integer  "min_price"
     t.integer  "max_price"
-    t.integer  "stock"
     t.integer  "product_destination_id",                 null: false
     t.boolean  "is_top",                 default: false, null: false
     t.boolean  "is_listed",              default: false, null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.integer  "platform_id"
   end
 
   add_index "products", ["is_listed"], name: "index_products_on_is_listed", using: :btree
+  add_index "products", ["platform_id"], name: "index_products_on_platform_id", using: :btree
   add_index "products", ["plu"], name: "index_products_on_plu", unique: true, using: :btree
   add_index "products", ["product_destination_id"], name: "index_products_on_product_destination_id", using: :btree
   add_index "products", ["product_type_id"], name: "index_products_on_product_type_id", using: :btree
@@ -440,6 +433,7 @@ ActiveRecord::Schema.define(version: 20160609201517) do
   add_foreign_key "images", "reports"
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
+  add_foreign_key "products", "platforms"
   add_foreign_key "products", "product_destinations"
   add_foreign_key "products", "product_types"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"
