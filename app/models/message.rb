@@ -28,4 +28,9 @@ class Message < ActiveRecord::Base
   delegate :resource_id, to: :broadcast, allow_nil: true
   delegate :message_action, to: :broadcast, allow_nil: true
 
+  def mark_as_read!
+  	self.read = true
+  	self.read_at = DateTime.now
+  	save!
+  end
 end

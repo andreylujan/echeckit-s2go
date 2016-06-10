@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       # end
 
       jsonapi_resources :messages, only: [ :index, :update, :destroy ] do
+        post 'read'
       end
       
       jsonapi_resources :products do
