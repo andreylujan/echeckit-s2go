@@ -13,12 +13,12 @@
 #  brand                  :text
 #  min_price              :integer
 #  max_price              :integer
-#  stock                  :integer
 #  product_destination_id :integer          not null
 #  is_top                 :boolean          default(FALSE), not null
 #  is_listed              :boolean          default(FALSE), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  platform_id            :integer
 #
 
 class Product < ActiveRecord::Base

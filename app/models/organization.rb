@@ -16,4 +16,5 @@ class Organization < ActiveRecord::Base
     has_many :categories
     has_many :report_types
     has_many :data_parts
+    has_many :message_actions
 end

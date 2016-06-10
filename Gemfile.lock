@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/cerebris/jsonapi-resources
+  revision: 8092f2d6756f00316c5a068bef636e7328fc356b
+  specs:
+    jsonapi-resources (0.7.0)
+      concurrent-ruby
+      rails (>= 4.0)
+
+GIT
   remote: https://github.com/ctran/annotate_models.git
   revision: 93318a5eb219de1cdd74fea25957e5ab744ead91
   branch: develop
@@ -274,8 +282,6 @@ GEM
     inflecto (0.0.2)
     ipaddress (0.8.3)
     json (1.8.3)
-    jsonapi-resources (0.7.0)
-      rails (>= 4.0)
     jsonapi-serializers (0.11.0)
       activesupport
     jsonapi-utils (0.4.3)
@@ -459,7 +465,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.6)
   faker (~> 1.6, >= 1.6.3)
   fog (~> 1.38)
-  jsonapi-resources (~> 0.7.0)
+  jsonapi-resources!
   jsonapi-serializers (~> 0.11.0)
   jsonapi-utils (~> 0.4.3)
   listen (~> 3.0, >= 3.0.6)

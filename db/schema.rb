@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160610164012) do
+ActiveRecord::Schema.define(version: 20160610194440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 20160610164012) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "broadcasts", force: :cascade do |t|
+    t.text     "title"
+    t.text     "html"
+    t.integer  "sender_id"
+    t.integer  "message_action_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "resource_id"
+  end
+
+  add_index "broadcasts", ["message_action_id"], name: "index_broadcasts_on_message_action_id", using: :btree
+  add_index "broadcasts", ["sender_id"], name: "index_broadcasts_on_sender_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.text     "name",            null: false
@@ -150,6 +163,31 @@ ActiveRecord::Schema.define(version: 20160610164012) do
 
   add_index "invitations", ["email"], name: "index_invitations_on_email", unique: true, using: :btree
   add_index "invitations", ["role_id"], name: "index_invitations_on_role_id", using: :btree
+
+  create_table "message_actions", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.text     "name",            null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "message_actions", ["organization_id", "name"], name: "index_message_actions_on_organization_id_and_name", unique: true, using: :btree
+  add_index "message_actions", ["organization_id"], name: "index_message_actions_on_organization_id", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "broadcast_id",                 null: false
+    t.integer  "user_id",                      null: false
+    t.boolean  "read",         default: false, null: false
+    t.datetime "read_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "messages", ["broadcast_id"], name: "index_messages_on_broadcast_id", using: :btree
+  add_index "messages", ["deleted_at"], name: "index_messages_on_deleted_at", using: :btree
+  add_index "messages", ["read"], name: "index_messages_on_read", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -423,6 +461,7 @@ ActiveRecord::Schema.define(version: 20160610164012) do
   add_index "zones", ["deleted_at"], name: "index_zones_on_deleted_at", using: :btree
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
 
+  add_foreign_key "broadcasts", "message_actions"
   add_foreign_key "categories", "organizations"
   add_foreign_key "checkins", "users"
   add_foreign_key "data_parts", "organizations"
@@ -433,6 +472,9 @@ ActiveRecord::Schema.define(version: 20160610164012) do
   add_foreign_key "images", "reports"
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
+  add_foreign_key "message_actions", "organizations"
+  add_foreign_key "messages", "broadcasts"
+  add_foreign_key "messages", "users"
   add_foreign_key "products", "platforms"
   add_foreign_key "products", "product_destinations"
   add_foreign_key "products", "product_types"

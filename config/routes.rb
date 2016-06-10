@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
+      jsonapi_resources :messages, only: [ :index, :update, :destroy ] do
+      end
+      
       jsonapi_resources :products do
       end
 
