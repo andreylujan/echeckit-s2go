@@ -22,4 +22,10 @@ class Message < ActiveRecord::Base
 
   validates :user, presence: true
   validates :broadcast, presence: true
+
+  delegate :title, to: :broadcast, allow_nil: false
+  delegate :html, to: :broadcast, allow_nil: false
+  delegate :resource_id, to: :broadcast, allow_nil: true
+  delegate :message_action, to: :broadcast, allow_nil: true
+
 end
