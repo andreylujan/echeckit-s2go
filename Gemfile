@@ -20,6 +20,7 @@ gem 'jsonapi-resources', git: 'https://github.com/cerebris/jsonapi-resources'
 
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry', branch: 'master'
 gem 'fog', '~> 1.38'
+gem 'faraday', '~> 0.9.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 gem 'redis', '~> 3.3'
 gem 'wicked_pdf', '~> 1.0', '>= 1.0.6'
