@@ -10,6 +10,6 @@
 #  updated_at      :datetime         not null
 #
 
-class Api::V1::ProductDestinationResource < BaseResource
+class Api::V1::ProductClassificationResource < BaseResource
 	attributes :name
 end

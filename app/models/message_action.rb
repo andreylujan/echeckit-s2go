@@ -8,7 +8,6 @@
 #  name            :text             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  resource_id     :integer
 #
 
 class MessageAction < ActiveRecord::Base

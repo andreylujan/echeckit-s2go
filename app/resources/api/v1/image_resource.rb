@@ -6,6 +6,10 @@ class Api::V1::ImageResource < JSONAPI::Resource
 	def url
 		@model.image.url
 	end  
+
+	def custom_links(options)
+    	{self: nil}
+  	end
   
   def fetchable_fields
     super

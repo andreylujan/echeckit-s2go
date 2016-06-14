@@ -23,14 +23,14 @@
 
 class Product < ActiveRecord::Base
   belongs_to :product_type
-  belongs_to :product_destination
+  belongs_to :product_classification
   belongs_to :platform
   validates :min_price, :numericality => { :greater_than_or_equal_to => 0 }
   validates_numericality_of :max_price, 
   	greater_than_or_equal_to: Proc.new { |product| product.min_price }
 
   validates :product_type, presence: true
-  validates :product_destination, presence: true
+  validates :product_classification, presence: true
   validates :name, presence: true
   validates :sku, uniqueness: true, allow_nil: true
   validates :plu, uniqueness: true, allow_nil: true

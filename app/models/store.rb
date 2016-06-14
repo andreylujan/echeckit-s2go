@@ -15,6 +15,7 @@
 #  deleted_at       :datetime
 #  monthly_goal_clp :integer
 #  monthly_goal_usd :decimal(8, 2)
+#  store_type_id    :integer
 #
 
 class Store < ActiveRecord::Base
@@ -27,4 +28,6 @@ class Store < ActiveRecord::Base
     validates_presence_of [ :name, :zone, :dealer ]
     validates :monthly_goal_clp, numericality: { only_integer: true }
     validates :monthly_goal_usd, numericality: true
+
+    belongs_to :store_type
 end

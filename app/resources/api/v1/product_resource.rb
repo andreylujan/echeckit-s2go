@@ -28,7 +28,7 @@ class Api::V1::ProductResource < BaseResource
 		:is_listed, :created_at
 
 	has_one :product_type
-	has_one :product_destination
+	has_one :product_classification
 	has_one :platform
 	has_many :images
 

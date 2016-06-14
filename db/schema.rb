@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160610194440) do
+ActiveRecord::Schema.define(version: 20160614202024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20160610194440) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "resource_id"
+    t.datetime "send_at"
+    t.boolean  "sent"
   end
 
   add_index "broadcasts", ["message_action_id"], name: "index_broadcasts_on_message_action_id", using: :btree
@@ -243,7 +245,7 @@ ActiveRecord::Schema.define(version: 20160610194440) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "product_destinations", force: :cascade do |t|
+  create_table "product_classifications", force: :cascade do |t|
     t.text     "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -256,27 +258,27 @@ ActiveRecord::Schema.define(version: 20160610194440) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.text     "name",                                   null: false
+    t.text     "name",                                      null: false
     t.text     "description"
     t.text     "sku"
     t.text     "plu"
     t.text     "validity_code"
-    t.integer  "product_type_id",                        null: false
+    t.integer  "product_type_id",                           null: false
     t.text     "brand"
     t.integer  "min_price"
     t.integer  "max_price"
-    t.integer  "product_destination_id",                 null: false
-    t.boolean  "is_top",                 default: false, null: false
-    t.boolean  "is_listed",              default: false, null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.integer  "product_classification_id",                 null: false
+    t.boolean  "is_top",                    default: false, null: false
+    t.boolean  "is_listed",                 default: false, null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "platform_id"
   end
 
   add_index "products", ["is_listed"], name: "index_products_on_is_listed", using: :btree
   add_index "products", ["platform_id"], name: "index_products_on_platform_id", using: :btree
   add_index "products", ["plu"], name: "index_products_on_plu", unique: true, using: :btree
-  add_index "products", ["product_destination_id"], name: "index_products_on_product_destination_id", using: :btree
+  add_index "products", ["product_classification_id"], name: "index_products_on_product_classification_id", using: :btree
   add_index "products", ["product_type_id"], name: "index_products_on_product_type_id", using: :btree
   add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
 
@@ -378,6 +380,14 @@ ActiveRecord::Schema.define(version: 20160610194440) do
   add_index "sections", ["organization_id"], name: "index_sections_on_organization_id", using: :btree
   add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
 
+  create_table "store_types", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "store_types", ["name"], name: "index_store_types_on_name", unique: true, using: :btree
+
   create_table "stores", force: :cascade do |t|
     t.text     "name",                                     null: false
     t.datetime "created_at",                               null: false
@@ -390,10 +400,12 @@ ActiveRecord::Schema.define(version: 20160610194440) do
     t.datetime "deleted_at"
     t.integer  "monthly_goal_clp"
     t.decimal  "monthly_goal_usd", precision: 8, scale: 2
+    t.integer  "store_type_id"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
   add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
+  add_index "stores", ["store_type_id"], name: "index_stores_on_store_type_id", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
 
   create_table "subsection_item_types", force: :cascade do |t|
@@ -473,10 +485,10 @@ ActiveRecord::Schema.define(version: 20160610194440) do
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
   add_foreign_key "message_actions", "organizations"
-  add_foreign_key "messages", "broadcasts"
+  add_foreign_key "messages", "broadcasts", on_delete: :cascade
   add_foreign_key "messages", "users"
   add_foreign_key "products", "platforms"
-  add_foreign_key "products", "product_destinations"
+  add_foreign_key "products", "product_classifications"
   add_foreign_key "products", "product_types"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"
   add_foreign_key "report_types", "organizations"
@@ -486,6 +498,7 @@ ActiveRecord::Schema.define(version: 20160610194440) do
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
   add_foreign_key "stores", "dealers"
+  add_foreign_key "stores", "store_types"
   add_foreign_key "stores", "zones"
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"

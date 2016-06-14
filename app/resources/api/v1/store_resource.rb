@@ -5,7 +5,8 @@ class Api::V1::StoreResource < JSONAPI::Resource
 
   has_one :zone
   has_one :dealer
-  
+  has_one :store_type
+    
   def name
   	if @model.zone.nil? or @model.dealer.nil?
   		return @model.name

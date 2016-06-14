@@ -1,5 +1,5 @@
 class Api::V1::BroadcastResource < BaseResource
-	attributes :title, :html, :resource_id
+	attributes :title, :html, :resource_id, :send_at, :sent
 	has_one :message_action
 	has_many :recipients
 
@@ -9,4 +9,12 @@ class Api::V1::BroadcastResource < BaseResource
 		user = context[:current_user]
     	broadcast.sender = user
 	end
+
+	def self.updatable_fields(context)
+    super - [:sent]
+  end
+
+  def self.creatable_fields(context)
+    super - [:sent]
+  end
 end

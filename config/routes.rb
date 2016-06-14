@@ -35,6 +35,9 @@ Rails.application.routes.draw do
       
       jsonapi_resources :broadcasts do
       end
+
+      jsonapi_resources :message_actions do
+      end
       
       jsonapi_resources :products do
       end
@@ -42,7 +45,7 @@ Rails.application.routes.draw do
       jsonapi_resources :product_types do
       end
 
-      jsonapi_resources :product_destinations do
+      jsonapi_resources :product_classifications do
       end
 
       jsonapi_resources :devices, only: [ :create, :destroy, :update ] do
