@@ -24,7 +24,13 @@ class Broadcast < ActiveRecord::Base
   
   before_create :check_sent
   before_destroy :check_if_sent  
-  
+  after_commit :send_message, on: [ :create ]
+
+  def send_messages
+    if self.sent?
+      SendMessageJob.perform_later(self.id)
+    end
+  end
 
   def check_sent
   	if self.send_at.nil?
