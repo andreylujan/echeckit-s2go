@@ -24,7 +24,7 @@ class Broadcast < ActiveRecord::Base
   
   before_create :check_sent
   before_destroy :check_if_sent  
-  after_commit :send_message, on: [ :create ]
+  after_commit :send_messages, on: [ :create ]
 
   def send_messages
     if self.sent?
