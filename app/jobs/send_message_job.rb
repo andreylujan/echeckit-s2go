@@ -25,7 +25,8 @@ class SendMessageJob < ActiveJob::Base
 			}
 
 			recipients.each do |recipient|
-				recipient.devices.each do |device|
+				device = recipient.devices.last
+				if not device.nil?
 					if device.name == "android"
 						body = params.merge({ registration_id: device.registration_id })
 					else
