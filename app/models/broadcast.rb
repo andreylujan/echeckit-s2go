@@ -16,4 +16,5 @@ class Broadcast < ActiveRecord::Base
   belongs_to :message_action
   belongs_to :sender, foreign_key: :sender_id, class_name: :User
   has_many :messages
+  has_many :recipients, through: :messages, source: :user
 end

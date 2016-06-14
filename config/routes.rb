@@ -33,6 +33,9 @@ Rails.application.routes.draw do
         post 'read'
       end
       
+      jsonapi_resources :broadcasts do
+      end
+      
       jsonapi_resources :products do
       end
 

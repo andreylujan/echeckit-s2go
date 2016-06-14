@@ -3,6 +3,8 @@ class Api::V1::JsonApiController < ApplicationController
 
   include JSONAPI::ActsAsResourceController
 
+ 
+
   def create
   	format_json
   	super

@@ -1,4 +1,12 @@
 class Api::V1::BroadcastResource < BaseResource
 	attributes :title, :html, :resource_id
 	has_one :message_action
+	has_many :recipients
+
+	before_create :set_sender
+
+	def set_sender(broadcast = @model, context = @context)
+		user = context[:current_user]
+    	broadcast.sender = user
+	end
 end
