@@ -10,4 +10,10 @@ class Api::V1::MessagesController < Api::V1::JsonApiController
   		.serialize_to_hash(Api::V1::MessageResource.new(@message, nil))
   end
 
+  def destroy
+  	@message = Message.find(params.require(:id))
+  	@message.destroy!
+  	render nothing: true, status: :ok
+  end
+
 end
