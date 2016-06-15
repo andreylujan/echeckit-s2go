@@ -20,8 +20,10 @@ class Broadcast < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: :User
   has_many :messages, dependent: :destroy
   has_many :recipients, through: :messages, source: :user
-  validates_presence_of [ :send_to_all, :is_immediate ]
-  
+
+  validates :send_to_all, :inclusion => {:in => [true, false]}
+  validates :is_immediate, :inclusion => {:in => [true, false]}
+
   before_create :check_sent
   before_destroy :check_if_sent  
   after_commit :send_messages, on: [ :create ]
