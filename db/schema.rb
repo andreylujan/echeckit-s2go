@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614202024) do
+ActiveRecord::Schema.define(version: 20160615201657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,13 @@ ActiveRecord::Schema.define(version: 20160614202024) do
     t.text     "html"
     t.integer  "sender_id"
     t.integer  "message_action_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "resource_id"
     t.datetime "send_at"
     t.boolean  "sent"
+    t.boolean  "send_to_all",       default: false, null: false
+    t.boolean  "is_immediate",      default: false, null: false
   end
 
   add_index "broadcasts", ["message_action_id"], name: "index_broadcasts_on_message_action_id", using: :btree

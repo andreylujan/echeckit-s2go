@@ -20,11 +20,19 @@ class Broadcast < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: :User
   has_many :messages, dependent: :destroy
   has_many :recipients, through: :messages, source: :user
-
+  validates_presence_of [ :send_to_all, :is_immediate ]
   
   before_create :check_sent
   before_destroy :check_if_sent  
   after_commit :send_messages, on: [ :create ]
+
+  validate :check_send_to_all
+
+  def check_send_to_all
+    if not self.send_to_all? and recipients.length == 0
+      errors.add(:recipients, "Debe ingresar al menos un usuario si no envía a todos")
+    end
+  end
 
   def send_messages
     if self.sent?

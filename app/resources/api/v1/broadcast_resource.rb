@@ -1,5 +1,7 @@
 class Api::V1::BroadcastResource < BaseResource
-	attributes :title, :html, :resource_id, :send_at, :sent
+	attributes :title, :html, :resource_id, :send_at, :sent,
+		:send_to_all, :is_immediate
+		
 	has_one :message_action
 	has_many :recipients
 
