@@ -39,6 +39,9 @@ Rails.application.routes.draw do
       jsonapi_resources :message_actions do
       end
       
+      jsonapi_resources :checklists do
+      end
+      
       jsonapi_resources :products do
       end
 
