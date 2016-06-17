@@ -26,4 +26,31 @@ class Checklist < DataPart
     	org_id = self.subsection.section.organization_id    	
     	ChecklistOption.unscoped.where(organization_id: org_id)    	
 	end
+
+	def children=(val)
+		old_children = []
+		new_children = []
+		val.each_with_index do |item_attrs, idx|
+			if item_attrs[:id].present?
+				old_children << ChecklistItem.find(item_attrs[:id])
+			else
+				new_children << item_attrs.merge({ type: "ChecklistItem", 
+					organization_id: self.organization_id
+				})
+			end
+		end
+		save!
+
+		self.children.each do | c |
+			c.update_attribute :parent, nil
+		end
+
+		old_children.each do | old |
+			old.update_attribute :parent, self
+		end
+
+		new_children.each do | new |
+			self.children.create! new
+		end
+	end
 end
