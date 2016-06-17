@@ -79,7 +79,7 @@ Rails.application.routes.draw do
       jsonapi_resources :categories, only: [ :index ] do
       end
       
-      resources :data_parts, only: [ :index ]
+      resources :data_parts, only: [ :index, :show ]
       resources :subsections, only: [ :index ]
       resources :images, only: [ :create ]
       resources :sections, only: [ :show, :index ]
