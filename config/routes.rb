@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       
       resources :data_parts, only: [ :index, :show, :create, :update, :destroy ]
       resources :subsections, only: [ :index ]
-      resources :images, only: [ :create ]
+      resources :images, only: [ :create, :index ]
       resources :sections, only: [ :show, :index ]
 
       resources :users, only: [

@@ -2,7 +2,10 @@
 class Api::V1::ImageResource < JSONAPI::Resource
   
   attributes :url
-
+  has_one :category
+  has_one :resource
+  has_one :gallery
+  
 	def url
 		@model.image.url
 	end  
