@@ -14,6 +14,7 @@
 #  detail_id     :integer
 #  resource_id   :integer
 #  resource_type :text
+#  uuid          :text
 #
 
 class ImageSerializer < ActiveModel::Serializer

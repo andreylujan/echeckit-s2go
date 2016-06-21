@@ -14,6 +14,7 @@
 #  detail_id     :integer
 #  resource_id   :integer
 #  resource_type :text
+#  uuid          :text
 #
 
 class Image < ActiveRecord::Base
@@ -24,8 +25,12 @@ class Image < ActiveRecord::Base
   belongs_to :report
   validates_presence_of [ :user, :image  ]
   belongs_to :resource, polymorphic: true
-
+  before_create :set_uuid
   before_create :write_image_identifier
   skip_callback :save, :before, :write_image_identifier
 
+  private
+  def set_uuid
+  	self.uuid = SecureRandom.uuid
+  end
 end

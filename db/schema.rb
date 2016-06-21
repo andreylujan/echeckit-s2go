@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621161131) do
+ActiveRecord::Schema.define(version: 20160621194446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 20160621161131) do
     t.integer  "detail_id"
     t.integer  "resource_id"
     t.text     "resource_type"
+    t.text     "uuid"
   end
 
   add_index "images", ["category_id"], name: "index_images_on_category_id", using: :btree
