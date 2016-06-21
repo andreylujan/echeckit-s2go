@@ -13,6 +13,8 @@
 #  resource_id       :integer
 #  send_at           :datetime
 #  sent              :boolean
+#  send_to_all       :boolean          default(FALSE), not null
+#  is_immediate      :boolean          default(FALSE), not null
 #
 
 class Broadcast < ActiveRecord::Base

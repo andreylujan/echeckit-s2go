@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddSendToAllAndIsImmediateToBroadcasts < ActiveRecord::Migration
   def change
     add_column :broadcasts, :send_to_all, :boolean, null: false, default: false

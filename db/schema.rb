@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615201657) do
+ActiveRecord::Schema.define(version: 20160621161131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -275,6 +275,7 @@ ActiveRecord::Schema.define(version: 20160615201657) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.integer  "platform_id"
+    t.text     "publisher"
   end
 
   add_index "products", ["is_listed"], name: "index_products_on_is_listed", using: :btree
@@ -381,6 +382,19 @@ ActiveRecord::Schema.define(version: 20160615201657) do
 
   add_index "sections", ["organization_id"], name: "index_sections_on_organization_id", using: :btree
   add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
+
+  create_table "stock_breaks", force: :cascade do |t|
+    t.integer  "dealer_id"
+    t.integer  "store_type_id"
+    t.integer  "product_classification_id"
+    t.integer  "stock_break"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "stock_breaks", ["dealer_id"], name: "index_stock_breaks_on_dealer_id", using: :btree
+  add_index "stock_breaks", ["product_classification_id"], name: "index_stock_breaks_on_product_classification_id", using: :btree
+  add_index "stock_breaks", ["store_type_id"], name: "index_stock_breaks_on_store_type_id", using: :btree
 
   create_table "store_types", force: :cascade do |t|
     t.text     "name",       null: false
@@ -499,6 +513,9 @@ ActiveRecord::Schema.define(version: 20160615201657) do
   add_foreign_key "roles", "organizations"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
+  add_foreign_key "stock_breaks", "dealers"
+  add_foreign_key "stock_breaks", "product_classifications"
+  add_foreign_key "stock_breaks", "store_types"
   add_foreign_key "stores", "dealers"
   add_foreign_key "stores", "store_types"
   add_foreign_key "stores", "zones"

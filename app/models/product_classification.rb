@@ -11,4 +11,5 @@
 
 class ProductClassification < ActiveRecord::Base
   has_many :products
+  has_many :stock_breaks
 end

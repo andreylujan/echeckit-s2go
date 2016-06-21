@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # == Schema Information
 #
 # Table name: store_types
@@ -11,5 +12,5 @@
 class StoreType < ActiveRecord::Base
 
 	has_many :stores
-	
+	has_many :stock_breaks
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::BroadcastResource < BaseResource
 	attributes :title, :html, :resource_id, :send_at, :sent,
 		:send_to_all, :is_immediate, :created_at

@@ -24,7 +24,7 @@
 class Api::V1::ProductResource < BaseResource
 
 	attributes :name, :description, :sku, :plu, :validity_code,
-		:brand, :min_price, :max_price, :is_top,
+		:brand, :min_price, :max_price, :is_top, :publisher,
 		:is_listed, :created_at
 
 	has_one :product_type

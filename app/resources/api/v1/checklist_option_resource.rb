@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::ChecklistOptionResource < JSONAPI::Resource
 	attributes :name, :icon, :is_binary
 

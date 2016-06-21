@@ -42,6 +42,9 @@ Rails.application.routes.draw do
       jsonapi_resources :checklists do
       end
       
+      jsonapi_resources :stock_breaks do
+      end
+      
       jsonapi_resources :products do
       end
 
@@ -49,6 +52,9 @@ Rails.application.routes.draw do
       end
 
       jsonapi_resources :product_classifications do
+      end
+
+      jsonapi_resources :stock_breaks do
       end
 
       jsonapi_resources :devices, only: [ :create, :destroy, :update ] do

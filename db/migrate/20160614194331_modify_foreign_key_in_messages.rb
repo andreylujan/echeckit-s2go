@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ModifyForeignKeyInMessages < ActiveRecord::Migration
   def change
   	remove_foreign_key :messages, :broadcasts
