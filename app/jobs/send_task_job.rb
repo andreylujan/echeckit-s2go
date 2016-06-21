@@ -1,11 +1,13 @@
 # -*- encoding : utf-8 -*-
-class SendMessageJob < ActiveJob::Base
+class SendTaskJob < ActiveJob::Base
 	queue_as :default
 
 	def perform(broadcast_id)
 		broadcast = Broadcast.find(broadcast_id)
 		recipients = broadcast.recipients
 		
+		broadcast.update_attribute :send, true
+
 		if recipients.length == 0
 			recipients = User.all
 		end		
@@ -15,9 +17,9 @@ class SendMessageJob < ActiveJob::Base
     	
 		conn = Faraday.new(:url => ENV["PUSH_ENGINE_HOST"])
 		params = {
-			alert: "Mensaje recibido",
+			alert: "#{broadcast.title}",
 			data: {
-				message: "Se le ha enviado un mensaje",
+				message: "eRetail: Mensaje recibido",
 				title: "#{broadcast.title}"
 				},
 				gcm_app_name: gcm_app_name,

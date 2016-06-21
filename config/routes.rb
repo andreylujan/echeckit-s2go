@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       jsonapi_resources :product_classifications do
       end
 
+      jsonapi_resources :store_types do
+      end
+
       jsonapi_resources :stock_breaks do
       end
 

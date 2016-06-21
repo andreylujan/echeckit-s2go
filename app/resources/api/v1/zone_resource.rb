@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::ZoneResource < JSONAPI::Resource
-    
+class Api::V1::ZoneResource < BaseResource
+  
   attributes :name, :dealer_ids
 
   has_many :dealers

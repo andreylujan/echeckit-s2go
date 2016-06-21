@@ -40,7 +40,16 @@ class Broadcast < ActiveRecord::Base
 
   def send_messages
     if self.sent?
-      SendMessageJob.perform_later(self.id)
+      SendBroadcastJob.perform_later(self.id)
+    else
+      SendBroadcastJob.set(wait_until: self.send_at)
+        .perform_later(self.id)
+    end
+  end
+
+  def message_action_name
+    if self.message_action.present?
+      self.message_action.name
     end
   end
 
