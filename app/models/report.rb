@@ -29,12 +29,19 @@ class Report < ActiveRecord::Base
   before_save :cache_data
   before_create :check_pdf_uploaded
   after_commit :check_num_images, on: [ :create ]
+  after_commit :send_task_job, on: [ :create ]
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
   
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
+  end
+
+  def send_task_job
+    if self.assigned_user.present?
+      SendTaskJob.perform_later(self.id)
+    end
   end
 
   def check_pdf_uploaded

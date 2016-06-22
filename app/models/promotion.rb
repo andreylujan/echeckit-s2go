@@ -20,9 +20,13 @@ class Promotion < ActiveRecord::Base
 	belongs_to :creator, class_name: :User, foreign_key: :creator_id
 	belongs_to :checklist
 	validates_presence_of [ :start_date, :end_date, :title, :html, :creator  ]
-
+	after_commit :send_promotion_job, on: [ :create ]
 	has_and_belongs_to_many :users
 	has_and_belongs_to_many :zones
 	has_and_belongs_to_many :dealers
 	has_many :images, as: :resource
+
+	def send_promotion_job
+		SendPromotionJob.perform_later(self.id)
+	end
 end

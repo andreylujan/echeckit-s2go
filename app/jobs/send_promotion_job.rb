@@ -2,14 +2,12 @@
 class SendPromotionJob < ActiveJob::Base
 	queue_as :default
 
-	def perform(broadcast_id)
-		broadcast = Broadcast.find(broadcast_id)
-		recipients = broadcast.recipients
+	def perform(promotion_id)
+		promotion = Promotion.find(promotion_id)
+		users = promotion.users
 		
-		broadcast.update_attribute :send, true
-
-		if recipients.length == 0
-			recipients = User.all
+		if users.length == 0
+			users = User.all
 		end		
 
 		apns_app_name = ENV["APNS_APP_NAME"]
@@ -17,17 +15,19 @@ class SendPromotionJob < ActiveJob::Base
     	
 		conn = Faraday.new(:url => ENV["PUSH_ENGINE_HOST"])
 		params = {
-			alert: "#{broadcast.title}",
+			alert: "eRetail: Promoción creada",
 			data: {
-				message: "eRetail: Mensaje recibido",
-				title: "#{broadcast.title}"
+				message: "#{promotion.title}",
+				title: "eRetail: Promoción creada",
+				action_id: "0",
+				resource_id: promotion.id.to_s
 				},
 				gcm_app_name: gcm_app_name,
 				apns_app_name: apns_app_name
 			}
 
-			recipients.each do |recipient|
-				device = recipient.devices.last
+			users.each do |user|
+				device = user.devices.last
 				if not device.nil?
 					if device.name == "android"
 						body = params.merge({ registration_id: device.registration_id })

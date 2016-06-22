@@ -21,9 +21,9 @@ class SendBroadcastJob < ActiveJob::Base
 			data: {
 				message: "eRetail: Mensaje recibido",
 				title: "#{broadcast.title}",
-				message_action_id: "#{broadcast.message_action_id}",
+				action_id: "#{broadcast.message_action_id}",
 				resource_id: "#{broadcast.resource_id}",
-				message_action_name: "#{broadcast.message_action_name}"
+				action_name: "#{broadcast.message_action_name}"
 				},
 				gcm_app_name: gcm_app_name,
 				apns_app_name: apns_app_name

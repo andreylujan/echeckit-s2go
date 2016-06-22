@@ -2,43 +2,42 @@
 class SendTaskJob < ActiveJob::Base
 	queue_as :default
 
-	def perform(broadcast_id)
-		broadcast = Broadcast.find(broadcast_id)
-		recipients = broadcast.recipients
+	def perform(report_id)
+
+		report = Report.find(report_id)
+		user = report.assigned_user
+
+		if user.nil?
+			return
+		end
 		
-		broadcast.update_attribute :send, true
-
-		if recipients.length == 0
-			recipients = User.all
-		end		
-
 		apns_app_name = ENV["APNS_APP_NAME"]
     	gcm_app_name = ENV["GCM_APP_NAME"]
     	
 		conn = Faraday.new(:url => ENV["PUSH_ENGINE_HOST"])
 		params = {
-			alert: "#{broadcast.title}",
+			alert: "#{report.report_type.name} asignado",
 			data: {
-				message: "eRetail: Mensaje recibido",
-				title: "#{broadcast.title}"
+				message: "Se le ha asignado una tarea de tipo #{report.report_type.name}",
+				title: "#{report.report_type.name} asignado",
+				action_id: "1",
+				resource_id: report.id.to_s
 				},
 				gcm_app_name: gcm_app_name,
 				apns_app_name: apns_app_name
 			}
 
-			recipients.each do |recipient|
-				device = recipient.devices.last
-				if not device.nil?
-					if device.name == "android"
-						body = params.merge({ registration_id: device.registration_id })
-					else
-						body = params.merge({ device_token: device.device_token })
-					end
-					response = conn.post do |req|
-						req.url '/notifications'
-						req.headers['Content-Type'] = 'application/json'
-						req.body = body.to_json
-					end
+			device = user.devices.last
+			if not device.nil?
+				if device.name == "android"
+					body = params.merge({ registration_id: device.registration_id })
+				else
+					body = params.merge({ device_token: device.device_token })
+				end
+				response = conn.post do |req|
+					req.url '/notifications'
+					req.headers['Content-Type'] = 'application/json'
+					req.body = body.to_json
 				end
 			end
 		end
