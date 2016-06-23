@@ -32,7 +32,9 @@ class Checklist < DataPart
 		new_children = []
 		val.each_with_index do |item_attrs, idx|
 			if item_attrs[:id].present?
-				old_children << ChecklistItem.find(item_attrs[:id])
+				item = ChecklistItem.find(item_attrs[:id])				
+				item.assign_attributes(item_attrs)
+				old_children << item
 			else
 				new_children << item_attrs.merge({ type: "ChecklistItem", 
 					organization_id: self.organization_id
@@ -42,12 +44,14 @@ class Checklist < DataPart
 		save!
 
 		self.children.each do | c |
-			c.update_attribute :parent, nil
+			if not old_children.include?(c)
+				c.update_attribute :parent, nil
+			else
+				old = old_children.find { |old| old.id == c.id }
+				old.save!
+			end
 		end
 
-		old_children.each do | old |
-			old.update_attribute :parent, self
-		end
 
 		new_children.each do | new |
 			self.children.create! new
