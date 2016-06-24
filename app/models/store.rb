@@ -16,6 +16,7 @@
 #  monthly_goal_clp :integer
 #  monthly_goal_usd :decimal(8, 2)
 #  store_type_id    :integer
+#  code             :text
 #
 
 class Store < ActiveRecord::Base

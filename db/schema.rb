@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621194446) do
+ActiveRecord::Schema.define(version: 20160624152021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -418,6 +418,7 @@ ActiveRecord::Schema.define(version: 20160621194446) do
     t.integer  "monthly_goal_clp"
     t.decimal  "monthly_goal_usd", precision: 8, scale: 2
     t.integer  "store_type_id"
+    t.text     "code"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
