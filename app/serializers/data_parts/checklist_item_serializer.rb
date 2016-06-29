@@ -11,5 +11,5 @@
 #
 
 class ChecklistItemSerializer < DataPartSerializer
-	attributes :option_ids	
+	attributes :option_ids, :options	
 end
