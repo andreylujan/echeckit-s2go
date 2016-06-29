@@ -12,7 +12,7 @@
 
 class Platform < ActiveRecord::Base
   has_many :products, dependent: :nullify
-
+  belongs_to :brand
   
   include NameCreatable
 end
