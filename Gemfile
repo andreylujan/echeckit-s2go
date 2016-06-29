@@ -27,6 +27,7 @@ gem 'wicked_pdf', '~> 1.0', '>= 1.0.6'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
 gem 'sinatra'
 gem 'amoeba', '~> 3.0'
+gem 'charlock_holmes'
 
 # Auth
 gem 'devise', '~> 4.1'

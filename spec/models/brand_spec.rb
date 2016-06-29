@@ -1,7 +1,6 @@
-# -*- encoding : utf-8 -*-
 # == Schema Information
 #
-# Table name: store_types
+# Table name: brands
 #
 #  id         :integer          not null, primary key
 #  name       :text             not null
@@ -9,11 +8,8 @@
 #  updated_at :datetime         not null
 #
 
-class StoreType < ActiveRecord::Base
+require 'rails_helper'
 
-	has_many :stores
-	has_many :stock_breaks
-
-	include NameCreatable
-	
+RSpec.describe Brand, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

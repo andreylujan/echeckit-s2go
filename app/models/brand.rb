@@ -1,7 +1,6 @@
-# -*- encoding : utf-8 -*-
 # == Schema Information
 #
-# Table name: store_types
+# Table name: brands
 #
 #  id         :integer          not null, primary key
 #  name       :text             not null
@@ -9,11 +8,5 @@
 #  updated_at :datetime         not null
 #
 
-class StoreType < ActiveRecord::Base
-
-	has_many :stores
-	has_many :stock_breaks
-
-	include NameCreatable
-	
+class Brand < ActiveRecord::Base
 end

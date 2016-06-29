@@ -20,9 +20,10 @@ class Dealer < ActiveRecord::Base
     has_and_belongs_to_many :zones
     has_many :stores, dependent: :destroy
     has_and_belongs_to_many :promotions
-    has_many :stock_breaks
+    has_many :stock_breaks, dependent: :destroy
     
     validates_presence_of :name
     validates_uniqueness_of :name
+    include NameCreatable
 
 end

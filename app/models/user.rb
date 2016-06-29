@@ -88,4 +88,26 @@ class User < ActiveRecord::Base
     self.save validate: false
     token
   end
+
+  def self.find_or_create_by_lowercase_email!(email, role)
+    if email.nil? or email.empty?
+      return nil
+    end
+    email.strip!
+    email.downcase!
+    instance = nil
+    User.skip_callback(:create, :after, :send_confirmation_email)
+    begin
+      instance = self.where('lower(email) = ?', email).first
+      if instance.nil?
+        instance = self.create! email: email,
+          password: "12345678", role: role,
+          first_name: email, last_name: email
+
+      end
+    ensure
+      User.set_callback(:create, :after, :send_confirmation_email)
+    end
+    instance
+  end
 end
