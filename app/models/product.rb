@@ -40,6 +40,7 @@ class Product < ActiveRecord::Base
   validates :plu, uniqueness: true, allow_nil: true
   has_many :images, as: :resource
 
+  default_scope { order('name ASC') }
 
   def self.from_csv(csv_path, reset = false)
     Product.transaction do
