@@ -37,6 +37,7 @@ class Store < ActiveRecord::Base
   belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
 
   def self.from_csv(csv_path, reset = false)
+  	stores = []
     Store.transaction do
       if reset
         Store.with_deleted.all.each { |s| s.really_destroy! }
@@ -45,7 +46,6 @@ class Store < ActiveRecord::Base
       end
       csv = CsvUtils.load_csv(csv_path)
       csv.shift
-      stores = []
       supervisor_role = Role.find_by_name! "Supervisor"
       instructor_role = Role.find_by_name! "Instructor"
       csv.each do |row|
@@ -63,7 +63,15 @@ class Store < ActiveRecord::Base
         store.save!
         stores << store
       end
-      stores
+      Dealer.all.each do |d|
+      	zone_ids = d.zone_ids
+      	d.stores.each do |store|
+      		zone_ids << store.zone_id
+      	end
+      	d.zone_ids = zone_ids.uniq
+      	d.save!
+      end
     end
+    stores
   end
 end
