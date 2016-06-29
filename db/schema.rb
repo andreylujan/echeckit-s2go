@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629031509) do
+ActiveRecord::Schema.define(version: 20160629031910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 20160629031509) do
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
   add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
   add_index "stores", ["instructor_id"], name: "index_stores_on_instructor_id", using: :btree
+  add_index "stores", ["name", "dealer_id", "zone_id"], name: "index_stores_on_name_and_dealer_id_and_zone_id", unique: true, using: :btree
   add_index "stores", ["store_type_id"], name: "index_stores_on_store_type_id", using: :btree
   add_index "stores", ["supervisor_id"], name: "index_stores_on_supervisor_id", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree

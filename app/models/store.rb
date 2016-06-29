@@ -36,6 +36,8 @@ class Store < ActiveRecord::Base
   belongs_to :supervisor, class_name: :User, foreign_key: :supervisor_id
   belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
 
+  default_scope { order('name ASC') }
+  
   def self.from_csv(csv_path, reset = false)
   	stores = []
     Store.transaction do
