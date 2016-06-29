@@ -11,11 +11,13 @@
 #
 
 class ChecklistOptionSerializer < DataPartSerializer
-	attributes :detail
+  attributes :detail
 
-	def detail
-		if object.detail.present?
-			SubsectionSerializer.new(object.detail).as_json
-		end
-	end
+  def detail
+    DataPart.unscoped {
+      if object.detail.present?
+        return SubsectionSerializer.new(object.detail).as_json
+      end
+    }
+  end
 end
