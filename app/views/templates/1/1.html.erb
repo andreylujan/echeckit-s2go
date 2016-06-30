@@ -597,8 +597,8 @@
 			</div>
 
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].nil? %>
-				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %> 
-					<h4><%= "#{(index + 1)}" %>. <%= "#{item_more_sale['game_name']}" %>: <%= "#{item_more_sale['game_amount']}" %></h4>
+				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['more_sale']['list'].each_with_index do |item_more_sale, index| %>
+					<p><%= "#{(index + 1)}" %>. <%= "#{item_more_sale['game_name']}" %>: <b><%= "#{item_more_sale['game_amount']}" %></b></p>
 
 					<% if not item_more_sale['foto_more_sale'].nil? %>
 						<div class="imagesItemMoreSale">
@@ -628,7 +628,7 @@
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
 				<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].each_with_index do |item_stock_break, index| %>
 					<div class="tablesItemMoreSale">
-						<h4><%= "#{(index + 1)}" %>. <%= "#{item_stock_break['game_name']}" %>: <%= "#{item_stock_break['game_amount']}" %></h4>
+						<p><%= "#{(index + 1)}" %>. <%= "#{item_stock_break['game_name']}" %>: <b><%= "#{item_stock_break['game_amount']}" %></b></p>
 					</div>
 					<% if not item_stock_break['foto_stock_break'].nil? %>
 						<div class="imagesItemMoreSale">
