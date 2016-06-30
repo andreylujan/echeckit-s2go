@@ -11,4 +11,14 @@ module CsvUtils
 		csv_file.close
 		csv
 	end
+
+	def self.load_from_file(csv_file)
+		contents = csv_file.read
+		detection = CharlockHolmes::EncodingDetector.detect(contents)
+		contents.force_encoding detection[:encoding]
+		contents.encode! "UTF-8"
+		csv = CSV.parse(contents, { headers: false, encoding: "UTF-8", col_sep: ';' })
+		csv_file.close
+		csv
+	end
 end

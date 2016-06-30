@@ -92,6 +92,11 @@ Rails.application.routes.draw do
       resources :subsections, only: [ :index ]
       resources :images, only: [ :create, :index ]
       resources :sections, only: [ :show, :index ]
+      resources :sale_goals, only: [] do
+        collection do
+          post :csv
+        end
+      end
 
       resources :users, only: [
         :create,

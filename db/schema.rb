@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629031910) do
+ActiveRecord::Schema.define(version: 20160630213429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,6 +378,16 @@ ActiveRecord::Schema.define(version: 20160629031910) do
   add_index "roles", ["organization_id", "name"], name: "index_roles_on_organization_id_and_name", unique: true, using: :btree
   add_index "roles", ["organization_id"], name: "index_roles_on_organization_id", using: :btree
 
+  create_table "sale_goals", force: :cascade do |t|
+    t.integer  "store_id",     null: false
+    t.integer  "monthly_goal", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.datetime "goal_date",    null: false
+  end
+
+  add_index "sale_goals", ["store_id"], name: "index_sale_goals_on_store_id", using: :btree
+
   create_table "section_types", force: :cascade do |t|
     t.text     "name"
     t.datetime "created_at", null: false
@@ -531,6 +541,7 @@ ActiveRecord::Schema.define(version: 20160629031910) do
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
   add_foreign_key "roles", "organizations"
+  add_foreign_key "sale_goals", "stores"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
   add_foreign_key "stock_breaks", "dealers"
