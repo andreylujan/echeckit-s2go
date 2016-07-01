@@ -420,12 +420,15 @@
 						<thead>
 							<tr>
 								<th>Stock real hardware</th>
+								<th></th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_hardware'].each do |stock_hardware| %>
 								<tr>
 									<td><%= "#{stock_hardware['platform']}" %></td>
+									<td><%= "#{stock_hardware['amount']}" %></td>
 									<td>$ <%= "#{stock_hardware['value']}" %></td>
 								</tr>
 							<% end %>
@@ -440,12 +443,15 @@
 						<thead>
 							<tr>
 								<th>Stock real accesorios</th>
+								<th></th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_accesories'].each do |stock_accessory| %>
 								<tr>
 									<td><%= "#{stock_accessory['platform']}" %></td>
+									<td><%= "#{stock_accessory['amount']}" %></td>
 									<td>$ <%= "#{stock_accessory['value']}" %></td>
 								</tr>
 							<% end %>
@@ -460,12 +466,15 @@
 						<thead>
 							<tr>
 								<th>Stock real juegos</th>
+								<th></th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<% @report.dynamic_attributes['sections'][2]['data_section'][0]['stock']['amount_value'][0]['sr_games'].each do |stock_game| %>
 								<tr>
 									<td><%= "#{stock_game['platform']}" %></td>
+									<td><%= "#{stock_game['amount']}" %></td>
 									<td>$ <%= "#{stock_game['value']}" %></td>
 								</tr>
 							<% end %>
@@ -483,6 +492,7 @@
 						<thead>
 							<tr>
 								<th>HC Promotores Fulltime</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
