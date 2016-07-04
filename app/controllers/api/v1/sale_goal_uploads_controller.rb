@@ -5,8 +5,8 @@ class Api::V1::SaleGoalUploadsController < Api::V1::JsonApiController
 
 	def context
 		{
-			year: params.require(:year),
-			month: params.require(:month)
+			year: params[:year],
+			month: params[:month]
 		}
 	end
 end

@@ -11,7 +11,13 @@ class Api::V1::SaleGoalUploadResource < BaseResource
 
 	def self.records(options = {})
 		context = options[:context]
-		SaleGoalUpload.where('extract(year  from goal_date) = ?', context[:year])
-					  .where('extract(month from goal_date) = ?', context[:month])
+		records = SaleGoalUpload.all
+		if context[:year]
+			records = records.where('extract(year from goal_date) = ?', context[:year])
+		end
+		if context[:month]
+			records = records.where('extract(month from goal_date) = ?', context[:month])
+		end			  
+		records
 	end
 end
