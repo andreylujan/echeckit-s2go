@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630213429) do
+ActiveRecord::Schema.define(version: 20160704135628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,14 +378,24 @@ ActiveRecord::Schema.define(version: 20160630213429) do
   add_index "roles", ["organization_id", "name"], name: "index_roles_on_organization_id_and_name", unique: true, using: :btree
   add_index "roles", ["organization_id"], name: "index_roles_on_organization_id", using: :btree
 
-  create_table "sale_goals", force: :cascade do |t|
-    t.integer  "store_id",     null: false
-    t.integer  "monthly_goal", null: false
+  create_table "sale_goal_uploads", force: :cascade do |t|
+    t.text     "result_csv"
+    t.text     "uploaded_csv"
+    t.datetime "goal_date"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.datetime "goal_date",    null: false
   end
 
+  create_table "sale_goals", force: :cascade do |t|
+    t.integer  "store_id",            null: false
+    t.integer  "monthly_goal",        null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.datetime "goal_date",           null: false
+    t.integer  "sale_goal_upload_id"
+  end
+
+  add_index "sale_goals", ["sale_goal_upload_id"], name: "index_sale_goals_on_sale_goal_upload_id", using: :btree
   add_index "sale_goals", ["store_id"], name: "index_sale_goals_on_store_id", using: :btree
 
   create_table "section_types", force: :cascade do |t|
@@ -541,6 +551,7 @@ ActiveRecord::Schema.define(version: 20160630213429) do
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
   add_foreign_key "roles", "organizations"
+  add_foreign_key "sale_goals", "sale_goal_uploads"
   add_foreign_key "sale_goals", "stores"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
