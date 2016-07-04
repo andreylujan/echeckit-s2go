@@ -14,4 +14,5 @@ class SaleGoalUpload < ActiveRecord::Base
 	has_many :sale_goals
 	mount_uploader :result_csv, GoalCsvUploader
 	mount_uploader :uploaded_csv, GoalCsvResultUploader
+
 end
