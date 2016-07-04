@@ -1,5 +1,14 @@
 class Api::V1::SaleGoalUploadResource < BaseResource
-	attributes :result_csv, :uploaded_csv, :created_at, :goal_date
+	attributes :result_csv, :uploaded_csv, :created_at, :year,
+	:month
+
+	def year
+		@model.goal_date.year
+	end
+
+	def month
+		@model.goal_date.month
+	end
 
 	def result_csv
 		@model.result_csv.url
