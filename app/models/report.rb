@@ -33,6 +33,7 @@ class Report < ActiveRecord::Base
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
+  validate :limit_date_cannot_be_in_the_past
   
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
@@ -84,6 +85,13 @@ class Report < ActiveRecord::Base
 
   def dealer_name
     Dealer.find(Report.last.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["dealer"]).name
+  end
+
+  private
+  def limit_date_cannot_be_in_the_past
+    if limit_date.present? && limit_date < DateTime.now
+      errors.add(:limit_date, "No puede estar en el pasado")
+    end
   end
 
 end
