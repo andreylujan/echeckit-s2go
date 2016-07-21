@@ -122,6 +122,7 @@ class Report < ActiveRecord::Base
 
   def update_monthly_sales
     sales = sales_info
+    
     if sales.present?
       sales.each do |sales_type, type_data|
         type_data.each do |brand_sales|

@@ -30,21 +30,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     ]
 
     Brand.all.each do |brand|
-      brand_sales = sales.where(brand: brand).first
+      brand_sales = sales.where(brand: brand)
       hardware = 0
       accessories = 0
       games = 0
-      if brand_sales.present?
-        hardware = brand_sales.hardware_sales
-        accessories = brand_sales.accessory_sales
-        games = brand_sales.game_sales
-      end
+    
       company_sales = {
         name: brand.name,
         sales_by_type: {
-          hardware: hardware,
-          accessories: accessories,
-          games: games
+          hardware: brand_sales.sum(:hardware_sales),
+          accessories: brand_sales.sum(:accessory_sales),
+          games: brand_sales.sum(:game_sales)
         }
       }
       sales_by_company << company_sales
