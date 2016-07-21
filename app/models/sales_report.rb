@@ -2,14 +2,32 @@ class SalesReport
   include Mongoid::Document
 
   def self.default_sales_by_company
-    {
-      name: "PlayStation",
-        sales_by_type: {
-        hardware: 0,
-        accesories: 0,
-        games: 0
+    [
+      {
+        name: "PlayStation",
+          sales_by_type: {
+          hardware: 0,
+          accesories: 0,
+          games: 0
+          }
+      },
+      {
+        name: "Xbox",
+          sales_by_type: {
+          hardware: 0,
+          accesories: 0,
+          games: 0
+          }
+      },
+      {
+        name: "Nintendo",
+          sales_by_type: {
+          hardware: 0,
+          accesories: 0,
+          games: 0
+          }
       }
-    }
+    ]
   end
 
   field :sales_by_company, type: Array, default: default_sales_by_company
