@@ -1,6 +1,12 @@
 # -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
 
+  namespace :api do
+  namespace :v1 do
+    get 'dashboards/sales'
+    end
+  end
+
   match '/*path', to: 'application#cors_preflight_check', via: :options
   require 'sidekiq/web'
 
@@ -67,6 +73,10 @@ Rails.application.routes.draw do
       end
 
       jsonapi_resources :dealers, only: [ :index, :create, :update, :destroy, :show ] do
+      end
+
+      resource :dashboard, only: [] do
+        get :sales
       end
 
       jsonapi_resources :organizations,
