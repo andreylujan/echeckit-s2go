@@ -34,7 +34,8 @@ class Report < ActiveRecord::Base
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
-  
+  after_create :update_monthly_sales
+
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
   end
@@ -62,29 +63,82 @@ class Report < ActiveRecord::Base
       self.generate_pdf(false)
     end
   end
-  
+
   def set_uuid
     self.uuid = SecureRandom.uuid
   end
 
   def cache_data
-  	if self.dynamic_attributes.nil?
-  		self.dynamic_attributes = {}
-  	end
-  	self.dynamic_attributes[:creator_name] = self.creator.full_name
-  	self.dynamic_attributes[:report_type_name] = self.report_type.name
+    if self.dynamic_attributes.nil?
+      self.dynamic_attributes = {}
+    end
+    self.dynamic_attributes[:creator_name] = self.creator.full_name
+    self.dynamic_attributes[:report_type_name] = self.report_type.name
   end
 
   def zone_name
     Zone.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["zone"]).name
   end
 
+  def store
+    Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
+  end
+
   def store_name
-    Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"]).name
+    store.name
   end
 
   def dealer_name
     Dealer.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["dealer"]).name
+  end
+
+  def sales_info
+    if dynamic_attributes["sections"].present? and
+      dynamic_attributes["sections"][2].present? and
+      dynamic_attributes["sections"][2]["data_section"].present? and
+      dynamic_attributes["sections"][2]["data_section"][0].present? and
+      dynamic_attributes["sections"][2]["data_section"][0]["ventas"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"][0].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"][0]
+    end
+  end
+
+  def sales_type_set_mapping
+    {
+      "vr_hardware" => :hardware_sales=,
+      "vr_accesories" => :accessory_sales=,
+      "vr_games" => :game_sales=
+    }
+  end
+
+  def sales_type_get_mapping
+    {
+      "vr_hardware" => :hardware_sales,
+      "vr_accesories" => :accessory_sales,
+      "vr_games" => :game_sales
+    }
+  end
+
+  def update_monthly_sales
+    sales = sales_info
+    if sales.present?
+      sales.each do |sales_type, type_data|
+        type_data.each do |brand_sales|
+          brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
+          if brand.present?            
+            monthly_sale = MonthlySale.find_or_create_by! store: store, brand: brand,
+              sales_date: DateTime.new(created_at.year, created_at.month)
+            current_sales = monthly_sale.send sales_type_get_mapping[sales_type]
+            if current_sales < brand_sales["value"].to_i
+              monthly_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
+              monthly_sale.save!
+            end
+
+          end
+        end
+      end
+    end
   end
 
   private

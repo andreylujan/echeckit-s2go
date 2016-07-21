@@ -36,6 +36,7 @@ class Store < ActiveRecord::Base
   belongs_to :supervisor, class_name: :User, foreign_key: :supervisor_id
   belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
   has_many :sale_goals
+  has_many :monthly_sales
   
   default_scope { order('name ASC') }
   
