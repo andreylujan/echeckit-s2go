@@ -134,7 +134,6 @@ class Report < ActiveRecord::Base
               monthly_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
               monthly_sale.save!
             end
-
           end
         end
       end
