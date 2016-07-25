@@ -1,4 +1,74 @@
 class Api::V1::DashboardsController < Api::V1::JsonApiController
+
+
+
+  def promoter_activity
+    month = params.require(:month)
+    year = params.require(:year)
+    start_date = DateTime.new(year.to_i, month.to_i)
+    end_date = start_date + 1.month
+    days_in_month = start_date.end_of_month.day
+    current_date = DateTime.now
+    reports = Report.where("created_at > ? AND created_at < ?", start_date, end_date)
+    groups = reports.group_by(&:group_by_criteria).map {|k,v| [k, v.length]}.sort
+    current_index = 0
+    filled_in_groups = []
+
+    days_in_month.times do |i|    
+      if groups[current_index] && groups[current_index][0].day == (i + 1)
+        filled_in_groups << groups[current_index]
+        current_index += 1        
+      else
+        date = DateTime.new(year.to_i, month.to_i, (i + 1)).to_date
+        if current_date > date
+          new_day = [ date, 0 ]
+        else
+          new_day = [ date, -1 ]
+        end
+        filled_in_groups << new_day
+      end
+    end
+
+    groups = filled_in_groups
+
+    reports_by_day = groups.map do |group|
+      {
+        week_day: I18n.l(group[0], format: '%A').capitalize,
+        month_day: group[0].day,
+        amount: group[1]
+      }
+    end
+    shortened_groups = groups
+    if DateTime.now < end_date
+      shortened_groups = groups[0..(DateTime.now.day - 1)]
+    end
+
+    accumulated = shortened_groups.each_with_index.map do |e, i| 
+      sum = shortened_groups[0..i].inject(0) do |memo, obj|
+        if obj[1] >= 0
+          obj[1] + memo
+        else
+          memo
+        end
+      end
+      [ e[0].day, sum ]
+    end
+    
+    data = {
+      id: start_date,
+      year: year,
+      month: month,
+      reports_by_day: reports_by_day,
+      accumulated: accumulated
+    }
+
+    promoter_activity = PromoterActivity.new data
+
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::PromoterActivityResource)
+    .serialize_to_hash(Api::V1::PromoterActivityResource.new(promoter_activity, nil))
+    
+  end
+
   def sales
     month = params.require(:month)
     year = params.require(:year)

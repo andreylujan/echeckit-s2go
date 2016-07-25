@@ -36,6 +36,11 @@ class Report < ActiveRecord::Base
   validate :limit_date_cannot_be_in_the_past
   after_create :update_monthly_sales
 
+  def group_by_criteria
+    created_at.to_date
+    # I18n.l(created_at, format: '%A %e').capitalize
+  end
+
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
   end
