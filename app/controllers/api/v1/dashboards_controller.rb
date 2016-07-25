@@ -14,10 +14,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     current_index = 0
     filled_in_groups = []
 
-    days_in_month.times do |i|    
+    days_in_month.times do |i|
       if groups[current_index] && groups[current_index][0].day == (i + 1)
         filled_in_groups << groups[current_index]
-        current_index += 1        
+        current_index += 1
       else
         date = DateTime.new(year.to_i, month.to_i, (i + 1)).to_date
         if current_date > date
@@ -43,7 +43,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       shortened_groups = groups[0..(DateTime.now.day - 1)]
     end
 
-    accumulated = shortened_groups.each_with_index.map do |e, i| 
+    accumulated = shortened_groups.each_with_index.map do |e, i|
       sum = shortened_groups[0..i].inject(0) do |memo, obj|
         if obj[1] >= 0
           obj[1] + memo
@@ -53,7 +53,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       end
       [ e[0].day, sum ]
     end
-    
+
     data = {
       id: start_date,
       year: year,
@@ -66,7 +66,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     render json: JSONAPI::ResourceSerializer.new(Api::V1::PromoterActivityResource)
     .serialize_to_hash(Api::V1::PromoterActivityResource.new(promoter_activity, nil))
-    
+
   end
 
   def sales
@@ -74,37 +74,89 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     year = params.require(:year)
     sales_date = DateTime.new(year.to_i, month.to_i)
     sales = MonthlySale.joins(:store).where(sales_date: sales_date)
-    
+
     if params[:store_id].present?
-    	sales = sales.where(store_id: params[:store_id].to_i)
+      sales = sales.where(store_id: params[:store_id].to_i)
     end
 
-    if params[:zone_id].present?
-    	sales = sales.where(stores: { zone_id: params[:zone_id].to_i })
-    end
+
 
     if params[:dealer_id].present?
-    	sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+      sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
     end
 
     if params[:instructor_id].present?
-    	sales = sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+      sales = sales.where(stores: { instructor_id: params[:instructor_id].to_i })
     end
 
     if params[:supervisor_id].present?
-    	sales = sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+      sales = sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
     end
+
+    sales_by_zone = [
+    ]
+
+    total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
+
+    Zone.all.each do |zone|
+
+      zone_sales = sales.where(stores: { zone_id: zone.id })
+      num_zone_sales = zone_sales.sum(:hardware_sales) + zone_sales.sum(:accessory_sales) +
+        zone_sales.sum(:game_sales)
+
+
+      brands_array = [
+      ]
+      Brand.all.each do |brand|
+        brand_sales = zone_sales.where(brand: brand)
+        sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
+          brand_sales.sum(:game_sales)
+        share_percentage = num_zone_sales > 0 ? sales_amount.to_f/num_zone_sales.to_f : 0
+        brand_obj = {
+          name: brand.name,
+          sales_amount: sales_amount,
+          share_percentage: share_percentage
+        }
+        brands_array << brand_obj
+      end
+
+      zones_obj = {
+        name: zone.name,
+        sales_amount: num_zone_sales,
+        sales_by_company: brands_array
+      }
+      sales_by_zone << zones_obj
+    end
+
+
+    if params[:zone_id].present?
+      sales = sales.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+
+    share_percentages = [
+
+    ]
 
     sales_by_company = [
 
     ]
 
+    total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
+
     Brand.all.each do |brand|
       brand_sales = sales.where(brand: brand)
+      sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
+        brand_sales.sum(:game_sales)
+      share_obj = {
+        name: brand.name,
+        sales_amount: sales_amount,
+        share_percentage: total_sales > 0 ? sales_amount.to_f/total_sales.to_f : 0
+      }
+      share_percentages << share_obj
       hardware = 0
       accessories = 0
       games = 0
-    
+
       company_sales = {
         name: brand.name,
         sales_by_type: {
@@ -117,6 +169,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     end
     data = {
+      sales_by_zone: sales_by_zone,
+      share_percentages: share_percentages,
       sales_by_company: sales_by_company,
       year: year,
       month: month,
