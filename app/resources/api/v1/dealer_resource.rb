@@ -7,7 +7,11 @@ class Api::V1::DealerResource < JSONAPI::Resource
   has_many :stores
   has_many :promotions
   has_many :stock_breaks
-  
+ 
+  filter :zone_id, apply: ->(records, value, _options) {
+    records.joins(:zones).where(zones: { id: value })
+  }
+
   def fetchable_fields
     super
   end

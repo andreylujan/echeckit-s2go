@@ -10,6 +10,8 @@ class Api::V1::StoreResource < BaseResource
   has_one :supervisor
   has_one :instructor
 
+  filters :zone_id, :dealer_id
+
   def fetchable_fields
     super
   end
