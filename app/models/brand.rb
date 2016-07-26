@@ -9,4 +9,5 @@
 #
 
 class Brand < ActiveRecord::Base
+	has_many :head_counts
 end

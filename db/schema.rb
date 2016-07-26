@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726165058) do
+ActiveRecord::Schema.define(version: 20160726195155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,19 @@ ActiveRecord::Schema.define(version: 20160726165058) do
   add_index "checkins", ["exit_lonlat"], name: "index_checkins_on_exit_lonlat", using: :gist
   add_index "checkins", ["store_id"], name: "index_checkins_on_store_id", using: :btree
   add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
+
+  create_table "daily_head_counts", force: :cascade do |t|
+    t.integer  "store_id"
+    t.datetime "count_date"
+    t.integer  "num_full_time", default: 0, null: false
+    t.integer  "num_part_time", default: 0, null: false
+    t.integer  "brand_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "daily_head_counts", ["brand_id"], name: "index_daily_head_counts_on_brand_id", using: :btree
+  add_index "daily_head_counts", ["store_id"], name: "index_daily_head_counts_on_store_id", using: :btree
 
   create_table "daily_product_sales", force: :cascade do |t|
     t.integer  "product_id"
@@ -563,6 +576,8 @@ ActiveRecord::Schema.define(version: 20160726165058) do
   add_foreign_key "categories", "organizations"
   add_foreign_key "checkins", "stores"
   add_foreign_key "checkins", "users"
+  add_foreign_key "daily_head_counts", "brands"
+  add_foreign_key "daily_head_counts", "stores"
   add_foreign_key "daily_product_sales", "products"
   add_foreign_key "daily_product_sales", "stores"
   add_foreign_key "data_parts", "organizations"

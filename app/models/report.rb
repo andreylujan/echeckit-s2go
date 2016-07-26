@@ -38,8 +38,9 @@ class Report < ActiveRecord::Base
   after_create :update_monthly_sales
   after_create :update_daily_product_sales
   after_create :assign_store
+  # after_create :update_head_counts
   belongs_to :store
-  
+
   def group_by_date_criteria
     created_at.to_date
     # I18n.l(created_at, format: '%A %e').capitalize
@@ -152,19 +153,55 @@ class Report < ActiveRecord::Base
     end
   end
 
+  def head_counts
+    if dynamic_attributes["sections"].present? and
+      dynamic_attributes["sections"][2].present? and
+      dynamic_attributes["sections"][2]["data_section"].present? and
+      dynamic_attributes["sections"][2]["data_section"][0].present? and
+      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"][0]
+    end
+  end
+
   def assign_store
     self.store = Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
     save!
   end
 
+  def update_head_counts
+    counts = head_counts
+    if counts.present?
+      counts.each do |hc_type, hc|
+        hc.each do |brand_data|
+          brand = Brand.where("lower(name) = ?", brand_data["platform"].downcase).first
+          if brand.present?
+            daily_hc = DailyHeadCount.find_or_create_by! store: store, brand: brand,
+              count_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+            if hc_type == "hc_promot_ft"
+              if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_full_time
+                byebug
+                daily_hc.update_attributes! num_full_time: brand_data["value"].to_i
+              end
+            elsif hc_type == "hc_promot_pt"
+              if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_part_time
+                daily_hc.update_attributes! num_part_time: brand_data["value"].to_i
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
   def update_monthly_sales
     sales = sales_info
-    
+
     if sales.present?
       sales.each do |sales_type, type_data|
         type_data.each do |brand_sales|
           brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
-          if brand.present?            
+          if brand.present?
             monthly_sale = MonthlySale.find_or_create_by! store: store, brand: brand,
               sales_date: DateTime.new(created_at.year, created_at.month)
             current_sales = monthly_sale.send sales_type_get_mapping[sales_type]

@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: daily_head_counts
+#
+#  id            :integer          not null, primary key
+#  store_id      :integer
+#  count_date    :datetime
+#  num_full_time :integer
+#  num_part_time :integer
+#  brand_id      :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
+class DailyHeadCount < ActiveRecord::Base
+  belongs_to :store
+  belongs_to :brand
+
+  validates :store, presence: true
+  validates :brand, presence: true
+
+  validates :num_full_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+  validates :num_part_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+end

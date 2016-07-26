@@ -19,6 +19,6 @@ class DailyProductSale < ActiveRecord::Base
   validates :store, presence: true
   validates :sales_date, presence: true
 
-  validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+  validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
   validates :amount, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
 end

@@ -28,6 +28,32 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     reports
   end
 
+  def filtered_head_counts
+    reports = Report.joins(:store)
+    .where("reports.created_at > ? AND reports.created_at < ?", @start_date, @end_date)
+
+    if params[:store_id].present?
+      reports = reports.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      reports = reports.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      reports = reports.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      reports = reports.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      reports = reports.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    reports
+  end
+
   def filtered_checkins
     checkins = Checkin.joins(:store)
     .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
