@@ -2,16 +2,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
 
-  def promoter_activity
-    month = params.require(:month)
-    year = params.require(:year)
-    start_date = DateTime.new(year.to_i, month.to_i)
-    end_date = start_date + 1.month
-    days_in_month = start_date.end_of_month.day
-    current_date = DateTime.now
-
+  def filtered_reports
     reports = Report.joins(:store)
-      .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
+    .where("reports.created_at > ? AND reports.created_at < ?", @start_date, @end_date)
 
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
@@ -32,19 +25,48 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     if params[:zone_id].present?
       reports = reports.where(stores: { zone_id: params[:zone_id].to_i })
     end
+    reports
+  end
 
-    
-    groups = reports.group_by(&:group_by_criteria).map {|k,v| [k, v.length]}.sort
+  def filtered_checkins
+    checkins = Checkin.joins(:store)
+    .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
+      @start_date, @end_date)
+
+    if params[:store_id].present?
+      checkins = checkins.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      checkins = checkins.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      checkins = checkins.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      checkins = checkins.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      checkins = checkins.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    checkins
+  end
+
+  def group_by_day(collection)
+    groups = collection.group_by(&:group_by_criteria).map {|k,v| [k, v.length]}.sort
     current_index = 0
     filled_in_groups = []
 
-    days_in_month.times do |i|
+    @days_in_month.times do |i|
       if groups[current_index] && groups[current_index][0].day == (i + 1)
         filled_in_groups << groups[current_index]
         current_index += 1
       else
-        date = DateTime.new(year.to_i, month.to_i, (i + 1)).to_date
-        if current_date > date
+        date = DateTime.new(@year.to_i, @month.to_i, (i + 1)).to_date
+        if @current_date > date
           new_day = [ date, 0 ]
         else
           new_day = [ date, -1 ]
@@ -55,19 +77,25 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     groups = filled_in_groups
 
-    reports_by_day = groups.map do |group|
+    by_day = groups.map do |group|
       {
         week_day: I18n.l(group[0], format: '%A').capitalize,
         month_day: group[0].day,
         amount: group[1]
       }
     end
-    shortened_groups = groups
-    if DateTime.now < end_date
-      shortened_groups = groups[0..(DateTime.now.day - 1)]
+    {
+      groups: groups,
+      by_day: by_day 
+    }
+  end
+
+  def get_accumulated(shortened_groups)
+    if DateTime.now < @end_date
+      shortened_groups = shortened_groups[0..(DateTime.now.day - 1)]
     end
 
-    accumulated = shortened_groups.each_with_index.map do |e, i|
+    shortened_groups.each_with_index.map do |e, i|
       sum = shortened_groups[0..i].inject(0) do |memo, obj|
         if obj[1] >= 0
           obj[1] + memo
@@ -77,13 +105,36 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       end
       [ e[0].day, sum ]
     end
+  end
+
+  def promoter_activity
+    
+    @month = params.require(:month)
+    @year = params.require(:year)
+    @start_date = DateTime.new(@year.to_i, @month.to_i)
+    @end_date = @start_date + 1.month
+    @days_in_month = @start_date.end_of_month.day
+    @current_date = DateTime.now
+
+    reports = filtered_reports
+    grouped = group_by_day(reports)
+    reports_by_day = grouped[:by_day]
+    accumulated_reports = get_accumulated(grouped[:groups])
+
+    checkins = filtered_checkins
+    grouped_checkins = group_by_day(checkins)
+    checkins_by_day = grouped_checkins[:by_day]
+    accumulated_checkins = get_accumulated(grouped_checkins[:groups])
+
 
     data = {
-      id: start_date,
-      year: year,
-      month: month,
+      id: @start_date,
+      year: @year,
+      month: @month,
       reports_by_day: reports_by_day,
-      accumulated: accumulated
+      accumulated_reports: accumulated_reports,
+      checkins_by_day: checkins_by_day,
+      accumulated_checkins: accumulated_checkins
     }
 
     promoter_activity = PromoterActivity.new data
@@ -316,10 +367,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     }
 
     practices = BestPractices.new(data)
-    
+
     render json: JSONAPI::ResourceSerializer.new(Api::V1::BestPracticesResource)
     .serialize_to_hash(Api::V1::BestPracticesResource.new(practices, nil))
-    
+
   end
 
 end
