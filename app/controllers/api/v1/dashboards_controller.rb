@@ -55,8 +55,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     checkins
   end
 
-  def group_by_day(collection)
-    groups = collection.group_by(&:group_by_criteria).map {|k,v| [k, v.length]}.sort
+  def group_by_day(collection, criteria, &block)
+    groups = collection.group_by(&criteria).map(&block).sort
     current_index = 0
     filled_in_groups = []
 
@@ -119,15 +119,24 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     @current_date = DateTime.now
 
     reports = filtered_reports
-    grouped = group_by_day(reports)
+    grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
     accumulated_reports = get_accumulated(grouped[:groups])
 
     checkins = filtered_checkins
-    grouped_checkins = group_by_day(checkins)
+    grouped_checkins = group_by_day(checkins, :group_by_date_criteria) {|k,v| [k, v.length]}
     checkins_by_day = grouped_checkins[:by_day]
     accumulated_checkins = get_accumulated(grouped_checkins[:groups], false)
 
+    grouped_hours = group_by_day(checkins, :group_by_date_criteria) do |k, v|
+      [ 
+        k, v.inject(0) do |sum, x|
+          sum + ((x.exit_time-x.arrival_time)/1.hour).round
+        end
+      ]
+    end
+    hours_by_day = grouped_hours[:by_day]
+    accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
     data = {
       id: @start_date,
@@ -136,7 +145,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       reports_by_day: reports_by_day,
       accumulated_reports: accumulated_reports,
       checkins_by_day: checkins_by_day,
-      accumulated_checkins: accumulated_checkins
+      accumulated_checkins: accumulated_checkins,
+      hours_by_day: hours_by_day,
+      accumulated_hours: accumulated_hours
     }
 
     promoter_activity = PromoterActivity.new data

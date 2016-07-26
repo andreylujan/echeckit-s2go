@@ -40,7 +40,7 @@ class Report < ActiveRecord::Base
   after_create :assign_store
   belongs_to :store
   
-  def group_by_criteria
+  def group_by_date_criteria
     created_at.to_date
     # I18n.l(created_at, format: '%A %e').capitalize
   end

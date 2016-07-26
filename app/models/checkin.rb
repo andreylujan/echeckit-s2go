@@ -27,7 +27,7 @@ class Checkin < ActiveRecord::Base
   belongs_to :store
 
 
-  def group_by_criteria
+  def group_by_date_criteria
     arrival_time.to_date
     # I18n.l(created_at, format: '%A %e').capitalize
   end
