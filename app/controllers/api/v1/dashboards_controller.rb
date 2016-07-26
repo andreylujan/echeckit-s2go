@@ -9,7 +9,31 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end_date = start_date + 1.month
     days_in_month = start_date.end_of_month.day
     current_date = DateTime.now
-    reports = Report.where("created_at > ? AND created_at < ?", start_date, end_date)
+
+    reports = Report.joins(:store)
+      .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
+
+    if params[:store_id].present?
+      reports = reports.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      reports = reports.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      reports = reports.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      reports = reports.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      reports = reports.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+
+    
     groups = reports.group_by(&:group_by_criteria).map {|k,v| [k, v.length]}.sort
     current_index = 0
     filled_in_groups = []
