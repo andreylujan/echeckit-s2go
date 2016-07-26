@@ -79,7 +79,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     if params[:store_id].present?
       sales = sales.where(store_id: params[:store_id].to_i)
     end
-    
+
     if params[:dealer_id].present?
       sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
     end
@@ -193,22 +193,47 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     grouped_products = product_sales.group_by(&:product).map do |key, val|
-      { 
+      {
         name: key.name,
         quantity: val.inject(0) { |sum, x| sum + x.quantity},
         sales_amount: 0
       }
     end
-    
+
     grouped_products.sort! do |a, b|
       b[:quantity] <=> a[:quantity]
-    end    
+    end
     grouped_products = grouped_products[0..8]
 
-    best_practices = Image.where("created_at >= ? AND created_at < ?", sales_date, end_date)
-      .order("created_at DESC")
-      .limit(10)
-      .map { |image| image.image.url }
+    images = Image.joins(report: :store).
+      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+
+
+    if params[:store_id].present?
+      images = images.where(reports: { store_id: params[:store_id].to_i })
+    end
+
+    if params[:dealer_id].present?
+      images = images.where(reports: { stores: { dealer_id: params[:dealer_id].to_i }} )
+    end
+
+    if params[:instructor_id].present?
+      images = images.where(reports: { stores: { instructor_id: params[:instructor_id].to_i }})
+    end
+
+    if params[:supervisor_id].present?
+      images = images.where(reports: { stores: { supervisor_id: params[:supervisor_id].to_i }})
+    end
+
+    if params[:zone_id].present?
+      images = images.where(reports: { stores: { zone_id: params[:zone_id].to_i }})
+    end
+
+
+    best_practices = images
+    .order("created_at DESC")
+    .limit(10)
+    .map { |image| image.image.url }
 
     data = {
       sales_by_zone: sales_by_zone,
@@ -232,6 +257,45 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     year = params.require(:year)
     sales_date = DateTime.new(year.to_i, month.to_i)
     end_date = sales_date + 1.month
+
+    images = Image.joins(report: :store).
+      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+
+
+    if params[:store_id].present?
+      images = images.where(reports: { store_id: params[:store_id].to_i })
+    end
+
+    if params[:dealer_id].present?
+      images = images.where(reports: { stores: { dealer_id: params[:dealer_id].to_i }} )
+    end
+
+    if params[:instructor_id].present?
+      images = images.where(reports: { stores: { instructor_id: params[:instructor_id].to_i }})
+    end
+
+    if params[:supervisor_id].present?
+      images = images.where(reports: { stores: { supervisor_id: params[:supervisor_id].to_i }})
+    end
+
+    if params[:zone_id].present?
+      images = images.where(reports: { stores: { zone_id: params[:zone_id].to_i }})
+    end
+
+    image_urls = images
+    .order("created_at DESC")
+    .map { |image| image.image.url }
+
+    data = {
+      id: sales_date,
+      image_urls: image_urls
+    }
+
+    practices = BestPractices.new(data)
+    
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::BestPracticesResource)
+    .serialize_to_hash(Api::V1::BestPracticesResource.new(practices, nil))
+    
   end
 
 end

@@ -6,8 +6,8 @@
 #  product_id :integer
 #  store_id   :integer
 #  sales_date :datetime         not null
-#  quantity   :integer          not null
-#  amount     :integer
+#  quantity   :integer          default(0), not null
+#  amount     :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

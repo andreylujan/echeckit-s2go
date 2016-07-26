@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       resource :dashboard, only: [] do
         get :sales
         get :promoter_activity
+        get :best_practices
       end
 
       jsonapi_resources :organizations,

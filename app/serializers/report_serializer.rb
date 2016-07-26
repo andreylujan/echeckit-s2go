@@ -16,6 +16,7 @@
 #  pdf                :text
 #  pdf_uploaded       :boolean          default(FALSE), not null
 #  uuid               :text
+#  store_id           :integer
 #
 
 class ReportSerializer < ActiveModel::Serializer

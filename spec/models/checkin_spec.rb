@@ -12,6 +12,7 @@
 #  data           :json             not null
 #  arrival_lonlat :geometry({:srid= point, 0
 #  exit_lonlat    :geometry({:srid= point, 0
+#  store_id       :integer
 #
 
 require 'rails_helper'
