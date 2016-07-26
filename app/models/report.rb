@@ -39,7 +39,17 @@ class Report < ActiveRecord::Base
   after_create :update_monthly_sales
   after_create :update_daily_product_sales
   after_create :update_head_counts
+  after_create :cache_attribute_names
   belongs_to :store
+
+  def cache_attribute_names
+    if self.store.present?
+      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_zone"] = store.zone.name
+      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_dealer"] = store.dealer.name
+      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_store"] = store.name
+      save!
+    end
+  end
 
   def group_by_date_criteria
     created_at.to_date

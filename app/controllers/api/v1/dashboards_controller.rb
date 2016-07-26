@@ -165,7 +165,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
     # head_counts = filtered_head_counts
-    # hc_by_dealer = head_counts.group_
+    # dealer_counts = head_counts.group_by(&:group_by_dealer_criteria)
+    head_counts_by_dealer = [
+
+    ]
 
     data = {
       id: @start_date,
@@ -320,7 +323,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     grouped_products.sort! do |a, b|
       b[:quantity] <=> a[:quantity]
     end
-    grouped_products = grouped_products[0..8]
+    grouped_products = grouped_products[0..7]
 
     images = Image.joins(report: :store).
       where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
