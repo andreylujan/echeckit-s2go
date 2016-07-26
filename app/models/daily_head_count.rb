@@ -21,4 +21,9 @@ class DailyHeadCount < ActiveRecord::Base
 
   validates :num_full_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :num_part_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+
+  def group_by_dealer_criteria
+    store.dealer
+    # I18n.l(created_at, format: '%A %e').capitalize
+  end
 end

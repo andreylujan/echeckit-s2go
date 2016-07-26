@@ -30,7 +30,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_head_counts
     head_counts = DailyHeadCount.joins(:store)
-    .where("head_counts.created_at > ? AND head_counts.created_at < ?", @start_date, @end_date)
+    .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", @start_date, @end_date)
 
     if params[:store_id].present?
       head_counts = head_counts.where(store_id: params[:store_id].to_i )
@@ -164,6 +164,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     hours_by_day = grouped_hours[:by_day]
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
+    head_counts = filtered_head_counts
+    byebug
     
     data = {
       id: @start_date,

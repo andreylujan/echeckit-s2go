@@ -35,9 +35,9 @@ class Report < ActiveRecord::Base
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
+  after_create :assign_store
   after_create :update_monthly_sales
   after_create :update_daily_product_sales
-  after_create :assign_store
   after_create :update_head_counts
   belongs_to :store
 
