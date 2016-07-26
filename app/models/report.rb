@@ -38,7 +38,7 @@ class Report < ActiveRecord::Base
   after_create :update_monthly_sales
   after_create :update_daily_product_sales
   after_create :assign_store
-  # after_create :update_head_counts
+  after_create :update_head_counts
   belongs_to :store
 
   def group_by_date_criteria
