@@ -35,6 +35,7 @@ class Report < ActiveRecord::Base
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
   after_create :update_monthly_sales
+  after_create :update_daily_product_sales
 
   def group_by_criteria
     created_at.to_date
@@ -109,6 +110,17 @@ class Report < ActiveRecord::Base
     end
   end
 
+  def product_sales
+    if dynamic_attributes["sections"].present? and
+      dynamic_attributes["sections"][2].present? and
+      dynamic_attributes["sections"][2]["data_section"].present? and
+      dynamic_attributes["sections"][2]["data_section"][0].present? and
+      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"]["list"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"]["list"]
+    end
+  end
+
   def sales_type_set_mapping
     {
       "vr_hardware" => :hardware_sales=,
@@ -123,6 +135,22 @@ class Report < ActiveRecord::Base
       "vr_accesories" => :accessory_sales,
       "vr_games" => :game_sales
     }
+  end
+
+  def update_daily_product_sales
+    sales = product_sales
+
+    if sales.present?
+      sales.each do |product_sale|
+        product = Product.find(product_sale["game_id"])
+        daily_sale = DailyProductSale.find_or_create_by! store: store, product: product,
+          sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+        quantity = product_sale["game_amount"].to_i
+        if daily_sale.quantity < quantity
+          daily_sale.update_attributes! quantity: quantity
+        end
+      end
+    end
   end
 
   def update_monthly_sales

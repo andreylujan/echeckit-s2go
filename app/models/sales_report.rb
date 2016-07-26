@@ -6,4 +6,5 @@ class SalesReport
 	attr_accessor :sales_by_company
 	attr_accessor :year
 	attr_accessor :month
+	attr_accessor :top_products
 end

@@ -10,6 +10,7 @@
 #  hardware_sales  :integer          default(0), not null
 #  accessory_sales :integer          default(0), not null
 #  game_sales      :integer          default(0), not null
+#  brand_id        :integer          not null
 #
 
 class MonthlySale < ActiveRecord::Base

@@ -1,6 +1,6 @@
 class Api::V1::DashboardsController < Api::V1::JsonApiController
 
-
+  before_action :doorkeeper_authorize!
 
   def promoter_activity
     month = params.require(:month)
@@ -73,6 +73,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     month = params.require(:month)
     year = params.require(:year)
     sales_date = DateTime.new(year.to_i, month.to_i)
+    end_date = sales_date + 1.month
     sales = MonthlySale.joins(:store).where(sales_date: sales_date)
 
     if params[:store_id].present?
@@ -168,13 +169,53 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       sales_by_company << company_sales
 
     end
+
+
+    product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
+
+
+    if params[:store_id].present?
+      product_sales = product_sales.where(store_id: params[:store_id].to_i)
+    end
+
+    if params[:dealer_id].present?
+      product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+    end
+
+    if params[:instructor_id].present?
+      product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+
+    grouped_products = product_sales.group_by(&:product).map do |key, val|
+      { 
+        name: key.name,
+        quantity: val.inject(0) { |sum, x| sum + x.quantity},
+        sales_amount: 0
+      }
+    end
+    
+    grouped_products.sort! do |a, b|
+      b[:quantity] <=> a[:quantity]
+    end    
+    grouped_products = grouped_products[0..8]
+
+
     data = {
       sales_by_zone: sales_by_zone,
       share_percentages: share_percentages,
       sales_by_company: sales_by_company,
       year: year,
       month: month,
-      id: sales_date
+      id: sales_date,
+      top_products: grouped_products
     }
     report = SalesReport.new data
 
