@@ -164,9 +164,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     hours_by_day = grouped_hours[:by_day]
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
-    head_counts = filtered_head_counts
-    byebug
-    
+    # head_counts = filtered_head_counts
+    # hc_by_dealer = head_counts.group_
+
     data = {
       id: @start_date,
       year: @year,
