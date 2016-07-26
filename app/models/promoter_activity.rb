@@ -7,7 +7,7 @@ class PromoterActivity
 	attr_accessor :accumulated_checkins
 	attr_accessor :hours_by_day
 	attr_accessor :accumulated_hours
-	attr_accessor :head_counts_by_dealer
+	attr_accessor :head_counts
 	attr_accessor :year
 	attr_accessor :month
 end

@@ -164,9 +164,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     hours_by_day = grouped_hours[:by_day]
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
-    head_counts = filtered_head_counts
-    dealer_counts = head_counts.group_by(&:group_by_dealer_criteria)
-    head_counts_by_dealer = []
+    dealer_counts = filtered_head_counts.group_by(&:group_by_dealer_criteria)
+    head_counts = []
     dealer_counts.each do |key, val|
       
 
@@ -187,7 +186,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         name: key.name,
         brands: brands
       }
-      head_counts_by_dealer << dealer_obj
+      head_counts << dealer_obj
     end
   
 
@@ -201,7 +200,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       accumulated_checkins: accumulated_checkins,
       hours_by_day: hours_by_day,
       accumulated_hours: accumulated_hours,
-      head_counts_by_dealer: head_counts_by_dealer
+      head_counts: head_counts
     }
 
     promoter_activity = PromoterActivity.new data
