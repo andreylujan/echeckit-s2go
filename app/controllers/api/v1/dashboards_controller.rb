@@ -90,14 +90,16 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     }
   end
 
-  def get_accumulated(shortened_groups)
+  def get_accumulated(shortened_groups, accumulated = true)
     if DateTime.now < @end_date
       shortened_groups = shortened_groups[0..(DateTime.now.day - 1)]
     end
 
     shortened_groups.each_with_index.map do |e, i|
       sum = shortened_groups[0..i].inject(0) do |memo, obj|
-        if obj[1] >= 0
+        if not accumulated
+          obj[1]
+        elsif obj[1] >= 0
           obj[1] + memo
         else
           memo
@@ -124,7 +126,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     checkins = filtered_checkins
     grouped_checkins = group_by_day(checkins)
     checkins_by_day = grouped_checkins[:by_day]
-    accumulated_checkins = get_accumulated(grouped_checkins[:groups])
+    accumulated_checkins = get_accumulated(grouped_checkins[:groups], false)
 
 
     data = {
