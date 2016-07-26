@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726145956) do
+ActiveRecord::Schema.define(version: 20160726165058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,10 +67,12 @@ ActiveRecord::Schema.define(version: 20160726145956) do
     t.json     "data",                                              default: {}, null: false
     t.geometry "arrival_lonlat", limit: {:srid=>0, :type=>"point"}
     t.geometry "exit_lonlat",    limit: {:srid=>0, :type=>"point"}
+    t.integer  "store_id"
   end
 
   add_index "checkins", ["arrival_lonlat"], name: "index_checkins_on_arrival_lonlat", using: :gist
   add_index "checkins", ["exit_lonlat"], name: "index_checkins_on_exit_lonlat", using: :gist
+  add_index "checkins", ["store_id"], name: "index_checkins_on_store_id", using: :btree
   add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
 
   create_table "daily_product_sales", force: :cascade do |t|
@@ -387,12 +389,14 @@ ActiveRecord::Schema.define(version: 20160726145956) do
     t.text     "pdf"
     t.boolean  "pdf_uploaded",       default: false, null: false
     t.text     "uuid"
+    t.integer  "store_id"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
+  add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
   add_index "reports", ["uuid"], name: "index_reports_on_uuid", using: :btree
 
   create_table "roles", force: :cascade do |t|
@@ -557,6 +561,7 @@ ActiveRecord::Schema.define(version: 20160726145956) do
 
   add_foreign_key "broadcasts", "message_actions"
   add_foreign_key "categories", "organizations"
+  add_foreign_key "checkins", "stores"
   add_foreign_key "checkins", "users"
   add_foreign_key "daily_product_sales", "products"
   add_foreign_key "daily_product_sales", "stores"
@@ -581,6 +586,7 @@ ActiveRecord::Schema.define(version: 20160726145956) do
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
+  add_foreign_key "reports", "stores"
   add_foreign_key "roles", "organizations"
   add_foreign_key "sale_goals", "sale_goal_uploads"
   add_foreign_key "sale_goals", "stores"

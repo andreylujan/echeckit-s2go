@@ -79,9 +79,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     if params[:store_id].present?
       sales = sales.where(store_id: params[:store_id].to_i)
     end
-
-
-
+    
     if params[:dealer_id].present?
       sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
     end
@@ -207,6 +205,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end    
     grouped_products = grouped_products[0..8]
 
+    best_practices = Image.where("created_at >= ? AND created_at < ?", sales_date, end_date)
+      .order("created_at DESC")
+      .limit(10)
+      .map { |image| image.image.url }
 
     data = {
       sales_by_zone: sales_by_zone,
@@ -215,7 +217,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       year: year,
       month: month,
       id: sales_date,
-      top_products: grouped_products
+      top_products: grouped_products,
+      best_practices: best_practices
     }
     report = SalesReport.new data
 
@@ -223,4 +226,12 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     render json: JSONAPI::ResourceSerializer.new(Api::V1::SalesReportResource)
     .serialize_to_hash(Api::V1::SalesReportResource.new(report, nil))
   end
+
+  def best_practices
+    month = params.require(:month)
+    year = params.require(:year)
+    sales_date = DateTime.new(year.to_i, month.to_i)
+    end_date = sales_date + 1.month
+  end
+
 end

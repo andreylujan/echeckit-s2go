@@ -36,7 +36,9 @@ class Report < ActiveRecord::Base
   validate :limit_date_cannot_be_in_the_past
   after_create :update_monthly_sales
   after_create :update_daily_product_sales
-
+  after_create :assign_store
+  belongs_to :store
+  
   def group_by_criteria
     created_at.to_date
     # I18n.l(created_at, format: '%A %e').capitalize
@@ -84,10 +86,6 @@ class Report < ActiveRecord::Base
 
   def zone_name
     Zone.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["zone"]).name
-  end
-
-  def store
-    Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
   end
 
   def store_name
@@ -151,6 +149,11 @@ class Report < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def assign_store
+    self.store = Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
+    save!
   end
 
   def update_monthly_sales

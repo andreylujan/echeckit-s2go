@@ -22,6 +22,8 @@ class Checkin < ActiveRecord::Base
   # before_create :fill_data_attributes
   after_create :send_checkin_email
   after_save :send_checkout_email, if: :exit_time_changed?
+  after_create :assign_store
+  belongs_to :store
 
   def set_arrival_time
   	self.arrival_time = DateTime.now
@@ -96,7 +98,15 @@ class Checkin < ActiveRecord::Base
     end
   end
 
+  def assign_store
+    self.store = Store.find_by_id(data["store_id"])
+    save!
+  end
+
   private
+
+
+
   def fill_data_attributes
     if data["zone_id"].present?
       data["zone_name"] = Zone.find(data["zone_id"]).name
