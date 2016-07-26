@@ -180,7 +180,6 @@ class Report < ActiveRecord::Base
               count_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             if hc_type == "hc_promot_ft"
               if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_full_time
-                byebug
                 daily_hc.update_attributes! num_full_time: brand_data["value"].to_i
               end
             elsif hc_type == "hc_promot_pt"
