@@ -164,11 +164,32 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     hours_by_day = grouped_hours[:by_day]
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
 
-    # head_counts = filtered_head_counts
-    # dealer_counts = head_counts.group_by(&:group_by_dealer_criteria)
-    head_counts_by_dealer = [
+    head_counts = filtered_head_counts
+    dealer_counts = head_counts.group_by(&:group_by_dealer_criteria)
+    head_counts_by_dealer = []
+    dealer_counts.each do |key, val|
+      
 
-    ]
+      brands = []
+      
+      brand_groups = val.group_by(&:brand)
+
+      brand_groups.each do |brand, brand_counts|
+        brand_obj = {
+          name: brand.name,
+          num_full_time: brand_counts.inject(0) {|sum,x| sum + x.num_full_time },
+          num_part_time: brand_counts.inject(0) {|sum,x| sum + x.num_part_time }
+        }
+        
+        brands << brand_obj
+      end
+      dealer_obj = {
+        name: key.name,
+        brands: brands
+      }
+      head_counts_by_dealer << dealer_obj
+    end
+  
 
     data = {
       id: @start_date,
@@ -179,7 +200,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       checkins_by_day: checkins_by_day,
       accumulated_checkins: accumulated_checkins,
       hours_by_day: hours_by_day,
-      accumulated_hours: accumulated_hours
+      accumulated_hours: accumulated_hours,
+      head_counts_by_dealer: head_counts_by_dealer
     }
 
     promoter_activity = PromoterActivity.new data
@@ -334,19 +356,19 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     if params[:dealer_id].present?
-      images = images.where(reports: { stores: { dealer_id: params[:dealer_id].to_i }} )
+      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
     end
 
     if params[:instructor_id].present?
-      images = images.where(reports: { stores: { instructor_id: params[:instructor_id].to_i }})
+      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
     end
 
     if params[:supervisor_id].present?
-      images = images.where(reports: { stores: { supervisor_id: params[:supervisor_id].to_i }})
+      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
     end
 
     if params[:zone_id].present?
-      images = images.where(reports: { stores: { zone_id: params[:zone_id].to_i }})
+      images = images.where(stores: { zone_id: params[:zone_id].to_i })
     end
 
 
@@ -387,19 +409,19 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     if params[:dealer_id].present?
-      images = images.where(reports: { stores: { dealer_id: params[:dealer_id].to_i }} )
+      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
     end
 
     if params[:instructor_id].present?
-      images = images.where(reports: { stores: { instructor_id: params[:instructor_id].to_i }})
+      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
     end
 
     if params[:supervisor_id].present?
-      images = images.where(reports: { stores: { supervisor_id: params[:supervisor_id].to_i }})
+      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
     end
 
     if params[:zone_id].present?
-      images = images.where(reports: { stores: { zone_id: params[:zone_id].to_i }})
+      images = images.where(stores: { zone_id: params[:zone_id].to_i })
     end
 
     image_urls = images
