@@ -8,6 +8,8 @@ class PromoterActivity
 	attr_accessor :hours_by_day
 	attr_accessor :accumulated_hours
 	attr_accessor :head_counts
+	attr_accessor :head_counts_by_store
 	attr_accessor :year
 	attr_accessor :month
+	attr_accessor :best_practices
 end

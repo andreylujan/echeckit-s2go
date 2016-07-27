@@ -26,4 +26,9 @@ class DailyHeadCount < ActiveRecord::Base
     store.dealer
     # I18n.l(created_at, format: '%A %e').capitalize
   end
+
+  def group_by_store_criteria
+    store
+    # I18n.l(created_at, format: '%A %e').capitalize
+  end
 end
