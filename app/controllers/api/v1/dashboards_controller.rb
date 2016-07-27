@@ -192,7 +192,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     head_counts_by_store = []
     store_ids = []
 
-    if params[:dealer_id]
+    if params[:dealer_id].present?
       specific_counts = filtered_head_counts.where(stores: { dealer_id: params[:dealer_id].to_i } )
       store_counts = specific_counts.group_by(&:group_by_store_criteria)
 
