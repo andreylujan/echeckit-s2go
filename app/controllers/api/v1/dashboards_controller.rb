@@ -349,8 +349,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     grouped_prices = group_checklist_by_day(communicated_values_month, :group_by_date_criteria) do |k, v|
       [
         k, 
-        v.length,
         v.inject(0) { |sum, x | x.item_value ? 1 : 0 }
+        v.length        
       ]
     end
 
@@ -379,8 +379,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     grouped_promotions = group_checklist_by_day(communicated_promotions_month, :group_by_date_criteria) do |k, v|
       [
         k, 
-        v.length,
-        v.inject(0) { |sum, x | x.item_value ? 1 : 0 }
+        v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
+        v.length
       ]
     end
 
