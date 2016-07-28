@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::DealerResource < JSONAPI::Resource
   attributes :name, :contact, :phone_number, :address,
-	:zone_ids
+  :store_ids
 
   has_many :zones
   has_many :stores
