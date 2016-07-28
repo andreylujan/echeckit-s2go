@@ -28,10 +28,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     reports
   end
 
-  def filtered_communicated_prices(start_date = @start_date, end_date = @end_date)
+  def filtered_checklist_values(start_date = @start_date, end_date = @end_date, checklist_item_id)
 
     items = ChecklistItemValue.joins(report: :store)
-    .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
+    .where("reports.created_at > ? AND reports.created_at < ? AND data_part_id = ?", start_date, end_date, checklist_item_id)
     
     if params[:store_id].present?
       items = items.where(reports: { store_id: params[:store_id].to_i })
@@ -289,15 +289,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     end
 
-    communicated_values_today = filtered_communicated_prices(@current_date.beginning_of_day, @current_date)
-    communicated_values_yesterday = filtered_communicated_prices(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day)
+    communicated_values_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 144)
+    communicated_values_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 144)
     percent_prices_communicated_today = 
       communicated_values_today.count > 0 ? communicated_values_today.where(item_value: true).count.to_f/communicated_values_today.count.to_f : -1
     percent_prices_communicated_yesterday = 
       communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
     
     communicated_prices =
-    filtered_communicated_prices.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+    filtered_checklist_values(checklist_item_id = 144).where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
       {
         zone_name: key.zone.name,
         dealer_name: key.dealer.name,
@@ -305,7 +305,24 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }      
     end
     communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}  
-
+    
+   communicated_promotions_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 145)
+    communicated_promotions_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 145)
+    percent_promotions_communicated_today = 
+      communicated_promotions_today.count > 0 ? communicated_promotions_today.where(item_value: true).count.to_f/communicated_promotions_today.count.to_f : -1
+    percent_promotions_communicated_yesterday = 
+      communicated_promotions_yesterday.count > 0  ? communicated_promotions_yesterday.where(item_value: true).count.to_f/communicated_promotions_yesterday.count.to_f : -1
+    
+    communicated_promotions_by_store =
+    filtered_checklist_values(checklist_item_id = 145).where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+      {
+        zone_name: key.zone.name,
+        dealer_name: key.dealer.name,
+        store_name: key.name
+      }      
+    end
+    communicated_promotions_by_store.sort! { |a,b| a["store_name"] <=> b["store_name"]} 
+ 
 
     data = {
       id: @start_date,
@@ -327,7 +344,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       head_counts_by_store: head_counts_by_store,
       percent_prices_communicated_yesterday: percent_prices_communicated_yesterday,
       percent_prices_communicated_today: percent_prices_communicated_today,
-      communicated_prices_by_store: communicated_prices
+      communicated_prices_by_store: communicated_prices,
+      percent_promotions_communicated_yesterday: percent_promotions_communicated_yesterday,
+      percent_promotions_communicated_today: percent_promotions_communicated_today,
+      communicated_promotions_by_store: communicated_promotions_by_store
     }
 
     promoter_activity = PromoterActivity.new data

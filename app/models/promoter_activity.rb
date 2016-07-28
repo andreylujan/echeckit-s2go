@@ -20,4 +20,7 @@ class PromoterActivity
 	attr_accessor :percent_prices_communicated_yesterday
 	attr_accessor :percent_prices_communicated_today
 	attr_accessor :communicated_prices_by_store
+	attr_accessor :percent_promotions_communicated_yesterday
+	attr_accessor :percent_promotions_communicated_today
+	attr_accessor :communicated_promotions_by_store
 end
