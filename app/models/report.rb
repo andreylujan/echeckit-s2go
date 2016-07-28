@@ -40,7 +40,9 @@ class Report < ActiveRecord::Base
   after_create :update_daily_product_sales
   after_create :update_head_counts
   after_create :cache_attribute_names
+  after_create :record_checklist_data
   belongs_to :store
+  has_many :checklist_item_values
 
   def cache_attribute_names
     if self.store.present?
@@ -48,6 +50,24 @@ class Report < ActiveRecord::Base
       self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_dealer"] = store.dealer.name
       self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_store"] = store.name
       save!
+    end
+  end
+
+  def record_checklist_data
+    if dynamic_attributes["sections"].present? and
+      dynamic_attributes["sections"][1].present? and
+      dynamic_attributes["sections"][1]["data_section"].present? and
+      dynamic_attributes["sections"][1]["data_section"][0].present? and
+      dynamic_attributes["sections"][1]["data_section"][0]["protocolo"].present? and
+      dynamic_attributes["sections"][1]["data_section"][0]["protocolo"]["checklist"].present?
+      checklist = dynamic_attributes["sections"][1]["data_section"][0]["protocolo"]["checklist"]
+      checklist.each do |item|
+        if item.present? and (item["value"] == true or item["value"] == false)
+          checklist_item = ChecklistItem.find_by_name!(item["name"])
+          value = ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
+          item_value: item["value"]          
+        end
+      end
     end
   end
 

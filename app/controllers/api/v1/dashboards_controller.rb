@@ -2,9 +2,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
 
-  def filtered_reports
+  def filtered_reports(start_date = @start_date, end_date = @end_date)
     reports = Report.joins(:store)
-    .where("reports.created_at > ? AND reports.created_at < ?", @start_date, @end_date)
+    .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
 
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
@@ -28,17 +28,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     reports
   end
 
-  def filtered_head_counts
+  def filtered_head_counts(start_date = start_date, end_date = end_date)
     head_counts = DailyHeadCount.joins(:store)
-    .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", @start_date, @end_date)
+    .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", start_date, end_date)
 
     head_counts
   end
 
-  def filtered_checkins
+  def filtered_checkins(start_date = @start_date, end_date = @end_date)
     checkins = Checkin.joins(:store)
     .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
-      @start_date, @end_date)
+      start_date, end_date)
 
     if params[:store_id].present?
       checkins = checkins.where(store_id: params[:store_id].to_i )
@@ -126,24 +126,38 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     @current_date = DateTime.now
 
     reports = filtered_reports
+    num_reports_today = filtered_reports(@current_date.beginning_of_day, @current_date).count
+    num_reports_yesterday = filtered_reports(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
     grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
     accumulated_reports = get_accumulated(grouped[:groups])
 
     checkins = filtered_checkins
     grouped_checkins = group_by_day(checkins, :group_by_date_criteria) {|k,v| [k, v.length]}
+    num_checkins_today = filtered_checkins(@current_date.beginning_of_day, @current_date).count
+    num_checkins_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
+
     checkins_by_day = grouped_checkins[:by_day]
     accumulated_checkins = get_accumulated(grouped_checkins[:groups], false)
 
     grouped_hours = group_by_day(checkins, :group_by_date_criteria) do |k, v|
       [ 
-        k, v.inject(0) do |sum, x|
-          sum + ((x.exit_time-x.arrival_time)/1.hour).round
-        end
+        k, ((v.inject(0) do |sum, x|
+          sum + (x.exit_time-x.arrival_time)
+        end)/1.hour).round
       ]
     end
     hours_by_day = grouped_hours[:by_day]
     accumulated_hours = get_accumulated(grouped_hours[:groups], false)
+    num_hours_today = filtered_checkins(@current_date.beginning_of_day, @current_date).inject(0) do |sum, x|
+      sum + (x.exit_time-x.arrival_time)
+    end
+    num_hours_today = (num_hours_today/1.hour).round
+    num_hours_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day, 
+        @current_date.beginning_of_day).inject(0) do |sum, x|
+      sum + (x.exit_time-x.arrival_time)
+    end
+    num_hours_yesterday = (num_hours_yesterday/1.hour).round
 
     dealer_counts = filtered_head_counts.group_by(&:group_by_dealer_criteria)
     head_counts = []
@@ -248,48 +262,24 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     end
 
-    images = Image.joins(report: :store).
-      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, @start_date, @end_date)
-
-
-    if params[:store_id].present?
-      images = images.where(reports: { store_id: params[:store_id].to_i })
-    end
-
-    if params[:dealer_id].present?
-      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
-    end
-
-    if params[:instructor_id].present?
-      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
-
-    if params[:supervisor_id].present?
-      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
-
-    if params[:zone_id].present?
-      images = images.where(stores: { zone_id: params[:zone_id].to_i })
-    end
-
-
-    best_practices = images
-    .order("created_at DESC")
-    .limit(10)
-    .map { |image| image.image.url }
 
     data = {
       id: @start_date,
       year: @year,
       month: @month,
       reports_by_day: reports_by_day,
+      num_reports_yesterday: num_reports_yesterday,
+      num_reports_today: num_reports_today,
       accumulated_reports: accumulated_reports,
       checkins_by_day: checkins_by_day,
+      num_checkins_yesterday: num_checkins_yesterday,
+      num_checkins_today: num_checkins_today,
       accumulated_checkins: accumulated_checkins,
       hours_by_day: hours_by_day,
       accumulated_hours: accumulated_hours,
+      num_hours_yesterday: num_hours_yesterday,
+      num_hours_today: num_hours_today,
       head_counts: head_counts,
-      best_practices: best_practices,
       head_counts_by_store: head_counts_by_store
     }
 
@@ -436,6 +426,36 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     grouped_products = grouped_products[0..7]
 
+    images = Image.joins(report: :store).
+      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, @start_date, @end_date)
+
+
+    if params[:store_id].present?
+      images = images.where(reports: { store_id: params[:store_id].to_i })
+    end
+
+    if params[:dealer_id].present?
+      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      images = images.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+
+
+    best_practices = images
+    .order("created_at DESC")
+    .limit(10)
+    .map { |image| image.image.url }
+
 
     data = {
       sales_by_zone: sales_by_zone,
@@ -444,7 +464,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       year: year,
       month: month,
       id: sales_date,
-      top_products: grouped_products
+      top_products: grouped_products,
+      best_practices: best_practices
     }
     report = SalesReport.new data
 

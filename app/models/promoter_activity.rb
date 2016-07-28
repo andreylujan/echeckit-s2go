@@ -11,5 +11,10 @@ class PromoterActivity
 	attr_accessor :head_counts_by_store
 	attr_accessor :year
 	attr_accessor :month
-	attr_accessor :best_practices
+	attr_accessor :num_reports_yesterday
+	attr_accessor :num_reports_today
+	attr_accessor :num_checkins_yesterday
+	attr_accessor :num_checkins_today
+	attr_accessor :num_hours_yesterday
+	attr_accessor :num_hours_today
 end

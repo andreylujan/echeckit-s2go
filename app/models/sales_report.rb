@@ -7,4 +7,5 @@ class SalesReport
 	attr_accessor :year
 	attr_accessor :month
 	attr_accessor :top_products
+	attr_accessor :best_practices
 end
