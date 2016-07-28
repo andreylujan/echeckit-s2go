@@ -28,6 +28,33 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     reports
   end
 
+  def filtered_communicated_prices(start_date = @start_date, end_date = @end_date)
+
+    items = ChecklistItemValue.joins(report: :store)
+    .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
+    
+    if params[:store_id].present?
+      items = items.where(reports: { store_id: params[:store_id].to_i })
+    end
+
+    if params[:dealer_id].present?
+      items = items.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      items = items.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      items = items.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      items = items.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    items
+  end
+
   def filtered_head_counts(start_date = start_date, end_date = end_date)
     head_counts = DailyHeadCount.joins(:store)
     .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", start_date, end_date)
@@ -262,6 +289,20 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     end
 
+    communicated_values_today = filtered_communicated_prices(@current_date.beginning_of_day, @current_date)
+    communicated_values_yesterday = filtered_communicated_prices(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day)
+    percent_prices_communicated_today = 
+      communicated_values_today.count > 0 ? communicated_values_today.where(item_value: true).count.to_f/communicated_values_today.count.to_f : -1
+    percent_prices_communicated_yesterday = 
+      communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
+    
+    communicated_prices = []
+    filtered_communicated_prices.where(item_value: false).group_by(&:group_by_store_criteria) do |key, val|
+      
+    end
+
+    
+
 
     data = {
       id: @start_date,
@@ -455,7 +496,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     .order("created_at DESC")
     .limit(10)
     .map { |image| image.image.url }
-  
+    
 
     data = {
       sales_by_zone: sales_by_zone,
