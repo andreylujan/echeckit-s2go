@@ -55,7 +55,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     items
   end
 
-  def filtered_head_counts(start_date = start_date, end_date = end_date)
+  def filtered_head_counts(start_date = @start_date, end_date = @end_date)
     head_counts = DailyHeadCount.joins(:store)
     .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", start_date, end_date)
 
@@ -296,12 +296,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     percent_prices_communicated_yesterday = 
       communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
     
-    communicated_prices = []
-    filtered_communicated_prices.where(item_value: false).group_by(&:group_by_store_criteria) do |key, val|
-      
+    communicated_prices =
+    filtered_communicated_prices.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+      {
+        zone_name: key.zone.name,
+        dealer_name: key.dealer.name,
+        store_name: key.name
+      }      
     end
-
-    
+    communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}  
 
 
     data = {
@@ -321,7 +324,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       num_hours_yesterday: num_hours_yesterday,
       num_hours_today: num_hours_today,
       head_counts: head_counts,
-      head_counts_by_store: head_counts_by_store
+      head_counts_by_store: head_counts_by_store,
+      percent_prices_communicated_yesterday: percent_prices_communicated_yesterday,
+      percent_prices_communicated_today: percent_prices_communicated_today,
+      communicated_prices_by_store: communicated_prices
     }
 
     promoter_activity = PromoterActivity.new data

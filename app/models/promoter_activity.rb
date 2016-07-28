@@ -17,4 +17,7 @@ class PromoterActivity
 	attr_accessor :num_checkins_today
 	attr_accessor :num_hours_yesterday
 	attr_accessor :num_hours_today
+	attr_accessor :percent_prices_communicated_yesterday
+	attr_accessor :percent_prices_communicated_today
+	attr_accessor :communicated_prices_by_store
 end

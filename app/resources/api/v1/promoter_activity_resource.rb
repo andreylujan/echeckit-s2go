@@ -6,5 +6,8 @@ class Api::V1::PromoterActivityResource < JSONAPI::Resource
 		:hours_by_day, :accumulated_hours,
 		:num_hours_yesterday, :num_hours_today,
 		:head_counts, :head_counts_by_store,
+		:percent_prices_communicated_yesterday,
+		:percent_prices_communicated_today,
+		:communicated_prices_by_store,
 		:year, :month
 end
