@@ -427,7 +427,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     grouped_products = grouped_products[0..7]
 
     images = Image.joins(report: :store).
-      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, @start_date, @end_date)
+      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
 
 
     if params[:store_id].present?
@@ -455,7 +455,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     .order("created_at DESC")
     .limit(10)
     .map { |image| image.image.url }
-
+  
 
     data = {
       sales_by_zone: sales_by_zone,
