@@ -89,6 +89,42 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     checkins
   end
 
+  def group_checklist_by_day(collection, criteria, &block)
+    groups = collection.group_by(&criteria).map(&block).sort
+    current_index = 0
+    filled_in_groups = []
+
+    @days_in_month.times do |i|
+      if groups[current_index] && groups[current_index][0].day == (i + 1)
+        filled_in_groups << groups[current_index]
+        current_index += 1
+      else
+        date = DateTime.new(@year.to_i, @month.to_i, (i + 1)).to_date
+        if @current_date > date
+          new_day = [ date, 0, 0 ]
+        else
+          new_day = [ date, -1, -1 ]
+        end
+        filled_in_groups << new_day
+      end
+    end
+
+    groups = filled_in_groups
+
+    by_day = groups.map do |group|
+      {
+        week_day: I18n.l(group[0], format: '%A').capitalize,
+        month_day: group[0].day,
+        num_total: group[1],
+        num_fulfilled: group[2]
+      }
+    end
+    {
+      groups: groups,
+      by_day: by_day 
+    }
+  end
+
   def group_by_day(collection, criteria, &block)
     groups = collection.group_by(&criteria).map(&block).sort
     current_index = 0
@@ -130,16 +166,18 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     shortened_groups.each_with_index.map do |e, i|
-      sum = shortened_groups[0..i].inject(0) do |memo, obj|
+      
+      sum = shortened_groups[0..i].inject(Array.new(e.size - 1) { |i| 0 }) do |memo, obj|
         if not accumulated
-          obj[1]
+          obj[1..obj.length-1]
         elsif obj[1] >= 0
-          obj[1] + memo
+          
+          [obj[1..obj.length-1], memo].transpose.map {|x| x.reduce(:+)}
         else
           memo
         end
       end
-      [ e[0].day, sum ]
+      [ e[0].day ] + sum
     end
   end
 
@@ -289,6 +327,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     end
 
+    communicated_values_month = filtered_checklist_values(checklist_item_id = 144)
     communicated_values_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 144)
     communicated_values_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 144)
     percent_prices_communicated_today = 
@@ -296,8 +335,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     percent_prices_communicated_yesterday = 
       communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
     
+
     communicated_prices =
-    filtered_checklist_values(checklist_item_id = 144).where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+    communicated_values_month.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
       {
         zone_name: key.zone.name,
         dealer_name: key.dealer.name,
@@ -305,7 +345,21 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }      
     end
     communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}  
+
+    grouped_prices = group_checklist_by_day(communicated_values_month, :group_by_date_criteria) do |k, v|
+      [
+        k, 
+        v.length,
+        v.inject(0) { |sum, x | x.item_value ? 1 : 0 }
+      ]
+    end
+
+    prices_by_day = grouped_prices[:by_day]
+    accumulated_prices = get_accumulated(grouped_prices[:groups], false)
+
     
+    
+    communicated_promotions_month = filtered_checklist_values(checklist_item_id = 145)
    communicated_promotions_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 145)
     communicated_promotions_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 145)
     percent_promotions_communicated_today = 
@@ -322,7 +376,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }      
     end
     communicated_promotions_by_store.sort! { |a,b| a["store_name"] <=> b["store_name"]} 
- 
+    grouped_promotions = group_checklist_by_day(communicated_promotions_month, :group_by_date_criteria) do |k, v|
+      [
+        k, 
+        v.length,
+        v.inject(0) { |sum, x | x.item_value ? 1 : 0 }
+      ]
+    end
+
+    promotions_by_day = grouped_promotions[:by_day]
+    accumulated_promotions = get_accumulated(grouped_promotions[:groups], false)
+    
 
     data = {
       id: @start_date,
@@ -345,9 +409,13 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       percent_prices_communicated_yesterday: percent_prices_communicated_yesterday,
       percent_prices_communicated_today: percent_prices_communicated_today,
       communicated_prices_by_store: communicated_prices,
+      prices_by_day: prices_by_day,
+      accumulated_prices: accumulated_prices,
       percent_promotions_communicated_yesterday: percent_promotions_communicated_yesterday,
       percent_promotions_communicated_today: percent_promotions_communicated_today,
-      communicated_promotions_by_store: communicated_promotions_by_store
+      communicated_promotions_by_store: communicated_promotions_by_store,
+      promotions_by_day: promotions_by_day,
+      accumulated_promotions: accumulated_promotions
     }
 
     promoter_activity = PromoterActivity.new data

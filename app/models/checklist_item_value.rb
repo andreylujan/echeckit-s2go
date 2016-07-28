@@ -19,4 +19,8 @@ class ChecklistItemValue < ActiveRecord::Base
     report.store
     # I18n.l(created_at, format: '%A %e').capitalize
   end
+
+  def group_by_date_criteria
+  	report.created_at
+  end
 end

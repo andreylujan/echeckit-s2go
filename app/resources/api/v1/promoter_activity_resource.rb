@@ -9,8 +9,12 @@ class Api::V1::PromoterActivityResource < JSONAPI::Resource
 		:percent_prices_communicated_yesterday,
 		:percent_prices_communicated_today,
 		:communicated_prices_by_store,
+		:prices_by_day,
+		:accumulated_prices,
 		:percent_promotions_communicated_yesterday,
 		:percent_promotions_communicated_today,
 		:communicated_promotions_by_store,
+		:promotions_by_day,
+		:accumulated_promotions,
 		:year, :month
 end
