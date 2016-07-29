@@ -41,6 +41,7 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 gem 'rack-cors', '~> 0.4.0', :require => 'rack/cors'
 gem 'acts_as_list', '~> 0.7.4'
 gem 'pundit', '~> 1.1'
+gem 'acts_as_xlsx', git: 'https://github.com/straydogstudio/acts_as_xlsx'
 
 group :development do
   gem 'capistrano-dotenv-tasks', '~> 0.1.3', require: false

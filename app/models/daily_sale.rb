@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: daily_sales
+#
+#  id              :integer          not null, primary key
+#  store_id        :integer          not null
+#  brand_id        :integer          not null
+#  sales_date      :datetime         not null
+#  hardware_sales  :integer          default(0), not null
+#  accessory_sales :integer          default(0), not null
+#  game_sales      :integer          default(0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class DailySale < ActiveRecord::Base
   belongs_to :store
   belongs_to :brand
@@ -7,9 +22,28 @@ class DailySale < ActiveRecord::Base
   validates :hardware_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :accessory_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
+      :store_name, :brand_name, :sales_date, :hardware_sales, :accessory_sales,
+    :game_sales ]
 
   def dealer_criteria
     store.dealer
+  end
+
+  def zone_name
+    store.zone.name
+  end
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def store_name
+    store.name
+  end
+
+  def brand_name
+    brand.name
   end
 
   def week_criteria
