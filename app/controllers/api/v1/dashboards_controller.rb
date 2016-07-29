@@ -78,8 +78,48 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     stock_breaks.sort! { |a, b| a[:store_name] <=> b[:store_name] }
 
+    product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ? AND quantity > ?", @start_date, @end_date, 0)
+
+
+    if params[:store_id].present?
+      product_sales = product_sales.where(store_id: params[:store_id].to_i)
+    end
+
+    if params[:dealer_id].present?
+      product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+    end
+
+    if params[:instructor_id].present?
+      product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+
+    grouped_products = product_sales.group_by(&:product).map do |key, val|
+      {
+        ean: key.sku,
+        description: key.name,
+        classification: key.product_classification.name,
+        platform: key.platform.name,
+        publisher: key.publisher,
+        units: val.inject(0) { |sum, x| sum + x.quantity},
+        sales_amount: 0
+      }
+    end
+
+    grouped_products.sort! do |a, b|
+      b[:units] <=> a[:units]
+    end
+
       data = {
       id: @start_date,
+      top_products: grouped_products,
       stock_breaks: stock_breaks
     }
 
