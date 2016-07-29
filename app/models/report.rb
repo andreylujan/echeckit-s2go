@@ -37,6 +37,7 @@ class Report < ActiveRecord::Base
   validate :limit_date_cannot_be_in_the_past
   after_create :assign_store
   after_create :update_monthly_sales
+  after_create :update_daily_sales
   after_create :update_daily_product_sales
   after_create :update_head_counts
   after_create :cache_attribute_names
@@ -246,6 +247,27 @@ class Report < ActiveRecord::Base
               if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_part_time
                 daily_hc.update_attributes! num_part_time: brand_data["value"].to_i
               end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def update_daily_sales
+    sales = sales_info
+
+    if sales.present?
+      sales.each do |sales_type, type_data|
+        type_data.each do |brand_sales|
+          brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
+          if brand.present?
+            daily_sale = DailySale.find_or_create_by! store: store, brand: brand,
+              sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+            current_sales = daily_sale.send sales_type_get_mapping[sales_type]
+            if current_sales < brand_sales["value"].to_i
+              daily_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
+              daily_sale.save!
             end
           end
         end

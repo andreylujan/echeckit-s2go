@@ -55,6 +55,35 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     stock_breaks
   end
 
+  def goals
+    @month = params.require(:month)
+    @year = params.require(:year)
+    @start_date = DateTime.new(@year.to_i, @month.to_i)
+    @end_date = @start_date + 1.month
+    @days_in_month = @start_date.end_of_month.day
+    @current_date = DateTime.now
+
+    monthly_sales_vs_goals = []
+    weekly_sales_vs_goals = []
+    monthly_sales_comparison = []
+    weekly_sales_comparison = []
+
+    data = {
+      id: @start_date,
+      monthly_sales_vs_goals: monthly_sales_vs_goals,
+      weekly_sales_vs_goals: weekly_sales_vs_goals,
+      monthly_sales_comparison: monthly_sales_comparison,
+      weekly_sales_comparison: weekly_sales_comparison
+
+    }
+
+    goal_dashboard = GoalDashboard.new data
+
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::GoalDashboardResource)
+    .serialize_to_hash(Api::V1::GoalDashboardResource.new(goal_dashboard, nil))
+
+  end
+
   def stock
     @month = params.require(:month)
     @year = params.require(:year)
@@ -117,7 +146,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       b[:units] <=> a[:units]
     end
 
-      data = {
+    data = {
       id: @start_date,
       top_products: grouped_products,
       stock_breaks: stock_breaks
@@ -133,7 +162,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     items = ChecklistItemValue.joins(report: :store)
     .where("reports.created_at > ? AND reports.created_at < ? AND data_part_id = ?", start_date, end_date, checklist_item_id)
-    
+
     if params[:store_id].present?
       items = items.where(reports: { store_id: params[:store_id].to_i })
     end
@@ -166,7 +195,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   def filtered_checkins(start_date = @start_date, end_date = @end_date)
     checkins = Checkin.joins(:store)
     .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
-      start_date, end_date)
+           start_date, end_date)
 
     if params[:store_id].present?
       checkins = checkins.where(store_id: params[:store_id].to_i )
@@ -222,7 +251,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     {
       groups: groups,
-      by_day: by_day 
+      by_day: by_day
     }
   end
 
@@ -257,7 +286,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     {
       groups: groups,
-      by_day: by_day 
+      by_day: by_day
     }
   end
 
@@ -267,12 +296,12 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     shortened_groups.each_with_index.map do |e, i|
-      
+
       sum = shortened_groups[0..i].inject(Array.new(e.size - 1) { |i| 0 }) do |memo, obj|
         if not accumulated
           obj[1..obj.length-1]
         elsif obj[1] >= 0
-          
+
           [obj[1..obj.length-1], memo].transpose.map {|x| x.reduce(:+)}
         else
           memo
@@ -283,7 +312,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   end
 
   def promoter_activity
-    
+
     @month = params.require(:month)
     @year = params.require(:year)
     @start_date = DateTime.new(@year.to_i, @month.to_i)
@@ -307,10 +336,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     accumulated_checkins = get_accumulated(grouped_checkins[:groups], false)
 
     grouped_hours = group_by_day(checkins, :group_by_date_criteria) do |k, v|
-      [ 
+      [
         k, ((v.inject(0) do |sum, x|
-          sum + (x.exit_time-x.arrival_time)
-        end)/1.hour).round
+               sum + (x.exit_time-x.arrival_time)
+            end)/1.hour).round
       ]
     end
     hours_by_day = grouped_hours[:by_day]
@@ -319,441 +348,441 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       sum + (x.exit_time-x.arrival_time)
     end
     num_hours_today = (num_hours_today/1.hour).round
-    num_hours_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day, 
+        num_hours_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day,
         @current_date.beginning_of_day).inject(0) do |sum, x|
-      sum + (x.exit_time-x.arrival_time)
-    end
-    num_hours_yesterday = (num_hours_yesterday/1.hour).round
-
-    dealer_counts = filtered_head_counts.group_by(&:group_by_dealer_criteria)
-    head_counts = []
-    dealer_ids = []
-    dealer_counts.each do |key, val|
-      
-      brands = []
-      brand_groups = val.group_by(&:brand)
-
-      brand_groups.each do |brand, brand_counts|
-        brand_obj = {
-          name: brand.name,
-          num_full_time: brand_counts.inject(0) {|sum,x| sum + x.num_full_time },
-          num_part_time: brand_counts.inject(0) {|sum,x| sum + x.num_part_time }
-        }
-        
-        brands << brand_obj
-      end
-      dealer_obj = {
-        name: key.name,
-        brands: brands
-      }
-      dealer_ids << key.id
-      head_counts << dealer_obj
-    end
-
-
-    Dealer.where.not(id: dealer_ids).each do |dealer|
-      brands = []
-      Brand.all.each do |brand|
-        brands << {
-          name: brand.name,
-          num_full_time: 0,
-          num_part_time: 0
-        }
-      end
-      dealer_obj = {
-        name: dealer.name,
-        brands: brands
-      }
-      head_counts << dealer_obj
-    end
-
-    head_counts.sort! { |a, b| a[:name] <=> b[:name] }
-    
-    head_counts_by_store = []
-    store_ids = []
-
-    if params[:dealer_id].present?
-      specific_counts = filtered_head_counts.where(stores: { dealer_id: params[:dealer_id].to_i } )
-      store_counts = specific_counts.group_by(&:group_by_store_criteria)
-
-      store_counts.each do |key, val|
-        brands = []
-        brand_groups = val.group_by(&:brand)
-
-        brand_groups.each do |brand, brand_counts|
-          brand_obj = {
-            name: brand.name,
-            num_full_time: brand_counts.inject(0) {|sum,x| sum + x.num_full_time },
-            num_part_time: brand_counts.inject(0) {|sum,x| sum + x.num_part_time }
-          }
-          
-          brands << brand_obj
+          sum + (x.exit_time-x.arrival_time)
         end
-        store_obj = {
-          name: key.name,
-          brands: brands
-        }
-        store_ids << key.id
-        head_counts_by_store << store_obj
-      end
+        num_hours_yesterday = (num_hours_yesterday/1.hour).round
 
-      dealer_stores = Dealer.find(params[:dealer_id]).stores.where.not(id: store_ids)
-      if params[:zone_id].present?
-        dealer_stores = dealer_stores.where(stores: { zone_id: params[:zone_id ]})
-      end
-      if params[:instructor_id].present?
-        dealer_stores = dealer_stores.where(stores: { instructor_id: params[:instructor_id ]})
-      end
-      if params[:supervisor_id].present?
-        dealer_stores = dealer_stores.where(stores: { supervisor_id: params[:supervisor_id ]})
-      end
+        dealer_counts = filtered_head_counts.group_by(&:group_by_dealer_criteria)
+        head_counts = []
+        dealer_ids = []
+        dealer_counts.each do |key, val|
 
-      dealer_stores.each do |store|
-        brands = []
-        Brand.all.each do |brand|
-          brands << {
-            name: brand.name,
-            num_full_time: 0,
-            num_part_time: 0
+          brands = []
+          brand_groups = val.group_by(&:brand)
+
+          brand_groups.each do |brand, brand_counts|
+            brand_obj = {
+              name: brand.name,
+              num_full_time: brand_counts.inject(0) {|sum,x| sum + x.num_full_time },
+              num_part_time: brand_counts.inject(0) {|sum,x| sum + x.num_part_time }
+            }
+
+            brands << brand_obj
+          end
+          dealer_obj = {
+            name: key.name,
+            brands: brands
+          }
+          dealer_ids << key.id
+          head_counts << dealer_obj
+        end
+
+
+        Dealer.where.not(id: dealer_ids).each do |dealer|
+          brands = []
+          Brand.all.each do |brand|
+            brands << {
+              name: brand.name,
+              num_full_time: 0,
+              num_part_time: 0
+            }
+          end
+          dealer_obj = {
+            name: dealer.name,
+            brands: brands
+          }
+          head_counts << dealer_obj
+        end
+
+        head_counts.sort! { |a, b| a[:name] <=> b[:name] }
+
+        head_counts_by_store = []
+        store_ids = []
+
+        if params[:dealer_id].present?
+          specific_counts = filtered_head_counts.where(stores: { dealer_id: params[:dealer_id].to_i } )
+          store_counts = specific_counts.group_by(&:group_by_store_criteria)
+
+          store_counts.each do |key, val|
+            brands = []
+            brand_groups = val.group_by(&:brand)
+
+            brand_groups.each do |brand, brand_counts|
+              brand_obj = {
+                name: brand.name,
+                num_full_time: brand_counts.inject(0) {|sum,x| sum + x.num_full_time },
+                num_part_time: brand_counts.inject(0) {|sum,x| sum + x.num_part_time }
+              }
+
+              brands << brand_obj
+            end
+            store_obj = {
+              name: key.name,
+              brands: brands
+            }
+            store_ids << key.id
+            head_counts_by_store << store_obj
+          end
+
+          dealer_stores = Dealer.find(params[:dealer_id]).stores.where.not(id: store_ids)
+          if params[:zone_id].present?
+            dealer_stores = dealer_stores.where(stores: { zone_id: params[:zone_id ]})
+          end
+          if params[:instructor_id].present?
+            dealer_stores = dealer_stores.where(stores: { instructor_id: params[:instructor_id ]})
+          end
+          if params[:supervisor_id].present?
+            dealer_stores = dealer_stores.where(stores: { supervisor_id: params[:supervisor_id ]})
+          end
+
+          dealer_stores.each do |store|
+            brands = []
+            Brand.all.each do |brand|
+              brands << {
+                name: brand.name,
+                num_full_time: 0,
+                num_part_time: 0
+              }
+            end
+            store_obj = {
+              name: store.name,
+              brands: brands
+            }
+            head_counts_by_store << store_obj
+          end
+
+          head_counts_by_store.sort! { |a, b| a[:name] <=> b[:name] }
+
+        end
+
+        communicated_values_month = filtered_checklist_values(checklist_item_id = 144)
+        communicated_values_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 144)
+        communicated_values_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 144)
+        percent_prices_communicated_today =
+        communicated_values_today.count > 0 ? communicated_values_today.where(item_value: true).count.to_f/communicated_values_today.count.to_f : -1
+        percent_prices_communicated_yesterday =
+        communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
+
+
+        communicated_prices =
+        communicated_values_month.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+          {
+            zone_name: key.zone.name,
+            dealer_name: key.dealer.name,
+            store_name: key.name
           }
         end
-        store_obj = {
-          name: store.name,
-          brands: brands
+        communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}
+
+        grouped_prices = group_checklist_by_day(communicated_values_month, :group_by_date_criteria) do |k, v|
+          [
+            k,
+            v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
+            v.length
+          ]
+        end
+
+        prices_by_day = grouped_prices[:by_day]
+        accumulated_prices = get_accumulated(grouped_prices[:groups], false)
+
+
+
+        communicated_promotions_month = filtered_checklist_values(checklist_item_id = 145)
+        communicated_promotions_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 145)
+        communicated_promotions_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 145)
+        percent_promotions_communicated_today =
+        communicated_promotions_today.count > 0 ? communicated_promotions_today.where(item_value: true).count.to_f/communicated_promotions_today.count.to_f : -1
+        percent_promotions_communicated_yesterday =
+        communicated_promotions_yesterday.count > 0  ? communicated_promotions_yesterday.where(item_value: true).count.to_f/communicated_promotions_yesterday.count.to_f : -1
+
+        communicated_promotions_by_store =
+        filtered_checklist_values(checklist_item_id = 145).where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
+          {
+            zone_name: key.zone.name,
+            dealer_name: key.dealer.name,
+            store_name: key.name
+          }
+        end
+        communicated_promotions_by_store.sort! { |a,b| a["store_name"] <=> b["store_name"]}
+        grouped_promotions = group_checklist_by_day(communicated_promotions_month, :group_by_date_criteria) do |k, v|
+          [
+            k,
+            v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
+            v.length
+          ]
+        end
+
+        promotions_by_day = grouped_promotions[:by_day]
+        accumulated_promotions = get_accumulated(grouped_promotions[:groups], false)
+
+
+        data = {
+          id: @start_date,
+          year: @year,
+          month: @month,
+          reports_by_day: reports_by_day,
+          num_reports_yesterday: num_reports_yesterday,
+          num_reports_today: num_reports_today,
+          accumulated_reports: accumulated_reports,
+          checkins_by_day: checkins_by_day,
+          num_checkins_yesterday: num_checkins_yesterday,
+          num_checkins_today: num_checkins_today,
+          accumulated_checkins: accumulated_checkins,
+          hours_by_day: hours_by_day,
+          accumulated_hours: accumulated_hours,
+          num_hours_yesterday: num_hours_yesterday,
+          num_hours_today: num_hours_today,
+          head_counts: head_counts,
+          head_counts_by_store: head_counts_by_store,
+          percent_prices_communicated_yesterday: percent_prices_communicated_yesterday,
+          percent_prices_communicated_today: percent_prices_communicated_today,
+          communicated_prices_by_store: communicated_prices,
+          prices_by_day: prices_by_day,
+          accumulated_prices: accumulated_prices,
+          percent_promotions_communicated_yesterday: percent_promotions_communicated_yesterday,
+          percent_promotions_communicated_today: percent_promotions_communicated_today,
+          communicated_promotions_by_store: communicated_promotions_by_store,
+          promotions_by_day: promotions_by_day,
+          accumulated_promotions: accumulated_promotions
         }
-        head_counts_by_store << store_obj
-      end
-
-      head_counts_by_store.sort! { |a, b| a[:name] <=> b[:name] }
-
-    end
-
-    communicated_values_month = filtered_checklist_values(checklist_item_id = 144)
-    communicated_values_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 144)
-    communicated_values_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 144)
-    percent_prices_communicated_today = 
-      communicated_values_today.count > 0 ? communicated_values_today.where(item_value: true).count.to_f/communicated_values_today.count.to_f : -1
-    percent_prices_communicated_yesterday = 
-      communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
-    
-
-    communicated_prices =
-    communicated_values_month.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
-      {
-        zone_name: key.zone.name,
-        dealer_name: key.dealer.name,
-        store_name: key.name
-      }      
-    end
-    communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}  
-
-    grouped_prices = group_checklist_by_day(communicated_values_month, :group_by_date_criteria) do |k, v|
-      [
-        k, 
-        v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
-        v.length        
-      ]
-    end
-
-    prices_by_day = grouped_prices[:by_day]
-    accumulated_prices = get_accumulated(grouped_prices[:groups], false)
-
-    
-    
-    communicated_promotions_month = filtered_checklist_values(checklist_item_id = 145)
-   communicated_promotions_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 145)
-    communicated_promotions_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 145)
-    percent_promotions_communicated_today = 
-      communicated_promotions_today.count > 0 ? communicated_promotions_today.where(item_value: true).count.to_f/communicated_promotions_today.count.to_f : -1
-    percent_promotions_communicated_yesterday = 
-      communicated_promotions_yesterday.count > 0  ? communicated_promotions_yesterday.where(item_value: true).count.to_f/communicated_promotions_yesterday.count.to_f : -1
-    
-    communicated_promotions_by_store =
-    filtered_checklist_values(checklist_item_id = 145).where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
-      {
-        zone_name: key.zone.name,
-        dealer_name: key.dealer.name,
-        store_name: key.name
-      }      
-    end
-    communicated_promotions_by_store.sort! { |a,b| a["store_name"] <=> b["store_name"]} 
-    grouped_promotions = group_checklist_by_day(communicated_promotions_month, :group_by_date_criteria) do |k, v|
-      [
-        k, 
-        v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
-        v.length
-      ]
-    end
-
-    promotions_by_day = grouped_promotions[:by_day]
-    accumulated_promotions = get_accumulated(grouped_promotions[:groups], false)
-    
-
-    data = {
-      id: @start_date,
-      year: @year,
-      month: @month,
-      reports_by_day: reports_by_day,
-      num_reports_yesterday: num_reports_yesterday,
-      num_reports_today: num_reports_today,
-      accumulated_reports: accumulated_reports,
-      checkins_by_day: checkins_by_day,
-      num_checkins_yesterday: num_checkins_yesterday,
-      num_checkins_today: num_checkins_today,
-      accumulated_checkins: accumulated_checkins,
-      hours_by_day: hours_by_day,
-      accumulated_hours: accumulated_hours,
-      num_hours_yesterday: num_hours_yesterday,
-      num_hours_today: num_hours_today,
-      head_counts: head_counts,
-      head_counts_by_store: head_counts_by_store,
-      percent_prices_communicated_yesterday: percent_prices_communicated_yesterday,
-      percent_prices_communicated_today: percent_prices_communicated_today,
-      communicated_prices_by_store: communicated_prices,
-      prices_by_day: prices_by_day,
-      accumulated_prices: accumulated_prices,
-      percent_promotions_communicated_yesterday: percent_promotions_communicated_yesterday,
-      percent_promotions_communicated_today: percent_promotions_communicated_today,
-      communicated_promotions_by_store: communicated_promotions_by_store,
-      promotions_by_day: promotions_by_day,
-      accumulated_promotions: accumulated_promotions
-    }
-
-    promoter_activity = PromoterActivity.new data
-
-    render json: JSONAPI::ResourceSerializer.new(Api::V1::PromoterActivityResource)
-    .serialize_to_hash(Api::V1::PromoterActivityResource.new(promoter_activity, nil))
-
-  end
-
-  def sales
-    month = params.require(:month)
-    year = params.require(:year)
-    sales_date = DateTime.new(year.to_i, month.to_i)
-    end_date = sales_date + 1.month
-    sales = MonthlySale.joins(:store).where(sales_date: sales_date)
-
-    if params[:store_id].present?
-      sales = sales.where(store_id: params[:store_id].to_i)
-    end
-
-    if params[:dealer_id].present?
-      sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
-    end
-
-    if params[:instructor_id].present?
-      sales = sales.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
-
-    if params[:supervisor_id].present?
-      sales = sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
-
-    sales_by_zone = [
-    ]
-
-    total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
-
-    Zone.all.each do |zone|
-
-      zone_sales = sales.where(stores: { zone_id: zone.id })
-      num_zone_sales = zone_sales.sum(:hardware_sales) + zone_sales.sum(:accessory_sales) +
-        zone_sales.sum(:game_sales)
-
-
-      brands_array = [
-      ]
-      Brand.all.each do |brand|
-        brand_sales = zone_sales.where(brand: brand)
-        sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
-          brand_sales.sum(:game_sales)
-        share_percentage = num_zone_sales > 0 ? sales_amount.to_f/num_zone_sales.to_f : 0
-        brand_obj = {
-          name: brand.name,
-          sales_amount: sales_amount,
-          share_percentage: share_percentage
-        }
-        brands_array << brand_obj
-      end
-
-      zones_obj = {
-        name: zone.name,
-        sales_amount: num_zone_sales,
-        sales_by_company: brands_array
-      }
-      sales_by_zone << zones_obj
-    end
-
-
-    if params[:zone_id].present?
-      sales = sales.where(stores: { zone_id: params[:zone_id].to_i })
-    end
 
-    share_percentages = [
-
-    ]
-
-    sales_by_company = [
-
-    ]
-
-    total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
-
-    Brand.all.each do |brand|
-      brand_sales = sales.where(brand: brand)
-      sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
-        brand_sales.sum(:game_sales)
-      share_obj = {
-        name: brand.name,
-        sales_amount: sales_amount,
-        share_percentage: total_sales > 0 ? sales_amount.to_f/total_sales.to_f : 0
-      }
-      share_percentages << share_obj
-      hardware = 0
-      accessories = 0
-      games = 0
-
-      company_sales = {
-        name: brand.name,
-        sales_by_type: {
-          hardware: brand_sales.sum(:hardware_sales),
-          accessories: brand_sales.sum(:accessory_sales),
-          games: brand_sales.sum(:game_sales)
-        }
-      }
-      sales_by_company << company_sales
-
-    end
-
-
-    product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
-
-
-    if params[:store_id].present?
-      product_sales = product_sales.where(store_id: params[:store_id].to_i)
-    end
-
-    if params[:dealer_id].present?
-      product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
-    end
-
-    if params[:instructor_id].present?
-      product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
-
-    if params[:supervisor_id].present?
-      product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
-
-    if params[:zone_id].present?
-      product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
-    end
-
-    grouped_products = product_sales.group_by(&:product).map do |key, val|
-      {
-        name: key.name,
-        quantity: val.inject(0) { |sum, x| sum + x.quantity},
-        sales_amount: 0
-      }
-    end
+        promoter_activity = PromoterActivity.new data
+
+        render json: JSONAPI::ResourceSerializer.new(Api::V1::PromoterActivityResource)
+        .serialize_to_hash(Api::V1::PromoterActivityResource.new(promoter_activity, nil))
+
+        end
+
+        def sales
+          month = params.require(:month)
+          year = params.require(:year)
+          sales_date = DateTime.new(year.to_i, month.to_i)
+          end_date = sales_date + 1.month
+          sales = MonthlySale.joins(:store).where(sales_date: sales_date)
 
-    grouped_products.sort! do |a, b|
-      b[:quantity] <=> a[:quantity]
-    end
-    grouped_products = grouped_products[0..7]
+          if params[:store_id].present?
+            sales = sales.where(store_id: params[:store_id].to_i)
+          end
 
-    images = Image.joins(report: :store).
-      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+          if params[:dealer_id].present?
+            sales = sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+          end
 
+          if params[:instructor_id].present?
+            sales = sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
 
-    if params[:store_id].present?
-      images = images.where(reports: { store_id: params[:store_id].to_i })
-    end
+          if params[:supervisor_id].present?
+            sales = sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
 
-    if params[:dealer_id].present?
-      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
-    end
+          sales_by_zone = [
+          ]
 
-    if params[:instructor_id].present?
-      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
+          total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
 
-    if params[:supervisor_id].present?
-      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
+          Zone.all.each do |zone|
+
+            zone_sales = sales.where(stores: { zone_id: zone.id })
+            num_zone_sales = zone_sales.sum(:hardware_sales) + zone_sales.sum(:accessory_sales) +
+              zone_sales.sum(:game_sales)
+
+
+            brands_array = [
+            ]
+            Brand.all.each do |brand|
+              brand_sales = zone_sales.where(brand: brand)
+              sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
+                brand_sales.sum(:game_sales)
+              share_percentage = num_zone_sales > 0 ? sales_amount.to_f/num_zone_sales.to_f : 0
+              brand_obj = {
+                name: brand.name,
+                sales_amount: sales_amount,
+                share_percentage: share_percentage
+              }
+              brands_array << brand_obj
+            end
 
-    if params[:zone_id].present?
-      images = images.where(stores: { zone_id: params[:zone_id].to_i })
-    end
+            zones_obj = {
+              name: zone.name,
+              sales_amount: num_zone_sales,
+              sales_by_company: brands_array
+            }
+            sales_by_zone << zones_obj
+          end
 
 
-    best_practices = images
-    .order("created_at DESC")
-    .limit(10)
-    .map { |image| image.image.url }
-    
+          if params[:zone_id].present?
+            sales = sales.where(stores: { zone_id: params[:zone_id].to_i })
+          end
 
-    data = {
-      sales_by_zone: sales_by_zone,
-      share_percentages: share_percentages,
-      sales_by_company: sales_by_company,
-      year: year,
-      month: month,
-      id: sales_date,
-      top_products: grouped_products,
-      best_practices: best_practices
-    }
-    report = SalesReport.new data
+          share_percentages = [
 
+          ]
 
-    render json: JSONAPI::ResourceSerializer.new(Api::V1::SalesReportResource)
-    .serialize_to_hash(Api::V1::SalesReportResource.new(report, nil))
-  end
+          sales_by_company = [
 
-  def best_practices
-    month = params.require(:month)
-    year = params.require(:year)
-    sales_date = DateTime.new(year.to_i, month.to_i)
-    end_date = sales_date + 1.month
+          ]
 
-    images = Image.joins(report: :store).
-      where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+          total_sales = sales.sum(:hardware_sales) + sales.sum(:accessory_sales) + sales.sum(:game_sales)
 
+          Brand.all.each do |brand|
+            brand_sales = sales.where(brand: brand)
+            sales_amount = brand_sales.sum(:hardware_sales) + brand_sales.sum(:accessory_sales) +
+              brand_sales.sum(:game_sales)
+            share_obj = {
+              name: brand.name,
+              sales_amount: sales_amount,
+              share_percentage: total_sales > 0 ? sales_amount.to_f/total_sales.to_f : 0
+            }
+            share_percentages << share_obj
+            hardware = 0
+            accessories = 0
+            games = 0
 
-    if params[:store_id].present?
-      images = images.where(reports: { store_id: params[:store_id].to_i })
-    end
+            company_sales = {
+              name: brand.name,
+              sales_by_type: {
+                hardware: brand_sales.sum(:hardware_sales),
+                accessories: brand_sales.sum(:accessory_sales),
+                games: brand_sales.sum(:game_sales)
+              }
+            }
+            sales_by_company << company_sales
 
-    if params[:dealer_id].present?
-      images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
-    end
+          end
 
-    if params[:instructor_id].present?
-      images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
 
-    if params[:supervisor_id].present?
-      images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
+          product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
 
-    if params[:zone_id].present?
-      images = images.where(stores: { zone_id: params[:zone_id].to_i })
-    end
 
-    image_urls = images
-    .order("created_at DESC")
-    .map { |image| image.image.url }
+          if params[:store_id].present?
+            product_sales = product_sales.where(store_id: params[:store_id].to_i)
+          end
 
-    data = {
-      id: sales_date,
-      image_urls: image_urls
-    }
+          if params[:dealer_id].present?
+            product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+          end
 
-    practices = BestPractices.new(data)
+          if params[:instructor_id].present?
+            product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
 
-    render json: JSONAPI::ResourceSerializer.new(Api::V1::BestPracticesResource)
-    .serialize_to_hash(Api::V1::BestPracticesResource.new(practices, nil))
+          if params[:supervisor_id].present?
+            product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
 
-  end
+          if params[:zone_id].present?
+            product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
+          end
 
-end
+          grouped_products = product_sales.group_by(&:product).map do |key, val|
+            {
+              name: key.name,
+              quantity: val.inject(0) { |sum, x| sum + x.quantity},
+              sales_amount: 0
+            }
+          end
+
+          grouped_products.sort! do |a, b|
+            b[:quantity] <=> a[:quantity]
+          end
+          grouped_products = grouped_products[0..7]
+
+          images = Image.joins(report: :store).
+            where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+
+
+          if params[:store_id].present?
+            images = images.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
+          end
+
+          if params[:instructor_id].present?
+            images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            images = images.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+
+
+          best_practices = images
+          .order("created_at DESC")
+          .limit(10)
+          .map { |image| image.image.url }
+
+
+          data = {
+            sales_by_zone: sales_by_zone,
+            share_percentages: share_percentages,
+            sales_by_company: sales_by_company,
+            year: year,
+            month: month,
+            id: sales_date,
+            top_products: grouped_products,
+            best_practices: best_practices
+          }
+          report = SalesReport.new data
+
+
+          render json: JSONAPI::ResourceSerializer.new(Api::V1::SalesReportResource)
+          .serialize_to_hash(Api::V1::SalesReportResource.new(report, nil))
+        end
+
+        def best_practices
+          month = params.require(:month)
+          year = params.require(:year)
+          sales_date = DateTime.new(year.to_i, month.to_i)
+          end_date = sales_date + 1.month
+
+          images = Image.joins(report: :store).
+            where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+
+
+          if params[:store_id].present?
+            images = images.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
+          end
+
+          if params[:instructor_id].present?
+            images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            images = images.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+
+          image_urls = images
+          .order("created_at DESC")
+          .map { |image| image.image.url }
+
+          data = {
+            id: sales_date,
+            image_urls: image_urls
+          }
+
+          practices = BestPractices.new(data)
+
+          render json: JSONAPI::ResourceSerializer.new(Api::V1::BestPracticesResource)
+          .serialize_to_hash(Api::V1::BestPracticesResource.new(practices, nil))
+
+        end
+
+        end
