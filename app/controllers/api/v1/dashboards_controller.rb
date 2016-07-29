@@ -103,7 +103,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       {
         name: weekly_sales[0].name,
         last_week_sales: last_week_sales,
-        sales: current_week_sales,
+        current_week_sales: current_week_sales,
         growth_percentage: last_week_sales > 0 ? ((current_week_sales.to_f - last_week_sales.to_f)/last_week_sales.to_f) : nil
       }
     end
