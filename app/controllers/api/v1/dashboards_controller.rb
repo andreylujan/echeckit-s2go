@@ -63,10 +63,34 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     @days_in_month = @start_date.end_of_month.day
     @current_date = DateTime.now
 
-    monthly_sales_vs_goals = []
     weekly_sales_vs_goals = []
     monthly_sales_comparison = []
     weekly_sales_comparison = []
+
+   
+
+    goals_by_dealer = filtered_monthly_goals.group_by(&:dealer_criteria)
+    dealer_ids = goals_by_dealer.map { |g| g[0].id }
+    sales_by_dealer = filtered_daily_sales.where(
+        stores: { dealer_id: dealer_ids }
+      )
+    .group_by(&:dealer_criteria)
+
+    monthly_sales_vs_goals = goals_by_dealer.map do |goal|
+      sales = sales_by_dealer.find(ifnone = nil) { |d| d[0].id == goal[0].id }
+      sales_amount = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+          sum + x.hardware_sales + x.accessory_sales + x.game_sales
+        end
+        goal_amount = goal[1].inject(0) do |sum, x|
+          sum + x.monthly_goal
+        end
+      {
+        name: goal[0].name,
+        goal: goal_amount,
+        sales: sales_amount,
+        goal_percentage: sales_amount.to_f/goal_amount.to_f
+      }
+    end
 
     data = {
       id: @start_date,
@@ -79,9 +103,63 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     goal_dashboard = GoalDashboard.new data
 
+     
+
     render json: JSONAPI::ResourceSerializer.new(Api::V1::GoalDashboardResource)
     .serialize_to_hash(Api::V1::GoalDashboardResource.new(goal_dashboard, nil))
 
+  end
+
+  def filtered_monthly_goals(start_date = @start_date, end_date = @end_date)
+    sale_goals = SaleGoal.joins(:store)
+    .where("goal_date >= ? AND goal_date < ? AND monthly_goal > ?", start_date, end_date, 0)
+
+    if params[:store_id].present?
+      sale_goals = sale_goals.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      sale_goals = sale_goals.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      sale_goals = sale_goals.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      sale_goals = sale_goals.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      sale_goals = sale_goals.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    sale_goals
+  end
+
+  def filtered_daily_sales(start_date = @start_date, end_date = @end_date)
+    daily_sales = DailySale.joins(:store, :brand)
+    .where("sales_date >= ? AND sales_date < ? AND brands.name = ?", start_date, end_date, "PlayStation")
+
+    if params[:store_id].present?
+      daily_sales = daily_sales.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      daily_sales = daily_sales.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      daily_sales = daily_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      daily_sales = daily_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      daily_sales = daily_sales.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    daily_sales
   end
 
   def stock

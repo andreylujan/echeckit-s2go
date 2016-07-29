@@ -7,4 +7,8 @@ class DailySale < ActiveRecord::Base
   validates :hardware_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :accessory_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+
+  def dealer_criteria
+  	store.dealer
+  end
 end

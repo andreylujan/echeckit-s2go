@@ -17,4 +17,8 @@ class SaleGoal < ActiveRecord::Base
   belongs_to :sale_goal_upload
   validates_presence_of :store, :goal_date
   validates :monthly_goal, :numericality => { :greater_than_or_equal_to => 0 }
+
+  def dealer_criteria
+  	store.dealer
+  end
 end
