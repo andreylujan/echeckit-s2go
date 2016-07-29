@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateDailyHeadCounts < ActiveRecord::Migration
   def change
     create_table :daily_head_counts do |t|

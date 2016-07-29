@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class PromoterActivity
 	include ActiveModel::Model
 	attr_accessor :id

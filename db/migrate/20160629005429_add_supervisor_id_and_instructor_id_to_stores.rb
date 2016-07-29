@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddSupervisorIdAndInstructorIdToStores < ActiveRecord::Migration
   def change
     add_column :stores, :supervisor_id, :integer

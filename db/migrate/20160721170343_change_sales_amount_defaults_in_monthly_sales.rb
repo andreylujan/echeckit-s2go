@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ChangeSalesAmountDefaultsInMonthlySales < ActiveRecord::Migration
   def change
   	rename_column :monthly_sales, :accesory_sales, :accessory_sales

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::PromoterActivityResource < JSONAPI::Resource
 	attributes :reports_by_day, :accumulated_reports,
 		:num_reports_yesterday, :num_reports_today,

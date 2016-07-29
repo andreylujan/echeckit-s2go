@@ -39,7 +39,8 @@ class Store < ActiveRecord::Base
   has_many :monthly_sales
   has_many :daily_product_sales
   has_many :reports
-  has_many :head_counts
+  has_many :daily_head_counts
+  has_many :stock_break_events
   
   default_scope { order('name ASC') }
   

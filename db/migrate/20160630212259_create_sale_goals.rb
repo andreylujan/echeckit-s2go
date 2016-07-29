@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateSaleGoals < ActiveRecord::Migration
   def change
     create_table :sale_goals do |t|

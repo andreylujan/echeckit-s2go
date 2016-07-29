@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateChecklistItemValues < ActiveRecord::Migration
   def change
     create_table :checklist_item_values do |t|

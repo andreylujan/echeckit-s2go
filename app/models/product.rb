@@ -39,6 +39,7 @@ class Product < ActiveRecord::Base
   validates :sku, uniqueness: true, allow_nil: true
   validates :plu, uniqueness: true, allow_nil: true
   has_many :images, as: :resource
+  has_many :stock_break_events
 
   default_scope { order('name ASC') }
 

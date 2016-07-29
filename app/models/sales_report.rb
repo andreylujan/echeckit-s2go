@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class SalesReport
 	include ActiveModel::Model
 	attr_accessor :id

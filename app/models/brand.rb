@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # == Schema Information
 #
 # Table name: brands
@@ -9,5 +10,5 @@
 #
 
 class Brand < ActiveRecord::Base
-	has_many :head_counts
+	has_many :daily_head_counts
 end
