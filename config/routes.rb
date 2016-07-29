@@ -74,6 +74,7 @@ Rails.application.routes.draw do
         get :sales
         get :promoter_activity
         get :best_practices
+        get :stock
       end
 
       jsonapi_resources :organizations,

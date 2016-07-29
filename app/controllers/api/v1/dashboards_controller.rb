@@ -5,7 +5,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_reports(start_date = @start_date, end_date = @end_date)
     reports = Report.joins(:store)
-    .where("reports.created_at > ? AND reports.created_at < ?", start_date, end_date)
+    .where("reports.created_at >= ? AND reports.created_at < ?", start_date, end_date)
 
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
@@ -27,6 +27,66 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       reports = reports.where(stores: { zone_id: params[:zone_id].to_i })
     end
     reports
+  end
+
+  def filtered_stock_breaks(start_date = @start_date, end_date = @end_date)
+    stock_breaks = StockBreakEvent.joins(:store)
+    .where("stock_break_date >= ? AND stock_break_date < ?", start_date, end_date)
+
+    if params[:store_id].present?
+      stock_breaks = stock_breaks.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      stock_breaks = stock_breaks.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      stock_breaks = stock_breaks.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      stock_breaks = stock_breaks.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      stock_breaks = stock_breaks.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    stock_breaks
+  end
+
+  def stock
+    @month = params.require(:month)
+    @year = params.require(:year)
+    @start_date = DateTime.new(@year.to_i, @month.to_i)
+    @end_date = @start_date + 1.month
+    @days_in_month = @start_date.end_of_month.day
+    @current_date = DateTime.now
+
+    stock_breaks = []
+    filtered_stock_breaks.group_by(&:group_by_store_criteria).each do |store, group|
+      if group.length > 0
+        stock_break = group.max { |a, b| a.stock_break_date <=> b.stock_break_date }
+        stock_breaks << {
+          store_name: stock_break.store.name,
+          dealer_name: stock_break.store.dealer.name,
+          product_name: stock_break.product.name,
+          units: stock_break.quantity,
+          identifier: stock_break.product.sku
+        }
+      end
+    end
+    stock_breaks.sort! { |a, b| a[:store_name] <=> b[:store_name] }
+
+      data = {
+      id: @start_date,
+      stock_breaks: stock_breaks
+    }
+
+    stock_dashboard = StockDashboard.new data
+
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::StockDashboardResource)
+    .serialize_to_hash(Api::V1::StockDashboardResource.new(stock_dashboard, nil))
   end
 
   def filtered_checklist_values(start_date = @start_date, end_date = @end_date, checklist_item_id)

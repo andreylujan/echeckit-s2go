@@ -41,6 +41,7 @@ class Report < ActiveRecord::Base
   after_create :update_head_counts
   after_create :cache_attribute_names
   after_create :record_checklist_data
+  after_create :record_stock_breaks
   belongs_to :store
   has_many :checklist_item_values
 
@@ -65,10 +66,28 @@ class Report < ActiveRecord::Base
         if item.present? and (item["value"] == true or item["value"] == false)
           checklist_item = ChecklistItem.find_by_name!(item["name"])
           value = ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
-          item_value: item["value"]          
+            item_value: item["value"]
         end
       end
     end
+  end
+
+  def record_stock_breaks
+    breaks = stock_breaks
+    if breaks.present?
+      breaks.each do |stock_break|
+        quantity = stock_break["game_amount"]
+        if quantity.present?
+          product = Product.find(stock_break["game_id"])
+          stock_break_date = created_at.beginning_of_day
+          event = StockBreakEvent.find_or_initialize_by product: product,
+            store: store, stock_break_date: stock_break_date
+          event.quantity = quantity
+          event.save!
+        end
+      end
+    end
+    true
   end
 
   def group_by_date_criteria
@@ -191,6 +210,17 @@ class Report < ActiveRecord::Base
       dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"].present?
       dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"].present?
       dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"][0]
+    end
+  end
+
+  def stock_breaks
+    if dynamic_attributes["sections"].present? and
+      dynamic_attributes["sections"][2].present? and
+      dynamic_attributes["sections"][2]["data_section"].present? and
+      dynamic_attributes["sections"][2]["data_section"][0].present? and
+      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"]["list"].present?
+      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"]["list"]
     end
   end
 

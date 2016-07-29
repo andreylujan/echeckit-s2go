@@ -19,4 +19,12 @@ class StockBreakEvent < ActiveRecord::Base
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :stock_break_date, presence: true
   validates :product, presence: true
+
+  def group_by_month_criteria
+    DateTime.new(stock_break_date.year, stock_break_date.month)
+  end
+
+  def group_by_store_criteria
+    [ store, product ]
+  end
 end
