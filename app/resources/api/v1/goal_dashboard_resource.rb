@@ -13,6 +13,9 @@
 #
 
 class Api::V1::GoalDashboardResource < BaseResource
-	attributes :monthly_sales_vs_goals, :weekly_sales_vs_goals,
-		:monthly_sales_comparison, :weekly_sales_comparison
+	attributes :last_year, :current_year,
+		:last_week_of_year, :current_week_of_year,
+		:monthly_sales_vs_goals, :last_week_comparison,
+		:weekly_sales_comparison, :monthly_sales_comparison
+		
 end

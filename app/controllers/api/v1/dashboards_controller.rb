@@ -63,11 +63,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     @days_in_month = @start_date.end_of_month.day
     @current_date = DateTime.now
 
-    weekly_sales_vs_goals = []
-    monthly_sales_comparison = []
-    weekly_sales_comparison = []
-
-   
 
     goals_by_dealer = filtered_monthly_goals.group_by(&:dealer_criteria)
     dealer_ids = goals_by_dealer.map { |g| g[0].id }
@@ -92,10 +87,104 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }
     end
 
+    last_week_sales = filtered_daily_sales(DateTime.now.beginning_of_week - 1.week, DateTime.now.beginning_of_week).group_by(&:dealer_criteria)
+    current_week_sales_data = filtered_daily_sales(DateTime.now.beginning_of_week, DateTime.now).group_by(&:dealer_criteria)
+    last_week_comparison = last_week_sales.map do |weekly_sales|
+
+      sales = current_week_sales_data.find(ifnone = nil) do |d|
+        d[0].id == weekly_sales[0].id
+      end
+      current_week_sales = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+          sum + x.hardware_sales + x.accessory_sales + x.game_sales
+        end
+        last_week_sales = weekly_sales[1].inject(0) do |sum, x|
+          sum + x.hardware_sales + x.accessory_sales + x.game_sales
+        end
+      {
+        name: weekly_sales[0].name,
+        last_week_sales: last_week_sales,
+        sales: current_week_sales,
+        growth_percentage: last_week_sales > 0 ? ((current_week_sales.to_f - last_week_sales.to_f)/last_week_sales.to_f) : nil
+      }
+    end
+
+    
+
+    last_year_weekly_sales = filtered_daily_sales(DateTime.now.beginning_of_month - 1.year, DateTime.now.end_of_month - 1.year).group_by(&:week_criteria)
+    current_year_weekly_sales = filtered_daily_sales(DateTime.now.beginning_of_month, DateTime.now.end_of_month).group_by(&:week_criteria)
+    4.times do |i|
+      if not last_year_weekly_sales[i + 1].present?
+        last_year_weekly_sales[i + 1] = []
+      end
+      if not current_year_weekly_sales[i + 1].present?
+        current_year_weekly_sales[i + 1] = []
+      end
+    end
+
+    weekly_sales_comparison = last_year_weekly_sales.map do |weekly_sales|
+      
+      last_year_sales = weekly_sales[1].inject(0) do |sum, x|
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      
+      current_year_sales = current_year_weekly_sales[weekly_sales[0]]
+      .inject(0) do |sum, x|
+        
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      {
+        week: "Semana #{weekly_sales[0]}",
+        last_year_sales: last_year_sales,
+        current_year_sales: current_year_sales,
+        growth_percentage: last_year_sales > 0 ? ((current_year_sales.to_f - last_year_sales.to_f)/last_year_sales.to_f) : nil
+      }
+    end
+
+
+    last_year_monthly_sales = filtered_daily_sales(DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year).group_by(&:month_criteria)
+    current_year_monthly_sales = filtered_daily_sales(DateTime.now.beginning_of_year, DateTime.now.end_of_year).group_by(&:month_criteria)
+    12.times do |i|
+      if not last_year_monthly_sales[i + 1].present?
+        last_year_monthly_sales[i + 1] = []
+      end
+      if not current_year_monthly_sales[i + 1].present?
+        current_year_monthly_sales[i + 1] = []
+      end
+    end
+
+    monthly_sales_comparison = last_year_monthly_sales.map do |monthly_sales|
+      
+      last_year_sales = monthly_sales[1].inject(0) do |sum, x|
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      
+      current_year_sales = current_year_monthly_sales[monthly_sales[0]]
+      .inject(0) do |sum, x|
+        
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      {
+        month: I18n.t("date.month_names")[monthly_sales[0]][0..2].capitalize,
+        last_year_sales: last_year_sales,
+        current_year_sales: current_year_sales,
+        growth_percentage: last_year_sales > 0 ? ((current_year_sales.to_f - last_year_sales.to_f)/last_year_sales.to_f) : nil
+      }
+    end
+
+    
+
+
+    current_week_of_year = DateTime.now.strftime("%U").to_i
+    current_year = DateTime.now.year
+
     data = {
       id: @start_date,
+      last_week_of_year: current_week_of_year - 1,
+      current_week_of_year: current_week_of_year,
+      current_year: current_year,
+      last_year: current_year - 1,
       monthly_sales_vs_goals: monthly_sales_vs_goals,
-      weekly_sales_vs_goals: weekly_sales_vs_goals,
+      last_week_comparison: last_week_comparison,
       monthly_sales_comparison: monthly_sales_comparison,
       weekly_sales_comparison: weekly_sales_comparison
 
