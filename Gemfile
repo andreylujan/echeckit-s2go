@@ -1,20 +1,20 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.7'
 gem 'rails-api', '~> 0.4.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.2'
-gem 'pry', '~> 0.10.3'
+gem 'puma', '~> 3.6'
+gem 'pry', '~> 0.10.4'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'activerecord-postgis-adapter', '~> 3.1', '>= 3.1.4'
 
 gem 'paranoia', '~> 2.1', '>= 2.1.5'
-gem 'carrierwave', '~> 0.11.0'
-gem 'carrierwave-base64', '~> 2.2'
+gem 'carrierwave', '~> 0.11.2'
+gem 'carrierwave-base64', '~> 2.3', '>= 2.3.1'
 gem 'versionist', '~> 1.5'
 gem 'jsonapi-resources', git: 'https://github.com/cerebris/jsonapi-resources'
 
@@ -44,8 +44,7 @@ gem 'pundit', '~> 1.1'
 gem 'acts_as_xlsx', git: 'https://github.com/straydogstudio/acts_as_xlsx'
 
 group :development do
-  gem 'capistrano-dotenv-tasks', '~> 0.1.3', require: false
-  gem 'capistrano-rails', '~> 1.1', '>= 1.1.6'
+  gem 'capistrano-rails', '~> 1.1', '>= 1.1.7'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-sidekiq', '~> 0.5.4'

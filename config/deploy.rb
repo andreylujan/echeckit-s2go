@@ -6,15 +6,6 @@ set :application, 'api'
 set :repo_url, 'git@github.com:andreylujan/echeckit-s2go.git'
 set :branch, 'master'
 
-set :ssh_options, {
- keys: [ "#{ENV['HOME']}/.ssh/ubuntu.pem"  ],
- forward_agent: true,
- auth_methods: ["publickey"]
-}
-
-# Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/srv/http/www/echeckit/api'
-
 # Default value for :scm is :git
 set :scm, :git
 
@@ -58,7 +49,7 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 set :keep_releases, 5
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.3.0'
+set :rbenv_ruby, '2.3.1'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /home/ubuntu/.rbenv/bin/rbenv exec"
 # set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
