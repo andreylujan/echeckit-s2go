@@ -78,8 +78,15 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
+
+staging:
   <<: *default
   database: echeckit_production
+  username: echeckit
+  password: <%= ENV['ECHECKIT_DATABASE_PASSWORD'] %>
+
+production:
+  <<: *default
+  database: playstation_production
   username: echeckit
   password: <%= ENV['ECHECKIT_DATABASE_PASSWORD'] %>
