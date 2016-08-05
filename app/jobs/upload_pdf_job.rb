@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UploadPdfJob < ActiveJob::Base
-	queue_as :default
+	queue_as :eretail_report
 
 	def perform(report_id, regenerate_uuid=false)
 		report = Report.find(report_id)

@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SendPromotionJob < ActiveJob::Base
-	queue_as :default
+	queue_as :eretail_promotion
 
 	def perform(promotion_id)
 		promotion = Promotion.find(promotion_id)

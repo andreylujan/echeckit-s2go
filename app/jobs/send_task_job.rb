@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SendTaskJob < ActiveJob::Base
-	queue_as :default
+	queue_as :eretail_push
 
 	def perform(report_id)
 

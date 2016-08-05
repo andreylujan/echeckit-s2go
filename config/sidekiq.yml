@@ -1,0 +1,12 @@
+---
+:concurrency: 5
+:pidfile: tmp/pids/sidekiq.pid
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 25
+:queues:
+  - [ eretail_report, 12 ]
+  - [ eretail_promotion, 8 ]
+  - [ eretail_broadcast, 4 ]
+  - [ eretail_push, 2 ]

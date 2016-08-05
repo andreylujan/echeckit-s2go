@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SendBroadcastJob < ActiveJob::Base
-	queue_as :default
+	queue_as :eretail_broadcast
 
 	def perform(broadcast_id)
 		broadcast = Broadcast.find(broadcast_id)
