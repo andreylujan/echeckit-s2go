@@ -44,7 +44,7 @@ class Report < ActiveRecord::Base
   after_create :record_checklist_data
   after_create :record_stock_breaks
   belongs_to :store
-  has_many :checklist_item_values
+  has_many :checklist_item_values, dependent: :destroy
 
   def cache_attribute_names
     if self.store.present?
