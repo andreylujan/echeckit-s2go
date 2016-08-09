@@ -5,4 +5,6 @@ class Api::V1::ReportTypeResource < JSONAPI::Resource
   def fetchable_fields
     super
   end
+
+ 
 end

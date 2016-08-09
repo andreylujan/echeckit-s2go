@@ -1,12 +1,20 @@
 #!/bin/bash
 
-# IP=52.3.170.85
-IP=52.201.182.66
-PORT=22
-KEY=ubuntu.pem
+# Development
+# IP=52.207.132.195
+# PORT=22
+# KEY=ubuntu.pem
+# DB=echeckit_production
+
+# Production
+IP=50.16.161.152
+PORT=60
+KEY=echeckit_production.pem
+DB=playstation_production
+
 echo 'Backing up to file...'
-echo "ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d echeckit_production > ~/dump.sql'"
-ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d echeckit_production > ~/dump.sql'
+echo "ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d $DB > ~/dump.sql'"
+ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" "pg_dump -d $DB > ~/dump.sql"
 echo 'Done. Downloading to current folder...'
 scp -P $PORT  -i $HOME/.ssh/$KEY "ubuntu@$IP:~/dump.sql" db/dump.sql
 echo 'Done. Deleting remote file...'
