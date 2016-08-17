@@ -22,7 +22,7 @@ class DailySale < ActiveRecord::Base
   validates :hardware_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :accessory_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
-  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
+  acts_as_xlsx columns: [ :id, :store_code, :dealer_name, :zone_name,
       :store_name, :brand_name, :sales_date, :hardware_sales, :accessory_sales,
     :game_sales ]
 
@@ -44,6 +44,10 @@ class DailySale < ActiveRecord::Base
 
   def brand_name
     brand.name
+  end
+
+  def store_code
+    store.code
   end
 
   def week_criteria

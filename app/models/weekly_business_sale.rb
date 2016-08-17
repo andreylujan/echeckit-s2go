@@ -23,4 +23,33 @@ class WeeklyBusinessSale < ActiveRecord::Base
     alloy_nil: false
   validates :business_week, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 53, only_integer: true},
     alloy_nil: false
+
+  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
+                          :store_code,
+                          :store_name, :month_number, :hardware_sales, :accessory_sales,
+                          :week_number,
+                          :game_sales,
+                          :year
+                          ]
+
+  def week_number
+    strftime("%U")
+  end
+  
+  def zone_name
+    store.zone.name
+  end
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def store_name
+    store.name
+  end
+
+
+  def store_code
+    store.code
+  end
 end
