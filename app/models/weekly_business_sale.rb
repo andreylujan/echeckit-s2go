@@ -42,34 +42,31 @@ class WeeklyBusinessSale < ActiveRecord::Base
     WeeklyBusinessSale.transaction do
       
       csv.each do |row|
-        
-        store_code = row[0].strip
-        hardware_sales = row[1].strip.to_i
-        accessory_sales = row[2].strip.to_i
-        game_sales = row[3].strip.to_i
-        week = row[4].strip.strip.to_i
-        month = row[5].strip.strip.to_i
-        year = row[6].strip.strip.to_i
-        store = Store.find_by_code(store_code)
-        week_start = Date.commercial(year, week)
-        month = Date.new(year, month)
-        sales << WeeklyBusinessSale.find_or_initialize_by(store: store,
-                                                          week_start: week_start,
-        month: month) do |weekly_business_sale|
-          weekly_business_sale.assign_attributes hardware_sales: hardware_sales,
-            accessory_sales: accessory_sales,
-            game_sales: game_sales
+        begin
+          store_code = row[0].strip if row[0].present?
+          hardware_sales = row[1].strip.to_i if row[1].present?
+          accessory_sales = row[2].strip.to_i if row[2].present?
+          game_sales = row[3].strip.to_i if row[3].present?
+          week = row[4].strip.to_i if row[4].present?
+          month = row[5].strip.to_i if row[5].present?
+          year = row[6].strip.to_i if row[6].present?
+          store = Store.find_by_code!(store_code)
+          week_start = Date.commercial(year, week)
+          month = Date.new(year, month)
+          sale = WeeklyBusinessSale.find_or_initialize_by(store: store,
+                                                            week_start: week_start,
+          month: month)
+          sale.assign_attributes hardware_sales: hardware_sales,
+              accessory_sales: accessory_sales,
+              game_sales: game_sales
+          
+          sale.save
+          created << sale
+        rescue => exception
+          created << exception
         end
       end
 
-    end
-    sales.each do |sale|
-      begin
-        sale.save!
-        created << sale
-      rescue => exception
-        created << exception
-      end
     end
     CsvUtils.generate_response(csv, created)
   end
