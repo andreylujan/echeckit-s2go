@@ -70,4 +70,30 @@ class WeeklyBusinessSale < ActiveRecord::Base
     end
     CsvUtils.generate_response(csv, created)
   end
+
+  def dealer_criteria
+    store.dealer
+  end
+
+  def zone_name
+    store.zone.name
+  end
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def store_name
+    store.name
+  end
+
+  def month_criteria
+    month.month
+  end
+
+  def week_criteria
+    week_start.strftime("%U").to_i
+
+  end
+
 end
