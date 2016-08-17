@@ -23,6 +23,12 @@ Rails.application.routes.draw do
 
       resources :checkins, only: [ :create ]
 
+      resources :weekly_business_sales, only: [] do
+        collection do
+          post :csv
+        end
+      end
+
       post :checkouts, to: 'checkins#update'
 
 

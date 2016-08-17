@@ -20,6 +20,45 @@ class StockBreakEvent < ActiveRecord::Base
   validates :stock_break_date, presence: true
   validates :product, presence: true
 
+  acts_as_xlsx columns: [ :id, :dealer_name,
+                          :zone_name,
+                          :store_code,
+                          :store_name,
+                          :product_classification_name,
+                          :product_ean,
+                          :product_name,
+                          :quantity,
+                          :created_at ]
+
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def zone_name
+    store.zone.name
+  end
+  
+  def store_code
+    store.code
+  end
+
+  def store_name
+    store.name
+  end
+
+  def product_ean
+    product.sku
+  end
+
+  def product_name
+    product.name
+  end
+
+  def product_classification_name
+    product.product_classification.name
+  end
+
   def group_by_month_criteria
     DateTime.new(stock_break_date.year, stock_break_date.month)
   end

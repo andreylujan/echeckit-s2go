@@ -21,4 +21,16 @@ class StockBreak < ActiveRecord::Base
   validates :dealer, presence: true
   validates :store_type, presence: true
   validates :product_classification, presence: true
+
+  acts_as_xlsx columns: [ :id, :dealer_name, :product_classification_name,
+                          :stock_break ]
+
+  def dealer_name
+  	dealer.name
+  end
+
+  def product_classification_name
+  	product_classification.name
+  end
+  
 end

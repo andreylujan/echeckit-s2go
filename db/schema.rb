@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817040106) do
+ActiveRecord::Schema.define(version: 20160817131700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -601,13 +601,13 @@ ActiveRecord::Schema.define(version: 20160817040106) do
 
   create_table "weekly_business_sales", force: :cascade do |t|
     t.integer  "store_id",                              null: false
-    t.integer  "business_week",                         null: false
-    t.integer  "month",                                 null: false
     t.integer  "hardware_sales",  limit: 8, default: 0, null: false
     t.integer  "accessory_sales", limit: 8, default: 0, null: false
     t.integer  "game_sales",      limit: 8, default: 0, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.date     "week_start"
+    t.date     "month"
   end
 
   add_index "weekly_business_sales", ["store_id"], name: "index_weekly_business_sales_on_store_id", using: :btree
