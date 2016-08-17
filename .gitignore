@@ -21,3 +21,6 @@ erd.pdf
 public/uploads
 *.sql
 /keys
+*.csv
+*.CSV
+*.xlsx
