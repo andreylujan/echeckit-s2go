@@ -143,13 +143,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       end
       {
         week: "Semana #{weekly_sales[0]}",
+        week_number: weekly_sales[0],
         last_year_sales: last_year_sales,
         current_year_sales: current_year_sales,
         growth_percentage: last_year_sales > 0 ? ((current_year_sales.to_f - last_year_sales.to_f)/last_year_sales.to_f) : nil
       }
     end
     weekly_sales_comparison.sort! do |w1, w2|
-      w1[:week].casecmp(w2[:week])
+      w1[:week_number] - w2[:week_number]
     end
 
 
@@ -176,8 +177,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         
         sum + x.hardware_sales + x.accessory_sales + x.game_sales
       end
+      
       {
         month: I18n.t("date.month_names")[monthly_sales[0]][0..2].capitalize,
+        month_index: monthly_sales[0],
         last_year_sales: last_year_sales,
         current_year_sales: current_year_sales,
         growth_percentage: last_year_sales > 0 ? ((current_year_sales.to_f - last_year_sales.to_f)/last_year_sales.to_f) : nil
@@ -185,7 +188,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     
-
+    monthly_sales_comparison.sort! do |m1, m2|
+      m1[:month_index] - m2[:month_index]
+    end
 
     
 
