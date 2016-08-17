@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801153910) do
+ActiveRecord::Schema.define(version: 20160817040106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -599,6 +599,19 @@ ActiveRecord::Schema.define(version: 20160801153910) do
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
 
+  create_table "weekly_business_sales", force: :cascade do |t|
+    t.integer  "store_id",                              null: false
+    t.integer  "business_week",                         null: false
+    t.integer  "month",                                 null: false
+    t.integer  "hardware_sales",  limit: 8, default: 0, null: false
+    t.integer  "accessory_sales", limit: 8, default: 0, null: false
+    t.integer  "game_sales",      limit: 8, default: 0, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "weekly_business_sales", ["store_id"], name: "index_weekly_business_sales_on_store_id", using: :btree
+
   create_table "zones", force: :cascade do |t|
     t.text     "name",       null: false
     t.datetime "created_at", null: false
@@ -659,4 +672,5 @@ ActiveRecord::Schema.define(version: 20160801153910) do
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
   add_foreign_key "users", "roles"
+  add_foreign_key "weekly_business_sales", "stores"
 end
