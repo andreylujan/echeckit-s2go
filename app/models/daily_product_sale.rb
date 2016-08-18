@@ -23,8 +23,15 @@ class DailyProductSale < ActiveRecord::Base
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
   validates :amount, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
 
-  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name, :sales_date,
-                          :store_name, :product_name, :product_ean, :quantity, :amount ]
+  acts_as_xlsx columns: [ :id, :product_id, :dealer_name, :zone_name, :date,
+                          :store_code, 
+                          :store_name, :product_name, :product_ean, 
+                          :product_classification_name, 
+                          :quantity, :amount ]
+
+  def date
+    sales_date.to_date
+  end
 
   def zone_name
     store.zone.name
@@ -40,6 +47,14 @@ class DailyProductSale < ActiveRecord::Base
 
   def dealer_name
     store.dealer.name
+  end
+
+  def store_code
+    store.code
+  end
+
+  def product_classification_name
+    product.product_classification.name
   end
 
   def store_name

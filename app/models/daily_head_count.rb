@@ -23,6 +23,31 @@ class DailyHeadCount < ActiveRecord::Base
   validates :num_full_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :num_part_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
 
+  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name, :store_code,
+                          :store_name, :brand_name, :num_full_time, :num_part_time,
+                          :count_date ]
+
+
+  def zone_name
+    store.zone.name
+  end
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def store_name
+    store.name
+  end
+
+  def brand_name
+    brand.name
+  end
+
+  def store_code
+    store.code
+  end
+
   def group_by_dealer_criteria
     store.dealer
     # I18n.l(created_at, format: '%A %e').capitalize
