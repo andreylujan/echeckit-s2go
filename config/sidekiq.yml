@@ -11,3 +11,4 @@ production:
   - [ eretail_promotion, 8 ]
   - [ eretail_broadcast, 4 ]
   - [ eretail_push, 2 ]
+:sidekiq_pid: File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')  

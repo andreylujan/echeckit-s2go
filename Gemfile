@@ -21,7 +21,7 @@ gem 'jsonapi-resources', git: 'https://github.com/cerebris/jsonapi-resources'
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry', branch: 'master'
 gem 'fog', '~> 1.38'
 gem 'faraday', '~> 0.9.2'
-gem 'sidekiq', '~> 4.1', '>= 4.1.2'
+gem 'sidekiq', '~> 4.1', '>= 4.1.4'
 gem 'redis', '~> 3.3'
 gem 'wicked_pdf', '~> 1.0', '>= 1.0.6'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
@@ -46,10 +46,11 @@ gem 'pundit', '~> 1.1'
 gem 'acts_as_xlsx', git: 'https://github.com/straydogstudio/acts_as_xlsx'
 
 group :development do
+  gem 'capistrano', '~> 3.6'
   gem 'capistrano-rails', '~> 1.1', '>= 1.1.7'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
-  gem 'capistrano-sidekiq', '~> 0.5.4'
+  gem 'capistrano-sidekiq', git: 'https://github.com/haikulearning/capistrano-sidekiq'
   gem 'rails-erd', '~> 1.4', '>= 1.4.7', require: false
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git', branch: 'develop'
   gem 'seed_dump', '~> 3.2', '>= 3.2.4', require: false

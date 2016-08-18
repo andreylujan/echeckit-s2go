@@ -57,6 +57,16 @@ set :rbenv_custom_path, '/home/ubuntu/.rbenv/bin/rbenv'
 
 set :passenger_restart_with_sudo, true
 
+namespace :sidekiq do
+	after :stop, :reenable_stop do
+		on roles(:web) do
+			within release_path do
+				Rake::Task['sidekiq:stop'].reenable
+			end
+		end
+	end
+end
+
 namespace :deploy do
 
   after :restart, :clear_cache do
