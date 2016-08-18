@@ -50,7 +50,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1', '>= 1.1.7'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
-  gem 'capistrano-sidekiq', git: 'https://github.com/haikulearning/capistrano-sidekiq'
+  gem 'capistrano-sidekiq', git: 'https://github.com/pelluch/capistrano-sidekiq'
   gem 'rails-erd', '~> 1.4', '>= 1.4.7', require: false
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git', branch: 'develop'
   gem 'seed_dump', '~> 3.2', '>= 3.2.4', require: false

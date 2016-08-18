@@ -16,10 +16,10 @@ GIT
       rake (>= 10.4, < 12.0)
 
 GIT
-  remote: https://github.com/haikulearning/capistrano-sidekiq
-  revision: 1be1670f9ddd2cb56363cf302476fa079526b9bb
+  remote: https://github.com/pelluch/capistrano-sidekiq
+  revision: ec54cba98a12498fe54cdda8401257a58cd74854
   specs:
-    capistrano-sidekiq (0.5.5.haiku)
+    capistrano-sidekiq (0.5.4)
       capistrano
       sidekiq (>= 3.4)
 
