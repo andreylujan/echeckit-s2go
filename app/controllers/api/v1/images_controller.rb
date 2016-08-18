@@ -14,7 +14,7 @@ class Api::V1::ImagesController < ApplicationController
     if params[:end_date].present?
       images = images.where("images.created_at <= ?", params[:end_date])
     end
-
+    
     if params[:category_id].present?
       images = images.where(category_id: params[:category_id].to_i)
     end

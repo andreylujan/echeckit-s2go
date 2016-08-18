@@ -1,5 +1,6 @@
 package = Axlsx::Package.new
-excel_classes = [ DailyProductSale, DailySale ]
+excel_classes = [ DailyProductSale.joins(:report).order("reports.created_at DESC"),
+	 DailySale.joins(:report).order("reports.created_at DESC") ]
 excel_classes.each do |model_class|
   model_class.to_xlsx(package: package)
 end

@@ -23,12 +23,12 @@ class DailyProductSale < ActiveRecord::Base
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
   validates :amount, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
 
-  acts_as_xlsx columns: [ :id, :product_id, :dealer_name, :zone_name, :date,
+  acts_as_xlsx columns: [ :id, :report_id, :report_date, :store_supervisor, :store_instructor, 
+                          :report_assigned_user, :product_id, :dealer_name, :zone_name, :date,
                           :store_code,
                           :store_name, :product_name, :product_ean,
                           :product_classification_name,
-                          :quantity, :amount, :report_id, :store_supervisor, :store_instructor, :report_date,
-                          :report_assigned_user ]
+                          :quantity, :amount ]
 
   def store_supervisor
     store.supervisor.email if store.supervisor.present?

@@ -13,9 +13,9 @@
 #
 
 class StockBreakEvent < ActiveRecord::Base
-  belongs_to :store
+  belongs_to :report
   belongs_to :product
-  validates :store, presence: true
+  validates :report, presence: true
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :stock_break_date, presence: true
   validates :product, presence: true
@@ -30,7 +30,10 @@ class StockBreakEvent < ActiveRecord::Base
                           :quantity,
                           :created_at ]
 
-
+  def store
+    report.store
+  end
+  
   def dealer_name
     store.dealer.name
   end
@@ -38,7 +41,7 @@ class StockBreakEvent < ActiveRecord::Base
   def zone_name
     store.zone.name
   end
-  
+
   def store_code
     store.code
   end

@@ -82,7 +82,7 @@ class Report < ActiveRecord::Base
           product = Product.find(stock_break["game_id"])
           stock_break_date = created_at.beginning_of_day
           event = StockBreakEvent.find_or_initialize_by product: product,
-            store: store, stock_break_date: stock_break_date
+            report: self, stock_break_date: stock_break_date
           event.quantity = quantity
           event.save!
         end
