@@ -5,14 +5,15 @@ class Api::V1::ImagesController < ApplicationController
 
   def index
 
-    month = params.require(:month)
-    year = params.require(:year)
-    start_date = DateTime.new(year.to_i, month.to_i)
-    end_date = start_date + 1.month
-    sales = MonthlySale.joins(:store).where(start_date: start_date)
+    images = Image.joins(report: :store)
 
-    images = Image.joins(report: :store).
-      where("reports.created_at >= ? AND reports.created_at < ?", start_date, end_date)
+    if params[:start_date].present?
+      images = images.where("images.created_at >= ?", params[:start_date])
+    end
+
+    if params[:end_date].present?
+      images = images.where("images.created_at <= ?", params[:end_date])
+    end
 
     if params[:category_id].present?
       images = images.where(category_id: params[:category_id].to_i)
