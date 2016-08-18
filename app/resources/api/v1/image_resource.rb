@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::ImageResource < JSONAPI::Resource
+class Api::V1::ImageResource < BaseResource
   
   attributes :url
   has_one :category

@@ -27,12 +27,33 @@ class DailyProductSale < ActiveRecord::Base
                           :store_code,
                           :store_name, :product_name, :product_ean,
                           :product_classification_name,
-                          :quantity, :amount ]
+                          :quantity, :amount, :report_id, :store_supervisor, :store_instructor, :report_date,
+                          :report_assigned_user ]
+
+  def store_supervisor
+    store.supervisor.email if store.supervisor.present?
+  end
+
+  def report_assigned_user
+    if report.assigned_user.present?
+      report.assigned_user.email
+    else
+      report.creator.email
+    end
+  end
+
+  def store_instructor
+    store.instructor.email if store.instructor.present?
+  end
+
+  def report_date
+    report.created_at.to_date
+  end
 
   def store
     report.store
   end
-  
+
   def date
     sales_date.to_date
   end

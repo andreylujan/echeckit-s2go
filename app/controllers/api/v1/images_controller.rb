@@ -40,9 +40,29 @@ class Api::V1::ImagesController < ApplicationController
 
     best_practices = images
     .order("created_at DESC")
+    page_size = 15
+    page_number = 1
+
+    if params[:page].present?
+      
+      if params[:page][:size].present?
+        page_size = params[:page][:size]
+      end
+
+      if params[:page][:number].present?
+        page_number = params[:page][:number]
+      end
+      
+    end
+
+    best_practices = best_practices.page(page_number).per(page_size)
     .map { |p| Api::V1::ImageResource.new(p, nil) }
 
-    render json: JSONAPI::ResourceSerializer.new(Api::V1::ImageResource).serialize_to_hash(best_practices)
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::ImageResource,
+                                                 include: params[:include].split,
+                                                 fields: {
+                                                   images: [ :url, :category ]
+    }).serialize_to_hash(best_practices)
 
 
   end

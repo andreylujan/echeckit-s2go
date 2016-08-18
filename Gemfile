@@ -30,7 +30,7 @@ gem 'amoeba', '~> 3.0'
 gem 'charlock_holmes'
 gem 'axlsx', '~> 2.0', '>= 2.0.1'
 # gem 'mongoid', '~> 5.1', '>= 5.1.3'
-
+gem 'kaminari', '~> 0.17.0'
 gem 'rubyXL'
 
 # Auth
