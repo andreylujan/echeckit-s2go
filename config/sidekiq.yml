@@ -7,7 +7,7 @@ production:
   :concurrency: 25
 :queues:
   - [ eretail_report, 12 ]
-  - [ default, 8 ]
+  - [ eretail_email, 8 ]
   - [ eretail_promotion, 8 ]
   - [ eretail_broadcast, 4 ]
   - [ eretail_push, 2 ]

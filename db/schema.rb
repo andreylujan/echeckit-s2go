@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817131700) do
+ActiveRecord::Schema.define(version: 20160818204404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,19 +101,18 @@ ActiveRecord::Schema.define(version: 20160817131700) do
 
   create_table "daily_product_sales", force: :cascade do |t|
     t.integer  "product_id"
-    t.integer  "store_id"
     t.datetime "sales_date",             null: false
     t.integer  "quantity",   default: 0, null: false
     t.integer  "amount",     default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "report_id"
   end
 
   add_index "daily_product_sales", ["product_id"], name: "index_daily_product_sales_on_product_id", using: :btree
-  add_index "daily_product_sales", ["store_id"], name: "index_daily_product_sales_on_store_id", using: :btree
+  add_index "daily_product_sales", ["report_id"], name: "index_daily_product_sales_on_report_id", using: :btree
 
   create_table "daily_sales", force: :cascade do |t|
-    t.integer  "store_id",                    null: false
     t.integer  "brand_id",                    null: false
     t.datetime "sales_date",                  null: false
     t.integer  "hardware_sales",  default: 0, null: false
@@ -121,10 +120,11 @@ ActiveRecord::Schema.define(version: 20160817131700) do
     t.integer  "game_sales",      default: 0, null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.integer  "report_id"
   end
 
   add_index "daily_sales", ["brand_id"], name: "index_daily_sales_on_brand_id", using: :btree
-  add_index "daily_sales", ["store_id"], name: "index_daily_sales_on_store_id", using: :btree
+  add_index "daily_sales", ["report_id"], name: "index_daily_sales_on_report_id", using: :btree
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
@@ -631,9 +631,9 @@ ActiveRecord::Schema.define(version: 20160817131700) do
   add_foreign_key "daily_head_counts", "brands"
   add_foreign_key "daily_head_counts", "stores"
   add_foreign_key "daily_product_sales", "products"
-  add_foreign_key "daily_product_sales", "stores"
+  add_foreign_key "daily_product_sales", "reports"
   add_foreign_key "daily_sales", "brands"
-  add_foreign_key "daily_sales", "stores"
+  add_foreign_key "daily_sales", "reports"
   add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "devices", "users"

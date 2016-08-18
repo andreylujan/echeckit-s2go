@@ -414,6 +414,9 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     ruby-graphviz (1.2.2)
+    rubyXL (3.1.0)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.0.0)
     ruby_dep (1.4.0)
     rubyzip (1.0.0)
     seed_dump (3.2.4)
@@ -508,6 +511,7 @@ DEPENDENCIES
   rails-erd (~> 1.4, >= 1.4.7)
   redis (~> 3.3)
   rspec-rails (~> 3.5.0.beta3)
+  rubyXL
   seed_dump (~> 3.2, >= 3.2.4)
   sidekiq (~> 4.1, >= 4.1.2)
   sinatra

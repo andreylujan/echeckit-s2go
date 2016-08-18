@@ -26,7 +26,7 @@ class Invitation < ActiveRecord::Base
   after_create :send_email
 
   def send_email
-    UserMailer.delay.invite_email(self)
+    UserMailer.delay(queue: 'eretail_email').invite_email(self)
   end
 
   private

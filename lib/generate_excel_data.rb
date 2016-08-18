@@ -1,8 +1,43 @@
-
-excel_classes = [ DailyProductSale, DailyHeadCount, DailySale, SaleGoal, StockBreak, StockBreakEvent, WeeklyBusinessSale ]
+package = Axlsx::Package.new
+excel_classes = [ DailyProductSale, DailySale ]
 excel_classes.each do |model_class|
-	file_name = "xlsx/#{model_class.name.underscore}.xlsx"
-	f = File.open(file_name, 'w')
-	f.write(model_class.to_xlsx.to_stream.read)
-	f.close
+  model_class.to_xlsx(package: package)
 end
+
+file_name = "xlsx/ventas.xlsx"
+f = File.open(file_name, 'w')
+f.write(package.to_stream.read)
+f.close
+
+package = Axlsx::Package.new
+excel_classes = [ StockBreak, StockBreakEvent ]
+excel_classes.each do |model_class|
+  model_class.to_xlsx(package: package)
+end
+
+file_name = "xlsx/quiebres_stock.xlsx"
+f = File.open(file_name, 'w')
+f.write(package.to_stream.read)
+f.close
+
+package = Axlsx::Package.new
+excel_classes = [ DailyHeadCount ]
+excel_classes.each do |model_class|
+  model_class.to_xlsx(package: package)
+end
+
+file_name = "xlsx/actividad_promotores.xlsx"
+f = File.open(file_name, 'w')
+f.write(package.to_stream.read)
+f.close
+
+package = Axlsx::Package.new
+excel_classes = [ SaleGoal, WeeklyBusinessSale ]
+excel_classes.each do |model_class|
+  model_class.to_xlsx(package: package)
+end
+
+file_name = "xlsx/metas_cumplimiento.xlsx"
+f = File.open(file_name, 'w')
+f.write(package.to_stream.read)
+f.close

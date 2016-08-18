@@ -31,6 +31,8 @@ gem 'charlock_holmes'
 gem 'axlsx', '~> 2.0', '>= 2.0.1'
 # gem 'mongoid', '~> 5.1', '>= 5.1.3'
 
+gem 'rubyXL'
+
 # Auth
 gem 'devise', '~> 4.1'
 gem 'doorkeeper', '~> 3.1'

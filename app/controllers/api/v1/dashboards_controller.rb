@@ -343,7 +343,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     stock_breaks.sort! { |a, b| a[:store_name] <=> b[:store_name] }
 
-    product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ? AND quantity > ?", @start_date, @end_date, 0)
+    product_sales = DailyProductSale.joins(report: :store).where("sales_date >= ? AND sales_date < ? AND quantity > ?", @start_date, @end_date, 0)
 
 
     if params[:store_id].present?
@@ -723,8 +723,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         prices_by_day = grouped_prices[:by_day]
         accumulated_prices = get_accumulated(grouped_prices[:groups], false)
 
-
-
         communicated_promotions_month = filtered_checklist_values(checklist_item_id = 145)
         communicated_promotions_today = filtered_checklist_values(@current_date.beginning_of_day, @current_date, 145)
         communicated_promotions_yesterday = filtered_checklist_values(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day, 145)
@@ -891,7 +889,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           end
 
 
-          product_sales = DailyProductSale.joins(:store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
+          product_sales = DailyProductSale.joins(report: :store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
 
 
           if params[:store_id].present?

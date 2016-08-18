@@ -5,30 +5,34 @@
 #
 #  id         :integer          not null, primary key
 #  product_id :integer
-#  store_id   :integer
 #  sales_date :datetime         not null
 #  quantity   :integer          default(0), not null
 #  amount     :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  report_id  :integer
 #
 
 class DailyProductSale < ActiveRecord::Base
   belongs_to :product
-  belongs_to :store
+  belongs_to :report
   validates :product, presence: true
-  validates :store, presence: true
+  validates :report, presence: true
   validates :sales_date, presence: true
 
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
   validates :amount, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
 
   acts_as_xlsx columns: [ :id, :product_id, :dealer_name, :zone_name, :date,
-                          :store_code, 
-                          :store_name, :product_name, :product_ean, 
-                          :product_classification_name, 
+                          :store_code,
+                          :store_name, :product_name, :product_ean,
+                          :product_classification_name,
                           :quantity, :amount ]
 
+  def store
+    report.store
+  end
+  
   def date
     sales_date.to_date
   end
@@ -38,11 +42,11 @@ class DailyProductSale < ActiveRecord::Base
   end
 
   def product_name
-  	product.name
+    product.name
   end
 
   def product_ean
-  	product.sku
+    product.sku
   end
 
   def dealer_name

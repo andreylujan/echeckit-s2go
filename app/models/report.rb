@@ -193,7 +193,7 @@ class Report < ActiveRecord::Base
     if sales.present?
       sales.each do |product_sale|
         product = Product.find(product_sale["game_id"])
-        daily_sale = DailyProductSale.find_or_create_by! store: store, product: product,
+        daily_sale = DailyProductSale.find_or_create_by! report: self, product: product,
           sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
         quantity = product_sale["game_amount"].to_i
         if daily_sale.quantity < quantity
@@ -262,7 +262,7 @@ class Report < ActiveRecord::Base
         type_data.each do |brand_sales|
           brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
           if brand.present?
-            daily_sale = DailySale.find_or_create_by! store: store, brand: brand,
+            daily_sale = DailySale.find_or_create_by! report: self, brand: brand,
               sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             current_sales = daily_sale.send sales_type_get_mapping[sales_type]
             if current_sales < brand_sales["value"].to_i

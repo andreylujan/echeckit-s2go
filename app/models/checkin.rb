@@ -96,12 +96,12 @@ class Checkin < ActiveRecord::Base
   end
 
   def send_checkin_email
-    UserMailer.delay.checkin_email(self)
+    UserMailer.delay(queue: 'eretail_email').checkin_email(self)
   end
 
   def send_checkout_email
     if exit_time.present?
-      UserMailer.delay.checkout_email(self)
+      UserMailer.delay(queue: 'eretail_email').checkout_email(self)
     end
   end
 

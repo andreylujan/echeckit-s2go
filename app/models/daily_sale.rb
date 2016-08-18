@@ -3,7 +3,6 @@
 # Table name: daily_sales
 #
 #  id              :integer          not null, primary key
-#  store_id        :integer          not null
 #  brand_id        :integer          not null
 #  sales_date      :datetime         not null
 #  hardware_sales  :integer          default(0), not null
@@ -11,12 +10,13 @@
 #  game_sales      :integer          default(0), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  report_id       :integer
 #
 
 class DailySale < ActiveRecord::Base
-  belongs_to :store
   belongs_to :brand
-  validates :store, presence: true
+  belongs_to :report
+  validates :report, presence: true
   validates :brand, presence: true
   validates :sales_date, presence: true
   validates :hardware_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
@@ -24,10 +24,35 @@ class DailySale < ActiveRecord::Base
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   acts_as_xlsx columns: [ :id, :store_code, :dealer_name, :zone_name,
       :store_name, :brand_name, :sales_date, :hardware_sales, :accessory_sales,
-    :game_sales ]
+    :game_sales, :report_id, :store_supervisor, :store_instructor, :report_date,
+    :report_assigned_user ]
+
+  def store_supervisor
+    store.supervisor.email if store.supervisor.present?
+  end
+
+  def report_assigned_user
+    if report.assigned_user.present?
+      report.assigned_user.email
+    else
+      report.creator.email
+    end
+  end
+
+  def store_instructor
+    store.instructor.email if store.instructor.present?
+  end
+
+  def report_date
+    report.created_at.to_date
+  end
 
   def dealer_criteria
     store.dealer
+  end
+
+  def store
+    report.store
   end
 
   def zone_name
