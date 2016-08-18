@@ -36,11 +36,11 @@ class WeeklyBusinessSale < ActiveRecord::Base
   end
 
   def month_number
-  	month.month.to_i
+    month.month.to_i
   end
 
   def year
-  	month.year.to_i
+    month.year.to_i
   end
 
   def self.from_csv(csv_file, reset = false)
@@ -70,18 +70,40 @@ class WeeklyBusinessSale < ActiveRecord::Base
           week = row[4].strip.to_i if row[4].present?
           month = row[5].strip.to_i if row[5].present?
           year = row[6].strip.to_i if row[6].present?
-          store = Store.find_by_code!(store_code)
-          week_start = Date.commercial(year, week)
-          month = Date.new(year, month)
-          sale = WeeklyBusinessSale.find_or_initialize_by(store: store,
-                                                          week_start: week_start,
-                                                          month: month)
-          sale.assign_attributes hardware_sales: hardware_sales,
-            accessory_sales: accessory_sales,
-            game_sales: game_sales
+          store = Store.find_by_code(store_code)
+          has_error = false
+          if store.nil?
+            has_error = true
+            created << ArgumentError.new("No existe una tienda con el código #{store_code}")
+          end
+          if not has_error
+            begin
+              week_start = Date.commercial(year, week)
+            rescue => date_exception
+              has_error = true
+              created << ArgumentError.new("Semana o año inválidos")
+            end
+          end
 
-          sale.save
-          created << sale
+          if not has_error
+            begin
+              month = Date.new(year, month)
+            rescue => date_exception
+              has_error = true
+              created << ArgumentError.new("Mes o año inválidos")
+            end
+          end
+          if not has_error
+            sale = WeeklyBusinessSale.find_or_initialize_by(store: store,
+                                                            week_start: week_start,
+                                                            month: month)
+            sale.assign_attributes hardware_sales: hardware_sales,
+              accessory_sales: accessory_sales,
+              game_sales: game_sales
+
+            sale.save
+            created << sale
+          end
         rescue => exception
           created << exception
         end

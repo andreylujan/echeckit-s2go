@@ -38,7 +38,7 @@ module CsvUtils
         data[:meta][:success] = false
         message = val.class < Exception ? val.message : val.to_s
         data[:meta][:errors] = {
-          "formato fila": [
+          "error de validación": [
             message
           ]
         }
