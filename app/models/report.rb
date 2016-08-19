@@ -80,11 +80,19 @@ class Report < ActiveRecord::Base
         quantity = stock_break["game_amount"]
         if quantity.present?
           product = Product.find(stock_break["game_id"])
-          stock_break_date = created_at.beginning_of_day
-          event = StockBreakEvent.find_or_initialize_by product: product,
-            report: self, stock_break_date: stock_break_date
-          event.quantity = quantity
-          event.save!
+          store_type = self.store.store_type
+          product_classification = product.product_classification
+          stock_break = StockBreak.find_by_dealer_id_and_store_type_id_and_product_classification_id(self.store.dealer_id,
+                                                                                            store_type.id, product_classification.id)
+          
+          if stock_break.present? and stock_break.stock_break >= quantity.to_i
+            stock_break_date = created_at.beginning_of_day
+            event = StockBreakEvent.find_or_initialize_by product: product,
+              report: self, stock_break_date: stock_break_date
+            event.quantity = quantity
+            event.stock_break_quantity = stock_break.stock_break
+            event.save!
+          end
         end
       end
     end

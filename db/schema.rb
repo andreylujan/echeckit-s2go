@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818204404) do
+ActiveRecord::Schema.define(version: 20160819010655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -486,16 +486,17 @@ ActiveRecord::Schema.define(version: 20160818204404) do
   add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
 
   create_table "stock_break_events", force: :cascade do |t|
-    t.integer  "store_id",         null: false
-    t.integer  "product_id",       null: false
-    t.integer  "quantity",         null: false
-    t.datetime "stock_break_date", null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "product_id",           null: false
+    t.integer  "quantity",             null: false
+    t.datetime "stock_break_date",     null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "stock_break_quantity"
+    t.integer  "report_id"
   end
 
   add_index "stock_break_events", ["product_id"], name: "index_stock_break_events_on_product_id", using: :btree
-  add_index "stock_break_events", ["store_id"], name: "index_stock_break_events_on_store_id", using: :btree
+  add_index "stock_break_events", ["report_id"], name: "index_stock_break_events_on_report_id", using: :btree
 
   create_table "stock_breaks", force: :cascade do |t|
     t.integer  "dealer_id"
@@ -504,6 +505,7 @@ ActiveRecord::Schema.define(version: 20160818204404) do
     t.integer  "stock_break"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.datetime "deleted_at"
   end
 
   add_index "stock_breaks", ["dealer_id"], name: "index_stock_breaks_on_dealer_id", using: :btree
@@ -599,6 +601,17 @@ ActiveRecord::Schema.define(version: 20160818204404) do
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
 
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
   create_table "weekly_business_sales", force: :cascade do |t|
     t.integer  "store_id",                              null: false
     t.integer  "hardware_sales",  limit: 8, default: 0, null: false
@@ -662,7 +675,7 @@ ActiveRecord::Schema.define(version: 20160818204404) do
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
   add_foreign_key "stock_break_events", "products"
-  add_foreign_key "stock_break_events", "stores"
+  add_foreign_key "stock_break_events", "reports"
   add_foreign_key "stock_breaks", "dealers"
   add_foreign_key "stock_breaks", "product_classifications"
   add_foreign_key "stock_breaks", "store_types"

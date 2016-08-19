@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/pelluch/capistrano-sidekiq
-  revision: ec54cba98a12498fe54cdda8401257a58cd74854
+  revision: 6d609eaea8640da9befb1ee081fbcf755a44d937
   specs:
     capistrano-sidekiq (0.5.4)
       capistrano
@@ -339,6 +339,10 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     orm_adapter (0.5.0)
+    paper_trail (5.2.0)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+      request_store (~> 1.1)
     paranoia (2.1.5)
       activerecord (~> 4.0)
     pg (0.18.4)
@@ -398,6 +402,7 @@ GEM
       nokogiri (>= 1.4.1)
       trollop
     redis (3.3.1)
+    request_store (1.3.1)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rgeo (0.5.3)
@@ -510,6 +515,7 @@ DEPENDENCIES
   jsonapi-utils (~> 0.4.3)
   kaminari (~> 0.17.0)
   listen (~> 3.0, >= 3.0.6)
+  paper_trail
   paranoia (~> 2.1, >= 2.1.5)
   pg (~> 0.18.4)
   pry (~> 0.10.4)

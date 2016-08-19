@@ -11,7 +11,7 @@ f.write(package.to_stream.read)
 f.close
 
 package = Axlsx::Package.new
-excel_classes = [ StockBreak, StockBreakEvent ]
+excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC"), StockBreak ]
 excel_classes.each do |model_class|
   model_class.to_xlsx(package: package)
 end

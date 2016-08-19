@@ -32,6 +32,7 @@ gem 'axlsx', '~> 2.0', '>= 2.0.1'
 # gem 'mongoid', '~> 5.1', '>= 5.1.3'
 gem 'kaminari', '~> 0.17.0'
 gem 'rubyXL'
+gem 'paper_trail'
 
 # Auth
 gem 'devise', '~> 4.1'
