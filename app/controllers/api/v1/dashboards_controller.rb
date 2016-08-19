@@ -55,7 +55,34 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     stock_breaks
   end
 
+  def goals_xlsx
+    package = Axlsx::Package.new
+    current_year = DateTime.now.year
+
+    excel_classes = [
+      WeeklyBusinessSale.where("month >= ? AND month <= ?",
+                               DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year)
+      .order("week_start ASC"),
+      WeeklyBusinessSale.where("month >= ? AND month <= ?",
+                               DateTime.now.beginning_of_year, DateTime.now.end_of_year)
+      .order("week_start ASC"),
+      SaleGoal.where("goal_date >= ? AND goal_date <= ?",
+                     DateTime.now.beginning_of_year - 1.year,
+                     DateTime.now.end_of_year)
+      .order("goal_date ASC")
+    ]
+    excel_classes[0].to_xlsx package: package, name: "Ventas #{current_year - 1}"
+    excel_classes[1].to_xlsx package: package, name: "Ventas #{current_year}"
+    excel_classes[2].to_xlsx package: package, name: "Metas #{current_year - 1} - #{current_year}"
+
+    render text: package.to_stream.read
+  end
+
   def goals
+    if params[:format] == "xlsx"
+      goals_xlsx
+      return
+    end
     @month = params.require(:month)
     @year = params.require(:year)
     @start_date = DateTime.new(@year.to_i, @month.to_i)
@@ -67,18 +94,18 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     goals_by_dealer = filtered_monthly_goals.group_by(&:dealer_criteria)
     dealer_ids = goals_by_dealer.map { |g| g[0].id }
     sales_by_dealer = filtered_weekly_sales_by_month.where(
-        stores: { dealer_id: dealer_ids }
-      )
+      stores: { dealer_id: dealer_ids }
+    )
     .group_by(&:dealer_criteria)
 
     monthly_sales_vs_goals = goals_by_dealer.map do |goal|
       sales = sales_by_dealer.find(ifnone = nil) { |d| d[0].id == goal[0].id }
       sales_amount = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
-          sum + x.hardware_sales + x.accessory_sales + x.game_sales
-        end
-        goal_amount = goal[1].inject(0) do |sum, x|
-          sum + x.monthly_goal
-        end
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      goal_amount = goal[1].inject(0) do |sum, x|
+        sum + x.monthly_goal
+      end
       {
         name: goal[0].name,
         goal: goal_amount,
@@ -101,11 +128,11 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         d[0].id == weekly_sales[0].id
       end
       current_week_sales = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
-          sum + x.hardware_sales + x.accessory_sales + x.game_sales
-        end
-        last_week_sales = weekly_sales[1].inject(0) do |sum, x|
-          sum + x.hardware_sales + x.accessory_sales + x.game_sales
-        end
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+      last_week_sales = weekly_sales[1].inject(0) do |sum, x|
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
       {
         name: weekly_sales[0].name,
         last_week_sales: last_week_sales,
@@ -156,7 +183,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     last_year_monthly_sales = filtered_weekly_sales_by_month(DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year).group_by(&:month_criteria)
     current_year_monthly_sales = filtered_weekly_sales_by_month(DateTime.now.beginning_of_year, DateTime.now.end_of_year).group_by(&:month_criteria)
-    
+
     12.times do |i|
       if not last_year_monthly_sales[i + 1].present?
         last_year_monthly_sales[i + 1] = []
@@ -167,17 +194,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     monthly_sales_comparison = last_year_monthly_sales.map do |monthly_sales|
-      
+
       last_year_sales = monthly_sales[1].inject(0) do |sum, x|
         sum + x.hardware_sales + x.accessory_sales + x.game_sales
       end
-      
+
       current_year_sales = current_year_monthly_sales[monthly_sales[0]]
       .inject(0) do |sum, x|
-        
+
         sum + x.hardware_sales + x.accessory_sales + x.game_sales
       end
-      
+
       {
         month: I18n.t("date.month_names")[monthly_sales[0]][0..2].capitalize,
         month_index: monthly_sales[0],
@@ -320,7 +347,20 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     daily_sales
   end
 
+  def stock_xlsx
+    package = Axlsx::Package.new
+    excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC"), StockBreak ]
+    excel_classes.each do |model_class|
+      model_class.to_xlsx(package: package)
+    end
+    render text: package.to_stream.read
+  end
+
   def stock
+    if params[:format] == "xlsx"
+      stock_xlsx
+      return
+    end
     @month = params.require(:month)
     @year = params.require(:year)
     @start_date = DateTime.new(@year.to_i, @month.to_i)
@@ -547,7 +587,23 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
   end
 
+  def promoter_activity_xlsx
+    package = Axlsx::Package.new
+    excel_classes = [ Report.order("updated_at DESC"), 
+      Checkin.order('arrival_time DESC'),
+      DailyHeadCount.order("count_date DESC") ]
+    excel_classes.each do |model_class|
+      model_class.to_xlsx(package: package)
+    end
+    render text: package.to_stream.read
+  end
+
   def promoter_activity
+
+    if params[:format] == "xlsx"
+      promoter_activity_xlsx
+      return
+    end
 
     @month = params.require(:month)
     @year = params.require(:year)
@@ -576,14 +632,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         k, ((v.inject(0) do |sum, x|
                sum + (x.exit_time-x.arrival_time)
             end)/1.hour).round
-      ]
-    end
-    hours_by_day = grouped_hours[:by_day]
-    accumulated_hours = get_accumulated(grouped_hours[:groups], false)
-    num_hours_today = filtered_checkins(@current_date.beginning_of_day, @current_date).inject(0) do |sum, x|
-      sum + (x.exit_time-x.arrival_time)
-    end
-    num_hours_today = (num_hours_today/1.hour).round
+        ]
+        end
+        hours_by_day = grouped_hours[:by_day]
+        accumulated_hours = get_accumulated(grouped_hours[:groups], false)
+        num_hours_today = filtered_checkins(@current_date.beginning_of_day, @current_date).inject(0) do |sum, x|
+          sum + (x.exit_time-x.arrival_time)
+        end
+        num_hours_today = (num_hours_today/1.hour).round
         num_hours_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day,
         @current_date.beginning_of_day).inject(0) do |sum, x|
           sum + (x.exit_time-x.arrival_time)
@@ -789,7 +845,22 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
         end
 
+        def sales_xlsx
+          package = Axlsx::Package.new
+          excel_classes = [ DailyProductSale.joins(:report).order("reports.created_at DESC"),
+                            DailySale.joins(:report).order("reports.created_at DESC") ]
+          excel_classes.each do |model_class|
+            model_class.to_xlsx(package: package)
+          end
+          render text: package.to_stream.read
+
+        end
+
         def sales
+          if params[:format] == "xlsx"
+            sales_xlsx
+            return
+          end
           month = params.require(:month)
           year = params.require(:year)
           sales_date = DateTime.new(year.to_i, month.to_i)
