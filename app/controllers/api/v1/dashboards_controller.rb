@@ -422,7 +422,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   end
 
   def filtered_head_counts(start_date = @start_date, end_date = @end_date)
-    head_counts = DailyHeadCount.joins(:store)
+    head_counts = DailyHeadCount.joins(report: :store)
     .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", start_date, end_date)
 
     head_counts

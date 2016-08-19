@@ -45,6 +45,76 @@ class Report < ActiveRecord::Base
   after_create :record_stock_breaks
   belongs_to :store
   has_many :checklist_item_values, dependent: :destroy
+  has_many :daily_head_counts, dependent: :destroy
+
+  acts_as_xlsx columns: [
+    :id, 
+    :report_type_name,
+    :execution_date,
+    :dealer_name,
+    :zone_name,
+    :store_code,
+    :store_name,
+    :store_supervisor,
+    :store_instructor,
+    :report_assigned_user,
+    :communicated_prices,
+    :communicated_promotions
+  ]
+
+  def report_type_name
+    self.report_type.name
+  end
+
+  def execution_date
+    self.updated_at
+  end
+
+  def communicated_prices
+    prices_checklist = checklist_item_values.find_by_data_part_id(144)
+    if prices_checklist.present?
+      prices_checklist.item_value
+    end
+  end
+
+  def communicated_promotions
+    promotions_checklist = checklist_item_values.find_by_data_part_id(145)
+    if promotions_checklist.present?
+      promotions_checklist.item_value
+    end
+  end
+
+  def zone_name
+    store.zone.name
+  end
+
+  def dealer_name
+    store.dealer.name
+  end
+
+  def store_code
+    store.code
+  end
+
+  def store_name
+    store.name
+  end
+
+  def store_supervisor
+    store.supervisor.email if store.supervisor.present?
+  end
+
+  def report_assigned_user
+    if assigned_user.present?
+      assigned_user.email
+    else
+      creator.email
+    end
+  end
+
+  def store_instructor
+    store.instructor.email if store.instructor.present?
+  end
 
   def cache_attribute_names
     if self.store.present?
@@ -83,8 +153,8 @@ class Report < ActiveRecord::Base
           store_type = self.store.store_type
           product_classification = product.product_classification
           stock_break = StockBreak.find_by_dealer_id_and_store_type_id_and_product_classification_id(self.store.dealer_id,
-                                                                                            store_type.id, product_classification.id)
-          
+                                                                                                     store_type.id, product_classification.id)
+
           if stock_break.present? and stock_break.stock_break >= quantity.to_i
             stock_break_date = created_at.beginning_of_day
             event = StockBreakEvent.find_or_initialize_by product: product,
@@ -245,7 +315,7 @@ class Report < ActiveRecord::Base
         hc.each do |brand_data|
           brand = Brand.where("lower(name) = ?", brand_data["platform"].downcase).first
           if brand.present?
-            daily_hc = DailyHeadCount.find_or_create_by! store: store, brand: brand,
+            daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand,
               count_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             if hc_type == "hc_promot_ft"
               if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_full_time

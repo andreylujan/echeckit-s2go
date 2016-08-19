@@ -26,8 +26,8 @@ class WeeklyBusinessSale < ActiveRecord::Base
   acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
                           :store_code,
                           :store_name, :month_number, :hardware_sales, :accessory_sales,
-                          :week_number,
                           :game_sales,
+                          :week_number,
                           :year
                           ]
 

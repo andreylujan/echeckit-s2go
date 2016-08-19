@@ -18,8 +18,15 @@ class SaleGoal < ActiveRecord::Base
   validates_presence_of :store, :goal_date
   validates :monthly_goal, :numericality => { :greater_than_or_equal_to => 0 }
 
-  acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
-                          :store_code, :store_name, :goal_month, :goal_year, :monthly_goal ]
+  acts_as_xlsx columns: [ 
+                          :id, :dealer_name, 
+                          :zone_name,
+                          :store_code, 
+                          :store_name, 
+                          :goal_month, 
+                          :goal_year, 
+                          :monthly_goal 
+                        ]
 
   def store_code
     store.code

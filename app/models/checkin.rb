@@ -26,6 +26,32 @@ class Checkin < ActiveRecord::Base
   after_create :assign_store
   belongs_to :store
 
+  acts_as_xlsx columns: [
+    :id,
+    :user_email,
+    :user_full_name,
+    :dealer_name,
+    :zone_name,
+    :store_code,
+    :store_name,
+    :arrival_time,
+    :exit_time,
+    :hours_worked
+  ]
+
+  def hours_worked
+    if exit_time.present?
+      ((exit_time - arrival_time)/1.hour).round(1)
+    end
+  end
+
+  def user_email
+    user.email
+  end
+
+  def user_full_name
+    user.full_name
+  end
 
   def group_by_date_criteria
     arrival_time.to_date
@@ -33,11 +59,11 @@ class Checkin < ActiveRecord::Base
   end
 
   def set_arrival_time
-  	self.arrival_time = DateTime.now
+    self.arrival_time = DateTime.now
   end
 
   def longitude
-  	
+
   end
 
   def latitude
@@ -69,6 +95,14 @@ class Checkin < ActiveRecord::Base
       tz = ActiveSupport::TimeZone.new("Santiago")
       exit_time.in_time_zone(tz).strftime("%d/%m/%y")
     end
+  end
+
+  def store
+    Store.find(data["store_id"])
+  end
+
+  def store_code
+    store.code
   end
 
   def zone_name
