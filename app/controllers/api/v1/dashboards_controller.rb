@@ -30,7 +30,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   end
 
   def filtered_stock_breaks(start_date = @start_date, end_date = @end_date)
-    stock_breaks = StockBreakEvent.joins(:store)
+    stock_breaks = StockBreakEvent.joins(report: :store)
     .where("stock_break_date >= ? AND stock_break_date < ?", start_date, end_date)
 
     if params[:store_id].present?
