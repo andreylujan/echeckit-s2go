@@ -349,7 +349,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def stock_xlsx
     package = Axlsx::Package.new
-    excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC"), StockBreak ]
+    excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC") ]
     excel_classes.each do |model_class|
       model_class.to_xlsx(package: package)
     end
