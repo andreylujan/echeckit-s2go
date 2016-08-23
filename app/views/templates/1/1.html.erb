@@ -20,12 +20,13 @@
 		width: 90%;
 	}
 	h3 {
-		color: #f19122;
+		color: #015496;
 		margin-left: 20px;
 		margin-right: 20px;
 		font-size: 1.1em;
 	}
 	h4 {
+		color: #0c7ebd;
 		margin: 10px 0;
 	}
 	.field {
@@ -186,8 +187,9 @@
 	</style>
 </head>
 <body>
+	<img src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/top_login2.png" style="width: 100%;top:0;">
 	<div style="margin: 10px 0;">
-		<img src="http://logok.org/wp-content/uploads/2014/07/Playstation-logo-colour.png" alt="dom_logo" style="width: 130px">
+		<img src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/s2go2-logo3.png" alt="play_logo" style="width: 130px">
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
@@ -271,7 +273,7 @@
 		<section id="protocolSection">
 
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/protocolo.png" alt="protocol"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/protocolo.png" alt="protocol"></div>
 				<div class="value"><h4>PROTOCOLO</h4></div>
 			</div>
 			
@@ -314,7 +316,7 @@
 		<section id="kitPuntoVentaSection">
 			
 			<div class="field">
-				<div class="label section"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/kit_pdeventa.png" alt="pos_kit"></div>
+				<div class="label section"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/kit_pdeventa.png" alt="pos_kit"></div>
 				<div class="value"><h4>KIT PUNTO DE VENTA</h4></div>
 			</div>
 			
@@ -340,14 +342,14 @@
 							<div class="value icon">
 								<% if checklist_item['type'] == "boolean" %>
 									<% if checklist_item['value'] == true %>
-										<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
+										<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/yes.png" alt="check_v" />
 									<% else %>
-										<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
+										<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/no.png" alt="check_x" />
 									<% end %>
 								<% elsif checklist_item['type'] == "Cantidad" %>
-									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/comentario.png" alt="check_c" />
+									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/comentario.png" alt="check_c" />
 								<% elsif checklist_item['type'] == "Observ." %>
-									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/observacion.png" alt="check_o" />
+									<img class="check" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/observacion.png" alt="check_o" />
 								<% end %>
 							</div>
 							<div class="labelChecklist"><%= "#{checklist_item['name']}" %></div>
@@ -409,7 +411,7 @@
 		<section id="stockSection">
 
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/stock.png" alt="stock"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/stock.png" alt="stock"></div>
 				<div class="value"><h4>STOCK</h4></div>
 			</div>
 
@@ -533,7 +535,7 @@
 
 		<section id="saleSection">
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/venta.png" alt="sale"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/venta.png" alt="sale"></div>
 				<div class="value"><h4>VENTA</h4></div>
 			</div>
 
@@ -602,7 +604,7 @@
 
 		<section id="moreSaleSection">
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/mas_vendidos.png" alt="more_sale"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/mas_vendidos.png" alt="more_sale"></div>
 				<div class="value"><h4>MÁS VENDIDOS</h4></div>
 			</div>
 
@@ -632,7 +634,7 @@
 
 		<section id="brakeStockSection">
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/quiebre_stock.png" alt="stock_break" style="width:30px"></div>
 				<div class="value"><h4>QUIEBRE DE STOCK</h4></div>
 			</div>
 			<% if not @report.dynamic_attributes['sections'][2]['data_section'][0]['stock_break']['list'].nil? %>
@@ -663,7 +665,7 @@
 
 		<section id="competitionSection">
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/acciones_competencia.png" alt="competition" style="width:30px"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/acciones_competencia.png" alt="competition" style="width:30px"></div>
 				<div class="value"><h4>ACCIONES DE LA COMPETENCIA</h4></div>
 			</div>
 
@@ -725,7 +727,7 @@
 
 		<section id="imagesSection">
 			<div class="field">
-				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/dashboard playstation-23.png" alt="category"></div>
+				<div class="label"><img class="icon-section" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/pdf/fotos.png" alt="category"></div>
 				<div class="value"><h4>FOTOS</h4></div>
 			</div>
 			<% if @report.dynamic_attributes['sections'][3]['detalleFoto'].length > 0 %>
