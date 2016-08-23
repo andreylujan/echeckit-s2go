@@ -14,7 +14,7 @@ class Api::V1::ImagesController < ApplicationController
     if params[:end_date].present?
       images = images.where("images.created_at <= ?", params[:end_date])
     end
-    
+
     if params[:category_id].present?
       images = images.where(category_id: params[:category_id].to_i)
     end
@@ -39,13 +39,13 @@ class Api::V1::ImagesController < ApplicationController
       images = images.where(stores: { zone_id: params[:zone_id].to_i })
     end
 
-    best_practices = images
+    images = images
     .order("created_at DESC")
     page_size = 15
     page_number = 1
 
     if params[:page].present?
-      
+
       if params[:page][:size].present?
         page_size = params[:page][:size]
       end
@@ -53,17 +53,26 @@ class Api::V1::ImagesController < ApplicationController
       if params[:page][:number].present?
         page_number = params[:page][:number]
       end
-      
+
     end
 
-    best_practices = best_practices.page(page_number).per(page_size)
+    best_practices = images.page(page_number).per(page_size)
     .map { |p| Api::V1::ImageResource.new(p, nil) }
 
-    render json: JSONAPI::ResourceSerializer.new(Api::V1::ImageResource,
+    serializer = JSONAPI::ResourceSerializer.new(Api::V1::ImageResource,
                                                  include: params[:include].split,
                                                  fields: {
                                                    images: [ :url, :category ]
     }).serialize_to_hash(best_practices)
+
+    meta = {
+      meta: {
+        record_count: images.count,
+        page_count: images.count/page_size.to_i
+      }
+    }
+    render json: serializer.merge(meta)
+
 
 
   end
