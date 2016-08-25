@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::SaleGoalUploadResource < BaseResource
 	attributes :result_csv, :uploaded_csv, :created_at, :year,
-	:month
+	:month, :user_email
 
 	def year
 		@model.goal_date.year
