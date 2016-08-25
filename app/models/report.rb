@@ -20,6 +20,7 @@
 #
 
 class Report < ActiveRecord::Base
+
   belongs_to :organization
   belongs_to :report_type
   belongs_to :report_type
@@ -36,22 +37,20 @@ class Report < ActiveRecord::Base
 
   before_save :cache_data
   before_create :check_pdf_uploaded
-  after_commit :check_num_images, on: [ :create ]
-  after_commit :send_task_job, on: [ :create ]
+  
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
-  after_create :assign_store
-  after_create :update_monthly_sales
-  after_create :update_daily_sales
-  after_create :update_daily_product_sales
-  after_create :update_head_counts
+
+  after_commit :check_num_images, on: [ :create, :update ]
+  after_commit :send_task_job, on: [ :create ]
+
   after_create :cache_attribute_names
-  after_create :record_checklist_data
-  after_create :record_stock_breaks
+  after_create :assign_store
+
+  after_save :generate_statistics
   belongs_to :store
-  
 
   acts_as_xlsx columns: [
     :id, 
@@ -67,6 +66,33 @@ class Report < ActiveRecord::Base
     :communicated_prices,
     :communicated_promotions
   ]
+
+  def self.destroy_statistics
+    MonthlySale.destroy_all
+    DailySale.destroy_all
+    DailyProductSale.destroy_all
+    DailyHeadCount.destroy_all
+    ChecklistItemValue.destroy_all
+    StockBreakEvent.destroy_all
+  end
+
+  def self.regenerate_statistics
+    all.each do |report|
+      report.generate_statistics
+    end
+  end
+
+  def generate_statistics
+    if not self.finished?
+      return
+    end
+    update_monthly_sales
+    update_daily_sales
+    update_daily_product_sales
+    update_head_counts
+    record_checklist_data
+    record_stock_breaks
+  end
 
   def report_type_name
     self.report_type.name
@@ -200,6 +226,10 @@ class Report < ActiveRecord::Base
   end
 
   def check_num_images
+    # Don't generate PDF for unfinished reports
+    if not self.finished?
+      return
+    end
     if self.dynamic_attributes.nil?
       self.dynamic_attributes = {}
     end

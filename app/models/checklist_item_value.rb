@@ -23,6 +23,6 @@ class ChecklistItemValue < ActiveRecord::Base
   end
 
   def group_by_date_criteria
-  	report.created_at
+  	report.created_at.to_date
   end
 end

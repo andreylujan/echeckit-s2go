@@ -6,6 +6,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   def filtered_reports(start_date = @start_date, end_date = @end_date)
     reports = Report.joins(:store)
     .where("reports.created_at >= ? AND reports.created_at < ?", start_date, end_date)
+    .where(finished: true)
 
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
@@ -34,7 +35,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     .where("stock_break_date >= ? AND stock_break_date < ?", start_date, end_date)
 
     if params[:store_id].present?
-      stock_breaks = stock_breaks.where(store_id: params[:store_id].to_i )
+      stock_breaks = stock_breaks.where(reports: { store_id: params[:store_id].to_i })
     end
 
     if params[:dealer_id].present?
@@ -321,32 +322,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     weekly_sales
   end
 
-  def filtered_daily_sales(start_date = @start_date, end_date = @end_date)
-    daily_sales = DailySale.joins(:store, :brand)
-    .where("sales_date >= ? AND sales_date < ? AND brands.name = ?", start_date, end_date, "PlayStation")
-
-    if params[:store_id].present?
-      daily_sales = daily_sales.where(store_id: params[:store_id].to_i )
-    end
-
-    if params[:dealer_id].present?
-      daily_sales = daily_sales.where(stores: { dealer_id: params[:dealer_id].to_i } )
-    end
-
-    if params[:instructor_id].present?
-      daily_sales = daily_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
-    end
-
-    if params[:supervisor_id].present?
-      daily_sales = daily_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-    end
-
-    if params[:zone_id].present?
-      daily_sales = daily_sales.where(stores: { zone_id: params[:zone_id].to_i })
-    end
-    daily_sales
-  end
-
   def stock_xlsx
     package = Axlsx::Package.new
     excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC") ]
@@ -387,7 +362,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
 
     if params[:store_id].present?
-      product_sales = product_sales.where(store_id: params[:store_id].to_i)
+      product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
     end
 
     if params[:dealer_id].present?
@@ -499,7 +474,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     groups = collection.group_by(&criteria).map(&block).sort
     current_index = 0
     filled_in_groups = []
-
     @days_in_month.times do |i|
       if groups[current_index] && groups[current_index][0].day == (i + 1)
         filled_in_groups << groups[current_index]
@@ -516,7 +490,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     groups = filled_in_groups
-
     by_day = groups.map do |group|
       {
         week_day: I18n.l(group[0], format: '%A').capitalize,
@@ -767,15 +740,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           }
         end
         communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}
-
         grouped_prices = group_checklist_by_day(communicated_values_month, :group_by_date_criteria) do |k, v|
           [
             k,
-            v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
+            v.inject(0) { |sum, x | x.item_value ? sum + 1 : sum },
             v.length
           ]
         end
-
+    
         prices_by_day = grouped_prices[:by_day]
         accumulated_prices = get_accumulated(grouped_prices[:groups], false)
 
@@ -799,7 +771,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         grouped_promotions = group_checklist_by_day(communicated_promotions_month, :group_by_date_criteria) do |k, v|
           [
             k,
-            v.inject(0) { |sum, x | x.item_value ? 1 : 0 },
+            v.inject(0) { |sum, x | x.item_value ? sum + 1 : sum },
             v.length
           ]
         end
