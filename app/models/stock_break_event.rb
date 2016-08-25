@@ -4,13 +4,13 @@
 # Table name: stock_break_events
 #
 #  id                   :integer          not null, primary key
-#  store_id             :integer          not null
 #  product_id           :integer          not null
 #  quantity             :integer          not null
 #  stock_break_date     :datetime         not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  stock_break_quantity :integer
+#  report_id            :integer
 #
 
 class StockBreakEvent < ActiveRecord::Base

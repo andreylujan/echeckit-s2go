@@ -15,9 +15,12 @@
 #  resource_id   :integer
 #  resource_type :text
 #  uuid          :text
+#  deleted_at    :datetime
 #
 
 class Image < ActiveRecord::Base
+
+  acts_as_paranoid
   belongs_to :gallery
   belongs_to :user
   mount_base64_uploader :image, ImageUploader

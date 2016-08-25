@@ -15,6 +15,7 @@
 #  resource_id   :integer
 #  resource_type :text
 #  uuid          :text
+#  deleted_at    :datetime
 #
 
 class ImageSerializer < ActiveModel::Serializer

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819022437) do
+ActiveRecord::Schema.define(version: 20160825143354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,10 +209,12 @@ ActiveRecord::Schema.define(version: 20160819022437) do
     t.integer  "resource_id"
     t.text     "resource_type"
     t.text     "uuid"
+    t.datetime "deleted_at"
   end
 
   add_index "images", ["category_id"], name: "index_images_on_category_id", using: :btree
   add_index "images", ["data_part_id"], name: "index_images_on_data_part_id", using: :btree
+  add_index "images", ["deleted_at"], name: "index_images_on_deleted_at", using: :btree
   add_index "images", ["report_id"], name: "index_images_on_report_id", using: :btree
   add_index "images", ["resource_id"], name: "index_images_on_resource_id", using: :btree
   add_index "images", ["resource_type"], name: "index_images_on_resource_type", using: :btree

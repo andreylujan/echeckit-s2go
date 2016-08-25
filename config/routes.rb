@@ -105,7 +105,7 @@ Rails.application.routes.draw do
       
       resources :data_parts, only: [ :index, :show, :create, :update, :destroy ]
       resources :subsections, only: [ :index ]
-      resources :images, only: [ :create, :index ]
+      resources :images, only: [ :create, :index, :destroy ]
       resources :sections, only: [ :show, :index ]
       resources :sale_goals, only: [] do
         collection do
