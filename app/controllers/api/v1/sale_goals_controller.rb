@@ -67,7 +67,7 @@ class Api::V1::SaleGoalsController < ApplicationController
     end
     render json: {
       data: errors
-    }
+    }, status: :ok
   end
 
 end
