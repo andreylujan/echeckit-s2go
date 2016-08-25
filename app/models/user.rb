@@ -37,19 +37,20 @@ class User < ActiveRecord::Base
   validates :phone_number, uniqueness: true, allow_nil: true
   belongs_to :role
   before_create :assign_role_id
-  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken'
+  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken', 
+    dependent: :destroy
   delegate :organization, to: :role, allow_nil: false
   delegate :organization_id, to: :role, allow_nil: false
-  has_many :created_reports, class_name: :Report, foreign_key: :creator_id
-  has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id
-  has_many :created_promotions, class_name: :Promotion, foreign_key: :creator_id
+  has_many :created_reports, class_name: :Report, foreign_key: :creator_id, dependent: :destroy
+  has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id, dependent: :destroy
+  has_many :created_promotions, class_name: :Promotion, foreign_key: :creator_id, dependent: :destroy
   after_create :send_confirmation_email
   has_and_belongs_to_many :promotions
   has_many :checkins, dependent: :destroy
   has_many :devices, dependent: :destroy
-  has_many :broadcasts, foreign_key: :sender_id, class_name: :Broadcast
+  has_many :broadcasts, foreign_key: :sender_id, class_name: :Broadcast, dependent: :destroy
   has_many :messages, dependent: :destroy
-  has_many :sale_goal_uploads
+  has_many :sale_goal_uploads, dependent: :destroy
 
   def send_confirmation_email
     UserMailer.delay(queue: 'eretail_email').confirmation_email(self)

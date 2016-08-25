@@ -26,7 +26,14 @@ class Report < ActiveRecord::Base
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
   mount_uploader :pdf, PdfUploader
-  has_many :images
+
+  has_many :images, dependent: :destroy
+  has_many :checklist_item_values, dependent: :destroy
+  has_many :daily_head_counts, dependent: :destroy
+  has_many :daily_sales, dependent: :destroy
+  has_many :daily_product_sales, dependent: :destroy
+  has_many :stock_break_events, dependent: :destroy
+
   before_save :cache_data
   before_create :check_pdf_uploaded
   after_commit :check_num_images, on: [ :create ]
@@ -44,8 +51,7 @@ class Report < ActiveRecord::Base
   after_create :record_checklist_data
   after_create :record_stock_breaks
   belongs_to :store
-  has_many :checklist_item_values, dependent: :destroy
-  has_many :daily_head_counts, dependent: :destroy
+  
 
   acts_as_xlsx columns: [
     :id, 
@@ -376,7 +382,7 @@ class Report < ActiveRecord::Base
 
   private
   def limit_date_cannot_be_in_the_past
-    if limit_date.present? && limit_date < DateTime.now
+    if limit_date.present? && limit_date < DateTime.now - 5.minutes
       errors.add(:limit_date, "No puede estar en el pasado")
     end
   end
