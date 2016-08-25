@@ -964,7 +964,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
 
           if params[:store_id].present?
-            product_sales = product_sales.where(store_id: params[:store_id].to_i)
+            product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
           end
 
           if params[:dealer_id].present?
