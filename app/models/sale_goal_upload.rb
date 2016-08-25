@@ -13,8 +13,11 @@
 #
 
 class SaleGoalUpload < ActiveRecord::Base
-	has_many :sale_goals
-	mount_uploader :result_csv, GoalCsvUploader
-	mount_uploader :uploaded_csv, GoalCsvResultUploader
-	belongs_to :user
+  has_many :sale_goals
+  mount_uploader :result_csv, GoalCsvUploader
+  mount_uploader :uploaded_csv, GoalCsvResultUploader
+  belongs_to :user
+  def user_email
+    user.email if user.present?
+  end
 end
