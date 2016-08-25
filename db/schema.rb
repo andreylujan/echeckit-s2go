@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825182444) do
+ActiveRecord::Schema.define(version: 20160825191253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -453,9 +453,11 @@ ActiveRecord::Schema.define(version: 20160825182444) do
     t.text     "result_csv"
     t.text     "uploaded_csv"
     t.datetime "goal_date"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "user_id"
+    t.integer  "num_uploaded", default: 0, null: false
+    t.integer  "num_error",    default: 0, null: false
   end
 
   add_index "sale_goal_uploads", ["user_id"], name: "index_sale_goal_uploads_on_user_id", using: :btree
