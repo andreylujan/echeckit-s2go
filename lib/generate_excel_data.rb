@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 package = Axlsx::Package.new
 excel_classes = [ DailyProductSale.joins(:report).order("reports.created_at DESC"),
 	 DailySale.joins(:report).order("reports.created_at DESC") ]

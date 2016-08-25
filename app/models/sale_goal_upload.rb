@@ -9,11 +9,12 @@
 #  goal_date    :datetime
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  user_id      :integer
 #
 
 class SaleGoalUpload < ActiveRecord::Base
 	has_many :sale_goals
 	mount_uploader :result_csv, GoalCsvUploader
 	mount_uploader :uploaded_csv, GoalCsvResultUploader
-
+	belongs_to :user
 end

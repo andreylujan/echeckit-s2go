@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825143354) do
+ActiveRecord::Schema.define(version: 20160825182444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -455,7 +455,10 @@ ActiveRecord::Schema.define(version: 20160825143354) do
     t.datetime "goal_date"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "user_id"
   end
+
+  add_index "sale_goal_uploads", ["user_id"], name: "index_sale_goal_uploads_on_user_id", using: :btree
 
   create_table "sale_goals", force: :cascade do |t|
     t.integer  "store_id",            null: false
@@ -672,6 +675,7 @@ ActiveRecord::Schema.define(version: 20160825143354) do
   add_foreign_key "reports", "report_types"
   add_foreign_key "reports", "stores"
   add_foreign_key "roles", "organizations"
+  add_foreign_key "sale_goal_uploads", "users"
   add_foreign_key "sale_goals", "sale_goal_uploads"
   add_foreign_key "sale_goals", "stores"
   add_foreign_key "sections", "organizations"

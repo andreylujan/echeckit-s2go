@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateDailySales < ActiveRecord::Migration
   def change
     create_table :daily_sales do |t|

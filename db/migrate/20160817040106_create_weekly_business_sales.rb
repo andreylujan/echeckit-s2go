@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateWeeklyBusinessSales < ActiveRecord::Migration
   def change
     create_table :weekly_business_sales do |t|
