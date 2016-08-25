@@ -21,6 +21,7 @@
 
 class Report < ActiveRecord::Base
 
+  acts_as_paranoid
   belongs_to :organization
   belongs_to :report_type
   belongs_to :report_type
@@ -37,23 +38,24 @@ class Report < ActiveRecord::Base
 
   before_save :cache_data
   before_create :check_pdf_uploaded
-  
+
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
 
-  after_commit :check_num_images, on: [ :create, :update ]
+  after_create :check_num_images, if: Proc.new {|report| report.finished? }
+  after_save :check_num_images, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
   after_commit :send_task_job, on: [ :create ]
 
   after_create :cache_attribute_names
   after_create :assign_store
-
   after_save :generate_statistics
+
   belongs_to :store
 
   acts_as_xlsx columns: [
-    :id, 
+    :id,
     :report_type_name,
     :execution_date,
     :dealer_name,
@@ -149,10 +151,10 @@ class Report < ActiveRecord::Base
   end
 
   def cache_attribute_names
-    if self.store.present?
-      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_zone"] = store.zone.name
-      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_dealer"] = store.dealer.name
-      self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["name_store"] = store.name
+    if self.store.present? and (location_hash = self.dynamic_attributes.dig('sections', 0, 'data_section', 1, 'zone_location'))
+      location_hash["name_zone"] = store.zone.name
+      location_hash["name_dealer"] = store.dealer.name
+      location_hash["name_store"] = store.name
       save!
     end
   end
@@ -340,8 +342,10 @@ class Report < ActiveRecord::Base
   end
 
   def assign_store
-    self.store = Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
-    save!
+    if store.nil?
+      self.store = Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
+      save!
+    end
   end
 
   def update_head_counts

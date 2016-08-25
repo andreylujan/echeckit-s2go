@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825191253) do
+ActiveRecord::Schema.define(version: 20160825232404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -430,10 +430,12 @@ ActiveRecord::Schema.define(version: 20160825191253) do
     t.boolean  "pdf_uploaded",       default: false, null: false
     t.text     "uuid"
     t.integer  "store_id"
+    t.datetime "deleted_at"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
+  add_index "reports", ["deleted_at"], name: "index_reports_on_deleted_at", using: :btree
   add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
@@ -600,9 +602,11 @@ ActiveRecord::Schema.define(version: 20160825191253) do
     t.text     "address"
     t.text     "image"
     t.integer  "role_id",                             null: false
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
