@@ -358,11 +358,11 @@ class Report < ActiveRecord::Base
             daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand,
               count_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             if hc_type == "hc_promot_ft"
-              if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_full_time
+              if brand_data["value"].present? and brand_data["value"].to_i > 0
                 daily_hc.update_attributes! num_full_time: brand_data["value"].to_i
               end
             elsif hc_type == "hc_promot_pt"
-              if brand_data["value"].present? and brand_data["value"].to_i > daily_hc.num_part_time
+              if brand_data["value"].present? and brand_data["value"].to_i > 0
                 daily_hc.update_attributes! num_part_time: brand_data["value"].to_i
               end
             end

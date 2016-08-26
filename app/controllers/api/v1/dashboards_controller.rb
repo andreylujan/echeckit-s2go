@@ -818,14 +818,69 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         end
 
         def sales_xlsx
+          month = params.require(:month)
+          year = params.require(:year)
+          @start_date = DateTime.new(year.to_i, month.to_i)
+          @end_date = @start_date + 1.month
           package = Axlsx::Package.new
-          excel_classes = [ DailyProductSale.joins(:report).order("reports.created_at DESC"),
-                            DailySale.joins(:report).order("reports.created_at DESC") ]
+          byebug
+          excel_classes = [ filtered_product_sales.order("sales_date DESC"),
+            filtered_daily_sales.order("sales_date DESC") ]
           excel_classes.each do |model_class|
             model_class.to_xlsx(package: package)
           end
           render text: package.to_stream.read
 
+        end
+
+        def filtered_product_sales(start_date = @start_date, end_date = @end_date)
+          product_sales =
+            DailyProductSale.joins(report: :store).where("sales_date >= ? AND sales_date < ?", start_date, end_date)
+          if params[:store_id].present?
+            product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+          end
+
+          if params[:instructor_id].present?
+            product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+          product_sales
+        end
+
+        def filtered_daily_sales(start_date = @start_date, end_date = @end_date)
+          daily_sales = 
+            DailySale.joins(report: :store).where("sales_date >= ? AND sales_date < ?", start_date, end_date)
+          if params[:store_id].present?
+            daily_sales = daily_sales.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            daily_sales = daily_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
+          end
+
+          if params[:instructor_id].present?
+            daily_sales = daily_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            daily_sales = daily_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            daily_sales = daily_sales.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+          daily_sales
         end
 
         def sales
@@ -836,7 +891,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           month = params.require(:month)
           year = params.require(:year)
           sales_date = DateTime.new(year.to_i, month.to_i)
+          @start_date = sales_date
           end_date = sales_date + 1.month
+          @end_date = end_date
           sales = MonthlySale.joins(:store).where(sales_date: sales_date)
 
           if params[:store_id].present?
@@ -932,28 +989,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           end
 
 
-          product_sales = DailyProductSale.joins(report: :store).where("sales_date >= ? AND sales_date < ?", sales_date, end_date)
-
-
-          if params[:store_id].present?
-            product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
-          end
-
-          if params[:dealer_id].present?
-            product_sales = product_sales.where(stores: { dealer_id: params[:dealer_id].to_i })
-          end
-
-          if params[:instructor_id].present?
-            product_sales = product_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
-          end
-
-          if params[:supervisor_id].present?
-            product_sales = product_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-          end
-
-          if params[:zone_id].present?
-            product_sales = product_sales.where(stores: { zone_id: params[:zone_id].to_i })
-          end
+          product_sales = filtered_product_sales
 
           grouped_products = product_sales.group_by(&:product).map do |key, val|
             {
