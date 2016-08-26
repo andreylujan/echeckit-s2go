@@ -7,6 +7,15 @@ class Api::V1::ZoneResource < BaseResource
   has_many :stores
   has_many :promotions
   
+  filter :dealer_ids, apply: ->(records, value, _options) {
+    if value.is_a? Array and value.length > 0
+      records.joins(:dealers)
+        .where(dealers: { id: value })
+    else
+      records
+    end
+  }
+
   def fetchable_fields
     super
   end

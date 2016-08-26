@@ -12,6 +12,15 @@ class Api::V1::DealerResource < JSONAPI::Resource
     records.joins(:zones).where(zones: { id: value })
   }
 
+  filter :zone_ids, apply: ->(records, value, _options) {
+    if value.is_a? Array and value.length > 0
+      records.joins(:zones)
+        .where(zones: { id: value })
+    else
+      records
+    end
+  }
+
   def fetchable_fields
     super
   end
