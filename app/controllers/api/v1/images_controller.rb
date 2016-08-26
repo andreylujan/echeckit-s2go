@@ -68,7 +68,7 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
     meta = {
       meta: {
         record_count: images.count,
-        page_count: images.count/page_size.to_i
+        page_count: (images.count.to_f/page_size.to_f).ceil
       }
     }
     render json: serializer.merge(meta)
