@@ -101,7 +101,7 @@ class Report < ActiveRecord::Base
   end
 
   def execution_date
-    self.updated_at
+    self.created_at
   end
 
   def communicated_prices
