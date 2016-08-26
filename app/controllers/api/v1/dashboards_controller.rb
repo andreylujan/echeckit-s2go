@@ -6,7 +6,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   def filtered_reports(start_date = @start_date, end_date = @end_date)
     reports = Report.joins(:store)
     .where("reports.created_at >= ? AND reports.created_at < ?", start_date, end_date)
-  
+    .where(finished: true)
+    
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
     end
