@@ -8,16 +8,28 @@ class Api::V1::UserResource < JSONAPI::Resource
 
   filters :role_id
   filter :zone_ids, apply: ->(records, value, _options) {
-    records.joins(:promoted_stores)
+    if value.is_a? Array and value.length > 0
+      records.joins(:promoted_stores)
       .where(stores: { zone_id: value })
+    else
+      records
+    end
   }
   filter :dealer_ids, apply: ->(records, value, _options) {
-    records.joins(:promoted_stores)
+    if value.is_a? Array and value.length > 0
+      records.joins(:promoted_stores)
       .where(stores: { dealer_id: value })
+    else
+      records
+    end
   }
   filter :store_ids, apply: ->(records, value, _options) {
-    records.joins(:promoted_stores)
+    if value.is_a? Array and value.length > 0
+      records.joins(:promoted_stores)
       .where(stores: { id: value })
+    else
+      records
+    end
   }
   def role_name
     @model.organization.name
