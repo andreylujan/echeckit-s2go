@@ -42,6 +42,7 @@ class Store < ActiveRecord::Base
   has_many :daily_head_counts
   has_many :stock_break_events
   has_many :weekly_business_sales
+  has_many :promoters, class_name: "User", foreign_key: :store_id, dependent: :nullify
   validates :code, presence: true
   
   default_scope { order('name ASC') }

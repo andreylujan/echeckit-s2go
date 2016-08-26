@@ -1,10 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::ReportResource < JSONAPI::Resource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
-  :finished, :assigned_user_id, :pdf, :pdf_uploaded
-
-
-
+  :finished, :assigned_user_id, :pdf, :pdf_uploaded,
+  :task_start, :task_end, :title, :description
 
   def custom_links(options)
     {self: nil}

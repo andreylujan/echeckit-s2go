@@ -15,6 +15,7 @@
 #  sent              :boolean
 #  send_to_all       :boolean          default(FALSE), not null
 #  is_immediate      :boolean          default(FALSE), not null
+#  deleted_at        :datetime
 #
 
 class Broadcast < ActiveRecord::Base

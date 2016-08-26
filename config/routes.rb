@@ -36,6 +36,9 @@ Rails.application.routes.draw do
       # jsonapi_resources :regions, only: [ :index ] do
       # end
 
+      jsonapi_resources :tasks, only: [ :create ] do
+      end
+
       jsonapi_resources :messages, only: [ :index, :update, :destroy ] do
         post 'read'
       end

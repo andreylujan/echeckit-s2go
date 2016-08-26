@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826001950) do
+ActiveRecord::Schema.define(version: 20160826192545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,10 @@ ActiveRecord::Schema.define(version: 20160826001950) do
     t.text     "uuid"
     t.integer  "store_id"
     t.datetime "deleted_at"
+    t.text     "title"
+    t.text     "description"
+    t.datetime "task_start"
+    t.datetime "task_end"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
@@ -605,6 +609,7 @@ ActiveRecord::Schema.define(version: 20160826001950) do
     t.text     "image"
     t.integer  "role_id",                             null: false
     t.datetime "deleted_at"
+    t.integer  "store_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -613,6 +618,7 @@ ActiveRecord::Schema.define(version: 20160826001950) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
+  add_index "users", ["store_id"], name: "index_users_on_store_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  null: false
@@ -699,5 +705,6 @@ ActiveRecord::Schema.define(version: 20160826001950) do
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
   add_foreign_key "users", "roles"
+  add_foreign_key "users", "stores"
   add_foreign_key "weekly_business_sales", "stores"
 end
