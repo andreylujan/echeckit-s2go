@@ -18,6 +18,7 @@
 #
 
 class Broadcast < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to :message_action
   belongs_to :sender, foreign_key: :sender_id, class_name: :User
   has_many :messages, dependent: :destroy
@@ -27,7 +28,6 @@ class Broadcast < ActiveRecord::Base
   validates :is_immediate, :inclusion => {:in => [true, false]}
 
   before_create :check_sent
-  before_destroy :check_if_sent  
   after_commit :send_messages, on: [ :create ]
 
   validate :check_send_to_all
@@ -62,11 +62,4 @@ class Broadcast < ActiveRecord::Base
   	true
   end
 
-  def check_if_sent
-  	unless not sent?
-  		errors.add(:sent, "No se puede eliminar un mensaje que ya ha sido enviado")
-      return false
-  	end
-    true
-  end
 end

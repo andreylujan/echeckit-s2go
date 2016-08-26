@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   has_many :broadcasts, foreign_key: :sender_id, class_name: :Broadcast, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :sale_goal_uploads, dependent: :destroy
+  has_many :images, dependent: :destroy
 
   def send_confirmation_email
     UserMailer.delay(queue: 'eretail_email').confirmation_email(self)

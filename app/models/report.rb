@@ -312,7 +312,7 @@ class Report < ActiveRecord::Base
         daily_sale = DailyProductSale.find_or_create_by! report: self, product: product,
           sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
         quantity = product_sale["game_amount"].to_i
-        if daily_sale.quantity < quantity
+        if quantity > 0
           daily_sale.update_attributes! quantity: quantity
         end
       end
@@ -383,7 +383,7 @@ class Report < ActiveRecord::Base
             daily_sale = DailySale.find_or_create_by! report: self, brand: brand,
               sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             current_sales = daily_sale.send sales_type_get_mapping[sales_type]
-            if current_sales < brand_sales["value"].to_i
+            if brand_sales["value"].to_i > 0
               daily_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
               daily_sale.save!
             end
@@ -404,7 +404,7 @@ class Report < ActiveRecord::Base
             monthly_sale = MonthlySale.find_or_create_by! store: store, brand: brand,
               sales_date: DateTime.new(created_at.year, created_at.month)
             current_sales = monthly_sale.send sales_type_get_mapping[sales_type]
-            if current_sales < brand_sales["value"].to_i
+            if brand_sales["value"].to_i > 0
               monthly_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
               monthly_sale.save!
             end

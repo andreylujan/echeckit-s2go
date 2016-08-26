@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825232404) do
+ActiveRecord::Schema.define(version: 20160826001950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,8 +43,10 @@ ActiveRecord::Schema.define(version: 20160825232404) do
     t.boolean  "sent"
     t.boolean  "send_to_all",       default: false, null: false
     t.boolean  "is_immediate",      default: false, null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "broadcasts", ["deleted_at"], name: "index_broadcasts_on_deleted_at", using: :btree
   add_index "broadcasts", ["message_action_id"], name: "index_broadcasts_on_message_action_id", using: :btree
   add_index "broadcasts", ["sender_id"], name: "index_broadcasts_on_sender_id", using: :btree
 
