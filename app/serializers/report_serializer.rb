@@ -18,10 +18,10 @@
 #  uuid               :text
 #  store_id           :integer
 #  deleted_at         :datetime
+#  finished_at        :datetime
+#  task_start         :datetime
 #  title              :text
 #  description        :text
-#  task_start         :datetime
-#  task_end           :datetime
 #
 
 class ReportSerializer < ActiveModel::Serializer

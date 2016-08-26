@@ -23,7 +23,6 @@
 #  image                  :text
 #  role_id                :integer          not null
 #  deleted_at             :datetime
-#  store_id               :integer
 #
 
 class User < ActiveRecord::Base
@@ -55,7 +54,8 @@ class User < ActiveRecord::Base
   has_many :messages, dependent: :destroy
   has_many :sale_goal_uploads, dependent: :destroy
   has_many :images, dependent: :destroy
-  belongs_to :store
+
+  has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id
 
   def send_confirmation_email
     UserMailer.delay(queue: 'eretail_email').confirmation_email(self)

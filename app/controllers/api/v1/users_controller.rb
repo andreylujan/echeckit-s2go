@@ -27,6 +27,11 @@ class Api::V1::UsersController < Api::V1::JsonApiController
   end
 
   def index
+    if request.url.include? 'promoters'
+      super
+      return
+    end
+
     org_id = current_user.role.organization_id
     org_users = User.includes(:role).
       where(roles: { organization_id: org_id })

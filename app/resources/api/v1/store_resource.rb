@@ -9,8 +9,9 @@ class Api::V1::StoreResource < BaseResource
   has_one :store_type
   has_one :supervisor
   has_one :instructor
+  has_one :promoter
 
-  filters :zone_id, :dealer_id
+  filters :zone_id, :dealer_id, :promoter_id
 
   def fetchable_fields
     super

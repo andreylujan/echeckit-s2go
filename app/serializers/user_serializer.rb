@@ -23,7 +23,6 @@
 #  image                  :text
 #  role_id                :integer          not null
 #  deleted_at             :datetime
-#  store_id               :integer
 #
 
 class UserSerializer < ActiveModel::Serializer

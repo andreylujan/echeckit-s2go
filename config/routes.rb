@@ -118,7 +118,7 @@ Rails.application.routes.draw do
 
       jsonapi_resources :sale_goal_uploads, only: [ :index ] do
       end
-      
+      resources :promoters, only: [ :index ], to: 'users#index'
       resources :users, only: [
         :create,
         :update,

@@ -19,6 +19,7 @@
 #  code             :text
 #  supervisor_id    :integer
 #  instructor_id    :integer
+#  promoter_id      :integer
 #
 
 class Store < ActiveRecord::Base
@@ -26,15 +27,18 @@ class Store < ActiveRecord::Base
   belongs_to :zone
   belongs_to :dealer
 
+  belongs_to :store_type
+  belongs_to :supervisor, class_name: :User, foreign_key: :supervisor_id
+  belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
+  belongs_to :promoter, class_name: :User, foreign_key: :promoter_id
+
   acts_as_paranoid
 
   validates_presence_of [ :name, :zone, :dealer ]
   validates :monthly_goal_clp, numericality: { only_integer: true }, allow_nil: true
   validates :monthly_goal_usd, numericality: true, allow_nil: true
 
-  belongs_to :store_type
-  belongs_to :supervisor, class_name: :User, foreign_key: :supervisor_id
-  belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
+  
   has_many :sale_goals
   has_many :monthly_sales
   has_many :daily_product_sales

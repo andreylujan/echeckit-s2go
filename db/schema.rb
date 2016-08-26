@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826192545) do
+ActiveRecord::Schema.define(version: 20160826215931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,15 +433,16 @@ ActiveRecord::Schema.define(version: 20160826192545) do
     t.text     "uuid"
     t.integer  "store_id"
     t.datetime "deleted_at"
+    t.datetime "finished_at"
+    t.datetime "task_start"
     t.text     "title"
     t.text     "description"
-    t.datetime "task_start"
-    t.datetime "task_end"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["deleted_at"], name: "index_reports_on_deleted_at", using: :btree
+  add_index "reports", ["finished"], name: "index_reports_on_finished", using: :btree
   add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
@@ -551,12 +552,14 @@ ActiveRecord::Schema.define(version: 20160826192545) do
     t.text     "code"
     t.integer  "supervisor_id"
     t.integer  "instructor_id"
+    t.integer  "promoter_id"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
   add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
   add_index "stores", ["instructor_id"], name: "index_stores_on_instructor_id", using: :btree
   add_index "stores", ["name", "dealer_id", "zone_id"], name: "index_stores_on_name_and_dealer_id_and_zone_id", unique: true, using: :btree
+  add_index "stores", ["promoter_id"], name: "index_stores_on_promoter_id", using: :btree
   add_index "stores", ["store_type_id"], name: "index_stores_on_store_type_id", using: :btree
   add_index "stores", ["supervisor_id"], name: "index_stores_on_supervisor_id", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
@@ -609,7 +612,6 @@ ActiveRecord::Schema.define(version: 20160826192545) do
     t.text     "image"
     t.integer  "role_id",                             null: false
     t.datetime "deleted_at"
-    t.integer  "store_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -618,7 +620,6 @@ ActiveRecord::Schema.define(version: 20160826192545) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["rut"], name: "index_users_on_rut", unique: true, using: :btree
-  add_index "users", ["store_id"], name: "index_users_on_store_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  null: false
@@ -705,6 +706,5 @@ ActiveRecord::Schema.define(version: 20160826192545) do
   add_foreign_key "subsection_items", "subsection_item_types"
   add_foreign_key "subsections", "sections"
   add_foreign_key "users", "roles"
-  add_foreign_key "users", "stores"
   add_foreign_key "weekly_business_sales", "stores"
 end
