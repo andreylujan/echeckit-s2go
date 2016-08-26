@@ -823,7 +823,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           @start_date = DateTime.new(year.to_i, month.to_i)
           @end_date = @start_date + 1.month
           package = Axlsx::Package.new
-          byebug
           excel_classes = [ filtered_product_sales.order("sales_date DESC"),
             filtered_daily_sales.order("sales_date DESC") ]
           excel_classes.each do |model_class|
