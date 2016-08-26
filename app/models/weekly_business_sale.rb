@@ -61,17 +61,17 @@ class WeeklyBusinessSale < ActiveRecord::Base
     f.unlink
 
     WeeklyBusinessSale.transaction do
-
       csv.each do |row|
         begin
           store_code = row[0].strip if row[0].present?
-          hardware_sales = row[1].strip.to_i if row[1].present?
-          accessory_sales = row[2].strip.to_i if row[2].present?
-          game_sales = row[3].strip.to_i if row[3].present?
+          hardware_sales = row[1].strip.gsub(/[\$]|[\.]/, '').to_i if row[1].present?
+          accessory_sales = row[2].strip.gsub(/[\$]|[\.]/, '').to_i if row[2].present?
+          game_sales = row[3].strip.gsub(/[\$]|[\.]/, '').to_i if row[3].present?
           week = row[4].strip.to_i if row[4].present?
           month = row[5].strip.to_i if row[5].present?
           year = row[6].strip.to_i if row[6].present?
           store = Store.find_by_code(store_code)
+          
           has_error = false
           if store.nil?
             has_error = true
@@ -109,7 +109,6 @@ class WeeklyBusinessSale < ActiveRecord::Base
           created << exception
         end
       end
-
     end
     CsvUtils.generate_response(csv, created)
   end
