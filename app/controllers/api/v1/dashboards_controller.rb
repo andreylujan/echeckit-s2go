@@ -6,8 +6,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   def filtered_reports(start_date = @start_date, end_date = @end_date)
     reports = Report.joins(:store)
     .where("reports.created_at >= ? AND reports.created_at < ?", start_date, end_date)
-    .where(finished: true)
-
+  
     if params[:store_id].present?
       reports = reports.where(store_id: params[:store_id].to_i )
     end
@@ -562,7 +561,9 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def promoter_activity_xlsx
     package = Axlsx::Package.new
-    excel_classes = [ Report.order("updated_at DESC"), 
+    excel_classes = [ Report.
+      where(finished: true).
+      order("created_at DESC"), 
       Checkin.order('arrival_time DESC'),
       DailyHeadCount.order("count_date DESC") ]
     excel_classes.each do |model_class|
@@ -591,7 +592,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
     accumulated_reports = get_accumulated(grouped[:groups])
-
     checkins = filtered_checkins
     grouped_checkins = group_by_day(checkins, :group_by_date_criteria) {|k,v| [k, v.length]}
     num_checkins_today = filtered_checkins(@current_date.beginning_of_day, @current_date).count
