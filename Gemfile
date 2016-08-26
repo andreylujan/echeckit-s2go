@@ -33,6 +33,7 @@ gem 'axlsx', '~> 2.0', '>= 2.0.1'
 gem 'kaminari', '~> 0.17.0'
 gem 'rubyXL'
 gem 'paper_trail'
+gem 'activemodel-associations'
 
 # Auth
 gem 'devise', '~> 4.1'
