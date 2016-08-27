@@ -5,6 +5,8 @@ gem 'rails-api', '~> 0.4.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
+gem 'pghero'
+gem 'pg_query'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.6'

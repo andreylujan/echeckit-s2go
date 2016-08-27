@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   match '/*path', to: 'application#cors_preflight_check', via: :options
   require 'sidekiq/web'
 
+  mount PgHero::Engine, at: "pghero"
+
   mount Sidekiq::Web => '/sidekiq'
 
   use_doorkeeper do
