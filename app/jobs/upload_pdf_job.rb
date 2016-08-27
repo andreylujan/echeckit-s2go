@@ -3,7 +3,10 @@ class UploadPdfJob < ActiveJob::Base
 	queue_as :eretail_report
 
 	def perform(report_id, regenerate_uuid=false)
-		report = Report.find(report_id)
+		report = Report.find_by_id(report_id)
+		if report.nil?
+			return
+		end
 		ac = ActionController::Base.new()
 		# html = ac.render_to_string('templates/report.html.erb', 
 		# html = ac.render_to_string('templates/report2.html.erb',
