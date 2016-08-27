@@ -5,6 +5,7 @@ class Api::V1::ReportResource < JSONAPI::Resource
   :task_start, :title, :description
 
   has_one :assigned_user
+  has_one :store
   
   def custom_links(options)
     {self: nil}

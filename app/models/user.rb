@@ -56,6 +56,8 @@ class User < ActiveRecord::Base
   has_many :images, dependent: :destroy
 
   has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id
+  has_many :instructed_stores, class_name: :Store, foreign_key: :instructed_stores
+  has_many :supervised_stores, class_name: :Store, foreign_key: :supervised_stores
 
   def send_confirmation_email
     UserMailer.delay(queue: 'eretail_email').confirmation_email(self)
@@ -68,6 +70,10 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def name
+    full_name
   end
 
   def viewable_reports

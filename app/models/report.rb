@@ -42,10 +42,15 @@ class Report < ActiveRecord::Base
   has_many :stock_break_events, dependent: :destroy
 
   before_save :cache_data
+
   before_create :check_pdf_uploaded
+  before_create :set_organization
+  before_create :set_location_attributes
 
   validates :report_type_id, presence: true
   validates :report_type, presence: true
+  
+
   default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
 
@@ -58,7 +63,7 @@ class Report < ActiveRecord::Base
   after_save :generate_statistics
 
   belongs_to :store
-
+  
   acts_as_xlsx columns: [
     :id,
     :report_type_name,
@@ -81,6 +86,31 @@ class Report < ActiveRecord::Base
     DailyHeadCount.destroy_all
     ChecklistItemValue.destroy_all
     StockBreakEvent.destroy_all
+  end
+
+  def set_organization
+    self.organization = creator.organization
+  end
+
+  def set_location_attributes
+    if not self.dynamic_attributes['sections']
+      self.dynamic_attributes['sections'] = [
+        {
+          id: 1,
+          data_section: [
+            { map_location: {} },
+            {
+              zone_location: {
+                zone: store.zone_id,
+                dealer: store.dealer_id,
+                store: store.id
+              }
+            },
+            address_location: {}
+          ]
+        }
+      ]
+    end
   end
 
   def self.regenerate_statistics
