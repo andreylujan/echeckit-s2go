@@ -11,7 +11,7 @@ class UploadPdfJob < ActiveJob::Base
 		# html = ac.render_to_string('templates/report.html.erb', 
 		# html = ac.render_to_string('templates/report2.html.erb',
 		
-		html = (ac.render_to_string('templates/' + report.organization_id.to_s + '/' + report.report_type_id.to_s + '.html.erb',
+		html = (ac.render_to_string('templates/' + report.creator.organization_id.to_s + '/' + report.report_type_id.to_s + '.html.erb',
 			locals: { :@report => report })).force_encoding("UTF-8")
 		
 		pdf = WickedPdf.new.pdf_from_string(html, zoom: 0.8)

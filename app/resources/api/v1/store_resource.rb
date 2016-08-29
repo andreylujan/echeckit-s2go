@@ -11,7 +11,7 @@ class Api::V1::StoreResource < BaseResource
   has_one :instructor
   has_one :promoter
 
-  filters :zone_id, :dealer_id, :promoter_id
+  filters :zone_id, :dealer_id
 
   filter :zone_ids, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0
@@ -24,6 +24,14 @@ class Api::V1::StoreResource < BaseResource
   filter :dealer_ids, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0
       records.where(dealer_id: value)
+    else
+      records
+    end
+  }
+
+  filter :promoter_ids, apply: ->(records, value, _options) {
+    if value.is_a? Array and value.length > 0
+      records.where(promoter_id: value)
     else
       records
     end

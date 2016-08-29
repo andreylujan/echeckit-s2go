@@ -81,6 +81,9 @@ Rails.application.routes.draw do
       jsonapi_resources :dealers, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
+      jsonapi_resources :promotion_states, only: [ :index ] do
+      end
+
       resource :dashboard, only: [] do
         get :sales
         get :promoter_activity

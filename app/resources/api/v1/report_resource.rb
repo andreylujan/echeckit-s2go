@@ -1,18 +1,25 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::ReportResource < JSONAPI::Resource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
-  :finished, :assigned_user_id, :pdf, :pdf_uploaded,
-  :task_start, :title, :description
+    :finished, :assigned_user_id, :pdf, :pdf_uploaded,
+    :task_start, :title, :description, :report_type_id
+
+  before_create :set_creator
 
   has_one :assigned_user
   has_one :store
-  
+
   def custom_links(options)
     {self: nil}
   end
 
   def pdf
-  	@model.pdf.url
+    @model.pdf.url
+  end
+
+  def set_creator(promotion = @model, context = @context)
+    user = context[:current_user]
+    promotion.creator = user
   end
 
   def self.records(options = {})
@@ -21,12 +28,12 @@ class Api::V1::ReportResource < JSONAPI::Resource
     if user.role_id == 2 or !context[:all]
       user.viewable_reports
     else
-      Report.where(organization: user.role.organization)
+      Report.joins(creator: :role).where(roles: { organization_id: user.role.organization_id })
     end
   end
 
   filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids
-  
+
   filter :creator_id, apply: ->(records, value, _options) {
     records.where('assigned_user_id is NULL')
   }

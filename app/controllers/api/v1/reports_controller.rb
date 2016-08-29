@@ -7,18 +7,6 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     super.merge({ all: params[:all] })
   end
   
-  def create
-  	@report = Report.new(create_params)
-    @report.set_uuid
-  	user = current_user
-  	@report.creator = user
-  	@report.organization_id = user.role.organization_id
-  	if @report.save!
-  		render json: @report
-  	else
-  	end
-  end
-
   def update    
     @report = Report.find(params.require(:id))
     @report.finished = true

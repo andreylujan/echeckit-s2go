@@ -38,7 +38,7 @@ class Store < ActiveRecord::Base
   validates :monthly_goal_clp, numericality: { only_integer: true }, allow_nil: true
   validates :monthly_goal_usd, numericality: true, allow_nil: true
 
-  
+  has_many :promotion_states, dependent: :destroy
   has_many :sale_goals
   has_many :monthly_sales
   has_many :daily_product_sales

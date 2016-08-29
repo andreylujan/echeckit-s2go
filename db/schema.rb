@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160827182136) do
+ActiveRecord::Schema.define(version: 20160829160209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
   enable_extension "postgis"
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
@@ -380,6 +381,20 @@ ActiveRecord::Schema.define(version: 20160827182136) do
   add_index "products", ["product_type_id"], name: "index_products_on_product_type_id", using: :btree
   add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
 
+  create_table "promotion_states", force: :cascade do |t|
+    t.integer  "promotion_id", null: false
+    t.integer  "store_id",     null: false
+    t.datetime "activated_at"
+    t.integer  "report_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "promotion_states", ["activated_at"], name: "index_promotion_states_on_activated_at", using: :btree
+  add_index "promotion_states", ["promotion_id"], name: "index_promotion_states_on_promotion_id", using: :btree
+  add_index "promotion_states", ["report_id"], name: "index_promotion_states_on_report_id", using: :btree
+  add_index "promotion_states", ["store_id"], name: "index_promotion_states_on_store_id", using: :btree
+
   create_table "promotions", force: :cascade do |t|
     t.datetime "start_date",   null: false
     t.datetime "end_date",     null: false
@@ -430,7 +445,6 @@ ActiveRecord::Schema.define(version: 20160827182136) do
   add_index "report_types_sections", ["section_id"], name: "index_report_types_sections_on_section_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "organization_id",                    null: false
     t.integer  "report_type_id",                     null: false
     t.json     "dynamic_attributes", default: {},    null: false
     t.datetime "created_at",                         null: false
@@ -454,7 +468,6 @@ ActiveRecord::Schema.define(version: 20160827182136) do
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["deleted_at"], name: "index_reports_on_deleted_at", using: :btree
   add_index "reports", ["finished"], name: "index_reports_on_finished", using: :btree
-  add_index "reports", ["organization_id"], name: "index_reports_on_organization_id", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
   add_index "reports", ["uuid"], name: "index_reports_on_uuid", using: :btree
@@ -695,9 +708,11 @@ ActiveRecord::Schema.define(version: 20160827182136) do
   add_foreign_key "products", "platforms"
   add_foreign_key "products", "product_classifications"
   add_foreign_key "products", "product_types"
+  add_foreign_key "promotion_states", "promotions"
+  add_foreign_key "promotion_states", "reports"
+  add_foreign_key "promotion_states", "stores"
   add_foreign_key "promotions", "data_parts", column: "checklist_id"
   add_foreign_key "report_types", "organizations"
-  add_foreign_key "reports", "organizations"
   add_foreign_key "reports", "report_types"
   add_foreign_key "reports", "stores"
   add_foreign_key "roles", "organizations"

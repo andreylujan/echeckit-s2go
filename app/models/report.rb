@@ -27,13 +27,14 @@
 class Report < ActiveRecord::Base
 
   acts_as_paranoid
-  belongs_to :organization
+
   belongs_to :report_type
   belongs_to :report_type
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
   mount_uploader :pdf, PdfUploader
 
+  has_one :promotion_state, dependent: :destroy
   has_many :images, dependent: :destroy
   has_many :checklist_item_values, dependent: :destroy
   has_many :daily_head_counts, dependent: :destroy
@@ -42,10 +43,11 @@ class Report < ActiveRecord::Base
   has_many :stock_break_events, dependent: :destroy
 
   before_save :cache_data
-
   before_create :check_pdf_uploaded
-  before_create :set_organization
   before_create :set_location_attributes
+  before_create :assign_store
+  before_create :set_uuid
+  
 
   validates :report_type_id, presence: true
   validates :report_type, presence: true
@@ -59,7 +61,8 @@ class Report < ActiveRecord::Base
   after_commit :send_task_job, on: [ :create ]
 
   after_create :cache_attribute_names
-  after_create :assign_store
+  after_commit :check_promotion, on: [ :create ]
+
   after_save :generate_statistics
 
   belongs_to :store
@@ -79,6 +82,18 @@ class Report < ActiveRecord::Base
     :communicated_promotions
   ]
 
+  def organization
+    creator.organization
+  end
+
+  def check_promotion
+    if self.dynamic_attributes["promotion_id"].present?
+      promotion_id = self.dynamic_attributes["promotion_id"].to_i
+      promotion = PromotionState.find_by_promotion_id_and_store_id!(promotion_id, self.store_id)
+      promotion.update_attributes! report_id: self.id, activated_at: DateTime.now
+    end
+  end
+
   def self.destroy_statistics
     MonthlySale.destroy_all
     DailySale.destroy_all
@@ -86,10 +101,6 @@ class Report < ActiveRecord::Base
     DailyHeadCount.destroy_all
     ChecklistItemValue.destroy_all
     StockBreakEvent.destroy_all
-  end
-
-  def set_organization
-    self.organization = creator.organization
   end
 
   def set_location_attributes
@@ -379,7 +390,6 @@ class Report < ActiveRecord::Base
   def assign_store
     if store.nil?
       self.store = Store.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["store"])
-      save!
     end
   end
 

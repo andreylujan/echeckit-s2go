@@ -25,8 +25,25 @@ class Promotion < ActiveRecord::Base
 	has_and_belongs_to_many :zones
 	has_and_belongs_to_many :dealers
 	has_many :images, as: :resource
+	has_many :promotion_states, dependent: :destroy
+	after_create :create_promotion_states
 
 	def send_promotion_job
 		SendPromotionJob.perform_later(self.id)
+	end
+
+	def create_promotion_states
+		stores = Store.all
+		if dealers.count > 0
+			stores = Store.where(dealer_id: dealer_ids)
+		end
+		if zones.count > 0
+			stores = Store.where(zone_id: zone_ids)
+		end
+		stores.each do |store|
+			PromotionState.create! store: store,
+				promotion: self
+		end
+
 	end
 end
