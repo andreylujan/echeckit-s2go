@@ -18,6 +18,8 @@ class PromotionState < ActiveRecord::Base
   validates :promotion, presence: true
   validates :store, presence: true
 
+  acts_as_paranoid
+  
   def activated
   	self.activated_at.present?
   end
@@ -47,6 +49,10 @@ class PromotionState < ActiveRecord::Base
   end
 
   def creator_email
+    if promotion.nil?
+      byebug
+      a = 2
+    end
   	promotion.creator.email
   end
    
