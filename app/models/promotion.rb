@@ -40,7 +40,6 @@ class Promotion < ActiveRecord::Base
 		if zones.count > 0
 			stores = stores.where(zone_id: zone_ids)
 		end
-		byebug
 		stores.each do |store|
 			PromotionState.create! store: store,
 				promotion: self
