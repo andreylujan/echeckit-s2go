@@ -44,17 +44,24 @@ class PromotionState < ActiveRecord::Base
   	report.pdf_uploaded if report.present?
   end
 
-  def activator_email
-  	report.creator.email if report.present?
+  def activator_name
+  	report.creator.name if report.present?
   end
 
-  def creator_email
-    if promotion.nil?
-      byebug
-      a = 2
-    end
-  	promotion.creator.email
+  def creator_name
+  	promotion.creator.name
+  end
+
+  def start_date
+    promotion.start_date
+  end
+
+  def end_date
+    promotion.end_date
   end
    
+   def title
+    promotion.title
+   end
 
 end
