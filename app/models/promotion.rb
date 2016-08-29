@@ -35,10 +35,10 @@ class Promotion < ActiveRecord::Base
 	def create_promotion_states
 		stores = Store.all
 		if dealers.count > 0
-			stores = Store.where(dealer_id: dealer_ids)
+			stores = stores.where(dealer_id: dealer_ids)
 		end
 		if zones.count > 0
-			stores = Store.where(zone_id: zone_ids)
+			stores = stores.where(zone_id: zone_ids)
 		end
 		stores.each do |store|
 			PromotionState.create! store: store,
