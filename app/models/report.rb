@@ -114,7 +114,10 @@ class Report < ActiveRecord::Base
               zone_location: {
                 zone: store.zone_id,
                 dealer: store.dealer_id,
-                store: store.id
+                store: store.id,
+                name_zone: store.zone.name,
+                name_dealer: store.dealer.name,
+                name_store: store.name
               }
             },
             address_location: {}
@@ -265,6 +268,9 @@ class Report < ActiveRecord::Base
   end
 
   def check_pdf_uploaded
+    if not self.finished?
+      return
+    end
     if self.dynamic_attributes.nil?
       self.dynamic_attributes = {}
     end
