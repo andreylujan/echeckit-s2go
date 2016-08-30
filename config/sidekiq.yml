@@ -3,12 +3,18 @@
 :pidfile: tmp/pids/sidekiq.pid
 staging:
   :concurrency: 10
+  :queues:
+    - [ eretail_staging_report, 12 ]
+    - [ eretail_staging_email, 8 ]
+    - [ eretail_staging_promotion, 8 ]
+    - [ eretail_staging_broadcast, 4 ]
+    - [ eretail_staging_push, 2 ]
 production:
   :concurrency: 25
-:queues:
-  - [ eretail_report, 12 ]
-  - [ eretail_email, 8 ]
-  - [ eretail_promotion, 8 ]
-  - [ eretail_broadcast, 4 ]
-  - [ eretail_push, 2 ]
+  :queues:
+    - [ eretail_report, 12 ]
+    - [ eretail_email, 8 ]
+    - [ eretail_promotion, 8 ]
+    - [ eretail_broadcast, 4 ]
+    - [ eretail_push, 2 ]
 :sidekiq_pid: File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')  

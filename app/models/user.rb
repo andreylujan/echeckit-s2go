@@ -60,12 +60,12 @@ class User < ActiveRecord::Base
   has_many :supervised_stores, class_name: :Store, foreign_key: :supervised_stores
 
   def send_confirmation_email
-    UserMailer.delay(queue: 'eretail_email').confirmation_email(self)
+    UserMailer.delay(queue: ENV['EMAIL_QUEUE'] || 'eretail_email').confirmation_email(self)
   end
 
   def send_reset_password_instructions
     token = set_reset_password_token
-    UserMailer.delay(queue: 'eretail_email').reset_password_email(self)
+    UserMailer.delay(queue: ENV['EMAIL_QUEUE'] || 'eretail_email').reset_password_email(self)
   end
 
   def full_name
