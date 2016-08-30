@@ -3,7 +3,10 @@ class SendBroadcastJob < ActiveJob::Base
 	queue_as :eretail_broadcast
 
 	def perform(broadcast_id)
-		broadcast = Broadcast.find(broadcast_id)
+		broadcast = Broadcast.find_by_id(broadcast_id)
+		if broadcast.nil?
+			return
+		end
 		recipients = broadcast.recipients
 		
 		broadcast.update_attribute :sent, true

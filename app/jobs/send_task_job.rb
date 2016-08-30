@@ -4,7 +4,10 @@ class SendTaskJob < ActiveJob::Base
 
 	def perform(report_id)
 
-		report = Report.find(report_id)
+		report = Report.find_by_id(report_id)
+		if report.nil?
+			return
+		end
 		user = report.assigned_user
 
 		if user.nil?

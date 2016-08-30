@@ -3,7 +3,10 @@ class SendPromotionJob < ActiveJob::Base
 	queue_as :eretail_promotion
 
 	def perform(promotion_id)
-		promotion = Promotion.find(promotion_id)
+		promotion = Promotion.find_by_id(promotion_id)
+		if promotion.nil?
+			return
+		end
 		users = promotion.users
 		
 		if users.length == 0
