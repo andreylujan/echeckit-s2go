@@ -86,6 +86,14 @@ class Report < ActiveRecord::Base
     creator.organization
   end
 
+  def assigned_user_name
+    assigned_user.name if assigned_user.present?
+  end
+
+  def creator_name
+    creator.name if creator.present?
+  end
+
   def check_promotion
     if self.dynamic_attributes["promotion_id"].present?
       promotion_id = self.dynamic_attributes["promotion_id"].to_i
