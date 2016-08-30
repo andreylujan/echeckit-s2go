@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreatePromotionStates < ActiveRecord::Migration
   def change
     create_table :promotion_states do |t|
