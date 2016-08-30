@@ -21,7 +21,7 @@ class SendBroadcastJob < ActiveJob::Base
 			data: {
 				message: "eRetail: Mensaje recibido",
 				title: "#{broadcast.title}",
-				action_id: "#{broadcast.message_action_id}",
+				action_id: "2",
 				resource_id: "#{broadcast.resource_id}",
 				action_name: "#{broadcast.message_action_name}"
 				},
