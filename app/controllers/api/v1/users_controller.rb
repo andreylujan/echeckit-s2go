@@ -28,6 +28,7 @@ class Api::V1::UsersController < Api::V1::JsonApiController
 
   def index
     if request.url.include? 'promoters'
+      @role_id = 2
       super
       return
     end
@@ -103,6 +104,13 @@ class Api::V1::UsersController < Api::V1::JsonApiController
       }, status: :unprocessable_entity
     end
   end
+
+  def context
+    {
+      current_user: current_user,
+      role_id: @role_id
+    }
+  end  
 
   private
   def user_params
