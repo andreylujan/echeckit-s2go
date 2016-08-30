@@ -3,7 +3,8 @@ class Api::V1::ReportResource < JSONAPI::Resource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
     :finished, :assigned_user_id, :pdf, :pdf_uploaded,
     :task_start, :title, :description, :report_type_id,
-    :store_name, :zone_name, :dealer_name, :assigned_user_name, :creator_name
+    :store_name, :zone_name, :dealer_name, :assigned_user_name, :creator_name,
+    :finished_at
 
   before_create :set_creator
 

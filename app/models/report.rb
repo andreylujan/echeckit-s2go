@@ -60,6 +60,9 @@ class Report < ActiveRecord::Base
   after_save :check_num_images, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
   after_commit :send_task_job, on: [ :create ]
 
+  after_create :set_finished_at, on: [ :create ]
+  after_save :set_finished_at, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
+
   after_create :cache_attribute_names
   after_commit :check_promotion, on: [ :create ]
 
@@ -81,6 +84,12 @@ class Report < ActiveRecord::Base
     :communicated_prices,
     :communicated_promotions
   ]
+
+  def set_finished_at
+    if self.finished?
+      self.finished_at = DateTime.now
+    end
+  end
 
   def organization
     creator.organization
