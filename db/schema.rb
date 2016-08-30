@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829160209) do
+ActiveRecord::Schema.define(version: 20160829194646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -388,9 +388,11 @@ ActiveRecord::Schema.define(version: 20160829160209) do
     t.integer  "report_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.datetime "deleted_at"
   end
 
   add_index "promotion_states", ["activated_at"], name: "index_promotion_states_on_activated_at", using: :btree
+  add_index "promotion_states", ["deleted_at"], name: "index_promotion_states_on_deleted_at", using: :btree
   add_index "promotion_states", ["promotion_id"], name: "index_promotion_states_on_promotion_id", using: :btree
   add_index "promotion_states", ["report_id"], name: "index_promotion_states_on_report_id", using: :btree
   add_index "promotion_states", ["store_id"], name: "index_promotion_states_on_store_id", using: :btree

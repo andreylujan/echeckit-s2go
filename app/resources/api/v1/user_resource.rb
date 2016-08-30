@@ -31,6 +31,15 @@ class Api::V1::UserResource < BaseResource
       records
     end
   }
+
+  def self.records(options = {})
+    context = options[:context]
+    users = super
+    if context[:role_id]
+      users = users.where(role_id: context[:role_id])
+    end
+  end
+
   def role_name
     @model.organization.name
   end

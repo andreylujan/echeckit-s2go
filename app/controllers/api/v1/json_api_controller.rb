@@ -15,6 +15,7 @@ class Api::V1::JsonApiController < ApplicationController
   	super
   end
 
+
   protected
 
   

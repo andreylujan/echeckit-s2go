@@ -60,6 +60,9 @@ class Report < ActiveRecord::Base
   after_save :check_num_images, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
   after_commit :send_task_job, on: [ :create ]
 
+  after_create :set_finished_at, on: [ :create ]
+  after_save :set_finished_at, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
+
   after_create :cache_attribute_names
   after_commit :check_promotion, on: [ :create ]
 
@@ -82,8 +85,22 @@ class Report < ActiveRecord::Base
     :communicated_promotions
   ]
 
+  def set_finished_at
+    if self.finished?
+      self.finished_at = DateTime.now
+    end
+  end
+
   def organization
     creator.organization
+  end
+
+  def assigned_user_name
+    assigned_user.name if assigned_user.present?
+  end
+
+  def creator_name
+    creator.name if creator.present?
   end
 
   def check_promotion
@@ -114,7 +131,10 @@ class Report < ActiveRecord::Base
               zone_location: {
                 zone: store.zone_id,
                 dealer: store.dealer_id,
-                store: store.id
+                store: store.id,
+                name_zone: store.zone.name,
+                name_dealer: store.dealer.name,
+                name_store: store.name
               }
             },
             address_location: {}
@@ -265,6 +285,9 @@ class Report < ActiveRecord::Base
   end
 
   def check_pdf_uploaded
+    if not self.finished?
+      return
+    end
     if self.dynamic_attributes.nil?
       self.dynamic_attributes = {}
     end
