@@ -44,6 +44,9 @@ class Promotion < ActiveRecord::Base
 			PromotionState.create! store: store,
 				promotion: self
 		end
+		if stores.count == 0
+			raise ActiveRecord::RecordNotSaved, 'No hay tiendas válidas para esta combinación de zona y dealer'
+		end
 
 	end
 end

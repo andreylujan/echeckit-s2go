@@ -1,6 +1,7 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::PromotionStateResource < BaseResource
   attributes :activated_at, :store_name, :dealer_name, :zone_name,
-    :pdf, :pdf_uploaded, :activated, :activated_at,
+    :pdf, :pdf_uploaded, :activated,
     :activator_name, :creator_name, :promotion_id,
     :start_date, :end_date, :title
 
