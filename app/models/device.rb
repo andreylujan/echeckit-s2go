@@ -24,6 +24,18 @@
 
 class Device < ActiveRecord::Base
   belongs_to :user
-
   validates_presence_of :user
+  after_create :destroy_old_devices
+
+  private
+  def destroy_old_devices
+    user = self.user
+    devices = user.devices.where(name: self.name)
+    .order("created_at ASC")
+    while devices.count > 5
+      devices.first.destroy!
+      devices = user.devices.where(name: self.name)
+        .order("created_at ASC")
+    end
+  end
 end
