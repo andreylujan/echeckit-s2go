@@ -6,7 +6,7 @@ no_users = []
 loaded_stores = []
 
 csv.shift
-csv.each do |row|
+csv.each_with_index do |row, index|
   promoter_email = row[4].strip if row[4].present?
   dealer_name = row[5].strip if row[5].present?
   store_code = row[7].strip if row[7].present?
@@ -20,15 +20,14 @@ csv.each do |row|
         loaded_stores << full_code
         store.update_attributes! promoter: user
       else
-        no_stores << full_code
+        no_stores << "Fila #{index + 4} #{row[6].strip} - #{full_code}"
       end
     else
-      no_users << promoter_email
+      no_users << "Fila #{index + 4} #{row[3].strip} - #{promoter_email}"
     end
 
   end
 end
 
-ap no_stores
-ap no_users
-ap loaded_stores
+puts no_stores.join("\n")
+puts no_users.join("\n")

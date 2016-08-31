@@ -483,7 +483,7 @@ class Report < ActiveRecord::Base
 
   private
   def limit_date_cannot_be_in_the_past
-    if limit_date.present? && limit_date < DateTime.now - 5.minutes
+    if limit_date.present? and limit_date_changed? and limit_date < DateTime.now - 5.minutes
       errors.add(:limit_date, "No puede estar en el pasado")
     end
   end
