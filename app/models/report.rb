@@ -51,8 +51,9 @@ class Report < ActiveRecord::Base
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   
+  scope :unassigned, -> { where(assigned_user_id: nil) } 
+  scope :assigned, -> { where.not(assigned_user_id: nil) } 
 
-  default_scope { order('created_at DESC') }
   validate :limit_date_cannot_be_in_the_past
 
   after_create :check_num_images, if: Proc.new {|report| report.finished? }
@@ -111,7 +112,6 @@ class Report < ActiveRecord::Base
   end
 
   def self.destroy_statistics
-    MonthlySale.destroy_all
     DailySale.destroy_all
     DailyProductSale.destroy_all
     DailyHeadCount.destroy_all
@@ -153,7 +153,6 @@ class Report < ActiveRecord::Base
     if not self.finished?
       return
     end
-    update_monthly_sales
     update_daily_sales
     update_daily_product_sales
     update_head_counts
@@ -423,7 +422,7 @@ class Report < ActiveRecord::Base
           brand = Brand.where("lower(name) = ?", brand_data["platform"].downcase).first
           if brand.present?
             daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand,
-              count_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+              count_date: DateTime.new(created_at.year, created_at.month, created_at.day).to_date
             if hc_type == "hc_promot_ft"
               if brand_data["value"].present? and brand_data["value"].to_i > 0
                 daily_hc.update_attributes! num_full_time: brand_data["value"].to_i
@@ -453,27 +452,6 @@ class Report < ActiveRecord::Base
             if brand_sales["value"].to_i > 0
               daily_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
               daily_sale.save!
-            end
-          end
-        end
-      end
-    end
-  end
-
-  def update_monthly_sales
-    sales = sales_info
-
-    if sales.present?
-      sales.each do |sales_type, type_data|
-        type_data.each do |brand_sales|
-          brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
-          if brand.present?
-            monthly_sale = MonthlySale.find_or_create_by! store: store, brand: brand,
-              sales_date: DateTime.new(created_at.year, created_at.month)
-            current_sales = monthly_sale.send sales_type_get_mapping[sales_type]
-            if brand_sales["value"].to_i > 0
-              monthly_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
-              monthly_sale.save!
             end
           end
         end

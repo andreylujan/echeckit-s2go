@@ -27,11 +27,16 @@ class Api::V1::ReportResource < JSONAPI::Resource
   def self.records(options = {})
     context = options[:context]
     user = context[:current_user]
+
     if user.role_id == 2 or !context[:all]
-      user.viewable_reports
+      reports = user.viewable_reports
     else
-      Report.joins(creator: :role).where(roles: { organization_id: user.role.organization_id })
+      reports = Report.joins(creator: :role).where(roles: { organization_id: user.role.organization_id })
     end
+    if not options[:sort_criteria].present?
+      reports = reports.order('created_at DESC')
+    end
+    reports
   end
 
   filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids

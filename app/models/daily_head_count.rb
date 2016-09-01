@@ -4,7 +4,7 @@
 # Table name: daily_head_counts
 #
 #  id            :integer          not null, primary key
-#  count_date    :datetime
+#  count_date    :date
 #  num_full_time :integer          default(0), not null
 #  num_part_time :integer          default(0), not null
 #  brand_id      :integer
@@ -41,7 +41,7 @@ class DailyHeadCount < ActiveRecord::Base
   end
 
   def report_date
-    report.updated_at
+    report.finished_at.present? ? report.finished_at : report.created_at
   end
 
   def report_assigned_user

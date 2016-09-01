@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829194646) do
+ActiveRecord::Schema.define(version: 20160901011328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20160829194646) do
   add_index "checklist_item_values", ["report_id"], name: "index_checklist_item_values_on_report_id", using: :btree
 
   create_table "daily_head_counts", force: :cascade do |t|
-    t.datetime "count_date"
+    t.date     "count_date"
     t.integer  "num_full_time", default: 0, null: false
     t.integer  "num_part_time", default: 0, null: false
     t.integer  "brand_id"
@@ -259,20 +259,6 @@ ActiveRecord::Schema.define(version: 20160829194646) do
   add_index "messages", ["deleted_at"], name: "index_messages_on_deleted_at", using: :btree
   add_index "messages", ["read"], name: "index_messages_on_read", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
-
-  create_table "monthly_sales", force: :cascade do |t|
-    t.integer  "store_id",                    null: false
-    t.datetime "sales_date",                  null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "hardware_sales",  default: 0, null: false
-    t.integer  "accessory_sales", default: 0, null: false
-    t.integer  "game_sales",      default: 0, null: false
-    t.integer  "brand_id",                    null: false
-  end
-
-  add_index "monthly_sales", ["brand_id"], name: "index_monthly_sales_on_brand_id", using: :btree
-  add_index "monthly_sales", ["store_id"], name: "index_monthly_sales_on_store_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -704,8 +690,6 @@ ActiveRecord::Schema.define(version: 20160829194646) do
   add_foreign_key "message_actions", "organizations"
   add_foreign_key "messages", "broadcasts", on_delete: :cascade
   add_foreign_key "messages", "users"
-  add_foreign_key "monthly_sales", "brands"
-  add_foreign_key "monthly_sales", "stores"
   add_foreign_key "platforms", "brands"
   add_foreign_key "products", "platforms"
   add_foreign_key "products", "product_classifications"
