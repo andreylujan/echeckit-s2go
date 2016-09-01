@@ -17,7 +17,7 @@ class GoalCsvUploader < CarrierWave::Uploader::Base
   end
 
   def remove!
-    unless Rails.env.development?
+    if Rails.env.production?
       super
     end
   end
