@@ -739,7 +739,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             dealer_stores = dealer_stores.where(stores: { supervisor_id: params[:supervisor_id ]})
           end
 
-          dealer_stores.each do |store|
+          dealer_stores.each do |dealer_store|
             brands = []
             Brand.all.each do |brand|
               brands << {
@@ -749,7 +749,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
               }
             end
             store_obj = {
-              name: store.name,
+              name: dealer_store.name,
               brands: brands
             }
             head_counts_by_store << store_obj
@@ -858,7 +858,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           month = params.require(:month)
           year = params.require(:year)
           @start_date = DateTime.new(year.to_i, month.to_i)
-          @end_date = @start_date + 1.month
+          @end_date = @start_date.end_of_month
           package = Axlsx::Package.new
           excel_classes = [ filtered_product_sales.order("sales_date DESC"),
             filtered_daily_sales ]
@@ -873,7 +873,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           product_sales =
             DailyProductSale.joins(report: :store)
             .merge(Report.unassigned)
-            .where("sales_date >= ? AND sales_date < ?", start_date, end_date)
+            .where("sales_date >= ? AND sales_date <= ?", start_date, end_date)
           if params[:store_id].present?
             product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
           end
@@ -902,7 +902,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             DailySale.select('DISTINCT ON(reports.store_id, brand_id, extract(month from reports.created_at)) daily_sales.*')
             .joins(report: :store)
             .merge(Report.unassigned)
-            .where("sales_date >= ? AND sales_date < ?", start_date, end_date)
+            .where("sales_date >= ? AND sales_date <= ?", start_date, end_date)
             .order('reports.store_id, brand_id, extract(month from reports.created_at), reports.created_at DESC')
 
           if params[:store_id].present?
@@ -934,9 +934,16 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           end
           month = params.require(:month)
           year = params.require(:year)
-          sales_date = DateTime.new(year.to_i, month.to_i)
+          start_day = params[:start_day] || 1
+
+          sales_date = DateTime.new(year.to_i, month.to_i, start_day.to_i)
           @start_date = sales_date
-          end_date = sales_date + 1.month
+          if params[:end_day].present?
+            end_date = DateTime.new(year.to_i, month.to_i, params[:end_day].to_i).end_of_day
+          else
+            end_date = @start_date.end_of_month
+          end
+
           @end_date = end_date
           sales = filtered_daily_sales
 
@@ -1001,9 +1008,6 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
               share_percentage: total_sales > 0 ? sales_amount.to_f/total_sales.to_f : 0
             }
             share_percentages << share_obj
-            hardware = 0
-            accessories = 0
-            games = 0
 
             company_sales = {
               name: brand.name,
@@ -1020,7 +1024,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
           product_sales = filtered_product_sales
 
-          grouped_products = product_sales.group_by(&:product).map do |key, val|
+          grouped_products = product_sales.includes(:product).group_by(&:product).map do |key, val|
             {
               name: key.name,
               quantity: val.inject(0) { |sum, x| sum + x.quantity},
@@ -1035,7 +1039,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
           images = Image.joins(report: :store)
             .merge(Report.unassigned)
-            .where("category_id = ? AND reports.created_at >= ? AND reports.created_at < ?", 3, sales_date, end_date)
+            .where("category_id = ? AND reports.created_at >= ? AND reports.created_at <= ?", 3, @start_date, @end_date)
 
 
           if params[:store_id].present?
