@@ -1033,7 +1033,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             sales_by_company << company_sales
 
           end
-
+          all_brands = {
+            name: "Total",
+            sales_by_type: {
+              hardware: sales.inject(0) { |sum, x| sum + x.hardware_sales },
+              accessories: sales.inject(0) { |sum, x| sum + x.accessory_sales },
+              games: sales.inject(0) { |sum, x| sum + x.game_sales }
+            }
+          }
+          sales_by_company << all_brands
 
           product_sales = filtered_product_sales.includes(product: :platform)
 
