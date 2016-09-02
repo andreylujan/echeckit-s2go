@@ -733,7 +733,7 @@
 				<% pictures.each do |pic| %>
 					<div class="picsField">
 						<div class="picLabel">
-							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="90%" alt="report_pic"/>
+							<img src="<%= Image.find_by_detail_id_and_report_id(pic['id'], @report.id).image.url if not Image.find_by_detail_id_and_report_id(pic['id'], @report.id).nil? %>" width="90%" alt="Foto no se pudo subir"/>
 						</div>
 						<div class="commentValue">
 							<h5>Comentarios</h5>

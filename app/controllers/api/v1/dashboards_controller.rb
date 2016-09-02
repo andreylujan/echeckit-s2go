@@ -810,7 +810,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             v.length
           ]
         end
-        
+
 
         prices_by_day = grouped_prices[:by_day]
         accumulated_prices = get_accumulated(grouped_prices[:groups], false)
@@ -1035,10 +1035,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           end
 
 
-          product_sales = filtered_product_sales.includes(product: :platform)
+          product_sales = filtered_product_sales.includes(product: [ :platform, :product_type ])
 
 
-          grouped_products = product_sales.includes(product: :product_type).group_by(&:product).map do |key, val|
+          grouped_products = product_sales.group_by(&:product).map do |key, val|
             {
               name: key.name,
               category: key.product_type.name,
@@ -1050,7 +1050,29 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           grouped_products.sort! do |a, b|
             b[:quantity] <=> a[:quantity]
           end
-          grouped_products = grouped_products[0..7]
+          grouped_products = grouped_products[0..9]
+
+          top_products_by_type = []
+          ProductType.all.each do |product_type|
+            subgroup = product_sales.where(products: { product_type_id: product_type.id}).group_by(&:product).map do |key, val|
+              {
+                name: key.name,
+                category: key.product_type.name,
+                quantity: val.inject(0) { |sum, x| sum + x.quantity},
+                sales_amount: 0
+              }
+            end
+
+            subgroup.sort! do |a, b|
+              b[:quantity] <=> a[:quantity]
+            end
+            subgroup = subgroup[0..9]
+            type_products = {
+              name: product_type.name,
+              products: subgroup
+            }
+            top_products_by_type << type_products
+          end
 
           images = Image.joins(report: :store)
           .merge(Report.unassigned)
@@ -1092,6 +1114,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             month: @month,
             id: @sales_date,
             top_products: grouped_products,
+            top_products_by_type: top_products_by_type,
             best_practices: best_practices
           }
           report = SalesReport.new data
