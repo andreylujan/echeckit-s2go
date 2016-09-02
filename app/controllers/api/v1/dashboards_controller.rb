@@ -643,7 +643,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     num_reports_yesterday = filtered_reports(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
     grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
-    accumulated_reports = get_accumulated(grouped[:groups])
+    accumulated_reports = get_accumulated(grouped[:groups], false)
     checkins = filtered_checkins
     grouped_checkins = group_by_day(checkins, :group_by_date_criteria) {|k,v| [k, v.length]}
     num_checkins_today = filtered_checkins(@current_date.beginning_of_day, @current_date).count
