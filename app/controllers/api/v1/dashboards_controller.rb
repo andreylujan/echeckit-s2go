@@ -765,20 +765,22 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             dealer_stores = dealer_stores.where(stores: { supervisor_id: params[:supervisor_id ]})
           end
 
-          dealer_stores.each do |dealer_store|
-            brands = []
-            Brand.all.each do |brand|
-              brands << {
-                name: brand.name,
-                num_full_time: 0,
-                num_part_time: 0
+          if not params[:store_id].present?
+            dealer_stores.each do |dealer_store|
+              brands = []
+              Brand.all.each do |brand|
+                brands << {
+                  name: brand.name,
+                  num_full_time: 0,
+                  num_part_time: 0
+                }
+              end
+              store_obj = {
+                name: dealer_store.name,
+                brands: brands
               }
+              head_counts_by_store << store_obj
             end
-            store_obj = {
-              name: dealer_store.name,
-              brands: brands
-            }
-            head_counts_by_store << store_obj
           end
 
           head_counts_by_store.sort! { |a, b| a[:name] <=> b[:name] }
