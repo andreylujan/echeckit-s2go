@@ -1035,11 +1035,13 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           end
 
 
-          product_sales = filtered_product_sales
+          product_sales = filtered_product_sales.includes(product: :platform)
 
-          grouped_products = product_sales.includes(:product).group_by(&:product).map do |key, val|
+
+          grouped_products = product_sales.includes(product: :product_type).group_by(&:product).map do |key, val|
             {
               name: key.name,
+              category: key.product_type.name,
               quantity: val.inject(0) { |sum, x| sum + x.quantity},
               sales_amount: 0
             }

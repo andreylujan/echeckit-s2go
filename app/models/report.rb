@@ -246,21 +246,28 @@ class Report < ActiveRecord::Base
     if breaks.present?
       breaks.each do |stock_break|
         quantity = stock_break["game_amount"]
-        if quantity.present?
+        if quantity.present? and quantity.to_i <= 7
           product = Product.find(stock_break["game_id"])
-          store_type = self.store.store_type
-          product_classification = product.product_classification
-          stock_break = StockBreak.find_by_dealer_id_and_store_type_id_and_product_classification_id(self.store.dealer_id,
-                                                                                                     store_type.id, product_classification.id)
+          stock_break_date = created_at.beginning_of_day
+          event = StockBreakEvent.find_or_initialize_by product: product, 
+            report: self, stock_break_date: stock_break_date
+          event.quantity = quantity.to_i
+          event.stock_break_quantity = 7
+          event.save!
 
-          if stock_break.present? and stock_break.stock_break >= quantity.to_i
-            stock_break_date = created_at.beginning_of_day
-            event = StockBreakEvent.find_or_initialize_by product: product,
-              report: self, stock_break_date: stock_break_date
-            event.quantity = quantity
-            event.stock_break_quantity = stock_break.stock_break
-            event.save!
-          end
+          # store_type = self.store.store_type
+          # product_classification = product.product_classification
+          # stock_break = StockBreak.find_by_dealer_id_and_store_type_id_and_product_classification_id(self.store.dealer_id,
+          #                                                                                            store_type.id, product_classification.id)
+
+          # if stock_break.present? and stock_break.stock_break >= quantity.to_i
+          #   stock_break_date = created_at.beginning_of_day
+          #   event = StockBreakEvent.find_or_initialize_by product: product,
+          #     report: self, stock_break_date: stock_break_date
+          #   event.quantity = quantity
+          #   event.stock_break_quantity = stock_break.stock_break
+          #   event.save!
+          # end
         end
       end
     end
@@ -379,7 +386,7 @@ class Report < ActiveRecord::Base
         daily_sale = DailyProductSale.find_or_create_by! report: self, product: product,
           sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
         quantity = product_sale["game_amount"].to_i
-        if quantity > 0
+        if quantity >= 0
           daily_sale.update_attributes! quantity: quantity
         end
       end
@@ -424,11 +431,11 @@ class Report < ActiveRecord::Base
             daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand,
               count_date: DateTime.new(created_at.year, created_at.month, created_at.day).to_date
             if hc_type == "hc_promot_ft"
-              if brand_data["value"].present? and brand_data["value"].to_i > 0
+              if brand_data["value"].present? and brand_data["value"].to_i >= 0
                 daily_hc.update_attributes! num_full_time: brand_data["value"].to_i
               end
             elsif hc_type == "hc_promot_pt"
-              if brand_data["value"].present? and brand_data["value"].to_i > 0
+              if brand_data["value"].present? and brand_data["value"].to_i >= 0
                 daily_hc.update_attributes! num_part_time: brand_data["value"].to_i
               end
             end
@@ -449,7 +456,7 @@ class Report < ActiveRecord::Base
             daily_sale = DailySale.find_or_create_by! report: self, brand: brand,
               sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
             current_sales = daily_sale.send sales_type_get_mapping[sales_type]
-            if brand_sales["value"].to_i > 0
+            if brand_sales["value"].to_i >= 0
               daily_sale.send sales_type_set_mapping[sales_type], brand_sales["value"].to_i
               daily_sale.save!
             end

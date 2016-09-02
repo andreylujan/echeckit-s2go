@@ -82,6 +82,10 @@ class DailyProductSale < ActiveRecord::Base
     product.product_classification.name
   end
 
+  def product_type_criteria
+    product.product_type_id
+  end
+
   def store_name
     store.name
   end
