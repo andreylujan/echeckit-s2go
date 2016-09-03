@@ -3,6 +3,11 @@ class SendPromotionJob < ActiveJob::Base
   queue_as :eretail_promotion
 
   def perform(promotion_id)
+
+    unless Rails.env.production?
+      return
+    end
+    
     promotion = Promotion.find_by_id(promotion_id)
     if promotion.nil?
       return
