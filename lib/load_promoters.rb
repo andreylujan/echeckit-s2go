@@ -13,7 +13,7 @@ csv.each_with_index do |row, index|
 
   if promoter_email.present? and store_code.present?
     user = User.where("lower(email) = ?", promoter_email.downcase).first
-    store = Store.find_by_code(store_code)
+    store = Store.where("lower(code) = ?", store_code.downcase).first
     if user.present? and store.present?
       loaded_stores << store_code
       store.update_attributes! promoter: user
