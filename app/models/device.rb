@@ -23,19 +23,24 @@
 #
 
 class Device < ActiveRecord::Base
+
   belongs_to :user
   validates_presence_of :user
   after_create :destroy_old_devices
+  validates :device_token, uniqueness: true, allow_nil: true
+  validates :registration_id, uniqueness: true, allow_nil: true
 
   private
   def destroy_old_devices
     user = self.user
     devices = user.devices.where(name: self.name)
     .order("created_at ASC")
-    while devices.count > 5
+    devices_count = devices.count
+    while devices_count > 8
       devices.first.destroy!
       devices = user.devices.where(name: self.name)
         .order("created_at ASC")
+      devices_count = devices.count
     end
   end
 end

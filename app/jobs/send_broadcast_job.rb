@@ -32,10 +32,19 @@ class SendBroadcastJob < ActiveJob::Base
       apns_app_name: apns_app_name
     }
 
+    registration_ids = []
+    device_tokens = []
+
     recipients.each do |recipient|
       devices = recipient.devices
-      registration_ids = devices.where("registration_id is not null").map { |r| r.registration_id }
-      device_tokens = devices.where("device_token is not null").map { |r| r.device_token }
+      registration_ids = registration_ids + devices.where("registration_id is not null").map { |r| r.registration_id }
+      device_tokens = device_tokens + devices.where("device_token is not null").map { |r| r.device_token }
+    end
+
+    registration_ids.uniq!
+    device_tokens.uniq!
+    
+    if registration_ids.length > 0 or device_tokens.length > 0
       body = params.merge({
                             registration_ids: registration_ids,
                             device_tokens: device_tokens
@@ -45,7 +54,6 @@ class SendBroadcastJob < ActiveJob::Base
         req.headers['Content-Type'] = 'application/json'
         req.body = body.to_json
       end
-
     end
   end
 end
