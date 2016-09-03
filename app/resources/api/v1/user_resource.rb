@@ -34,10 +34,11 @@ class Api::V1::UserResource < BaseResource
 
   def self.records(options = {})
     context = options[:context]
-    users = super
-    if context[:role_id]
-      users = users.where(role_id: context[:role_id])
-    end
+    if context[:promoters_only]
+      User.joins(:promoted_stores).uniq
+    else
+      super
+    end    
   end
 
   def role_name
