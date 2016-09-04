@@ -4,9 +4,9 @@ class SendTaskJob < ActiveJob::Base
 
   def perform(report_id)
 
-    unless Rails.env.production?
-      return
-    end
+    # unless Rails.env.production?
+    #   return
+    # end
 
     report = Report.find_by_id(report_id)
     if report.nil?

@@ -29,7 +29,7 @@ class Promotion < ActiveRecord::Base
 	after_create :create_promotion_states
 
 	def send_promotion_job
-		SendPromotionJob.perform_later(self.id)
+		SendPromotionJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
 	end
 
 	def create_promotion_states
