@@ -62,7 +62,7 @@ class Task
     end
 
     self.result = {
-      num_reports_assigned: reports.length,
+      num_reports_assigned: new_reports.length,
     }
     true
   end
