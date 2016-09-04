@@ -25,6 +25,15 @@ class Api::V1::ZoneResource < BaseResource
     end
   }
 
+  filter :promoter_ids, apply: ->(records, value, _options) {
+    if value.is_a? Array and value.length > 0
+      records.joins(:stores)
+        .where(stores: { promoter_id: value })
+    else
+      records
+    end
+  }
+
   def fetchable_fields
     super
   end
