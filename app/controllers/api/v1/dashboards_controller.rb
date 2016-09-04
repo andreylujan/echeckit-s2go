@@ -410,15 +410,19 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     grouped_products = product_sales
-    .includes(product: [:platform, :product_classification])
-    .group_by(&:product).map do |key, val|
+    .includes(product: [:platform, :product_type, :product_classification])
+    .includes(report: { store: :dealer })
+    .group_by(&:product_store_criteria).map do |key, val|
       {
-        ean: key.sku,
-        description: key.name,
-        classification: key.product_classification.name,
-        platform: key.platform.name,
-        publisher: key.publisher,
+        ean: key[0].sku,
+        description: key[0].name,
+        classification: key[0].product_classification.name,
+        platform: key[0].platform.name,
+        publisher: key[0].publisher,
+        category: key[0].product_type.name,
         units: val.inject(0) { |sum, x| sum + x.quantity},
+        store_name: key[1].name,
+        dealer_name: key[1].dealer.name,
         sales_amount: 0
       }
     end
@@ -796,13 +800,25 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         communicated_values_yesterday.count > 0  ? communicated_values_yesterday.where(item_value: true).count.to_f/communicated_values_yesterday.count.to_f : -1
 
 
-        communicated_prices =
-        communicated_values_month.where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
-          {
-            zone_name: key.zone.name,
-            dealer_name: key.dealer.name,
-            store_name: key.name
-          }
+        communicated_prices = []
+        communicated_values_month
+        .includes(report: :store)
+        .order('reports.created_at DESC')
+        .group_by(&:group_by_store_criteria).each do |key, val|
+          if val.length > 0
+            checklist = val[0]
+            if not checklist.item_value
+              store_hash = {
+                zone_name: key.zone.name,
+                dealer_name: key.dealer.name,
+                store_name: key.name,
+                instructor_name: key.instructor.present? ? key.instructor.name : "Sin instructor",
+                supervisor_name: key.supervisor.present? ? key.supervisor.name : "Sin supervisor",
+                pdf: checklist.report.pdf_url
+              }
+              communicated_prices << store_hash
+            end
+          end
         end
         communicated_prices.sort! { |a,b| a["store_name"] <=> b["store_name"]}
         grouped_prices = group_checklist_by_day(communicated_values_month.includes(:report), :group_by_date_criteria) do |k, v|
@@ -825,15 +841,26 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         percent_promotions_communicated_yesterday =
         communicated_promotions_yesterday.count > 0  ? communicated_promotions_yesterday.where(item_value: true).count.to_f/communicated_promotions_yesterday.count.to_f : -1
 
-        communicated_promotions_by_store =
+        communicated_promotions_by_store = []
+
         filtered_checklist_values(checklist_item_id = 145)
+        .order('reports.created_at DESC')
         .includes(report: { store: [ :dealer, :zone ] })
-        .where(item_value: false).group_by(&:group_by_store_criteria).map do |key, val|
-          {
-            zone_name: key.zone.name,
-            dealer_name: key.dealer.name,
-            store_name: key.name
-          }
+        .group_by(&:group_by_store_criteria).each do |key, val|
+          if val.length > 0
+            checklist = val[0]
+            if not checklist.item_value
+              store_hash = {
+                zone_name: key.zone.name,
+                dealer_name: key.dealer.name,
+                store_name: key.name,
+                instructor_name: key.instructor.present? ? key.instructor.name : "Sin instructor",
+                supervisor_name: key.supervisor.present? ? key.supervisor.name : "Sin supervisor",
+                pdf: checklist.report.pdf_url
+              }
+              communicated_promotions_by_store << store_hash
+            end
+          end
         end
         communicated_promotions_by_store.sort! { |a,b| a["store_name"] <=> b["store_name"]}
         grouped_promotions = group_checklist_by_day(communicated_promotions_month.includes(:report), :group_by_date_criteria) do |k, v|
@@ -1024,12 +1051,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             }
             share_percentages << share_obj
 
+            brand_hardware_sales = brand_sales.inject(0) { |sum, x| sum + x.hardware_sales }
+            brand_accessory_sales = brand_sales.inject(0) { |sum, x| sum + x.accessory_sales }
+            brand_game_sales = brand_sales.inject(0) { |sum, x| sum + x.game_sales }
+
             company_sales = {
               name: brand.name,
               sales_by_type: {
-                hardware: brand_sales.inject(0) { |sum, x| sum + x.hardware_sales },
-                accessories: brand_sales.inject(0) { |sum, x| sum + x.accessory_sales },
-                games: brand_sales.inject(0) { |sum, x| sum + x.game_sales }
+                hardware: brand_hardware_sales,
+                accessories: brand_accessory_sales,
+                games: brand_game_sales,
+                total: brand_hardware_sales + brand_accessory_sales + brand_game_sales
               }
             }
             sales_by_company << company_sales

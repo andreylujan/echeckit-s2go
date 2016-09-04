@@ -33,6 +33,13 @@ class Api::V1::ReportResource < JSONAPI::Resource
     else
       reports = Report.joins(creator: :role).where(roles: { organization_id: user.role.organization_id })
     end
+    
+    if context[:only_daily]
+      reports = reports.where(assigned_user_id: nil)
+    elsif context[:only_assigned]
+      reports = reports.where.not(assigned_user_id: nil)
+    end
+
     if not options[:sort_criteria].present?
       reports = reports.order('created_at DESC')
     end
@@ -40,6 +47,10 @@ class Api::V1::ReportResource < JSONAPI::Resource
   end
 
   filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids
+
+  filter :creator_id, apply: ->(records, value, _options) {
+    records.where('assigned_user_id is NULL')
+  }
 
   filter :creator_id, apply: ->(records, value, _options) {
     records.where('assigned_user_id is NULL')

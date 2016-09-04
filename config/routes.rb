@@ -124,6 +124,9 @@ Rails.application.routes.draw do
       jsonapi_resources :sale_goal_uploads, only: [ :index ] do
       end
       resources :promoters, only: [ :index ], to: 'users#index'
+      resources :daily_reports, only: [ :index ], to: 'reports#index'
+      resources :assigned_reports, only: [ :index ], to: 'reports#index'
+
       resources :users, only: [
         :create,
         :update,
