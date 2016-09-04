@@ -35,9 +35,10 @@ class Api::V1::ReportResource < JSONAPI::Resource
     end
     
     if context[:only_daily]
-      reports = reports.where(assigned_user_id: nil)
+      reports = reports.where(assigned_user_id: nil, report_type_id: 1)
     elsif context[:only_assigned]
-      reports = reports.where.not(assigned_user_id: nil)
+      reports = reports.where(report_type_id: 1)        
+        .where.not(assigned_user_id: nil)
     end
 
     if not options[:sort_criteria].present?
