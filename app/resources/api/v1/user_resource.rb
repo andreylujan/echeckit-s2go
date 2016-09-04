@@ -35,6 +35,9 @@ class Api::V1::UserResource < BaseResource
   def self.records(options = {})
     context = options[:context]
     if context[:promoters_only]
+      # user_ids = User.joins(:promoted_stores).map { |u| u.id } + User.where(role_id: 2).map { |u| u.id }
+      # user_ids.uniq!
+      # users = User.where(id: user_ids)
       users = User.joins(:promoted_stores).uniq
       if not options[:sort_criteria].present?
         users = users.order('first_name, last_name')

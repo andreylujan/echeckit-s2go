@@ -40,10 +40,11 @@ class Broadcast < ActiveRecord::Base
   end
 
   def send_messages
-    if self.sent?
-      SendBroadcastJob.perform_later(self.id)
+    if self.is_immediate?
+      SendBroadcastJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
     else
-      SendBroadcastJob.set(wait_until: self.send_at)
+      SendBroadcastJob.set(wait_until: self.send_at,
+        queue: "#{Rails.env}_eretail_push")
         .perform_later(self.id)
     end
   end
@@ -55,7 +56,7 @@ class Broadcast < ActiveRecord::Base
   end
 
   def check_sent
-  	if self.send_at.nil?
+  	if self.is_immediate?
   		self.sent = true
   	else
   		self.sent = false

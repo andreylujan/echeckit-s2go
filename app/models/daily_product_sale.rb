@@ -74,6 +74,10 @@ class DailyProductSale < ActiveRecord::Base
     store.dealer.name
   end
 
+  def product_store_criteria
+    [ product, store ]
+  end
+
   def store_code
     store.code
   end

@@ -43,12 +43,24 @@ class Task
       end
       new_reports = new_reports + reports_from_stores(stores)
     end
+
+    push_ids = []
     Report.transaction do
-      new_reports.each do |report|
-        report.save!
-        self.reports << report
+      new_reports.group_by(&:assigned_user_id).each do |assigned_user_id, group|
+        group.each_with_index do |report, idx|
+          report.skip_push = true
+          report.save!
+          if idx == 0
+            push_ids << report.id
+          end
+        end
       end
     end
+
+    push_ids.each do |report_id|
+      SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(report_id)
+    end
+
     self.result = {
       num_reports_assigned: reports.length,
     }

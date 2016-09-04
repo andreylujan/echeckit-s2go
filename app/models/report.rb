@@ -85,6 +85,8 @@ class Report < ActiveRecord::Base
     :communicated_promotions
   ]
 
+  attr_accessor :skip_push
+
   def set_finished_at
     if self.finished?
       self.finished_at = DateTime.now
@@ -280,12 +282,14 @@ class Report < ActiveRecord::Base
   end
 
   def generate_pdf(regenerate=false)
-    UploadPdfJob.set(wait: 3.seconds).perform_later(self.id, regenerate)
+    UploadPdfJob.set(wait: 3.seconds,
+        queue: "#{Rails.env}_eretail_report"
+      ).perform_later(self.id, regenerate)
   end
 
   def send_task_job
-    if self.assigned_user.present?
-      SendTaskJob.perform_later(self.id)
+    if not @skip_push and self.assigned_user.present?
+      SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
     end
   end
 

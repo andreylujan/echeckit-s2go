@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 class SendBroadcastJob < ActiveJob::Base
-  queue_as :eretail_broadcast
+  queue_as :eretail_push
 
   def perform(broadcast_id)
     
-    unless Rails.env.production?
-      return
-    end
+    # unless Rails.env.production?
+    #   return
+    # end
 
     broadcast = Broadcast.find_by_id(broadcast_id)
     if broadcast.nil?

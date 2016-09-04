@@ -26,11 +26,18 @@ class Device < ActiveRecord::Base
 
   belongs_to :user
   validates_presence_of :user
+  before_create :destroy_repeated_devices
   after_create :destroy_old_devices
-  validates :device_token, uniqueness: true, allow_nil: true
-  validates :registration_id, uniqueness: true, allow_nil: true
+  # validates :device_token, uniqueness: true, allow_nil: true
+  # validates :registration_id, uniqueness: true, allow_nil: true
 
   private
+
+  def destroy_repeated_devices
+    devices = Device.where(registration_id: self.registration_id)
+    devices.destroy_all
+  end
+
   def destroy_old_devices
     user = self.user
     devices = user.devices.where(name: self.name)
