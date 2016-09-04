@@ -288,7 +288,6 @@ class Report < ActiveRecord::Base
   end
 
   def send_task_job
-    byebug
     if not @skip_push and self.assigned_user.present?
       SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
     end
