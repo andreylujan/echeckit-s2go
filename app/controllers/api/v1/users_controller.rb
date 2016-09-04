@@ -45,6 +45,17 @@ class Api::V1::UsersController < Api::V1::JsonApiController
       inv_users << User.new(email: i.email, role: i.role)
     end
     all_users = org_users.to_a.concat(inv_users)
+    all_users.sort! do |a, b|
+      if not a.name.present? and b.name.present?
+        a.email <=> b.name.downcase
+      elsif a.name.present? and not b.name.present?
+        a.name.downcase <=> b.email
+      elsif not a.name.present? and not b.name.present?
+        a.email <=> b.email
+      else
+        a.name.downcase <=> b.name.downcase
+      end
+    end
     json = {}
     data = []
     all_users.each do |user|
@@ -57,6 +68,8 @@ class Api::V1::UsersController < Api::V1::JsonApiController
       }
       data << user_data
     end
+    
+    
     json[:data] = data
     render json: json
   end
