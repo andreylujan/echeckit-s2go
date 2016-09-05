@@ -36,6 +36,10 @@ class Device < ActiveRecord::Base
   def destroy_repeated_devices
     devices = Device.where(registration_id: self.registration_id)
     devices.destroy_all
+    if self.uuid.present?
+      devices = Device.where(uuid: self.uuid)
+      devices.destroy_all
+    end
   end
 
   def destroy_old_devices
