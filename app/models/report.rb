@@ -60,8 +60,8 @@ class Report < ActiveRecord::Base
   after_save :check_num_images, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
   after_commit :send_task_job, on: [ :create ]
 
-  after_create :set_finished_at, on: [ :create ]
-  after_save :set_finished_at, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
+  before_create :set_finished_at, on: [ :create ]
+  before_save :set_finished_at, on: [ :update ]
 
   after_create :cache_attribute_names
   after_commit :check_promotion, on: [ :create ]
@@ -88,7 +88,7 @@ class Report < ActiveRecord::Base
   attr_accessor :skip_push
 
   def set_finished_at
-    if self.finished?
+    if self.finished? and self.finished_at.nil?
       self.finished_at = DateTime.now
     end
   end
