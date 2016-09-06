@@ -58,7 +58,7 @@ class Api::V1::SaleGoalsController < ApplicationController
             }
           }
 
-          store = Store.where("lowercase(code) = ?", store_code.to_s.downcase).first
+          store = Store.where("lower(code) = ?", store_code.to_s.downcase).first
           result = "Éxito"
           if store.nil?
             data[:meta][:success] = false
