@@ -49,7 +49,7 @@ class Api::V1::UserResource < BaseResource
   end
 
   def role_name
-    @model.organization.name
+    @model.role.name
   end
 
   def fetchable_fields

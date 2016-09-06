@@ -372,12 +372,17 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     .group_by(&:group_by_store_criteria).each do |store, group|
       if group.length > 0
         stock_break = group.max { |a, b| a.stock_break_date <=> b.stock_break_date }
+        product = stock_break.product
         stock_breaks << {
-          store_name: stock_break.store.name,
-          dealer_name: stock_break.store.dealer.name,
-          product_name: stock_break.product.name,
+          ean: product.sku,
+          description: product.name,
+          classification: product.product_classification.name,
+          platform: product.platform.name,
+          publisher: product.publisher,
+          category: product.product_type.name,
           units: stock_break.quantity,
-          identifier: stock_break.product.sku
+          store_name: stock_break.store.name,
+          dealer_name: stock_break.store.dealer.name
         }
       end
     end
@@ -1087,26 +1092,36 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           grouped_products = grouped_products[0..9]
 
           top_products_by_type = []
-          ProductType.all.each do |product_type|
-            subgroup = product_sales.where(products: { product_type_id: product_type.id}).group_by(&:product).map do |key, val|
-              {
-                name: key.name,
-                category: key.product_type.name,
-                quantity: val.inject(0) { |sum, x| sum + x.quantity},
-                sales_amount: 0
-              }
-            end
-
-            subgroup.sort! do |a, b|
-              b[:quantity] <=> a[:quantity]
-            end
-            subgroup = subgroup[0..9]
+          grouped_products.group_by do |product|
+            product[:category]
+          end.each do |category, products|
             type_products = {
-              name: product_type.name,
-              products: subgroup
+              name: category,
+              products: products
             }
             top_products_by_type << type_products
           end
+
+          # ProductType.all.each do |product_type|
+          #   subgroup = product_sales.where(products: { product_type_id: product_type.id}).group_by(&:product).map do |key, val|
+          #     {
+          #       name: key.name,
+          #       category: key.product_type.name,
+          #       quantity: val.inject(0) { |sum, x| sum + x.quantity},
+          #       sales_amount: 0
+          #     }
+          #   end
+
+          #   subgroup.sort! do |a, b|
+          #     b[:quantity] <=> a[:quantity]
+          #   end
+          #   subgroup = subgroup[0..9]
+          #   type_products = {
+          #     name: product_type.name,
+          #     products: subgroup
+          #   }
+          #   top_products_by_type << type_products
+          # end
 
           images = Image.joins(report: :store)
           .merge(Report.unassigned)
