@@ -18,8 +18,7 @@ class DailyProductSale < ActiveRecord::Base
   belongs_to :report
   validates :product, presence: true
   validates :report, presence: true
-  validates :sales_date, presence: true
-
+  
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
   validates :amount, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: true
 
@@ -40,6 +39,10 @@ class DailyProductSale < ActiveRecord::Base
     else
       report.creator.email
     end
+  end
+
+  def sales_date
+    report.created_at
   end
 
   def store_instructor

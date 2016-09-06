@@ -350,7 +350,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def stock_xlsx
     package = Axlsx::Package.new
-    excel_classes = [ StockBreakEvent.joins(:report).order("reports.created_at DESC") ]
+    excel_classes = [ StockBreakEvent.joins(:report)
+      .includes(report: [{ store: [ :dealer, :zone, :instructor, :supervisor]}, :creator, :assigned_user])
+      .includes(product: :product_classification)
+      .order("reports.created_at DESC") ]
     excel_classes.each do |model_class|
       model_class.to_xlsx(package: package)
     end
@@ -391,7 +394,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     product_sales = DailyProductSale.joins(report: :store)
     .merge(Report.unassigned)
-    .where("sales_date >= ? AND sales_date < ? AND quantity > ?", @start_date, @end_date, 0)
+    .where("reports.created_at >= ? AND reports.created_at <= ? AND quantity > ?", @start_date, @end_date, 0)
 
 
     if params[:store_id].present?
@@ -923,7 +926,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           excel_classes = [ filtered_product_sales
               .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
               .includes(product: :product_classification)
-              .order("sales_date DESC"),
+              .order("reports.created_at DESC"),
                             filtered_daily_sales
                             .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
                             .includes(:brand)

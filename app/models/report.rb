@@ -387,8 +387,7 @@ class Report < ActiveRecord::Base
     if sales.present?
       sales.each do |product_sale|
         product = Product.find(product_sale["game_id"])
-        daily_sale = DailyProductSale.find_or_create_by! report: self, product: product,
-          sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+        daily_sale = DailyProductSale.find_or_create_by! report: self, product: product
         quantity = product_sale["game_amount"].to_i
         if quantity >= 0
           daily_sale.update_attributes! quantity: quantity
