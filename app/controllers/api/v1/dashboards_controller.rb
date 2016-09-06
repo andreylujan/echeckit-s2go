@@ -82,13 +82,16 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     excel_classes = [
       WeeklyBusinessSale.where("month >= ? AND month <= ?",
                                DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year)
+      .includes(store: [:dealer, :zone])
       .order("week_start ASC"),
       WeeklyBusinessSale.where("month >= ? AND month <= ?",
                                DateTime.now.beginning_of_year, DateTime.now.end_of_year)
+      .includes(store: [:dealer, :zone])
       .order("week_start ASC"),
       SaleGoal.where("goal_date >= ? AND goal_date <= ?",
                      DateTime.now.beginning_of_year - 1.year,
                      DateTime.now.end_of_year)
+      .includes(store: [:dealer, :zone])
       .order("goal_date ASC")
     ]
     excel_classes[0].to_xlsx package: package, name: "Ventas #{current_year - 1}"
