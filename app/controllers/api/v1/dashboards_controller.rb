@@ -629,11 +629,18 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def promoter_activity_xlsx
     package = Axlsx::Package.new
-    excel_classes = [ Report.
-      where(finished: true).
-      order("created_at DESC"), 
-      Checkin.order('arrival_time DESC'),
-      DailyHeadCount.order("count_date DESC") ]
+    excel_classes = [ Report
+      .includes(store: [:zone, :dealer, :instructor, :supervisor])
+      .includes(:creator, :assigned_user, :report_type, :checklist_item_values)
+      .where(finished: true).
+      order("created_at DESC"),
+    Checkin.includes(store: [ :zone, :dealer ])
+      .includes(:user)
+      .order('arrival_time DESC'),
+      DailyHeadCount
+      .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator, :assigned_user])      
+      .includes(:brand)
+      .order("count_date DESC")]
     excel_classes.each do |model_class|
       model_class.to_xlsx(package: package)
     end
@@ -922,15 +929,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
         def sales_xlsx
           package = Axlsx::Package.new
-          
+
           excel_classes = [ filtered_product_sales
-              .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
-              .includes(product: :product_classification)
-              .order("reports.created_at DESC"),
+                            .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
+                            .includes(product: :product_classification)
+                            .order("reports.created_at DESC"),
                             filtered_daily_sales
                             .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
                             .includes(:brand)
-          ]
+                            ]
           excel_classes.each do |model_class|
             model_class.to_xlsx(package: package)
           end

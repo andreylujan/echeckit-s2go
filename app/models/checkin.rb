@@ -97,36 +97,20 @@ class Checkin < ActiveRecord::Base
     end
   end
 
-  def store
-    Store.find(data["store_id"])
-  end
-
   def store_code
     store.code
   end
 
   def zone_name
-    if data["zone_name"]
-      data["zone_name"]
-    elsif data["zone_id"]
-      Zone.find(data["zone_id"]).name
-    end
+    store.zone.name
   end
 
   def store_name
-    if data["store_name"]
-      data["store_name"]
-    elsif data["store_id"]
-      Store.find(data["store_id"]).name
-    end
+    store.name
   end
 
   def dealer_name
-    if data["dealer_name"]
-      data["dealer_name"]
-    elsif data["dealer_id"]
-      Dealer.find(data["dealer_id"]).name
-    end
+    store.dealer.name
   end
 
   def send_checkin_email

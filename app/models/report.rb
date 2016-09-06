@@ -171,14 +171,14 @@ class Report < ActiveRecord::Base
   end
 
   def communicated_prices
-    prices_checklist = checklist_item_values.find_by_data_part_id(144)
+    prices_checklist = checklist_item_values.select { |c| c.data_part_id = 144 }.first
     if prices_checklist.present?
       prices_checklist.item_value
     end
   end
 
   def communicated_promotions
-    promotions_checklist = checklist_item_values.find_by_data_part_id(145)
+    promotions_checklist = checklist_item_values.select { |c| c.data_part_id = 145 }.first
     if promotions_checklist.present?
       promotions_checklist.item_value
     end
@@ -331,7 +331,7 @@ class Report < ActiveRecord::Base
   end
 
   def zone_name
-    Zone.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["zone"]).name
+    store.zone.name
   end
 
   def store_name
@@ -339,7 +339,7 @@ class Report < ActiveRecord::Base
   end
 
   def dealer_name
-    Dealer.find(self.dynamic_attributes["sections"][0]["data_section"][1]["zone_location"]["dealer"]).name
+    store.dealer.name
   end
 
   def sales_info
