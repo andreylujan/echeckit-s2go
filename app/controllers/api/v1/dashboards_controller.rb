@@ -324,7 +324,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_weekly_sales_by_month(start_date = @start_date, end_date = @end_date)
     weekly_sales = WeeklyBusinessSale.joins(:store)
-    .where("month >= ? AND month < ?", start_date, end_date)
+    .where("month >= ? AND month < ?", start_date.beginning_of_month, end_date.end_of_month)
 
     if params[:store_id].present?
       weekly_sales = weekly_sales.where(store_id: params[:store_id].to_i )
