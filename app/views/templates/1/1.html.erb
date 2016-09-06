@@ -490,7 +490,7 @@
 			</div>
 
 			<div class="checklistTableContainer">
-				<% if hc_promot_ft = @report.dynamic_attributes.dig('sections', 2, 'data_section', 0, 'stock', 'amount_value', 0, 'hc_promot_ft') %>
+				<% if hc_promot_ft = @report.dynamic_attributes.dig('sections', 2, 'data_section', 0, 'hc_promociones', 'amount_value', 0, 'hc_promot_ft') %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -511,7 +511,7 @@
 					<p style="margin-right: 10px;">No se registró head count de promotores full time</p>
 				<% end %>
 
-				<% if hc_promot_pt = @report.dynamic_attributes.dig('sections', 2, 'data_section', 0, 'stock', 'amount_value', 0, 'hc_promot_pt') %>
+				<% if hc_promot_pt = @report.dynamic_attributes.dig('sections', 2, 'data_section', 0, 'hc_promociones', 'amount_value', 0, 'hc_promot_pt') %>
 					<table class="checklistTable">
 						<thead>
 							<tr>
@@ -522,7 +522,7 @@
 							<% hc_promot_pt.each do |hc_promoter_pt| %>
 								<tr>
 									<td><%= "#{hc_promoter_pt['platform']}" %></td>
-									<td><%= "#{hc_promoter_pt['value']}" %></td>
+									<td><%= "#{hc_promoter_pt['value']}".present? ? "#{hc_promoter_pt['value']}" : 0 %></td>
 								</tr>
 							<% end %>
 						</tbody>
