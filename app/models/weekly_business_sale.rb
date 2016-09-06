@@ -24,6 +24,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
   validates :week_start, presence: true
   validates :month, presence: true
 
+  before_save :set_default_values
   acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
                           :store_code,
                           :store_name, :month_number, :hardware_sales, :accessory_sales,
@@ -31,6 +32,18 @@ class WeeklyBusinessSale < ActiveRecord::Base
                           :week_number,
                           :year
                           ]
+
+  def set_default_values
+    if self.hardware_sales.nil?
+      self.hardware_sales = 0
+    end
+    if self.accessory_sales.nil?
+      self.accessory_sales = 0
+    end
+    if self.game_sales.nil?
+      self.game_sales = 0
+    end
+  end
 
   def week_number
     week_start.strftime("%U").to_i
@@ -92,7 +105,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
             week = row[4].strip.to_i if row[4].present?
             month = row[5].strip.to_i if row[5].present?
             year = row[6].strip.to_i if row[6].present?
-            store = Store.find_by_code(store_code)
+            store = Store.where("lowercase(code) = ?", store_code.to_s.downcase)
 
             has_error = false
             if store.nil?
