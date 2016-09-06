@@ -18,9 +18,9 @@ class WeeklyBusinessSale < ActiveRecord::Base
 
   belongs_to :store
   validates :store, presence: true
-  validates :hardware_sales, numericality: { greater_than_or_equal_to: 0, only_integer: true }, allow_nil: false
-  validates :accessory_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: false
-  validates :game_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: false
+  validates :hardware_sales, numericality: { greater_than_or_equal_to: 0, only_integer: true }, allow_nil: true
+  validates :accessory_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :game_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :week_start, presence: true
   validates :month, presence: true
 
@@ -137,7 +137,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
                 accessory_sales: accessory_sales,
                 game_sales: game_sales
 
-              sale.save
+              result = sale.save
               created << sale
             end
           rescue => exception
