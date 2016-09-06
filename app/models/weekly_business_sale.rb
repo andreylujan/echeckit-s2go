@@ -105,7 +105,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
             week = row[4].strip.to_i if row[4].present?
             month = row[5].strip.to_i if row[5].present?
             year = row[6].strip.to_i if row[6].present?
-            store = Store.where("lowercase(code) = ?", store_code.to_s.downcase)
+            store = Store.where("lowercase(code) = ?", store_code.to_s.downcase).first
 
             has_error = false
             if store.nil?
