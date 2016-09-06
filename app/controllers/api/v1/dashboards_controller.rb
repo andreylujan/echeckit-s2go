@@ -272,7 +272,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_monthly_goals(start_date = @start_date, end_date = @end_date)
     sale_goals = SaleGoal.joins(:store)
-    .where("goal_date >= ? AND goal_date < ? AND monthly_goal > ?", start_date, end_date, 0)
+    .where("goal_date >= ? AND goal_date < ? AND monthly_goal > ?", start_date.beginning_of_month, end_date.end_of_month, 0)
 
     if params[:store_id].present?
       sale_goals = sale_goals.where(store_id: params[:store_id].to_i )
