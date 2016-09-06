@@ -6,9 +6,13 @@ module CsvUtils
     csv_file = File.open(csv_path, 'r')
     contents = csv_file.read
     detection = CharlockHolmes::EncodingDetector.detect(contents)
+    if detection[:encoding].nil?
+      return nil
+    end
     contents.force_encoding detection[:encoding]
     contents.encode! "UTF-8"
-    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ';' })
+    contents.gsub!("\r", "")
+    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ';'})
     csv_file.close
     csv
   end

@@ -5,6 +5,10 @@ class Api::V1::WeeklyBusinessSalesController < Api::V1::JsonApiController
   def csv
   	csv_file = params.require(:csv)
     json = WeeklyBusinessSale.from_csv(csv_file)
-    render json: json
+    if json[:errors]
+    	render json: json, status: :unprocessable_entity
+    else
+    	render json: json, status: :ok
+    end
   end
 end
