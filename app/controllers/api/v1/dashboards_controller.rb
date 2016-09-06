@@ -932,7 +932,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           product_sales =
             DailyProductSale.joins(report: :store)
           .merge(Report.unassigned)
-          .where("sales_date >= ? AND sales_date <= ?", start_date, end_date)
+          .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
           if params[:store_id].present?
             product_sales = product_sales.where(reports: { store_id: params[:store_id].to_i })
           end
