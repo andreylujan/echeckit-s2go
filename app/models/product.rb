@@ -26,6 +26,8 @@ class Product < ActiveRecord::Base
 
   require 'csv_utils'
 
+  acts_as_paranoid
+
   belongs_to :product_type
   belongs_to :product_classification
   belongs_to :platform
@@ -41,7 +43,7 @@ class Product < ActiveRecord::Base
   has_many :images, as: :resource
   has_many :stock_break_events
 
-  default_scope { order('name ASC') }
+  scope :catalogued, -> { where(catalogued: true) } 
 
   def self.from_csv(csv_path, reset = false)
     Product.transaction do
@@ -60,9 +62,13 @@ class Product < ActiveRecord::Base
         publisher = row[5]
         product.assign_attributes name: name, product_classification: classification,
           product_type: product_type, platform: platform, publisher: publisher,
-          is_listed: true
+          is_listed: true, catalogued: true
         product.save!
         products << product
+      end
+      product_ids = products.map { |product| product.id }
+      Product.where.not(id: product_ids).each do |product|
+        product.update_attribute :catalogued, false
       end
       products
     end

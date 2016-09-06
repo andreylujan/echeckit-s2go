@@ -23,15 +23,21 @@
 
 class Api::V1::ProductResource < BaseResource
 
-	attributes :name, :description, :sku, :plu, :validity_code,
-		:brand, :min_price, :max_price, :is_top, :publisher,
-		:is_listed, :created_at
+  attributes :name, :description, :sku, :plu, :validity_code,
+    :brand, :min_price, :max_price, :is_top, :publisher,
+    :is_listed, :created_at
 
-	has_one :product_type
-	has_one :product_classification
-	has_one :platform
-	has_many :images
+  has_one :product_type
+  has_one :product_classification
+  has_one :platform
+  has_many :images
 
-	filters :is_listed, :is_top
+  filters :is_listed, :is_top
+
+  def self.records(options = {})
+    if not options[:sort_criteria].present?
+      reports = reports.order('created_at DESC')
+    end
+  end
 
 end
