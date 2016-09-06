@@ -55,7 +55,7 @@ class GoalCsvUploader < CarrierWave::Uploader::Base
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
   def filename
-    "result-#{DateTime.now.to_i}.csv"
+    "result-#{md5}.csv"
   end
 
 end

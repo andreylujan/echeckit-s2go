@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901011328) do
+ActiveRecord::Schema.define(version: 20160906142252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -477,8 +477,8 @@ ActiveRecord::Schema.define(version: 20160901011328) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "user_id"
-    t.integer  "num_uploaded", default: 0, null: false
-    t.integer  "num_error",    default: 0, null: false
+    t.integer  "num_errors",   default: 0, null: false
+    t.integer  "num_total"
   end
 
   add_index "sale_goal_uploads", ["user_id"], name: "index_sale_goal_uploads_on_user_id", using: :btree

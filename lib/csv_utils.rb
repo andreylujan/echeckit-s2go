@@ -16,6 +16,9 @@ module CsvUtils
   def self.load_from_file(csv_file, headers=false)
     contents = csv_file.read
     detection = CharlockHolmes::EncodingDetector.detect(contents)
+    if detection[:encoding].nil?
+      return nil
+    end
     contents.force_encoding detection[:encoding]
     contents.encode! "UTF-8"
     csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ';' })

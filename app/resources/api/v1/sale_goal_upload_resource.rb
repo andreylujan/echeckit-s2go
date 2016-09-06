@@ -1,10 +1,16 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::SaleGoalUploadResource < BaseResource
 	attributes :result_csv, :uploaded_csv, :created_at, :year,
-	:month, :user_email, :num_uploaded, :num_error
+	:month, :user_email, :num_uploaded, :num_errors, :num_total
 
 	def year
 		@model.goal_date.year
+	end
+
+	def num_uploaded
+		if @model.num_total.present? and @model.num_errors.present?
+			@model.num_total - @model.num_errors
+		end
 	end
 
 	def month
