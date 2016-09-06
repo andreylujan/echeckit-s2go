@@ -919,8 +919,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
         def sales_xlsx
           package = Axlsx::Package.new
-          excel_classes = [ filtered_product_sales.order("sales_date DESC"),
-                            filtered_daily_sales ]
+          
+          excel_classes = [ filtered_product_sales
+              .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
+              .includes(product: :product_classification)
+              .order("sales_date DESC"),
+                            filtered_daily_sales
+                            .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
+                            .includes(:brand)
+          ]
           excel_classes.each do |model_class|
             model_class.to_xlsx(package: package)
           end
@@ -961,7 +968,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
             DailySale.select('DISTINCT ON(reports.store_id, brand_id, extract(month from reports.created_at)) daily_sales.*')
           .joins(report: :store)
           .merge(Report.unassigned)
-          .where("sales_date >= ? AND sales_date <= ?", start_date, end_date)
+          .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
           .order('reports.store_id, brand_id, extract(month from reports.created_at), reports.created_at DESC')
 
           if params[:store_id].present?

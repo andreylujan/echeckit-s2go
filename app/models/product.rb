@@ -20,6 +20,8 @@
 #  updated_at                :datetime         not null
 #  platform_id               :integer
 #  publisher                 :text
+#  deleted_at                :string
+#  catalogued                :boolean          default(TRUE), not null
 #
 
 class Product < ActiveRecord::Base

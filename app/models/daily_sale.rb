@@ -5,7 +5,6 @@
 #
 #  id              :integer          not null, primary key
 #  brand_id        :integer          not null
-#  sales_date      :datetime         not null
 #  hardware_sales  :integer          default(0), not null
 #  accessory_sales :integer          default(0), not null
 #  game_sales      :integer          default(0), not null
@@ -19,7 +18,6 @@ class DailySale < ActiveRecord::Base
   belongs_to :report
   validates :report, presence: true
   validates :brand, presence: true
-  validates :sales_date, presence: true
   validates :hardware_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :accessory_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
@@ -76,9 +74,13 @@ class DailySale < ActiveRecord::Base
     store.code
   end
 
+  def sales_date
+    report.created_at
+  end
+
   def week_criteria
     start_day = :monday
-    date = sales_date.to_date
+    date = report.created_at.to_date
     week_start_format = '%W'
 
     month_week_start = Date.new(date.year, date.month, 1)
@@ -91,6 +93,6 @@ class DailySale < ActiveRecord::Base
   end
 
   def month_criteria
-  	sales_date.month
+  	report.created_at.month
   end
 end

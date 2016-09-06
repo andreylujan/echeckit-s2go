@@ -457,8 +457,7 @@ class Report < ActiveRecord::Base
         type_data.each do |brand_sales|
           brand = Brand.where("lower(name) = ?", brand_sales["platform"].downcase).first
           if brand.present?
-            daily_sale = DailySale.find_or_create_by! report: self, brand: brand,
-              sales_date: DateTime.new(created_at.year, created_at.month, created_at.day)
+            daily_sale = DailySale.find_or_create_by! report: self, brand: brand
             sales_int = brand_sales["value"].gsub(/\D/, '').to_i
             current_sales = daily_sale.send sales_type_get_mapping[sales_type]
             if sales_int >= 0

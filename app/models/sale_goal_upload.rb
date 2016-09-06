@@ -10,8 +10,8 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :integer
-#  num_uploaded :integer          default(0), not null
-#  num_error    :integer          default(0), not null
+#  num_errors   :integer          default(0), not null
+#  num_total    :integer
 #
 
 class SaleGoalUpload < ActiveRecord::Base

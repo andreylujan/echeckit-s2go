@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906163835) do
+ActiveRecord::Schema.define(version: 20160906222918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,7 +117,6 @@ ActiveRecord::Schema.define(version: 20160906163835) do
 
   create_table "daily_sales", force: :cascade do |t|
     t.integer  "brand_id",                    null: false
-    t.datetime "sales_date",                  null: false
     t.integer  "hardware_sales",  default: 0, null: false
     t.integer  "accessory_sales", default: 0, null: false
     t.integer  "game_sales",      default: 0, null: false
