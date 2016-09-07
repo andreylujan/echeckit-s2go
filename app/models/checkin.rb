@@ -46,7 +46,7 @@ class Checkin < ActiveRecord::Base
   end
 
   def user_email
-    user.email
+    user.email if self.user.present?
   end
 
   def user_full_name
