@@ -56,8 +56,8 @@ class User < ActiveRecord::Base
   has_many :images, dependent: :destroy
 
   has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id, dependent: :nullify
-  has_many :instructed_stores, class_name: :Store, foreign_key: :instructed_stores, dependent: :nullify
-  has_many :supervised_stores, class_name: :Store, foreign_key: :supervised_stores, dependent: :nullify
+  has_many :instructed_stores, class_name: :Store, foreign_key: :instructor_id, dependent: :nullify
+  has_many :supervised_stores, class_name: :Store, foreign_key: :supervisor_id, dependent: :nullify
 
   def send_confirmation_email
     UserMailer.delay(queue: "#{Rails.env}_eretail_email").confirmation_email(self)
