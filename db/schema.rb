@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907003431) do
+ActiveRecord::Schema.define(version: 20160907164007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20160907003431) do
     t.boolean  "send_to_all",       default: false, null: false
     t.boolean  "is_immediate",      default: false, null: false
     t.datetime "deleted_at"
+    t.text     "action_text"
   end
 
   add_index "broadcasts", ["deleted_at"], name: "index_broadcasts_on_deleted_at", using: :btree

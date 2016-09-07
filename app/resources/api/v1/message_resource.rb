@@ -3,7 +3,7 @@ class Api::V1::MessageResource < BaseResource
 
 
 	attributes :read, :read_at, :title, :html, :resource_id,
-		:sent_at, :message_action 
+		:sent_at, :message_action, :action_text
 
 	def message_action
 		@model.message_action.as_json.except("created_at", "updated_at")
