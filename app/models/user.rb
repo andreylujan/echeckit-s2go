@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def send_reset_password_instructions
-    token = set_reset_password_token
+    set_reset_password_token
     UserMailer.delay(queue: "#{Rails.env}_eretail_email").reset_password_email(self)
   end
 
