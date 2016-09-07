@@ -97,19 +97,30 @@ class Checkin < ActiveRecord::Base
     end
   end
 
+  def check_store
+    if self.store.nil?
+      self.store = Store.find_by_id(data["store_id"])
+      save!
+    end
+  end
+
   def store_code
+    check_store
     store.code
   end
 
   def zone_name
+    check_store
     store.zone.name
   end
 
   def store_name
+    check_store
     store.name
   end
 
   def dealer_name
+    check_store
     store.dealer.name
   end
 
