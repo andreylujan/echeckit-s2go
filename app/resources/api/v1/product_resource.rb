@@ -35,9 +35,11 @@ class Api::V1::ProductResource < BaseResource
   filters :is_listed, :is_top
 
   def self.records(options = {})
+    products = Product.all
     if not options[:sort_criteria].present?
-      reports = reports.order('created_at DESC')
+      products = products.order('name ASC')
     end
+    products
   end
 
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 f = File.open('./db/promoters.csv')
 csv = CSV.parse(f, { col_sep: ',' })
 

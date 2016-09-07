@@ -6,7 +6,6 @@
 #  id                   :integer          not null, primary key
 #  product_id           :integer          not null
 #  quantity             :integer          not null
-#  stock_break_date     :datetime         not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  stock_break_quantity :integer

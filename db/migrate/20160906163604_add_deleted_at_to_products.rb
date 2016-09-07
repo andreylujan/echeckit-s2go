@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddDeletedAtToProducts < ActiveRecord::Migration
   def change
     add_column :products, :deleted_at, :string

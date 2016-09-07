@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::V1::ReportProcessor < JSONAPI::Processor
   after_find do
     unless @result.is_a?(JSONAPI::ErrorsOperationResult)
