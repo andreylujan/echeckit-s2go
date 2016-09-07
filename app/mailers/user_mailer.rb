@@ -19,18 +19,18 @@ class UserMailer < ApplicationMailer
 	end
 
 	def checkin_email(checkin)
+		@checkin = checkin
 		if not @checkin.user.present?
 			return
 		end
-		@checkin = checkin
 		mail(to: @checkin.user.email, subject: 'Confirmación de Llegada')
 	end
 
 	def checkout_email(checkin)
+		@checkin = checkin
 		if not @checkin.user.present?
 			return
 		end
-		@checkin = checkin
 		mail(to: @checkin.user.email, subject: 'Confirmación de Salida')
 	end
 end
