@@ -32,6 +32,13 @@ class Broadcast < ActiveRecord::Base
   after_commit :send_messages, on: [ :create ]
 
   validate :check_send_to_all
+  before_create :create_individual_messages
+
+  def create_individual_messages
+    if self.send_to_all?
+      self.recipients = User.all
+    end
+  end
 
   def check_send_to_all
     if not self.send_to_all? and recipients.length == 0
