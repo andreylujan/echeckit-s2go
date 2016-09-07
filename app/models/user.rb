@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :broadcasts, foreign_key: :sender_id, class_name: :Broadcast, dependent: :destroy
   has_many :messages, dependent: :destroy
-  has_many :sale_goal_uploads, dependent: :destroy
+  has_many :sale_goal_uploads, dependent: :nullify
   has_many :images, dependent: :destroy
 
   has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id, dependent: :nullify
