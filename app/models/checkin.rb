@@ -23,7 +23,7 @@ class Checkin < ActiveRecord::Base
   # before_create :fill_data_attributes
   after_create :send_checkin_email
   after_save :send_checkout_email, if: :exit_time_changed?
-  after_create :assign_store
+  before_create :assign_store
   belongs_to :store
 
   acts_as_xlsx columns: [
