@@ -136,7 +136,6 @@ class Checkin < ActiveRecord::Base
 
   def assign_store
     self.store = Store.find_by_id(data["store_id"])
-    save!
   end
 
   private
