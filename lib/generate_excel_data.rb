@@ -25,7 +25,7 @@ f.close
 package = Axlsx::Package.new
 excel_classes = [ Report.order("updated_at DESC"), 
 	Checkin.order('arrival_time DESC'),
-	DailyHeadCount.order("count_date DESC") ]
+	DailyHeadCount.order("reports.created_at DESC") ]
 excel_classes.each do |model_class|
   model_class.to_xlsx(package: package)
 end

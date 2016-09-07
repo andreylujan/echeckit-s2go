@@ -51,7 +51,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
   def filtered_stock_breaks(start_date = @start_date, end_date = @end_date)
     stock_breaks = StockBreakEvent.joins(report: :store)
     .merge(Report.unassigned)
-    .where("stock_break_date >= ? AND stock_break_date < ?", start_date, end_date)
+    .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
+    .order("reports.created_at DESC")
 
     if params[:store_id].present?
       stock_breaks = stock_breaks.where(reports: { store_id: params[:store_id].to_i })
@@ -355,7 +356,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     package = Axlsx::Package.new
     excel_classes = [ StockBreakEvent.joins(:report)
       .includes(report: [{ store: [ :dealer, :zone, :instructor, :supervisor]}, :creator, :assigned_user])
-      .includes(product: :product_classification)
+      .includes(product: [ :product_classification, :product_type ])
       .order("reports.created_at DESC") ]
     excel_classes.each do |model_class|
       model_class.to_xlsx(package: package)
@@ -374,10 +375,10 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
     stock_breaks = []
     filtered_stock_breaks.includes(report: { store: :dealer })
-    .includes(:product)
+    .includes(product: [ :product_type, :product_classification ])
     .group_by(&:group_by_store_criteria).each do |store, group|
       if group.length > 0
-        stock_break = group.max { |a, b| a.stock_break_date <=> b.stock_break_date }
+        stock_break = group.max { |a, b| a.report.created_at <=> b.report.created_at }
         product = stock_break.product
         stock_breaks << {
           ean: product.sku,
@@ -484,11 +485,11 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_head_counts(start_date = @start_date, end_date = @end_date)
     head_counts = DailyHeadCount
-    .select('distinct on (daily_head_counts.count_date, reports.store_id, daily_head_counts.brand_id) daily_head_counts.*')
+    .select("distinct on (date_trunc('day', reports.created_at), reports.store_id, daily_head_counts.brand_id) daily_head_counts.*")
     .joins(report: :store)
     .merge(Report.unassigned)
-    .where("daily_head_counts.created_at > ? AND daily_head_counts.created_at < ?", start_date, end_date)
-    .order('daily_head_counts.count_date, reports.store_id, daily_head_counts.brand_id, reports.created_at DESC')
+    .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
+    .order("date_trunc('day', reports.created_at), reports.store_id, daily_head_counts.brand_id, reports.created_at DESC")
 
     if params[:store_id].present?
       head_counts = head_counts.where(reports: { store_id: params[:store_id].to_i })
@@ -643,7 +644,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       DailyHeadCount
       .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator, :assigned_user])      
       .includes(:brand)
-      .order("count_date DESC")]
+      .order("reports.created_at DESC")]
     excel_classes.each do |model_class|
       model_class.to_xlsx(package: package)
     end

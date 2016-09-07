@@ -18,7 +18,6 @@ class StockBreakEvent < ActiveRecord::Base
   belongs_to :product
   validates :report, presence: true
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
-  validates :stock_break_date, presence: true
   validates :product, presence: true
 
   acts_as_xlsx columns: [ :id,
@@ -92,7 +91,7 @@ class StockBreakEvent < ActiveRecord::Base
   end
 
   def group_by_month_criteria
-    DateTime.new(stock_break_date.year, stock_break_date.month)
+    DateTime.new(report.created_at.year, report.created_at.month)
   end
 
   def group_by_store_criteria

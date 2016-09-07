@@ -252,7 +252,7 @@ class Report < ActiveRecord::Base
           product = Product.find(stock_break["game_id"])
           stock_break_date = created_at.beginning_of_day
           event = StockBreakEvent.find_or_initialize_by product: product, 
-            report: self, stock_break_date: stock_break_date
+            report: self
           event.quantity = quantity.to_i
           event.stock_break_quantity = 7
           event.save!
@@ -431,8 +431,7 @@ class Report < ActiveRecord::Base
         hc.each do |brand_data|
           brand = Brand.where("lower(name) = ?", brand_data["platform"].downcase).first
           if brand.present?
-            daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand,
-              count_date: DateTime.new(created_at.year, created_at.month, created_at.day).to_date
+            daily_hc = DailyHeadCount.find_or_create_by! report: self, brand: brand
             if hc_type == "hc_promot_ft"
               if brand_data["value"].present? and brand_data["value"].to_i >= 0
                 daily_hc.update_attributes! num_full_time: brand_data["value"].to_i

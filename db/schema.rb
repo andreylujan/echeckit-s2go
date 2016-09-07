@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906230709) do
+ActiveRecord::Schema.define(version: 20160907003431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20160906230709) do
   add_index "checklist_item_values", ["report_id"], name: "index_checklist_item_values_on_report_id", using: :btree
 
   create_table "daily_head_counts", force: :cascade do |t|
-    t.date     "count_date"
     t.integer  "num_full_time", default: 0, null: false
     t.integer  "num_part_time", default: 0, null: false
     t.integer  "brand_id"
@@ -518,7 +517,6 @@ ActiveRecord::Schema.define(version: 20160906230709) do
   create_table "stock_break_events", force: :cascade do |t|
     t.integer  "product_id",           null: false
     t.integer  "quantity",             null: false
-    t.datetime "stock_break_date",     null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.integer  "stock_break_quantity"

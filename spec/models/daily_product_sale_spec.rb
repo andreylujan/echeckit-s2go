@@ -5,7 +5,6 @@
 #
 #  id         :integer          not null, primary key
 #  product_id :integer
-#  sales_date :datetime         not null
 #  quantity   :integer          default(0), not null
 #  amount     :integer          default(0), not null
 #  created_at :datetime         not null
