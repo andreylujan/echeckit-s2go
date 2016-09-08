@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::CategoryResource < JSONAPI::Resource
+class Api::V1::CategoryResource < BaseResource
   attributes :name
 
   def self.records(options = {})

@@ -1,3 +1,3 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::GalleryResource < JSONAPI::Resource
+class Api::V1::GalleryResource < BaseResource
 end

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::RegionResource < JSONAPI::Resource
+class Api::V1::RegionResource < BaseResource
     
   attributes :name
 

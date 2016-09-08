@@ -64,8 +64,8 @@ class Task
   def reports_from_stores(stores)
     new_reports = []
     stores.each do |store|
-      if store.promoter.present?
-        new_reports << report_from_store_and_promoter(store, store.promoter)
+      if store.promoters.count > 0
+        new_reports << report_from_store_and_promoter(store, store.promoters.first)
       elsif store.instructor.present?
         new_reports << report_from_store_and_promoter(store, store.instructor)
       elsif store.supervisor.present?

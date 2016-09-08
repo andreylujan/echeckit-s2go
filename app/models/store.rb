@@ -30,7 +30,6 @@ class Store < ActiveRecord::Base
   belongs_to :store_type
   belongs_to :supervisor, class_name: :User, foreign_key: :supervisor_id
   belongs_to :instructor, class_name: :User, foreign_key: :instructor_id
-  belongs_to :promoter, class_name: :User, foreign_key: :promoter_id
 
   acts_as_paranoid
 
@@ -45,6 +44,8 @@ class Store < ActiveRecord::Base
   has_many :daily_head_counts
   has_many :stock_break_events
   has_many :weekly_business_sales
+  has_and_belongs_to_many :promoters, class_name: 'User'
+
   validates :code, presence: true
   
   default_scope { order('name ASC') }

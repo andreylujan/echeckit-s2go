@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::ChecklistOptionResource < JSONAPI::Resource
+class Api::V1::ChecklistOptionResource < BaseResource
 	attributes :name, :icon, :is_binary
 
 	has_one :detail

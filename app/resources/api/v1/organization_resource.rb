@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::OrganizationResource < JSONAPI::Resource
+class Api::V1::OrganizationResource < BaseResource
   attributes :name
   has_many :roles
   has_many :report_types

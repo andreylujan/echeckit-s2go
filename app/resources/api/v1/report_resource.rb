@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::ReportResource < JSONAPI::Resource
+class Api::V1::ReportResource < BaseResource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
     :finished, :assigned_user_id, :pdf, :pdf_uploaded,
     :task_start, :title, :description, :report_type_id,
@@ -33,12 +33,12 @@ class Api::V1::ReportResource < JSONAPI::Resource
     else
       reports = Report.joins(creator: :role).where(roles: { organization_id: user.role.organization_id })
     end
-    
+
     if context[:only_daily]
       reports = reports.where(assigned_user_id: nil, report_type_id: 1)
     elsif context[:only_assigned]
-      reports = reports.where(report_type_id: 1)        
-        .where.not(assigned_user_id: nil)
+      reports = reports.where(report_type_id: 1)
+      .where.not(assigned_user_id: nil)
     end
 
     if not options[:sort_criteria].present?
@@ -47,15 +47,54 @@ class Api::V1::ReportResource < JSONAPI::Resource
     reports
   end
 
-  filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids
+  filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids,
+    :title, :created_at, :limit_date, :task_start
+
+
+  filter :created_at, apply: ->(records, value, _options) {
+    records.where("to_char(reports.created_at, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
+  }
+
+  filter :limit_date, apply: ->(records, value, _options) {
+    records.where("to_char(reports.limit_date, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
+  }
+
+  filter :task_start, apply: ->(records, value, _options) {
+    records.where("to_char(reports.task_start, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
+  }
+
+  filter :zone_name, apply: ->(records, value, _options) {
+    records.joins(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
+  }
+
+  filter :store_name, apply: ->(records, value, _options) {
+    records.joins(:store).where('stores.name ILIKE ?', "%#{value.first}%")
+  }
+
+  filter :dealer_name, apply: ->(records, value, _options) {
+    records.joins(store: :dealer).where("dealers.name ILIKE ?", "%#{value.first}%")
+  }
+
+  filter :creator_name, apply: ->(records, value, _options) {
+    records.joins(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    .references(:creator)
+  }
+
+  filter :assigned_user_name, apply: ->(records, value, _options) {
+    records.joins(:assigned_user).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
+    .references(:assigned_user)
+  }
+
 
   filter :creator_id, apply: ->(records, value, _options) {
     records.where('assigned_user_id is NULL')
   }
 
-  filter :creator_id, apply: ->(records, value, _options) {
-    records.where('assigned_user_id is NULL')
-  }
+  def self.apply_sort(records, order_options, context = {})
+    super(records, order_options, context)
+  end
+
+
 
   filter :zone_ids, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0

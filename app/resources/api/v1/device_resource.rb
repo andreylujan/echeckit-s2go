@@ -22,7 +22,7 @@
 #  updated_at      :datetime         not null
 #
 
-class Api::V1::DeviceResource < JSONAPI::Resource
+class Api::V1::DeviceResource < BaseResource
 
 	attributes :device_token, :registration_id, :uuid, :architecture, :address,
 		:locale, :manufacturer, :model, :name, :os_name, :processor_count, :version,

@@ -1,3 +1,3 @@
 # -*- encoding : utf-8 -*-
-class Api::V1::ChecklistItemResource < JSONAPI::Resource
+class Api::V1::ChecklistItemResource < BaseResource
 end

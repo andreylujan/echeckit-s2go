@@ -33,11 +33,10 @@ class User < ActiveRecord::Base
     :recoverable, :validatable
 
   validates :email, uniqueness: true, presence: true
-  validates :rut, uniqueness: true, allow_nil: true
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :phone_number, uniqueness: true, allow_nil: true
   belongs_to :role
+  validates :role, presence: true
   before_create :assign_role_id
   has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken', 
     dependent: :destroy
@@ -54,8 +53,9 @@ class User < ActiveRecord::Base
   has_many :messages, dependent: :destroy
   has_many :sale_goal_uploads, dependent: :nullify
   has_many :images, dependent: :destroy
+  has_and_belongs_to_many :promoted_stores, class_name: 'Store'
 
-  has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id, dependent: :nullify
+  # has_many :promoted_stores, class_name: :Store, foreign_key: :promoter_id, dependent: :nullify
   has_many :instructed_stores, class_name: :Store, foreign_key: :instructor_id, dependent: :nullify
   has_many :supervised_stores, class_name: :Store, foreign_key: :supervisor_id, dependent: :nullify
 
