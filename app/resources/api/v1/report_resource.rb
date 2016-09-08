@@ -64,24 +64,24 @@ class Api::V1::ReportResource < BaseResource
   }
 
   filter :zone_name, apply: ->(records, value, _options) {
-    records.joins(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
+    records.includes(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
   }
 
   filter :store_name, apply: ->(records, value, _options) {
-    records.joins(:store).where('stores.name ILIKE ?', "%#{value.first}%")
+    records.includes(:store).where('stores.name ILIKE ?', "%#{value.first}%")
   }
 
   filter :dealer_name, apply: ->(records, value, _options) {
-    records.joins(store: :dealer).where("dealers.name ILIKE ?", "%#{value.first}%")
+    records.includes(store: :dealer).where("dealers.name ILIKE ?", "%#{value.first}%")
   }
 
   filter :creator_name, apply: ->(records, value, _options) {
-    records.joins(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    records.includes(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
     .references(:creator)
   }
 
   filter :assigned_user_name, apply: ->(records, value, _options) {
-    records.joins(:assigned_user).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
+    records.includes(:assigned_user).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
     .references(:assigned_user)
   }
 
@@ -91,6 +91,38 @@ class Api::V1::ReportResource < BaseResource
   }
 
   def self.apply_sort(records, order_options, context = {})
+    if order_options.include?("zone_name")
+      direction = order_options["zone_name"].to_s
+      records = records.includes(store: :zone).order("zones.name #{direction}")
+      order_options.delete "zone_name"
+    end
+
+    if order_options.include?("dealer_name")
+      direction = order_options["dealer_name"].to_s
+      records = records.includes(store: :dealer).order("dealers.name #{direction}")
+      order_options.delete "zone_name"
+    end
+
+    if order_options.include?("store_name")
+      direction = order_options["store_name"].to_s
+      records = records.includes(:store).order("stores.name #{direction}")
+      order_options.delete "store_name"
+    end
+
+    if order_options.include?("creator_name")
+      direction = order_options["creator_name"].to_s
+      records = records.includes(:creator).order("(users.first_name || users.last_name) #{direction}")
+      order_options.delete "creator_name"
+    end
+
+    if order_options.include?("assigned_user_name")
+      direction = order_options["assigned_user_name"].to_s
+      records = records.includes(:assigned_user).order("(assigned_users_reports.first_name || assigned_users_reports.last_name) #{direction}")
+      order_options.delete "assigned_user_name"
+    end
+
+
+
     super(records, order_options, context)
   end
 
