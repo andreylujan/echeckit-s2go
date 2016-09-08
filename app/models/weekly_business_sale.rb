@@ -183,7 +183,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
   end
 
   def week_criteria
-    week_start.strftime("%U").to_i
+    (week_start.strftime("%W").to_i) + 1
 
   end
 

@@ -141,7 +141,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
 
     newest_sales_week = WeeklyBusinessSale.maximum(:week_start)
-    current_week_of_year = newest_sales_week.strftime("%U").to_i
+    current_week_of_year = newest_sales_week.strftime("%W").to_i + 1
     current_year = newest_sales_week.year
 
     last_week_sales = filtered_weekly_sales_by_week(Date.commercial(current_year, current_week_of_year) - 1.week, Date.commercial(current_year, current_week_of_year))
@@ -175,8 +175,8 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     selected_date = DateTime.new(@year.to_i, @month.to_i)
     last_year_weekly_sales = filtered_weekly_sales_by_month(selected_date.beginning_of_month - 1.year, selected_date.end_of_month - 1.year).group_by(&:week_criteria)
     current_year_weekly_sales = filtered_weekly_sales_by_month(selected_date.beginning_of_month, selected_date.end_of_month).group_by(&:week_criteria)
-    first_month_week = selected_date.beginning_of_month.strftime("%U").to_i
-    last_month_week = selected_date.end_of_month.strftime("%U").to_i
+    first_month_week = selected_date.beginning_of_month.strftime("%W").to_i + 1
+    last_month_week = selected_date.end_of_month.strftime("%W").to_i + 1
     iterations = last_month_week - first_month_week
     iterations.times do |i|
 
