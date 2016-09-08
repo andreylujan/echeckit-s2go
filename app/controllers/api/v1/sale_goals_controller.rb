@@ -43,8 +43,8 @@ class Api::V1::SaleGoalsController < ApplicationController
         num_errors = 0
         csv_data.each_with_index do |goal_row, index|
 
-          store_code = goal_row[0]
-          monthly_goal = goal_row[1]
+          store_code = goal_row[0].strip if goal_row[0]
+          monthly_goal = goal_row[1].strip.gsub(/[\$]|[\.]/, '').to_i if goal_row[1]
 
           data = {
             id: (index + 1).to_s,
