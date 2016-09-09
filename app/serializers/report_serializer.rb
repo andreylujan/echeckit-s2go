@@ -11,7 +11,6 @@
 #  creator_id         :integer          not null
 #  limit_date         :datetime
 #  finished           :boolean          default(FALSE), not null
-#  assigned_user_id   :integer
 #  pdf                :text
 #  pdf_uploaded       :boolean          default(FALSE), not null
 #  uuid               :text
@@ -21,6 +20,7 @@
 #  task_start         :datetime
 #  title              :text
 #  description        :text
+#  is_task            :boolean          default(FALSE), not null
 #
 
 class ReportSerializer < ActiveModel::Serializer

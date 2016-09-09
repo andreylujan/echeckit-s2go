@@ -19,15 +19,18 @@ class Task
   def save(*args)
     self.id = SecureRandom.uuid
     new_reports = []
+    reports_by_user = {}
+
+    # Si se indican promotores explícitamente, se prioriza esto
     if promoters.count > 0
       promoters.each do |promoter|
         if stores.count > 0
           stores.each do |store|
-            new_reports << report_from_store_and_promoter(store, promoter)
+            new_reports << report_from_store_and_promoters(store, [promoter])
           end
         else
           promoter.promoted_stores.each do |store|
-            new_reports << report_from_store_and_promoter(store, promoter)
+            new_reports << report_from_store_and_promoters(store, [promoter])
           end
         end
       end
@@ -45,14 +48,18 @@ class Task
     end
 
     Report.transaction do
-      new_reports.group_by(&:assigned_user_id).each do |assigned_user_id, group|
-        group.each_with_index do |report, idx|
-          if idx > 0
-            report.skip_push = true
+      new_reports.each do |new_report|
+        new_report.assigned_user_ids.each do |assigned_user_id|
+          if not reports_by_user[assigned_user_id]
+            reports_by_user[assigned_user_id] = new_report
           end
-          report.save!
         end
+        new_report.skip_push = true
+        new_report.save!
       end
+    end
+    reports_by_user.each do |user_id, report|
+      SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(report.id, user_id)
     end
 
     self.result = {
@@ -64,27 +71,40 @@ class Task
   def reports_from_stores(stores)
     new_reports = []
     stores.each do |store|
+      store_promoters = []
+
+      # Assign to each promoter
       if store.promoters.count > 0
-        new_reports << report_from_store_and_promoter(store, store.promoters.first)
-      elsif store.instructor.present?
-        new_reports << report_from_store_and_promoter(store, store.instructor)
-      elsif store.supervisor.present?
-        new_reports << report_from_store_and_promoter(store, store.supervisor)
+        store.promoters.each do |promoter|
+          store_promoters << promoter
+        end
       end
+
+      # Assign to instructor
+      if store.instructor.present?
+        store_promoters << store.instructor
+      end
+
+      # Assign to supervisor
+      if store.supervisor.present?
+        store_promoters << store.supervisor
+      end
+      new_reports << report_from_store_and_promoters(store, store_promoters.uniq)
     end
     new_reports
   end
 
-  def report_from_store_and_promoter(store, promoter)
+  def report_from_store_and_promoters(store, promoters)
     Report.new(
       creator: creator,
-      assigned_user: promoter,
+      assigned_users: promoters,
       title: title,
       description: description,
       store: store,
       report_type_id: 1,
       task_start: task_start,
-      limit_date: task_end
+      limit_date: task_end,
+      is_task: true
     )
   end
   # need hash like accessor, used internal Rails

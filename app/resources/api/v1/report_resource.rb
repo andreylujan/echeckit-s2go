@@ -1,14 +1,14 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::ReportResource < BaseResource
   attributes :dynamic_attributes, :creator_id, :created_at, :limit_date,
-    :finished, :assigned_user_id, :pdf, :pdf_uploaded,
+    :finished, :assigned_user_ids, :pdf, :pdf_uploaded,
     :task_start, :title, :description, :report_type_id,
-    :store_name, :zone_name, :dealer_name, :assigned_user_name, :creator_name,
+    :store_name, :zone_name, :dealer_name, :assigned_user_names, :creator_name,
     :finished_at
 
   before_create :set_creator
-
-  has_one :assigned_user
+  has_many :assigned_users
+  # has_one :assigned_user
   has_one :store
 
   def custom_links(options)
@@ -35,19 +35,18 @@ class Api::V1::ReportResource < BaseResource
     end
 
     if context[:only_daily]
-      reports = reports.where(assigned_user_id: nil, report_type_id: 1)
+      reports = Report.where(is_task: false, report_type_id: 1)
     elsif context[:only_assigned]
-      reports = reports.where(report_type_id: 1)
-      .where.not(assigned_user_id: nil)
+      reports = reports.where(is_task: true, report_type_id: 1)
     end
 
     if not options[:sort_criteria].present?
-      reports = reports.order('created_at DESC')
+      reports = reports.order('reports.created_at DESC')
     end
     reports
   end
 
-  filters :assigned_user_id, :finished, :dealer_ids, :zone_ids, :store_ids,
+  filters :finished, :dealer_ids, :zone_ids, :store_ids,
     :title, :created_at, :limit_date, :task_start
 
 
@@ -80,14 +79,19 @@ class Api::V1::ReportResource < BaseResource
     .references(:creator)
   }
 
-  filter :assigned_user_name, apply: ->(records, value, _options) {
-    records.includes(:assigned_user).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
-    .references(:assigned_user)
+  filter :assigned_user_names, apply: ->(records, value, _options) {
+    records.includes(:assigned_users).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
+    .references(:assigned_users)
+  }
+
+  filter :assigned_user_id, apply: ->(records, value, _options) {
+    records.joins(:assigned_users).where('users.id = ?', value.first.to_i )
+    .references(:assigned_users)
   }
 
 
   filter :creator_id, apply: ->(records, value, _options) {
-    records.where('assigned_user_id is NULL')
+    records.where(is_task: false)
   }
 
   def self.apply_sort(records, order_options, context = {})
@@ -115,10 +119,10 @@ class Api::V1::ReportResource < BaseResource
       order_options.delete "creator_name"
     end
 
-    if order_options.include?("assigned_user_name")
-      direction = order_options["assigned_user_name"].to_s
-      records = records.includes(:assigned_user).order("(assigned_users_reports.first_name || assigned_users_reports.last_name) #{direction}")
-      order_options.delete "assigned_user_name"
+    if order_options.include?("assigned_user_names")
+      direction = order_options["assigned_user_names"].to_s
+      records = records.includes(:assigned_users).order("(assigned_users_reports.first_name || assigned_users_reports.last_name) #{direction}")
+      order_options.delete "assigned_user_names"
     end
 
 

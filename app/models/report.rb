@@ -11,7 +11,6 @@
 #  creator_id         :integer          not null
 #  limit_date         :datetime
 #  finished           :boolean          default(FALSE), not null
-#  assigned_user_id   :integer
 #  pdf                :text
 #  pdf_uploaded       :boolean          default(FALSE), not null
 #  uuid               :text
@@ -21,6 +20,7 @@
 #  task_start         :datetime
 #  title              :text
 #  description        :text
+#  is_task            :boolean          default(FALSE), not null
 #
 
 class Report < ActiveRecord::Base
@@ -30,7 +30,8 @@ class Report < ActiveRecord::Base
   belongs_to :report_type
   belongs_to :report_type
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
-  belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
+  # belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
+  has_and_belongs_to_many :assigned_users, class_name: 'User'
   mount_uploader :pdf, PdfUploader
 
   has_one :promotion_state, dependent: :destroy
@@ -97,8 +98,8 @@ class Report < ActiveRecord::Base
     creator.organization
   end
 
-  def assigned_user_name
-    assigned_user.name if assigned_user.present?
+  def assigned_user_names
+    assigned_users.map { |user| user.name }.join(', ')
   end
 
   def creator_name
@@ -288,7 +289,7 @@ class Report < ActiveRecord::Base
   end
 
   def send_task_job
-    if not @skip_push and self.assigned_user.present?
+    if not @skip_push
       SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
     end
   end

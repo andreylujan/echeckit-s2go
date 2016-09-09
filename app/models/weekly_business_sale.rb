@@ -12,6 +12,7 @@
 #  updated_at      :datetime         not null
 #  week_start      :date
 #  month           :date
+#  week_number     :integer          not null
 #
 
 class WeeklyBusinessSale < ActiveRecord::Base
@@ -21,8 +22,9 @@ class WeeklyBusinessSale < ActiveRecord::Base
   validates :hardware_sales, numericality: { only_integer: true }, allow_nil: true
   validates :accessory_sales, numericality: { only_integer: true }, allow_nil: true
   validates :game_sales, numericality: { only_integer: true }, allow_nil: true
-  validates :week_start, presence: true
   validates :month, presence: true
+  validates :week_number, numericality: { only_integer: true, :greater_than_or_equal_to => 1,
+    :less_than_or_equal_to => 53 }
 
   before_save :set_default_values
   acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
@@ -45,9 +47,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
     end
   end
 
-  def week_number
-    week_start.strftime("%U").to_i
-  end
+
 
   def month_number
     month.month.to_i
@@ -103,6 +103,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
             accessory_sales = row[2].strip.gsub(/[\$]|[\.]/, '').to_i if row[2].present?
             game_sales = row[3].strip.gsub(/[\$]|[\.]/, '').to_i if row[3].present?
             week = row[4].strip.to_i if row[4].present?
+            week_number = row[4].strip.to_i if row[4].present?
             month = row[5].strip.to_i if row[5].present?
             year = row[6].strip.to_i if row[6].present?
             store = Store.where("lower(code) = ?", store_code.to_s.downcase).first
@@ -114,7 +115,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
             end
             if not has_error
               begin
-                week_start = Date.commercial(year, week)
+                Date.commercial(year, week)
               rescue => date_exception
                 has_error = true
                 created << ArgumentError.new("Semana o año inválidos")
@@ -131,13 +132,13 @@ class WeeklyBusinessSale < ActiveRecord::Base
             end
             if not has_error
               sale = WeeklyBusinessSale.find_or_initialize_by(store: store,
-                                                              week_start: week_start,
+                                                              week_number: week_number,
                                                               month: month)
               sale.assign_attributes hardware_sales: hardware_sales,
                 accessory_sales: accessory_sales,
                 game_sales: game_sales
 
-              result = sale.save
+              sale.save
               created << sale
             end
           rescue => exception
@@ -182,9 +183,5 @@ class WeeklyBusinessSale < ActiveRecord::Base
     month.month
   end
 
-  def week_criteria
-    (week_start.strftime("%W").to_i) + 1
-
-  end
 
 end

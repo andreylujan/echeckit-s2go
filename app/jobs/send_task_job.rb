@@ -2,7 +2,7 @@
 class SendTaskJob < ActiveJob::Base
   queue_as :eretail_push
 
-  def perform(report_id)
+  def perform(report_id, assigned_user_id=nil)
 
     # unless Rails.env.production?
     #   return
@@ -12,10 +12,18 @@ class SendTaskJob < ActiveJob::Base
     if report.nil?
       return
     end
-    user = report.assigned_user
+    user_ids = report.assigned_user_ids
 
-    if user.nil?
+    if user_ids.length == 0
       return
+    end
+
+    
+    if not assigned_user_id.nil?
+      if not user_ids.include? assigned_user_id
+        return
+      end
+      user_ids = [ assigned_user_id ]
     end
 
     apns_app_name = ENV["APNS_APP_NAME"]
@@ -34,7 +42,7 @@ class SendTaskJob < ActiveJob::Base
       apns_app_name: apns_app_name
     }
 
-    devices = user.devices
+    devices = Device.where(user_id: user_ids)
     registration_ids = devices.where("registration_id is not null").map { |r| r.registration_id }
     device_tokens = devices.where("device_token is not null").map { |r| r.device_token }
 
@@ -43,7 +51,7 @@ class SendTaskJob < ActiveJob::Base
                           device_tokens: device_tokens
     })
 
-    response = conn.post do |req|
+    conn.post do |req|
       req.url '/notifications'
       req.headers['Content-Type'] = 'application/json'
       req.body = body.to_json

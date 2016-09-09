@@ -84,11 +84,11 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       WeeklyBusinessSale.where("month >= ? AND month <= ?",
                                DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year)
       .includes(store: [:dealer, :zone])
-      .order("week_start ASC"),
+      .order("month ASC, week_number ASC"),
       WeeklyBusinessSale.where("month >= ? AND month <= ?",
                                DateTime.now.beginning_of_year, DateTime.now.end_of_year)
       .includes(store: [:dealer, :zone])
-      .order("week_start ASC"),
+      .order("month ASC, week_number ASC"),
       SaleGoal.where("goal_date >= ? AND goal_date <= ?",
                      DateTime.now.beginning_of_year - 1.year,
                      DateTime.now.end_of_year)
@@ -140,15 +140,15 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }
     end
 
-    newest_sales_week = WeeklyBusinessSale.maximum(:week_start)
-    current_week_of_year = newest_sales_week.strftime("%W").to_i + 1
+    newest_sales_week = WeeklyBusinessSale.order("month DESC, week_number DESC").limit(1).first
+    current_week_of_year = newest_sales_week.week_number
     current_year = newest_sales_week.year
 
-    last_week_sales = filtered_weekly_sales_by_week(Date.commercial(current_year, current_week_of_year) - 1.week, Date.commercial(current_year, current_week_of_year))
+    last_week_sales = filtered_weekly_sales_by_week(current_year, current_week_of_year - 1)
     .includes(store: :dealer)
     .group_by(&:dealer_criteria)
 
-    current_week_sales_data = filtered_weekly_sales_by_week(Date.commercial(current_year, current_week_of_year), DateTime.now)
+    current_week_sales_data = filtered_weekly_sales_by_week(current_year, current_week_of_year)
     .includes(store: :dealer)
     .group_by(&:dealer_criteria)
 
@@ -173,13 +173,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     end
     
     selected_date = DateTime.new(@year.to_i, @month.to_i)
-    last_year_weekly_sales = filtered_weekly_sales_by_month(selected_date.beginning_of_month - 1.year, selected_date.end_of_month - 1.year).group_by(&:week_criteria)
-    current_year_weekly_sales = filtered_weekly_sales_by_month(selected_date.beginning_of_month, selected_date.end_of_month).group_by(&:week_criteria)
-    first_month_week = selected_date.beginning_of_month.strftime("%W").to_i + 1
-    last_month_week = selected_date.end_of_month.strftime("%W").to_i + 1
-    iterations = last_month_week - first_month_week
+    first_month_week = selected_date.beginning_of_month.cweek
+    last_month_week = selected_date.end_of_month.cweek
+    
+    last_year_weekly_sales = filtered_weekly_sales_by_week_number(selected_date.year - 1, first_month_week, last_month_week).group_by(&:week_number)
+    current_year_weekly_sales = filtered_weekly_sales_by_week_number(selected_date.year, first_month_week, last_month_week).group_by(&:week_number)
+    
+    iterations = last_month_week - first_month_week + 1
     iterations.times do |i|
-
       if not last_year_weekly_sales[i + first_month_week].present?
         last_year_weekly_sales[i + first_month_week] = []
       end
@@ -300,9 +301,37 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     sale_goals
   end
 
-  def filtered_weekly_sales_by_week(start_date = @start_date, end_date = @end_date)
+  def filtered_weekly_sales_by_week(year, week_number)
     weekly_sales = WeeklyBusinessSale.joins(:store)
-    .where("week_start = ?", start_date)
+    .where("week_number = ? AND extract(year from month) = ?", week_number, year)
+
+    if params[:store_id].present?
+      weekly_sales = weekly_sales.where(store_id: params[:store_id].to_i )
+    end
+
+    if params[:dealer_id].present?
+      weekly_sales = weekly_sales.where(stores: { dealer_id: params[:dealer_id].to_i } )
+    end
+
+    if params[:instructor_id].present?
+      weekly_sales = weekly_sales.where(stores: { instructor_id: params[:instructor_id].to_i })
+    end
+
+    if params[:supervisor_id].present?
+      weekly_sales = weekly_sales.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+    end
+
+    if params[:zone_id].present?
+      weekly_sales = weekly_sales.where(stores: { zone_id: params[:zone_id].to_i })
+    end
+    weekly_sales
+  end
+
+def filtered_weekly_sales_by_week_number(year, start_week, end_week)
+
+    weekly_sales = WeeklyBusinessSale.joins(:store)
+    .where("week_number >= ? AND week_number <= ? AND extract(year from month) = ?", start_week, end_week,
+      year)
 
     if params[:store_id].present?
       weekly_sales = weekly_sales.where(store_id: params[:store_id].to_i )
@@ -328,7 +357,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
   def filtered_weekly_sales_by_month(start_date = @start_date, end_date = @end_date)
     weekly_sales = WeeklyBusinessSale.joins(:store)
-    .where("month >= ? AND month < ?", start_date.beginning_of_month, end_date.end_of_month)
+    .where("month >= ? AND month <= ?", start_date.beginning_of_month, end_date.end_of_month)
 
     if params[:store_id].present?
       weekly_sales = weekly_sales.where(store_id: params[:store_id].to_i )

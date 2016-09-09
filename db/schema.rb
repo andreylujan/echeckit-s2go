@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908140355) do
+ActiveRecord::Schema.define(version: 20160909175431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,7 +442,6 @@ ActiveRecord::Schema.define(version: 20160908140355) do
     t.integer  "creator_id",                         null: false
     t.datetime "limit_date"
     t.boolean  "finished",           default: false, null: false
-    t.integer  "assigned_user_id"
     t.text     "pdf"
     t.boolean  "pdf_uploaded",       default: false, null: false
     t.text     "uuid"
@@ -452,15 +451,23 @@ ActiveRecord::Schema.define(version: 20160908140355) do
     t.datetime "task_start"
     t.text     "title"
     t.text     "description"
+    t.boolean  "is_task",            default: false, null: false
   end
 
-  add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["deleted_at"], name: "index_reports_on_deleted_at", using: :btree
   add_index "reports", ["finished"], name: "index_reports_on_finished", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
   add_index "reports", ["uuid"], name: "index_reports_on_uuid", using: :btree
+
+  create_table "reports_users", id: false, force: :cascade do |t|
+    t.integer "report_id", null: false
+    t.integer "user_id",   null: false
+  end
+
+  add_index "reports_users", ["report_id"], name: "index_reports_users_on_report_id", using: :btree
+  add_index "reports_users", ["user_id"], name: "index_reports_users_on_user_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.integer  "organization_id", null: false
@@ -565,14 +572,12 @@ ActiveRecord::Schema.define(version: 20160908140355) do
     t.text     "code"
     t.integer  "supervisor_id"
     t.integer  "instructor_id"
-    t.integer  "promoter_id"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
   add_index "stores", ["deleted_at"], name: "index_stores_on_deleted_at", using: :btree
   add_index "stores", ["instructor_id"], name: "index_stores_on_instructor_id", using: :btree
   add_index "stores", ["name", "dealer_id", "zone_id"], name: "index_stores_on_name_and_dealer_id_and_zone_id", unique: true, using: :btree
-  add_index "stores", ["promoter_id"], name: "index_stores_on_promoter_id", using: :btree
   add_index "stores", ["store_type_id"], name: "index_stores_on_store_type_id", using: :btree
   add_index "stores", ["supervisor_id"], name: "index_stores_on_supervisor_id", using: :btree
   add_index "stores", ["zone_id"], name: "index_stores_on_zone_id", using: :btree
@@ -662,6 +667,7 @@ ActiveRecord::Schema.define(version: 20160908140355) do
     t.datetime "updated_at",                            null: false
     t.date     "week_start"
     t.date     "month"
+    t.integer  "week_number",                           null: false
   end
 
   add_index "weekly_business_sales", ["store_id"], name: "index_weekly_business_sales_on_store_id", using: :btree

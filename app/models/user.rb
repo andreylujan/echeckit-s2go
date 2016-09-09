@@ -43,7 +43,8 @@ class User < ActiveRecord::Base
   delegate :organization, to: :role, allow_nil: false
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id, dependent: :destroy
-  has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id, dependent: :destroy
+  # has_many :assigned_reports, class_name: :Report, foreign_key: :assigned_user_id, dependent: :destroy
+  has_and_belongs_to_many :assigned_reports, class_name: 'Report'
   has_many :created_promotions, class_name: :Promotion, foreign_key: :creator_id, dependent: :destroy
   after_create :send_confirmation_email
   has_and_belongs_to_many :promotions
@@ -77,7 +78,8 @@ class User < ActiveRecord::Base
   end
 
   def viewable_reports
-    Report.where("assigned_user_id = ? or creator_id = ?", self.id, self.id)
+    Report.includes(:assigned_users, :creator).where("users.id = ? OR creators_reports.id = ?", self.id, self.id)
+    .references(:assigned_users)
   end
 
   def assign_role_id

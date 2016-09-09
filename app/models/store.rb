@@ -19,7 +19,6 @@
 #  code             :text
 #  supervisor_id    :integer
 #  instructor_id    :integer
-#  promoter_id      :integer
 #
 
 class Store < ActiveRecord::Base
