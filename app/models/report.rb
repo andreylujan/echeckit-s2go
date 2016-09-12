@@ -30,7 +30,6 @@ class Report < ActiveRecord::Base
   belongs_to :report_type
   belongs_to :report_type
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
-  # belongs_to :assigned_user, class_name: :User, foreign_key: :assigned_user_id
   has_and_belongs_to_many :assigned_users, class_name: 'User'
   mount_uploader :pdf, PdfUploader
 
@@ -47,13 +46,13 @@ class Report < ActiveRecord::Base
   before_create :set_location_attributes
   before_create :assign_store
   before_create :set_uuid
-  
+
 
   validates :report_type_id, presence: true
   validates :report_type, presence: true
-  
-  scope :unassigned, -> { where(is_task: false) } 
-  scope :assigned, -> { where(is_task: true) } 
+
+  scope :unassigned, -> { where(is_task: false) }
+  scope :assigned, -> { where(is_task: true) }
 
   validate :limit_date_cannot_be_in_the_past
 
@@ -70,7 +69,7 @@ class Report < ActiveRecord::Base
   after_save :generate_statistics
 
   belongs_to :store
-  
+
   acts_as_xlsx columns: [
     :id,
     :report_type_name,
@@ -227,21 +226,26 @@ class Report < ActiveRecord::Base
   end
 
   def record_checklist_data
-    if dynamic_attributes["sections"].present? and
-      dynamic_attributes["sections"][1].present? and
-      dynamic_attributes["sections"][1]["data_section"].present? and
-      dynamic_attributes["sections"][1]["data_section"][0].present? and
-      dynamic_attributes["sections"][1]["data_section"][0]["protocolo"].present? and
-      dynamic_attributes["sections"][1]["data_section"][0]["protocolo"]["checklist"].present?
-      checklist = dynamic_attributes["sections"][1]["data_section"][0]["protocolo"]["checklist"]
+    if checklist = dynamic_attributes.dig("sections", 1, "data_section", 1, "protocolo", "checklist")
       checklist.each do |item|
         if item.present? and (item["value"] == true or item["value"] == false)
           checklist_item = ChecklistItem.find_by_name!(item["name"])
-          value = ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
+          ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
             item_value: item["value"]
         end
       end
     end
+
+    if checklist = dynamic_attributes.dig("sections", 1, "data_section", 1, "kit_punto_venta", "checklist")
+      checklist.each do |item|
+        if item.present? and (item["value"] == true or item["value"] == false)
+          checklist_item = ChecklistItem.find_by_name!(item["name"])
+          ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
+            item_value: item["value"]
+        end
+      end
+    end
+
   end
 
   def record_stock_breaks
@@ -252,7 +256,7 @@ class Report < ActiveRecord::Base
         if quantity.present? and quantity.to_i <= 7
           product = Product.find(stock_break["game_id"])
           stock_break_date = created_at.beginning_of_day
-          event = StockBreakEvent.find_or_initialize_by product: product, 
+          event = StockBreakEvent.find_or_initialize_by product: product,
             report: self
           event.quantity = quantity.to_i
           event.stock_break_quantity = 7
@@ -284,8 +288,8 @@ class Report < ActiveRecord::Base
 
   def generate_pdf(regenerate=false)
     UploadPdfJob.set(wait: 3.seconds,
-        queue: "#{Rails.env}_eretail_report"
-      ).perform_later(self.id, regenerate)
+                     queue: "#{Rails.env}_eretail_report"
+                     ).perform_later(self.id, regenerate)
   end
 
   def send_task_job

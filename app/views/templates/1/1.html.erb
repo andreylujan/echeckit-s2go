@@ -336,7 +336,7 @@
 				<p>No se registraron fotos en kit punto de venta</p>
 			<% end %>
 
-			<% if checklist = @report.dynamic_attributes.dig('sections', 1, 'data_section', 0, 'kit_punto_venta', 'checklist') %>
+			<% if checklist = @report.dynamic_attributes.dig('sections', 1, 'data_section', 1, 'kit_punto_venta', 'checklist') %>
 				<div class="checklist">
 					<% checklist.each do |checklist_item| %>
 						<div class="field">
