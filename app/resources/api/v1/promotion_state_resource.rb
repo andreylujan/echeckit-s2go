@@ -49,6 +49,10 @@ class Api::V1::PromotionStateResource < BaseResource
     end
   }
 
+  filter :id, apply: ->(records, value, _options) {
+    records.where("to_char(promotion_states.id, '999999999D') ILIKE ?", "%#{value.first}%")
+  }
+
   filter :zone_name, apply: ->(records, value, _options) {
     records.joins(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
   }
