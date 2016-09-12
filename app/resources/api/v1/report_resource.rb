@@ -63,19 +63,19 @@ class Api::V1::ReportResource < BaseResource
   }
 
   filter :zone_name, apply: ->(records, value, _options) {
-    records.includes(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
+    records.joins(store: :zone).where("zones.name ILIKE ?", "%#{value.first}%")
   }
 
   filter :store_name, apply: ->(records, value, _options) {
-    records.includes(:store).where('stores.name ILIKE ?', "%#{value.first}%")
+    records.joins(:store).where('stores.name ILIKE ?', "%#{value.first}%")
   }
 
   filter :dealer_name, apply: ->(records, value, _options) {
-    records.includes(store: :dealer).where("dealers.name ILIKE ?", "%#{value.first}%")
+    records.joins(store: :dealer).where("dealers.name ILIKE ?", "%#{value.first}%")
   }
 
   filter :creator_name, apply: ->(records, value, _options) {
-    records.includes(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    records.joins(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
     .references(:creator)
   }
 
