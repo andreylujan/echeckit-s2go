@@ -462,7 +462,8 @@ class Report < ActiveRecord::Base
           if brand.present?
             daily_sale = DailySale.find_or_create_by! report: self, brand: brand
             sales_int = brand_sales["value"].gsub(/\D/, '').to_i
-            current_sales = daily_sale.send sales_type_get_mapping[sales_type]
+            # Assign new sales value
+            daily_sale.send sales_type_get_mapping[sales_type]
             if sales_int >= 0
               daily_sale.send sales_type_set_mapping[sales_type], sales_int
               daily_sale.save!

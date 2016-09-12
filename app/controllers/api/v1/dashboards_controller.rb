@@ -216,12 +216,16 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     last_year_monthly_sales = filtered_weekly_sales_by_month(DateTime.now.beginning_of_year - 1.year, DateTime.now.end_of_year - 1.year).group_by(&:month_criteria)
     current_year_monthly_sales = filtered_weekly_sales_by_month(DateTime.now.beginning_of_year, DateTime.now.end_of_year).group_by(&:month_criteria)
 
+    found_data = false
     12.times do |i|
-      if not last_year_monthly_sales[i + 1].present?
-        last_year_monthly_sales[i + 1] = []
-      end
-      if not current_year_monthly_sales[i + 1].present?
-        current_year_monthly_sales[i + 1] = []
+      if found_data or last_year_monthly_sales[i + 1].present? or current_year_monthly_sales[i + 1].present?
+        found_data = true
+        if not last_year_monthly_sales[i + 1].present?
+          last_year_monthly_sales[i + 1] = []
+        end
+        if not current_year_monthly_sales[i + 1].present?
+          current_year_monthly_sales[i + 1] = []
+        end
       end
     end
 

@@ -84,7 +84,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
         }
       end
 
-      if csv.headers.length != 7
+      if csv.headers.length < 7
         return {
           errors: [{
                      title: "Archivo inválido",
