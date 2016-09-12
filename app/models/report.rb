@@ -52,8 +52,8 @@ class Report < ActiveRecord::Base
   validates :report_type_id, presence: true
   validates :report_type, presence: true
   
-  scope :unassigned, -> { where(assigned_user_id: nil) } 
-  scope :assigned, -> { where.not(assigned_user_id: nil) } 
+  scope :unassigned, -> { where(is_task: false) } 
+  scope :assigned, -> { where(is_task: true) } 
 
   validate :limit_date_cannot_be_in_the_past
 
@@ -81,7 +81,7 @@ class Report < ActiveRecord::Base
     :store_name,
     :store_supervisor,
     :store_instructor,
-    :report_assigned_user,
+    :report_assigned_users,
     :communicated_prices,
     :communicated_promotions
   ]
@@ -205,9 +205,9 @@ class Report < ActiveRecord::Base
     store.supervisor.email if store.supervisor.present?
   end
 
-  def report_assigned_user
-    if assigned_user.present?
-      assigned_user.email
+  def report_assigned_users
+    if assigned_users.count > 0
+      assigned_users.map { |u| u.email }.join(', ')
     else
       creator.email
     end

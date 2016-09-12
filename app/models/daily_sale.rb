@@ -31,11 +31,7 @@ class DailySale < ActiveRecord::Base
   end
 
   def report_assigned_user
-    if report.assigned_user.present?
-      report.assigned_user.email
-    else
-      report.creator.email
-    end
+    report.report_assigned_users
   end
 
   def store_instructor

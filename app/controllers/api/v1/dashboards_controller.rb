@@ -962,13 +962,14 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
 
         def sales_xlsx
           package = Axlsx::Package.new
-
+          @start_date = DateTime.new(2000, 1, 1)
+          @end_date = DateTime.new(2025, 1, 1)
           excel_classes = [ filtered_product_sales
-                            .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
+                            .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_users])
                             .includes(product: :product_classification)
                             .order("reports.created_at DESC"),
                             filtered_daily_sales
-                            .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_user])
+                            .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_users])
                             .includes(:brand)
                             ]
           excel_classes.each do |model_class|
