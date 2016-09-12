@@ -49,6 +49,9 @@ class Api::V1::ReportResource < BaseResource
   filters :finished, :dealer_ids, :zone_ids, :store_ids,
     :title, :created_at, :limit_date, :task_start
 
+  filter :id, apply: ->(records, value, _options) {
+    records.where("to_char(reports.id, '999999999D') ILIKE ?", "%#{value.first}%")
+  }
 
   filter :created_at, apply: ->(records, value, _options) {
     records.where("to_char(reports.created_at, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
