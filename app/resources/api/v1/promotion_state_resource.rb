@@ -39,14 +39,13 @@ class Api::V1::PromotionStateResource < BaseResource
 
   filter :activated, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0
-      if value
-        records.where("activated_at is not null")
-      else
-        records.where("activated_at is null")
+      if value.join == "true"
+        records = records.where("activated_at is not null")
+      elsif value.join == "false"
+        records = records.where("activated_at is null")
       end
-    else
-      records
     end
+    records
   }
 
   filter :id, apply: ->(records, value, _options) {
@@ -72,7 +71,11 @@ class Api::V1::PromotionStateResource < BaseResource
   }
 
   filter :activator_name, apply: ->(records, value, _options) {
-    records
+    if value.empty?
+      return records
+    end
+    records.joins(report: :creator)
+    .where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
   }
 
 
