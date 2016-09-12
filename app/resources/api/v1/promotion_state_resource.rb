@@ -26,7 +26,7 @@ class Api::V1::PromotionStateResource < BaseResource
       return records
     end
     records.joins(:promotion)
-    .where("to_char(promotion_states.end_date, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
+    .where("to_char(promotions.end_date, 'DD/MM/YYYY HH:MI') similar to '%(" + value.join("|") + ")%'")
   }
 
   filter :title, apply: ->(records, value, _options) {
@@ -34,7 +34,7 @@ class Api::V1::PromotionStateResource < BaseResource
       return records
     end
     records.joins(:promotion)
-    .where("promotions.title similar to '%(" + value.join("|") + ")%'")
+    .where("promotions.title ILIKE ?", "%#{value.first}%")
   }
 
   filter :activated, apply: ->(records, value, _options) {
