@@ -80,12 +80,16 @@ class Report < ActiveRecord::Base
     :store_name,
     :store_supervisor,
     :store_instructor,
-    :report_assigned_users,
     :communicated_prices,
-    :communicated_promotions
+    :communicated_promotions,
+    :creator_email
   ]
 
   attr_accessor :skip_push
+
+  def creator_email
+    creator.email
+  end
 
   def set_finished_at
     if self.finished? and self.finished_at.nil?
@@ -95,6 +99,10 @@ class Report < ActiveRecord::Base
 
   def organization
     creator.organization
+  end
+
+  def assigned_user_emails
+    assigned_users.map { |user| user.email }.join(', ')
   end
 
   def assigned_user_names

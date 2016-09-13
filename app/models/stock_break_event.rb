@@ -24,7 +24,7 @@ class StockBreakEvent < ActiveRecord::Base
                           :report_date,
                           :store_supervisor,
                           :store_instructor,
-                          :report_assigned_user,
+                          :report_creator,
                           :dealer_name,
                           :zone_name,
                           :store_code,
@@ -41,12 +41,8 @@ class StockBreakEvent < ActiveRecord::Base
     store.supervisor.email if store.supervisor.present?
   end
 
-  def report_assigned_user
-    if report.assigned_user.present?
-      report.assigned_user.email
-    else
-      report.creator.email
-    end
+  def report_creator
+    report.creator.email
   end
 
   def store_instructor

@@ -22,16 +22,17 @@ class DailySale < ActiveRecord::Base
   validates :accessory_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :game_sales, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   acts_as_xlsx columns: [ :id, :report_id, :report_date, :store_supervisor, :store_instructor,
-    :report_assigned_user, :store_code, :dealer_name, :zone_name,
-      :store_name, :brand_name, :sales_date, :hardware_sales, :accessory_sales,
-    :game_sales,  ]
+                          :report_creator,
+                          :store_code, :dealer_name, :zone_name,
+                          :store_name, :brand_name, :sales_date, :hardware_sales, :accessory_sales,
+                          :game_sales,  ]
 
   def store_supervisor
     store.supervisor.email if store.supervisor.present?
   end
 
-  def report_assigned_user
-    report.report_assigned_users
+  def report_creator
+    report.creator.email
   end
 
   def store_instructor
@@ -89,6 +90,6 @@ class DailySale < ActiveRecord::Base
   end
 
   def month_criteria
-  	report.created_at.month
+    report.created_at.month
   end
 end

@@ -33,7 +33,8 @@ class DailyHeadCount < ActiveRecord::Base
                           :report_date,
                           :store_supervisor,
                           :store_instructor,
-                          :report_assigned_user ]
+                          :report_creator
+                        ]
 
   def store_supervisor
     store.supervisor.email if store.supervisor.present?
@@ -43,12 +44,8 @@ class DailyHeadCount < ActiveRecord::Base
     report.finished_at.present? ? report.finished_at : report.created_at
   end
 
-  def report_assigned_user
-    if report.assigned_user.present?
-      report.assigned_user.email
-    else
-      report.creator.email
-    end
+  def report_creator
+    report.creator.email
   end
 
   def store_instructor

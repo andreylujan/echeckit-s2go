@@ -388,7 +388,7 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
   def stock_xlsx
     package = Axlsx::Package.new
     excel_classes = [ StockBreakEvent.joins(:report)
-      .includes(report: [{ store: [ :dealer, :zone, :instructor, :supervisor]}, :creator, :assigned_user])
+      .includes(report: [{ store: [ :dealer, :zone, :instructor, :supervisor]}, :creator])
       .includes(product: [ :product_classification, :product_type ])
       .order("reports.created_at DESC") ]
     excel_classes.each do |model_class|
@@ -668,14 +668,14 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
     package = Axlsx::Package.new
     excel_classes = [ Report
       .includes(store: [:zone, :dealer, :instructor, :supervisor])
-      .includes(:creator, :assigned_users, :report_type, :checklist_item_values)
-      .where(finished: true).
-      order("created_at DESC"),
+      .includes(:creator, :report_type, :checklist_item_values)
+      .where(finished: true, is_task: false)
+      .order("created_at DESC"),
     Checkin.includes(store: [ :zone, :dealer ])
       .includes(:user)
       .order('arrival_time DESC'),
       DailyHeadCount
-      .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator, :assigned_users])      
+      .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator])      
       .includes(:brand)
       .order("reports.created_at DESC")]
     excel_classes.each do |model_class|
@@ -969,11 +969,11 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
           @start_date = DateTime.new(2000, 1, 1)
           @end_date = DateTime.new(2025, 1, 1)
           excel_classes = [ filtered_product_sales
-                            .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_users])
+                            .includes(report: [{ store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator])
                             .includes(product: :product_classification)
                             .order("reports.created_at DESC"),
                             filtered_daily_sales
-                            .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator, :assigned_users])
+                            .includes(report: [{store: [ :dealer, :zone, :supervisor, :instructor ]}, :creator])
                             .includes(:brand)
                             ]
           excel_classes.each do |model_class|
