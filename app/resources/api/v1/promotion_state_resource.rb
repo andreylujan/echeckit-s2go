@@ -74,8 +74,8 @@ class Api::V1::PromotionStateResource < BaseResource
     if value.empty?
       return records
     end
-    records.joins(report: :creator)
-    .where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    records.includes(report: :creator)
+    .where('reports_creators.first_name || reports_creators.last_name ILIKE ?', "%#{value.first}%")
   }
 
 

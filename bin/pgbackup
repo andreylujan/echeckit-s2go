@@ -9,7 +9,7 @@
 # Production
 IP=50.16.161.152
 PORT=60
-KEY=echeckit_staging.pem
+KEY=echeckit_production.pem
 DB=playstation_staging
 
 echo 'Backing up to file...'

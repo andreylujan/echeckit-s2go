@@ -4,21 +4,33 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
   before_action :doorkeeper_authorize!
 
   def context
-    super.merge({ 
-      all: params[:all],
-      only_assigned: @only_assigned,
-      only_daily: @only_daily
-      })
+    super.merge({
+                  all: params[:all],
+                  only_assigned: @only_assigned,
+                  only_daily: @only_daily
+    })
   end
 
   def update
     @report = Report.find(params.require(:id))
-    @report.finished = true
-
-    if @report.update_attributes! update_params
-      render json: @report
+    if @report.finished?
+      render json: {
+        errors: [
+          {
+            status: "409",
+            title: "Tarea ya ha sido completada",
+            detail: "La tarea ya ha sido completada por otro promotor, supervisor o instructor de la misma tienda"
+          }
+        ]
+      }, status: :conflict
     else
-      render json: @report, status: :unprocessable_entity
+      @report.finished = true
+
+      if @report.update_attributes! update_params
+        render json: @report
+      else
+        render json: @report, status: :unprocessable_entity
+      end
     end
   end
 
@@ -38,7 +50,7 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     super
   end
 
-  
+
 
   def update_params
     params.permit(:finished).tap do |whitelisted|
