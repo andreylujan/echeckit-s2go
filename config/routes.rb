@@ -57,6 +57,12 @@ Rails.application.routes.draw do
       jsonapi_resources :stock_breaks do
       end
       
+      resources :products, only: [] do
+        collection do
+          post :csv
+        end
+      end
+
       jsonapi_resources :products do
       end
 
