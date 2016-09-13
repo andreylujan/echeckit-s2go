@@ -297,6 +297,9 @@ class Report < ActiveRecord::Base
   end
 
   def generate_pdf(regenerate=false)
+    if self.pdf_uploaded?
+      regenerate = true
+    end
     UploadPdfJob.set(wait: 3.seconds,
                      queue: "#{Rails.env}_eretail_report"
                      ).perform_later(self.id, regenerate)
