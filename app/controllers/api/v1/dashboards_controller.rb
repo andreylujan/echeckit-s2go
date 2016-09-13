@@ -518,11 +518,11 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
 
   def filtered_head_counts(start_date = @start_date, end_date = @end_date)
     head_counts = DailyHeadCount
-    .select("distinct on (date_trunc('day', reports.created_at), reports.store_id, daily_head_counts.brand_id) daily_head_counts.*")
+    .select("distinct on (date_trunc('month', reports.created_at), reports.store_id, daily_head_counts.brand_id) daily_head_counts.*")
     .joins(report: :store)
     .merge(Report.unassigned)
     .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
-    .order("date_trunc('day', reports.created_at), reports.store_id, daily_head_counts.brand_id, reports.created_at DESC")
+    .order("date_trunc('month', reports.created_at), reports.store_id, daily_head_counts.brand_id, reports.created_at DESC")
 
     if params[:store_id].present?
       head_counts = head_counts.where(reports: { store_id: params[:store_id].to_i })

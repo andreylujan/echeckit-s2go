@@ -255,12 +255,14 @@ class Report < ActiveRecord::Base
         quantity = stock_break["game_amount"]
         if quantity.present? and quantity.to_i <= 7
           product = Product.find(stock_break["game_id"])
-          stock_break_date = created_at.beginning_of_day
+          
           event = StockBreakEvent.find_or_initialize_by product: product,
             report: self
           event.quantity = quantity.to_i
           event.stock_break_quantity = 7
           event.save!
+
+          # stock_break_date = created_at.beginning_of_day
 
           # store_type = self.store.store_type
           # product_classification = product.product_classification
@@ -348,26 +350,11 @@ class Report < ActiveRecord::Base
   end
 
   def sales_info
-    if dynamic_attributes["sections"].present? and
-      dynamic_attributes["sections"][2].present? and
-      dynamic_attributes["sections"][2]["data_section"].present? and
-      dynamic_attributes["sections"][2]["data_section"][0].present? and
-      dynamic_attributes["sections"][2]["data_section"][0]["ventas"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"][0].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["ventas"]["amount_value"][0]
-    end
+    dynamic_attributes.dig("sections", 2, "data_section", 0, "ventas", "amount_value", 0)
   end
 
   def product_sales
-    if dynamic_attributes["sections"].present? and
-      dynamic_attributes["sections"][2].present? and
-      dynamic_attributes["sections"][2]["data_section"].present? and
-      dynamic_attributes["sections"][2]["data_section"][0].present? and
-      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"]["list"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["more_sale"]["list"]
-    end
+    dynamic_attributes.dig("sections", 2, "data_section", 0, "more_sale", "list")
   end
 
   def sales_type_set_mapping
@@ -402,25 +389,11 @@ class Report < ActiveRecord::Base
   end
 
   def head_counts
-    if dynamic_attributes["sections"].present? and
-      dynamic_attributes["sections"][2].present? and
-      dynamic_attributes["sections"][2]["data_section"].present? and
-      dynamic_attributes["sections"][2]["data_section"][0].present? and
-      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["hc_promociones"]["amount_value"][0]
-    end
+    dynamic_attributes.dig("sections", 2, "data_section", 0, "hc_promociones", "amount_value", 0)
   end
 
   def stock_breaks
-    if dynamic_attributes["sections"].present? and
-      dynamic_attributes["sections"][2].present? and
-      dynamic_attributes["sections"][2]["data_section"].present? and
-      dynamic_attributes["sections"][2]["data_section"][0].present? and
-      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"]["list"].present?
-      dynamic_attributes["sections"][2]["data_section"][0]["stock_break"]["list"]
-    end
+    dynamic_attributes.dig("sections", 2, "data_section", 0, "stock_break", "list")
   end
 
   def assign_store
