@@ -73,22 +73,31 @@ class Task
     stores.each do |store|
       store_promoters = []
 
-      # Assign to each promoter
+
       if store.promoters.count > 0
-        store.promoters.each do |promoter|
-          store_promoters << promoter
-        end
-      end
-
-      # Assign to instructor
-      if store.instructor.present?
+        store_promoters << store.promoters.first
+      elsif store.instructor.present?
         store_promoters << store.instructor
-      end
-
-      # Assign to supervisor
-      if store.supervisor.present?
+      elsif store.supervisor.present?
         store_promoters << store.supervisor
       end
+
+      # # Assign to each promoter
+      # if store.promoters.count > 0
+      #   store.promoters.each do |promoter|
+      #     store_promoters << promoter
+      #   end
+      # end
+
+      # # Assign to instructor
+      # if store.instructor.present?
+      #   store_promoters << store.instructor
+      # end
+
+      # # Assign to supervisor
+      # if store.supervisor.present?
+      #   store_promoters << store.supervisor
+      # end
       new_reports << report_from_store_and_promoters(store, store_promoters.uniq)
     end
     new_reports
