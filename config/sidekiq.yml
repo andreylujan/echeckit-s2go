@@ -8,13 +8,13 @@ development:
     - [ development_eretail_email, 8 ]
     - [ development_eretail_push, 12 ]
 staging:
-  :concurrency: 10
+  :concurrency: 5
   :queues:
     - [ staging_eretail_report, 12 ]
     - [ staging_eretail_email, 8 ]
     - [ staging_eretail_push, 12 ]
 production:
-  :concurrency: 20
+  :concurrency: 5
   :queues:
     - [ production_eretail_report, 12 ]
     - [ production_eretail_email, 8 ]

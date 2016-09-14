@@ -83,12 +83,10 @@ staging:
   <<: *default
   database: playstation_staging
   username: echeckit
-  pool: 10
   password: <%= ENV['ECHECKIT_DATABASE_PASSWORD'] %>
 
 production:
   <<: *default
   database: playstation_production
   username: echeckit
-  pool: 20
   password: <%= ENV['ECHECKIT_DATABASE_PASSWORD'] %>
