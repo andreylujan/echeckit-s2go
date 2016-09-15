@@ -81,9 +81,12 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
     image = Image.new(create_params)
     image.user = current_user
     image.save!
-    if params[:last_image] and image.report.present?
-      image.report.generate_pdf
+    if report = image.report
+      if report.dynamic_attributes["num_images"].present? and report.dynamic_attributes["num_images"] <= report.images.count
+        report.generate_pdf
+      end
     end
+    
     render json: image
   end
 
