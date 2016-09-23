@@ -4,7 +4,7 @@ class Api::V1::ReportResource < BaseResource
     :finished, :assigned_user_ids, :pdf, :pdf_uploaded,
     :task_start, :title, :description, :report_type_id,
     :store_name, :zone_name, :dealer_name, :assigned_user_names, :creator_name,
-    :finished_at
+    :finished_at, :unique_id
 
   before_create :set_creator
   has_many :assigned_users

@@ -11,6 +11,19 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     })
   end
 
+  def create
+    if params[:unique_id].present?
+      report = Report.find_by_unique_id(params[:unique_id])
+      if report.nil?
+        super
+      else
+        render json: report, status: :created
+      end
+    else
+      super
+    end
+  end
+
   def update
     @report = Report.find(params.require(:id))
     if @report.finished?
@@ -59,7 +72,7 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
   end
 
   def create_params
-    params.permit(:report_type_id, :finished, :limit_date).tap do |whitelisted|
+    params.permit(:report_type_id, :finished, :limit_date, :unique_id).tap do |whitelisted|
       whitelisted[:dynamic_attributes] = params[:dynamic_attributes]
     end
   end

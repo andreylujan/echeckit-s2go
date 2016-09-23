@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909175431) do
+ActiveRecord::Schema.define(version: 20160923184011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -452,6 +452,7 @@ ActiveRecord::Schema.define(version: 20160909175431) do
     t.text     "title"
     t.text     "description"
     t.boolean  "is_task",            default: false, null: false
+    t.text     "unique_id"
   end
 
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
@@ -459,6 +460,7 @@ ActiveRecord::Schema.define(version: 20160909175431) do
   add_index "reports", ["finished"], name: "index_reports_on_finished", using: :btree
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["store_id"], name: "index_reports_on_store_id", using: :btree
+  add_index "reports", ["unique_id"], name: "index_reports_on_unique_id", using: :btree
   add_index "reports", ["uuid"], name: "index_reports_on_uuid", using: :btree
 
   create_table "reports_users", id: false, force: :cascade do |t|
