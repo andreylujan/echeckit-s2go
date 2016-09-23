@@ -78,11 +78,21 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
   end
 
   def create
-    image = Image.new(create_params)
+    begin
+      image = Image.new(create_params)
+    rescue => exception
+      if params[:report_id].present? and params[:last_image]
+        report = Report.find(params[:report_id])
+        report.generate_pdf
+        image = Image.new
+        render json: image
+        return
+      end
+    end
     image.user = current_user
     image.save!
     if report = image.report
-      if report.dynamic_attributes["num_images"].present? and report.dynamic_attributes["num_images"] <= report.images.count
+      if params[:last_image] or (report.dynamic_attributes["num_images"].present? and report.dynamic_attributes["num_images"] <= report.images.count)
         report.generate_pdf
       end
     end
