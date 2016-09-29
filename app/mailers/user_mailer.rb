@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
 
 	def checkin_email(checkin)
 		@checkin = checkin
-		if not @checkin.user.present?
+		if not @checkin.user.present? or not @checkin.store.present?
 			return
 		end
 		mail(to: @checkin.user.email, subject: 'Confirmación de Llegada')
@@ -28,7 +28,7 @@ class UserMailer < ApplicationMailer
 
 	def checkout_email(checkin)
 		@checkin = checkin
-		if not @checkin.user.present?
+		if not @checkin.user.present? or not @checkin.store.present?
 			return
 		end
 		mail(to: @checkin.user.email, subject: 'Confirmación de Salida')
