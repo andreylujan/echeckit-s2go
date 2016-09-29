@@ -37,7 +37,7 @@ class Task
     elsif stores.count > 0
       new_reports = new_reports + reports_from_stores(stores)
     else
-      stores = Store.all
+      stores = Store.includes(:promoters, :instructor, :supervisor)
       if zones.count > 0
         stores = stores.where(zone_id: zone_ids)
       end
@@ -83,7 +83,7 @@ class Task
       # end
 
       # Assign to each promoter
-      if store.promoters.count > 0
+      if store.promoters.length > 0
         store.promoters.each do |promoter|
           store_promoters << promoter
         end
@@ -98,7 +98,10 @@ class Task
       if store.supervisor.present?
         store_promoters << store.supervisor
       end
-      new_reports << report_from_store_and_promoters(store, store_promoters.uniq)
+      store_promoters.uniq!
+      if store_promoters.length > 0
+        new_reports << report_from_store_and_promoters(store, store_promoters.uniq)
+      end
     end
     new_reports
   end
