@@ -926,6 +926,36 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
         promotions_by_day = grouped_promotions[:by_day]
         accumulated_promotions = get_accumulated(grouped_promotions[:groups], false)
 
+        images = Image.joins(report: :store)
+          .merge(Report.unassigned)
+          .where("category_id = ? AND reports.created_at >= ? AND reports.created_at <= ?", 3, @start_date, @end_date)
+
+
+          if params[:store_id].present?
+            images = images.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
+          end
+
+          if params[:instructor_id].present?
+            images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            images = images.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+
+
+          best_practices = images
+          .order("created_at DESC")
+          .limit(10)
+          .map { |image| image.image.url }
 
         data = {
           id: @start_date,
@@ -954,7 +984,8 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
           percent_promotions_communicated_today: percent_promotions_communicated_today,
           communicated_promotions_by_store: communicated_promotions_by_store,
           promotions_by_day: promotions_by_day,
-          accumulated_promotions: accumulated_promotions
+          accumulated_promotions: accumulated_promotions,
+          best_practices: best_practices
         }
 
         promoter_activity = PromoterActivity.new data
@@ -1178,38 +1209,6 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
           #   top_products_by_type << type_products
           # end
 
-          images = Image.joins(report: :store)
-          .merge(Report.unassigned)
-          .where("category_id = ? AND reports.created_at >= ? AND reports.created_at <= ?", 3, @start_date, @end_date)
-
-
-          if params[:store_id].present?
-            images = images.where(reports: { store_id: params[:store_id].to_i })
-          end
-
-          if params[:dealer_id].present?
-            images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
-          end
-
-          if params[:instructor_id].present?
-            images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
-          end
-
-          if params[:supervisor_id].present?
-            images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-          end
-
-          if params[:zone_id].present?
-            images = images.where(stores: { zone_id: params[:zone_id].to_i })
-          end
-
-
-          best_practices = images
-          .order("created_at DESC")
-          .limit(10)
-          .map { |image| image.image.url }
-
-
           data = {
             sales_by_zone: sales_by_zone,
             share_percentages: share_percentages,
@@ -1218,8 +1217,7 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
             month: @month,
             id: @sales_date,
             top_products: grouped_products,
-            top_products_by_type: top_products_by_type,
-            best_practices: best_practices
+            top_products_by_type: top_products_by_type
           }
           report = SalesReport.new data
 

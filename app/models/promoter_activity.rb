@@ -28,4 +28,5 @@ class PromoterActivity
 	attr_accessor :accumulated_prices
 	attr_accessor :promotions_by_day
 	attr_accessor :accumulated_promotions
+	attr_accessor :best_practices
 end

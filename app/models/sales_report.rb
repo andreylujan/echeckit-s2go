@@ -9,5 +9,4 @@ class SalesReport
 	attr_accessor :month
 	attr_accessor :top_products
 	attr_accessor :top_products_by_type
-	attr_accessor :best_practices
 end

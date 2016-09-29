@@ -17,5 +17,6 @@ class Api::V1::PromoterActivityResource < BaseResource
 		:communicated_promotions_by_store,
 		:promotions_by_day,
 		:accumulated_promotions,
-		:year, :month
+		:year, :month,
+		:best_practices
 end
