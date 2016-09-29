@@ -40,13 +40,23 @@ class Product < ActiveRecord::Base
   validates :product_type, presence: true
   validates :product_classification, presence: true
   validates :name, presence: true
-  validates :sku, uniqueness: true, allow_nil: true
-  validates :plu, uniqueness: true, allow_nil: true
+  validates :sku, uniqueness: true, allow_nil: true, allow_blank: true
+  validates :plu, uniqueness: true, allow_nil: true, allow_blank: true
   has_many :images, as: :resource
   has_many :stock_break_events
 
+  before_create :check_empty_values
+
   scope :catalogued, -> { where(catalogued: true) } 
 
+  def check_empty_values
+    if plu == ""
+      self.plu = nil
+    end
+    if sku == ""
+      self.sku = nil
+    end
+  end
 
   def self.from_csv(csv_file, reset = false)
     Product.transaction do
