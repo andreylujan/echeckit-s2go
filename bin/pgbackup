@@ -10,7 +10,7 @@
 IP=50.16.161.152
 PORT=60
 KEY=echeckit_production.pem
-DB=playstation_production
+DB=playstation_staging
 
 echo 'Backing up to file...'
 echo "ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d $DB > ~/dump.sql'"
