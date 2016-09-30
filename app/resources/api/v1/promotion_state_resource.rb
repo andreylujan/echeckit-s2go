@@ -66,7 +66,7 @@ class Api::V1::PromotionStateResource < BaseResource
 
   filter :creator_name, apply: ->(records, value, _options) {
     records.includes(promotion: :creator)
-    .where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    .where("users.first_name || ' ' || users.last_name ILIKE ?", "%#{value.first}%")
     .references(:creator)
   }
 
@@ -75,7 +75,7 @@ class Api::V1::PromotionStateResource < BaseResource
       return records
     end
     records.includes(report: :creator)
-    .where('reports_creators.first_name || reports_creators.last_name ILIKE ?', "%#{value.first}%")
+    .where("reports_creators.first_name || ' ' || reports_creators.last_name ILIKE ?", "%#{value.first}%")
   }
 
 

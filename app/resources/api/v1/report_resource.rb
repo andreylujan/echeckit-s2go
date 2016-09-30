@@ -78,12 +78,12 @@ class Api::V1::ReportResource < BaseResource
   }
 
   filter :creator_name, apply: ->(records, value, _options) {
-    records.joins(:creator).where('users.first_name || users.last_name ILIKE ?', "%#{value.first}%")
+    records.joins(:creator).where("users.first_name || ' ' || users.last_name ILIKE ?", "%#{value.first}%")
     .references(:creator)
   }
 
   filter :assigned_user_names, apply: ->(records, value, _options) {
-    records.includes(:assigned_users).where('assigned_users_reports.first_name || assigned_users_reports.last_name ILIKE ?', "%#{value.first}%")
+    records.includes(:assigned_users).where("assigned_users_reports.first_name || ' ' || assigned_users_reports.last_name ILIKE ?", "%#{value.first}%")
     .references(:assigned_users)
   }
 
@@ -118,13 +118,13 @@ class Api::V1::ReportResource < BaseResource
 
     if order_options.include?("creator_name")
       direction = order_options["creator_name"].to_s
-      records = records.includes(:creator).order("(users.first_name || users.last_name) #{direction}")
+      records = records.includes(:creator).order("(users.first_name || ' ' || users.last_name) #{direction}")
       order_options.delete "creator_name"
     end
 
     if order_options.include?("assigned_user_names")
       direction = order_options["assigned_user_names"].to_s
-      records = records.includes(:assigned_users).order("(assigned_users_reports.first_name || assigned_users_reports.last_name) #{direction}")
+      records = records.includes(:assigned_users).order("(assigned_users_reports.first_name || ' ' || assigned_users_reports.last_name) #{direction}")
       order_options.delete "assigned_user_names"
     end
 
