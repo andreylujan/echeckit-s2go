@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::ImageResource < BaseResource
   
-  attributes :url
+  attributes :url, :zone_name, :dealer_name, :store_name, :creator_name, :creator_email, :created_at
+
   has_one :category
   has_one :resource
   has_one :gallery

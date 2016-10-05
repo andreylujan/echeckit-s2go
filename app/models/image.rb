@@ -32,6 +32,32 @@ class Image < ActiveRecord::Base
   before_create :write_image_identifier
   skip_callback :save, :before, :write_image_identifier
 
+  def zone_name
+    if report.present?
+      report.store.zone.name
+    end
+  end
+
+  def store_name
+    if report.present?
+      report.store.name
+    end
+  end
+
+  def dealer_name
+    if report.present?
+      report.store.dealer.name
+    end
+  end
+
+  def creator_name
+    user.name
+  end
+
+  def creator_email
+    user.email
+  end
+
   private
   def set_uuid
   	self.uuid = SecureRandom.uuid

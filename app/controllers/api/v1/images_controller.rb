@@ -60,10 +60,7 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
     .map { |p| Api::V1::ImageResource.new(p, nil) }
 
     serializer = JSONAPI::ResourceSerializer.new(Api::V1::ImageResource,
-                                                 include: params[:include].split,
-                                                 fields: {
-                                                   images: [ :url, :category ]
-    }).serialize_to_hash(best_practices)
+                                                 include: params[:include].split).serialize_to_hash(best_practices)
 
     meta = {
       meta: {
