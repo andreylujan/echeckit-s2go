@@ -26,6 +26,8 @@ class WeeklyBusinessSale < ActiveRecord::Base
   validates :week_number, numericality: { only_integer: true, :greater_than_or_equal_to => 1,
     :less_than_or_equal_to => 53 }
 
+  acts_as_paranoid
+  
   before_save :set_default_values
   acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
                           :store_code,

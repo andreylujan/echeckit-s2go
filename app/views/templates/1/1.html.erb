@@ -223,8 +223,8 @@
 					<div class="value"><%= @report.store_name %></div>
 				</div>
 				<div class="field">
-					<div class="label wpi-60">Creador reporte:</div>
-					<div class="value"><%= @report.creator.full_name %></div>
+					<div class="label wpi-60">Ejecutor reporte:</div>
+					<div class="value"><%= @report.assigned_user.present? ? @report.assigned_user.full_name : @report.creator.full_name %></div>
 				</div>
 			</div>
 		</div>

@@ -6,6 +6,7 @@ no_stores = []
 no_users = []
 loaded_stores = []
 new_stores = []
+store_ids = []
 
 csv.shift
 csv.each_with_index do |row, index|
@@ -21,6 +22,7 @@ csv.each_with_index do |row, index|
 
     store = Store.where("lower(code) = ?", store_code.downcase).first
     if store.present?
+      store_ids << store.id
       if supervisor_email.present? and supervisor_email != "SIN COBERTURA"
         user = User.where("lower(email) = ?", supervisor_email.downcase).first
         if user.present?
@@ -75,3 +77,12 @@ puts("-----------------------------------\n")
 puts no_stores.join("\n")
 puts("-----------------------------------\n")
 puts no_users.join("\n")
+
+# store_ids.uniq!
+# deleted_stores = []
+# Store.where.not(id: store_ids).each do |store|
+#   deleted_stores << "#{store.code} - #{store.name} - Num reportes: #{store.reports.count}"
+# 	store.destroy!
+# end
+
+puts deleted_stores.join("\n")

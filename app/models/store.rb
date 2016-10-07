@@ -37,12 +37,9 @@ class Store < ActiveRecord::Base
   validates :monthly_goal_usd, numericality: true, allow_nil: true
 
   has_many :promotion_states, dependent: :destroy
-  has_many :sale_goals
-  has_many :daily_product_sales
-  has_many :reports
-  has_many :daily_head_counts
-  has_many :stock_break_events
-  has_many :weekly_business_sales
+  has_many :sale_goals, dependent: :destroy
+  has_many :reports, dependent: :destroy
+  has_many :weekly_business_sales, dependent: :destroy
   has_and_belongs_to_many :promoters, class_name: 'User'
 
   validates :code, presence: true

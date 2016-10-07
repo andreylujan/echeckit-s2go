@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923184011) do
+ActiveRecord::Schema.define(version: 20161006132214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -501,8 +501,10 @@ ActiveRecord::Schema.define(version: 20160923184011) do
     t.datetime "updated_at",          null: false
     t.datetime "goal_date",           null: false
     t.integer  "sale_goal_upload_id"
+    t.datetime "deleted_at"
   end
 
+  add_index "sale_goals", ["deleted_at"], name: "index_sale_goals_on_deleted_at", using: :btree
   add_index "sale_goals", ["sale_goal_upload_id"], name: "index_sale_goals_on_sale_goal_upload_id", using: :btree
   add_index "sale_goals", ["store_id"], name: "index_sale_goals_on_store_id", using: :btree
 
@@ -670,8 +672,10 @@ ActiveRecord::Schema.define(version: 20160923184011) do
     t.date     "week_start"
     t.date     "month"
     t.integer  "week_number",                           null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "weekly_business_sales", ["deleted_at"], name: "index_weekly_business_sales_on_deleted_at", using: :btree
   add_index "weekly_business_sales", ["store_id"], name: "index_weekly_business_sales_on_store_id", using: :btree
 
   create_table "zones", force: :cascade do |t|
