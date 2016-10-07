@@ -38,7 +38,7 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
       }, status: :conflict
     else
       @report.finished = true
-
+      @report.executor = current_user
       if @report.update_attributes! update_params
         render json: @report
       else

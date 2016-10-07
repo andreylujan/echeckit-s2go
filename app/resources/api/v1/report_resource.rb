@@ -7,7 +7,6 @@ class Api::V1::ReportResource < BaseResource
     :finished_at, :unique_id
 
   before_create :set_creator
-  before_save :set_executor
 
   has_many :assigned_users
   # has_one :assigned_user
@@ -17,12 +16,6 @@ class Api::V1::ReportResource < BaseResource
     {self: nil}
   end
 
-  def set_executor(report = @model, context = @context)
-    if report.finished?
-      user = context[:current_user]
-      report.executor = user
-    end
-  end
 
   def pdf
     @model.pdf.url
