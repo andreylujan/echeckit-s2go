@@ -236,7 +236,7 @@
 	<div>
 		<div class="map left-content">
 
-			<img src="http://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes.dig('sections', 0, 'data_section', 0, 'map_location', 'latitude')}, #{@report.dynamic_attributes.dig('sections', 0, 'data_section', 0, 'map_location', 'longitude')}" %>" style="width: 100%;"/>
+			<img src="http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyAxLZOYZCo1Up24_EgS6GiNXQG99rmsVdI&maptype=roadmap&zoom=15&size=500x230&markers=size:mid%7Ccolor:blue%7C<%= "#{ @report.dynamic_attributes.dig('sections', 0, 'data_section', 0, 'map_location', 'latitude')}, #{@report.dynamic_attributes.dig('sections', 0, 'data_section', 0, 'map_location', 'longitude')}" %>" style="width: 100%;"/>
 		</div>
 
 		<div class="right-content">

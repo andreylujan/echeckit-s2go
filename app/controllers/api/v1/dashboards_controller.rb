@@ -547,10 +547,17 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
     head_counts
   end
 
-  def filtered_checkins(start_date = @start_date, end_date = @end_date)
-    checkins = Checkin.joins(:store)
-    .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
-           start_date, end_date)
+  def filtered_checkins(start_date = @start_date, end_date = @end_date, only_exits = true)
+
+    if only_exits
+      checkins = Checkin.joins(:store)
+      .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
+             start_date, end_date)
+    else
+      checkins = Checkin.joins(:store)
+      .where("checkins.arrival_time >= ? AND checkins.arrival_time < ?",
+             start_date, end_date)
+    end
 
     if params[:store_id].present?
       checkins = checkins.where(store_id: params[:store_id].to_i )
@@ -700,13 +707,24 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
     grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
     accumulated_reports = get_accumulated(grouped[:groups], false)
+
     checkins = filtered_checkins
+    checkins_without_exits = filtered_checkins(@start_date, @end_date, false)
+
     grouped_checkins = group_by_day(checkins, :group_by_date_criteria) {|k,v| [k, v.length]}
+    grouped_checkins_without_exits = group_by_day(checkins_without_exits, :group_by_date_criteria) { |k,v| [k, v.length]}
+
     num_checkins_today = filtered_checkins(@current_date.beginning_of_day, @current_date).count
     num_checkins_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
 
     checkins_by_day = grouped_checkins[:by_day]
+    checkins_without_exits_by_day = grouped_checkins_without_exits[:by_day]
+    checkins_by_day.each_with_index do |checkin, index|
+      checkin[:amount_arrivals] = checkins_without_exits_by_day[index][:amount]
+    end
+
     accumulated_checkins = get_accumulated(grouped_checkins[:groups], false)
+
 
     grouped_hours = group_by_day(checkins, :group_by_date_criteria) do |k, v|
 
@@ -714,7 +732,7 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
       [
         k, ((v.inject(0) do |sum, x|
                sum + (x.exit_time-x.arrival_time)
-            end)/1.hour).round
+            end)/1.hour).ceil
         ]
         end
         hours_by_day = grouped_hours[:by_day]
@@ -722,12 +740,12 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
         num_hours_today = filtered_checkins(@current_date.beginning_of_day, @current_date).inject(0) do |sum, x|
           sum + (x.exit_time-x.arrival_time)
         end
-        num_hours_today = (num_hours_today/1.hour).round
+        num_hours_today = (num_hours_today/1.hour).ceil
         num_hours_yesterday = filtered_checkins(@current_date.beginning_of_day - 1.day,
         @current_date.beginning_of_day).inject(0) do |sum, x|
           sum + (x.exit_time-x.arrival_time)
         end
-        num_hours_yesterday = (num_hours_yesterday/1.hour).round
+        num_hours_yesterday = (num_hours_yesterday/1.hour).ceil
 
         dealer_counts = filtered_head_counts
         .includes(report: { store: :dealer })
@@ -927,47 +945,47 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
         accumulated_promotions = get_accumulated(grouped_promotions[:groups], false)
 
         images = Image.joins(report: :store)
-          .includes(report: { store: [ :dealer, :zone ]})
-          .merge(Report.unassigned)
-          .where("category_id = ? AND reports.created_at >= ? AND reports.created_at <= ?", 3, @start_date, @end_date)
+        .includes(report: { store: [ :dealer, :zone ]})
+        .merge(Report.unassigned)
+        .where("category_id = ? AND reports.created_at >= ? AND reports.created_at <= ?", 3, @start_date, @end_date)
 
 
-          if params[:store_id].present?
-            images = images.where(reports: { store_id: params[:store_id].to_i })
-          end
+        if params[:store_id].present?
+          images = images.where(reports: { store_id: params[:store_id].to_i })
+        end
 
-          if params[:dealer_id].present?
-            images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
-          end
+        if params[:dealer_id].present?
+          images = images.where(stores: { dealer_id: params[:dealer_id].to_i } )
+        end
 
-          if params[:instructor_id].present?
-            images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
-          end
+        if params[:instructor_id].present?
+          images = images.where(stores: { instructor_id: params[:instructor_id].to_i })
+        end
 
-          if params[:supervisor_id].present?
-            images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
-          end
+        if params[:supervisor_id].present?
+          images = images.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+        end
 
-          if params[:zone_id].present?
-            images = images.where(stores: { zone_id: params[:zone_id].to_i })
-          end
+        if params[:zone_id].present?
+          images = images.where(stores: { zone_id: params[:zone_id].to_i })
+        end
 
 
-          best_practices = images
-          .order("created_at DESC")
-          .limit(10)
-          .map do |image|
-            {
-              url: image.image_url,
-              zone_name: image.zone_name,
-              dealer_name: image.dealer_name,
-              store_name: image.store_name,
-              creator_name: image.creator_name,
-              creator_email: image.creator_email,
-              created_at: image.created_at
-            }
-          end
-          
+        best_practices = images
+        .order("created_at DESC")
+        .limit(10)
+        .map do |image|
+          {
+            url: image.image_url,
+            zone_name: image.zone_name,
+            dealer_name: image.dealer_name,
+            store_name: image.store_name,
+            creator_name: image.creator_name,
+            creator_email: image.creator_email,
+            created_at: image.created_at
+          }
+        end
+
 
         data = {
           id: @start_date,
@@ -1287,7 +1305,7 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
           year = params.require(:year)
           sales_date = DateTime.new(year.to_i, month.to_i)
           end_date = sales_date + 1.month
-          
+
           images = Image.joins(report: :store)
           .includes(report: { store: [ :dealer, :zone ]})
           .merge(Report.unassigned)
