@@ -68,7 +68,7 @@ class Report < ActiveRecord::Base
   after_create :cache_attribute_names
   after_commit :check_promotion, on: [ :create ]
 
-  after_save :generate_statistics
+  after_save :generate_statistics, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
 
   belongs_to :store
 
