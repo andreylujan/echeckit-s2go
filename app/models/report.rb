@@ -30,6 +30,8 @@ class Report < ActiveRecord::Base
   belongs_to :report_type
   belongs_to :report_type
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
+  belongs_to :executor, class_name: :User, foreign_key: :executor_id
+
   has_and_belongs_to_many :assigned_users, class_name: 'User'
   mount_uploader :pdf, PdfUploader
 
@@ -94,6 +96,16 @@ class Report < ActiveRecord::Base
   def set_finished_at
     if self.finished? and self.finished_at.nil?
       self.finished_at = DateTime.now
+    end
+  end
+
+  def executor_name
+    if executor.present?
+      executor.full_name
+    elsif assigned_users.count > 0
+      assigned_users.first.full_name
+    else
+      creator.full_name
     end
   end
 

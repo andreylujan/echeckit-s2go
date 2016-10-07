@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
   before_validation :assign_role_id, on: :create
   has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken', 
     dependent: :destroy
+  has_many :executed_reports, class_name: :Report, foreign_key: :executor_id
+  
   delegate :organization, to: :role, allow_nil: false
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id, dependent: :destroy
