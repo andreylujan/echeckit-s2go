@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007145634) do
+ActiveRecord::Schema.define(version: 20161012154622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,11 +80,12 @@ ActiveRecord::Schema.define(version: 20161007145634) do
   add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
 
   create_table "checklist_item_values", force: :cascade do |t|
-    t.integer  "report_id",    null: false
-    t.boolean  "item_value",   null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "data_part_id", null: false
+    t.integer  "report_id",                 null: false
+    t.boolean  "item_value"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "data_part_id",              null: false
+    t.json     "image_list",   default: []
   end
 
   add_index "checklist_item_values", ["data_part_id"], name: "index_checklist_item_values_on_data_part_id", using: :btree
@@ -211,6 +212,7 @@ ActiveRecord::Schema.define(version: 20161007145634) do
     t.text     "resource_type"
     t.text     "uuid"
     t.datetime "deleted_at"
+    t.text     "comment"
   end
 
   add_index "images", ["category_id"], name: "index_images_on_category_id", using: :btree
