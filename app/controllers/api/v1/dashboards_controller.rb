@@ -551,7 +551,7 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
 
     if only_exits
       checkins = Checkin.joins(:store)
-      .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null AND DATE(checkins.exit_time) = DATE(checkins.arrival_time)",
+      .where("checkins.arrival_time >= ? AND checkins.arrival_time < ? AND checkins.exit_time is not null",
              start_date, end_date)
     else
       checkins = Checkin.joins(:store)
@@ -982,7 +982,8 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
             store_name: image.store_name,
             creator_name: image.creator_name,
             creator_email: image.creator_email,
-            created_at: image.created_at
+            created_at: image.created_at,
+            comment: image.comment
           }
         end
 
@@ -1277,7 +1278,8 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
               store_name: image.store_name,
               creator_name: image.creator_name,
               creator_email: image.creator_email,
-              created_at: image.created_at
+              created_at: image.created_at,
+              comment: image.comment
             }
           end
 

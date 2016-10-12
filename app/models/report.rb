@@ -246,22 +246,28 @@ class Report < ActiveRecord::Base
   end
 
   def record_checklist_data
-    if checklist = dynamic_attributes.dig("sections", 1, "data_section", 1, "protocolo", "checklist")
+    if checklist = dynamic_attributes.dig("sections", 1, "data_section", 0, "protocolo", "checklist")
       checklist.each do |item|
-        if item.present? and (item["value"] == true or item["value"] == false)
-          checklist_item = ChecklistItem.find_by_name!(item["name"])
-          ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
+        if item.is_a? Hash and checklist_item = ChecklistItem.find_by_name(item["name"])
+          item_value = ChecklistItemValue.find_or_initialize_by report: self, checklist_item: checklist_item,
             item_value: item["value"]
+          if item["detalleFoto"].present?
+            item_value.image_list = item["detalleFoto"]
+          end
+          item_value.save!
         end
       end
     end
 
     if checklist = dynamic_attributes.dig("sections", 1, "data_section", 1, "kit_punto_venta", "checklist")
       checklist.each do |item|
-        if item.present? and (item["value"] == true or item["value"] == false)
-          checklist_item = ChecklistItem.find_by_name!(item["name"])
-          ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
+        if item.is_a? Hash and checklist_item = ChecklistItem.find_by_name(item["name"])
+          item_value = ChecklistItemValue.find_or_create_by! report: self, checklist_item: checklist_item,
             item_value: item["value"]
+          if item["detalleFoto"].present?
+            item_value.image_list = item["detalleFoto"]
+          end
+          item_value.save!
         end
       end
     end
@@ -275,7 +281,7 @@ class Report < ActiveRecord::Base
         quantity = stock_break["game_amount"]
         if quantity.present? and quantity.to_i <= 7
           product = Product.find(stock_break["game_id"])
-          
+
           event = StockBreakEvent.find_or_initialize_by product: product,
             report: self
           event.quantity = quantity.to_i
@@ -445,6 +451,55 @@ class Report < ActiveRecord::Base
           end
         end
       end
+    end
+  end
+
+  def get_comment_for_image(image)
+    if image.category_id != nil and image_array = self.dynamic_attributes.dig("sections", 3, "detalleFoto")
+      if image_array.is_a? Array
+        image_detail = image_array.find { |i| i["id"] == image.detail_id.to_s }
+        if not image_detail.nil?
+          image_detail["comentario"]
+        else
+          ""
+        end
+      else
+        ""
+      end
+    else
+      comment = ""
+      self.checklist_item_values.each do |item_value|
+        image_data = item_value.image_list.find do |image_data|
+          image_data["id"].to_s == image.detail_id.to_s
+        end
+        if image_data.present?
+          comment = image_data["comentario"]
+        end
+      end
+      if not comment.blank? 
+        return comment
+      end
+      kit_punto_venta = dynamic_attributes.dig("sections", 1, "data_section", 1, "kit_punto_venta")
+      if kit_punto_venta.present?
+        fotos_kit = kit_punto_venta["fotos_kit_punto_venta"]
+        if fotos_kit.is_a? Array
+          foto = fotos_kit.find { |i| i["id"] == image.detail_id.to_s }
+          if foto.present?
+            return foto["comentario"]
+          end
+        end
+      end
+      comment
+      # protocolo = dynamic_attributes.dig("sections", 1, "data_section", 0, "protocolo")
+      # if protocolo.present?
+      #   fotos_protocolo = protocolo["fotos_kit_punto_venta"]
+      #   if fotos_kit.is_a? Array
+      #     foto = fotos_kit.find { i["id"] == image.detail_id.to_s }
+      #     if foto.present?
+      #       return foto["comentario"]
+      #     end
+      #   end
+      # end
     end
   end
 

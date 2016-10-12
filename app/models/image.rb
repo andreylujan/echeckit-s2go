@@ -30,11 +30,18 @@ class Image < ActiveRecord::Base
   belongs_to :resource, polymorphic: true
   before_create :set_uuid
   before_create :write_image_identifier
+  before_create :set_comment
   skip_callback :save, :before, :write_image_identifier
 
   def zone_name
     if report.present?
       report.store.zone.name
+    end
+  end
+
+  def set_comment
+    if self.report.present?
+      self.comment = self.report.get_comment_for_image(self)
     end
   end
 
