@@ -78,9 +78,11 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
     begin
       image = Image.new(create_params)
     rescue => exception
-      if params[:report_id].present? and params[:last_image]
-        report = Report.find(params[:report_id])
-        report.generate_pdf
+      if params[:report_id].present?
+        if params[:last_image]
+          report = Report.find(params[:report_id])
+          report.generate_pdf
+        end
         image = Image.new
         render json: image
         return
@@ -93,7 +95,7 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
         report.generate_pdf
       end
     end
-    
+
     render json: image
   end
 
