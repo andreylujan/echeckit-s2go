@@ -9,16 +9,30 @@ class Api::V1::UserResource < BaseResource
   filters :role_id
   filter :zone_ids, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0
-      records.joins(:promoted_stores)
-      .where(stores: { zone_id: value })
+      promoters = records.joins(:promoted_stores)
+      .where(stores: { zone_id: value }).uniq
+      supervisors = records.joins(:supervised_stores)
+      .where(stores: { zone_id: value }).uniq
+      instructors = records.joins(:instructed_stores)
+      .where(stores: { zone_id: value }).uniq
+      user_ids = promoters.map { |p| p.id } + supervisors.map { |p| p.id } + instructors.map { |p| p.id }
+      user_ids.uniq!
+      User.where(id: user_ids)
     else
       records
     end
   }
   filter :dealer_ids, apply: ->(records, value, _options) {
     if value.is_a? Array and value.length > 0
-      records.joins(:promoted_stores)
-      .where(stores: { dealer_id: value })
+      promoters = records.joins(:promoted_stores)
+      .where(stores: { dealer_id: value }).uniq
+      supervisors = records.joins(:supervised_stores)
+      .where(stores: { dealer_id: value }).uniq
+      instructors = records.joins(:instructed_stores)
+      .where(stores: { dealer_id: value }).uniq
+      user_ids = promoters.map { |p| p.id } + supervisors.map { |p| p.id } + instructors.map { |p| p.id }
+      user_ids.uniq!
+      User.where(id: user_ids)
     else
       records
     end
@@ -52,7 +66,7 @@ class Api::V1::UserResource < BaseResource
       users
     else
       super
-    end    
+    end
   end
 
   def role_name
