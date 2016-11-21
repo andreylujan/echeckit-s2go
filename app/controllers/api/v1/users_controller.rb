@@ -38,8 +38,8 @@ class Api::V1::UsersController < Api::V1::JsonApiController
       where(roles: { organization_id: org_id })
     user_emails = org_users.map { |u| u.email }
     invitations = Invitation.includes(:role)
-      .where(roles: { organization_id: org_id })
-      .where.not(email: user_emails)
+    .where(roles: { organization_id: org_id })
+    .where.not(email: user_emails)
     inv_users = []
     invitations.each do |i|
       inv_users << User.new(email: i.email, role: i.role)
@@ -68,8 +68,8 @@ class Api::V1::UsersController < Api::V1::JsonApiController
       }
       data << user_data
     end
-    
-    
+
+
     json[:data] = data
     render json: json
   end
@@ -90,58 +90,79 @@ class Api::V1::UsersController < Api::V1::JsonApiController
     end
   end
 
-  def all
-    users = User.joins(:role).where(roles: {
-      organization_id: current_user.role.organization_id
-    })
-    render json: users, each_serializer: UserIndexSerializer
-  end
-
-  def password
-    @user = User.find(params.require(:id))
-
-    if @user.reset_password_token != params.require(:reset_password_token)
-      render json: unauthorized_error, status: :unauthorized and return
-    end
-
-    if @user.update_attributes(
-        password: params.require(:password),
-        password_confirmation: params.require(:password_confirmation)
-      )
-      token = Doorkeeper::AccessToken.find_or_create_for(nil, @user.id, 'user', 7200, true)
-      body = response_from_token(token)
-      render json: body
+  def create
+    email = params[:data][:attributes][:email]
+    user = User.deleted.find_by_email(email)
+    if user.present?
+      params[:user] = params[:data][:attributes]
+      user.password = params[:user][:password]
+      user.password_confirmation = params[:user][:password_confirmation]
+      user.update_attributes! user_params
+      user.restore!
+      user_json = JSONAPI::ResourceSerializer
+        .new(Api::V1::UserResource)
+        .serialize_to_hash(Api::V1::UserResource.new(user, context))
+      render json: user_json, status: :created
+      
     else
-      render json: {
-        errors: @user.errors.full_message
-      }, status: :unprocessable_entity
+      super
     end
+end
+
+
+def all
+  users = User.joins(:role).where(roles: {
+                                    organization_id: current_user.role.organization_id
+  })
+  render json: users, each_serializer: UserIndexSerializer
+end
+
+def password
+  @user = User.find(params.require(:id))
+
+  if @user.reset_password_token != params.require(:reset_password_token)
+    render json: unauthorized_error, status: :unauthorized and return
   end
 
-  def context
-    {
-      current_user: current_user,
-      promoters_only: @promoters_only
-    }
-  end  
-
-  private
-  def user_params
+  if @user.update_attributes(
+      password: params.require(:password),
+      password_confirmation: params.require(:password_confirmation)
+    )
+    token = Doorkeeper::AccessToken.find_or_create_for(nil, @user.id, 'user', 7200, true)
+    body = response_from_token(token)
+    render json: body
+  else
+    render json: {
+      errors: @user.errors.full_message
+    }, status: :unprocessable_entity
   end
+end
 
-  def verify_invitation
-    token = params.require(:confirmation_token)
-    inv = Invitation.find_by_confirmation_token_and_accepted(token, true)
-    if inv.nil? or not inv.accepted?
-      render json: {
-        errors: [
-           {
-              title: 'Invitación no fue aceptada',
-              detail: 'La invitación no fue aceptada a través del link del correo'
-           }
-        ]
-      }, status: :unauthorized
-    end
+def context
+  {
+    current_user: current_user,
+    promoters_only: @promoters_only
+  }
+end
+
+private
+def user_params
+  params.require(:user).permit(:email, :first_name, :last_name, :rut, :password, :password_confirmation, :phone_number, :image)
+end
+
+def verify_invitation
+  token = params.require(:confirmation_token)
+  inv = Invitation.find_by_confirmation_token_and_accepted(token, true)
+  if inv.nil? or not inv.accepted?
+    render json: {
+      errors: [
+        {
+          title: 'Invitación no fue aceptada',
+          detail: 'La invitación no fue aceptada a través del link del correo'
+        }
+      ]
+    }, status: :unauthorized
   end
+end
 
 end
