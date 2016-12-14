@@ -21,6 +21,8 @@
 #  title              :text
 #  description        :text
 #  is_task            :boolean          default(FALSE), not null
+#  unique_id          :text
+#  executor_id        :integer
 #
 
 class Report < ActiveRecord::Base
@@ -41,6 +43,7 @@ class Report < ActiveRecord::Base
   has_many :daily_head_counts, dependent: :destroy
   has_many :daily_sales, dependent: :destroy
   has_many :daily_product_sales, dependent: :destroy
+  has_many :daily_stocks, dependent: :destroy
   has_many :stock_break_events, dependent: :destroy
 
   before_save :cache_data
@@ -180,6 +183,7 @@ class Report < ActiveRecord::Base
     update_head_counts
     record_checklist_data
     record_stock_breaks
+    record_stocks
   end
 
   def report_type_name
@@ -274,6 +278,27 @@ class Report < ActiveRecord::Base
 
   end
 
+  def record_stocks
+    report_stocks = stocks
+    if report_stocks.present?
+      report_stocks.each do |stock_type, type_data|
+        type_data.each do |brand_stocks|
+          brand = Brand.where("lower(name) = ?", brand_stocks["platform"].downcase).first
+          if brand.present?
+            daily_stock = DailyStock.find_or_create_by! report: self, brand: brand
+            stock_int = brand_stocks["value"].gsub(/\D/, '').to_i
+            # Assign new sales value
+            daily_stock.send stocks_type_get_mapping[stock_type]
+            if stock_int >= 0
+              daily_stock.send stocks_type_set_mapping[stock_type], stock_int
+              daily_stock.save!
+            end
+          end
+        end
+      end
+    end
+  end
+  
   def record_stock_breaks
     breaks = stock_breaks
     if breaks.present?
@@ -394,6 +419,22 @@ class Report < ActiveRecord::Base
     }
   end
 
+  def stocks_type_get_mapping
+    {
+      "sr_hardware" => :hardware_sales,
+      "sr_accesories" => :accessory_sales,
+      "sr_games" => :game_sales
+    }
+  end
+
+  def stocks_type_set_mapping
+    {
+      "sr_hardware" => :hardware_sales=,
+      "sr_accesories" => :accessory_sales=,
+      "sr_games" => :game_sales=
+    }
+  end
+
   def sales_type_get_mapping
     {
       "vr_hardware" => :hardware_sales,
@@ -423,6 +464,10 @@ class Report < ActiveRecord::Base
 
   def stock_breaks
     dynamic_attributes.dig("sections", 2, "data_section", 0, "stock_break", "list")
+  end
+
+  def stocks
+    dynamic_attributes.dig("sections", 2, "data_section", 0, "stock", "amount_value", 0)
   end
 
   def assign_store

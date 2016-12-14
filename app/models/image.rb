@@ -16,6 +16,7 @@
 #  resource_type :text
 #  uuid          :text
 #  deleted_at    :datetime
+#  comment       :text
 #
 
 class Image < ActiveRecord::Base

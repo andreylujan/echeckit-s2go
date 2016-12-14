@@ -48,11 +48,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     reports
   end
 
-  def filtered_stock_breaks(start_date = @start_date, end_date = @end_date)
+  def filtered_stock_breaks(start_date = @start_date, end_date = @end_date, order=true)
     stock_breaks = StockBreakEvent.joins(report: :store)
     .merge(Report.unassigned)
     .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
-    .order("reports.created_at DESC")
+
+    if order
+      stock_breaks = stock_breaks.order("reports.created_at DESC")
+    end
 
     if params[:store_id].present?
       stock_breaks = stock_breaks.where(reports: { store_id: params[:store_id].to_i })
@@ -407,6 +410,8 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
     @current_date = DateTime.now
 
     stock_breaks = []
+    top_stock_breaks = []
+
     filtered_stock_breaks.includes(report: { store: :dealer })
     .includes(product: [ :product_type, :product_classification ])
     .group_by(&:group_by_store_criteria).each do |store, group|
@@ -427,6 +432,34 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
       end
     end
     
+    filtered_stock_breaks(@start_date, @end_date, false)
+    .includes(report: { store: :dealer })
+    .includes(:product)
+    .group_by(&:group_by_product_criteria)
+    .sort { |a, b| b[1].length <=> a[1].length }[0..2]
+    .each do |product, group|
+      subgroup_json = []
+      
+      group.group_by(&:group_by_dealer_criteria)
+      .sort { |a, b| a[0].name <=> b[0].name }
+      .each do |dealer, subgroup|
+        subgroup_hash = {
+          dealer_name: dealer.name,
+          num_stock_breaks: subgroup.length
+        }
+        subgroup_json << subgroup_hash
+      end
+      group_json = 
+      {
+        product_name: product.name,
+        stock_breaks_by_dealer: subgroup_json
+      }
+      top_stock_breaks << group_json
+    end
+    
+    
+    
+
     stock_breaks.sort! { |a, b| a[:store_name] <=> b[:store_name] }
 
     product_sales = DailyProductSale.joins(report: :store)
@@ -476,10 +509,55 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
       b[:units] <=> a[:units]
     end
 
+    filtered_stocks = filtered_daily_stocks
+
+    stocks_by_company = []
+    share_percentages = []
+    filtered_stocks = filtered_daily_stocks
+
+    hardware_stocks = filtered_stocks.inject(0) { |sum, x| sum + x.hardware_sales }
+    accessory_stocks = filtered_stocks.inject(0) { |sum, x| sum + x.accessory_sales }
+    game_stocks = filtered_stocks.inject(0) { |sum, x| sum + x.game_sales }
+
+    total_stocks = hardware_stocks + accessory_stocks + game_stocks
+
+    Brand.all.each do |brand|
+      brand_stocks = filtered_stocks.where(brand: brand)
+      stocks_amount = brand_stocks.inject(0) { |sum, x| sum + x.hardware_sales } +
+        brand_stocks.inject(0) { |sum, x| sum + x.accessory_sales } +
+        brand_stocks.inject(0) { |sum, x| sum + x.game_sales }
+      share_obj = {
+        name: brand.name,
+        stocks_amount: stocks_amount,
+        share_percentage: total_stocks > 0 ? stocks_amount.to_f/total_stocks.to_f : 0
+      }
+      share_percentages << share_obj
+
+      brand_hardware_stocks = brand_stocks.inject(0) { |sum, x| sum + x.hardware_sales }
+      brand_accessory_stocks = brand_stocks.inject(0) { |sum, x| sum + x.accessory_sales }
+      brand_game_stocks = brand_stocks.inject(0) { |sum, x| sum + x.game_sales }
+
+      company_stocks = {
+        name: brand.name,
+        stocks_by_type: {
+          hardware: brand_hardware_stocks,
+          accessories: brand_accessory_stocks,
+          games: brand_game_stocks,
+          total: brand_hardware_stocks + brand_accessory_stocks + brand_game_stocks
+        }
+      }
+      stocks_by_company << company_stocks
+
+    end
+
+
     data = {
       id: @start_date,
       top_products: grouped_products,
-      stock_breaks: stock_breaks
+      stock_breaks: stock_breaks,
+      top_stock_breaks: top_stock_breaks,
+      share_percentages: share_percentages,
+      stocks_by_company: stocks_by_company
     }
 
     stock_dashboard = StockDashboard.new data
@@ -579,6 +657,36 @@ def filtered_weekly_sales_by_week_number(year, start_week, end_week)
       checkins = checkins.where(stores: { zone_id: params[:zone_id].to_i })
     end
     checkins
+  end
+
+  def filtered_daily_stocks(start_date = @start_date, end_date = @end_date)
+     daily_stocks = DailyStock
+          .select('DISTINCT ON(reports.store_id, brand_id, extract(month from reports.created_at)) daily_stocks.*')
+          .joins(report: :store)
+          .merge(Report.unassigned)
+          .where("reports.created_at >= ? AND reports.created_at <= ?", start_date, end_date)
+          .order('reports.store_id, brand_id, extract(month from reports.created_at), reports.created_at DESC')
+
+          if params[:store_id].present?
+            daily_stocks = daily_stocks.where(reports: { store_id: params[:store_id].to_i })
+          end
+
+          if params[:dealer_id].present?
+            daily_stocks = daily_stocks.where(stores: { dealer_id: params[:dealer_id].to_i })
+          end
+
+          if params[:instructor_id].present?
+            daily_stocks = daily_stocks.where(stores: { instructor_id: params[:instructor_id].to_i })
+          end
+
+          if params[:supervisor_id].present?
+            daily_stocks = daily_stocks.where(stores: { supervisor_id: params[:supervisor_id].to_i })
+          end
+
+          if params[:zone_id].present?
+            daily_stocks = daily_stocks.where(stores: { zone_id: params[:zone_id].to_i })
+          end
+          daily_stocks
   end
 
   def group_checklist_by_day(collection, criteria, &block)

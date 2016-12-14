@@ -13,6 +13,7 @@
 #  week_start      :date
 #  month           :date
 #  week_number     :integer          not null
+#  deleted_at      :datetime
 #
 
 class WeeklyBusinessSale < ActiveRecord::Base

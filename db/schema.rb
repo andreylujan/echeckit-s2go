@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012154622) do
+ActiveRecord::Schema.define(version: 20161214154959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,19 @@ ActiveRecord::Schema.define(version: 20161012154622) do
 
   add_index "daily_sales", ["brand_id"], name: "index_daily_sales_on_brand_id", using: :btree
   add_index "daily_sales", ["report_id"], name: "index_daily_sales_on_report_id", using: :btree
+
+  create_table "daily_stocks", force: :cascade do |t|
+    t.integer  "brand_id"
+    t.integer  "report_id"
+    t.integer  "hardware_sales",  limit: 8, default: 0, null: false
+    t.integer  "accessory_sales", limit: 8, default: 0, null: false
+    t.integer  "game_sales",      limit: 8, default: 0, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "daily_stocks", ["brand_id"], name: "index_daily_stocks_on_brand_id", using: :btree
+  add_index "daily_stocks", ["report_id"], name: "index_daily_stocks_on_report_id", using: :btree
 
   create_table "data_parts", force: :cascade do |t|
     t.integer  "subsection_id"
@@ -704,6 +717,8 @@ ActiveRecord::Schema.define(version: 20161012154622) do
   add_foreign_key "daily_product_sales", "reports"
   add_foreign_key "daily_sales", "brands"
   add_foreign_key "daily_sales", "reports"
+  add_foreign_key "daily_stocks", "brands"
+  add_foreign_key "daily_stocks", "reports"
   add_foreign_key "data_parts", "organizations"
   add_foreign_key "data_parts", "subsections"
   add_foreign_key "devices", "users"

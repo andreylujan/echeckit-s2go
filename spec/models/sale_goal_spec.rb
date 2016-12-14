@@ -10,6 +10,7 @@
 #  updated_at          :datetime         not null
 #  goal_date           :datetime         not null
 #  sale_goal_upload_id :integer
+#  deleted_at          :datetime
 #
 
 require 'rails_helper'

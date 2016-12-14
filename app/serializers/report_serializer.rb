@@ -21,6 +21,8 @@
 #  title              :text
 #  description        :text
 #  is_task            :boolean          default(FALSE), not null
+#  unique_id          :text
+#  executor_id        :integer
 #
 
 class ReportSerializer < ActiveModel::Serializer

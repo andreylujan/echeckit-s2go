@@ -92,4 +92,12 @@ class StockBreakEvent < ActiveRecord::Base
   def group_by_store_criteria
     [ store, product ]
   end
+
+  def group_by_product_criteria
+    product
+  end
+
+  def group_by_dealer_criteria
+    store.dealer
+  end
 end
