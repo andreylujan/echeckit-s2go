@@ -74,11 +74,6 @@ class Api::V1::UsersController < Api::V1::JsonApiController
     render json: json
   end
 
-  def show
-    user = User.find(params.require(:id))
-    render json: user
-  end
-
   def verify
     token = params.require(:reset_password_token)
     email = params.require(:email)

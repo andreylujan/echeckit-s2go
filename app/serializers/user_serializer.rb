@@ -19,16 +19,20 @@
 #  first_name             :text
 #  last_name              :text
 #  phone_number           :text
+#  emergency_phone        :text
 #  address                :text
 #  image                  :text
 #  role_id                :integer          not null
 #  deleted_at             :datetime
+#  contract_date          :datetime
+#  contract_end_date          :datetime
 #
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :full_name, 
     :rut, :address, :image, :role_name, :role_id, :phone_number,
-    :organization_name, :is_checked_in
+    :organization_name, :is_checked_in, :emergency_phone, :contract_date,
+    :contract_end_date
 
     def is_checked_in
     	checkin = object.checkins.last

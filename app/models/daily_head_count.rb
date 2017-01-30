@@ -6,6 +6,7 @@
 #  id            :integer          not null, primary key
 #  num_full_time :integer          default(0), not null
 #  num_part_time :integer          default(0), not null
+#  num_apoyo_time :integer          default(0), not null
 #  brand_id      :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -21,6 +22,7 @@ class DailyHeadCount < ActiveRecord::Base
 
   validates :num_full_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
   validates :num_part_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
+  validates :num_apoyo_time, :numericality => { :greater_than_or_equal_to => 0 }, allow_nil: false
 
   acts_as_xlsx columns: [ :id,
                           :dealer_name,

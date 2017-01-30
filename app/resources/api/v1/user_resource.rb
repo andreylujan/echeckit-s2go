@@ -2,9 +2,13 @@
 class Api::V1::UserResource < BaseResource
   attributes :rut, :first_name, :last_name, :phone_number,
     :password, :password_confirmation, :email, :role_id,
-    :image, :role_name
+    :image, :role_name, :emergency_phone, :contract_date, 
+    :contract_end_date, :address
 
   has_many :promotions
+  has_many :supervised_stores
+  has_many :instructed_stores
+  has_many :promoted_stores
 
   filters :role_id
   filter :zone_ids, apply: ->(records, value, _options) {

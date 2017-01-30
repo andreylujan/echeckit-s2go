@@ -2,7 +2,7 @@
 class Api::V1::StoreResource < BaseResource
   attributes :name, :contact, :phone_number, :address,
   	:dealer_id, :zone_id, :monthly_goal_usd, :monthly_goal_clp,
-    :code
+    :code, :store_manager, :floor_manager, :visual, :area_salesperson
 
   has_one :zone
   has_one :dealer

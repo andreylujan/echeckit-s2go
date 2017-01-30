@@ -92,6 +92,7 @@ Rails.application.routes.draw do
 
       resource :dashboard, only: [] do
         get :sales
+        get :metodo_prueba
         get :promoter_activity
         get :best_practices
         get :stock

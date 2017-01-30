@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214154959) do
+ActiveRecord::Schema.define(version: 20170126182431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,12 +92,13 @@ ActiveRecord::Schema.define(version: 20161214154959) do
   add_index "checklist_item_values", ["report_id"], name: "index_checklist_item_values_on_report_id", using: :btree
 
   create_table "daily_head_counts", force: :cascade do |t|
-    t.integer  "num_full_time", default: 0, null: false
-    t.integer  "num_part_time", default: 0, null: false
+    t.integer  "num_full_time",  default: 0, null: false
+    t.integer  "num_part_time",  default: 0, null: false
     t.integer  "brand_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "report_id"
+    t.integer  "num_apoyo_time", default: 0, null: false
   end
 
   add_index "daily_head_counts", ["brand_id"], name: "index_daily_head_counts_on_brand_id", using: :btree
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 20161214154959) do
     t.text     "phone_number"
     t.text     "address"
     t.datetime "deleted_at"
+    t.text     "kam"
   end
 
   add_index "dealers", ["deleted_at"], name: "index_dealers_on_deleted_at", using: :btree
@@ -593,6 +595,10 @@ ActiveRecord::Schema.define(version: 20161214154959) do
     t.text     "code"
     t.integer  "supervisor_id"
     t.integer  "instructor_id"
+    t.text     "store_manager"
+    t.text     "floor_manager"
+    t.text     "visual"
+    t.text     "area_salesperson"
   end
 
   add_index "stores", ["dealer_id"], name: "index_stores_on_dealer_id", using: :btree
@@ -659,6 +665,9 @@ ActiveRecord::Schema.define(version: 20161214154959) do
     t.text     "image"
     t.integer  "role_id",                             null: false
     t.datetime "deleted_at"
+    t.text     "emergency_phone",        default: "", null: false
+    t.datetime "contract_date"
+    t.datetime "contract_end_date"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

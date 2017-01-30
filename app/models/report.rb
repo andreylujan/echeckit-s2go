@@ -492,6 +492,10 @@ class Report < ActiveRecord::Base
               if brand_data["value"].present? and brand_data["value"].to_i >= 0
                 daily_hc.update_attributes! num_part_time: brand_data["value"].to_i
               end
+            elsif hc_type == "hc_promot_apoyo"
+              if brand_data["value"].present? and brand_data["value"].to_i >= 0
+                daily_hc.update_attributes! num_apoyo_time: brand_data["value"].to_i
+              end
             end
           end
         end
