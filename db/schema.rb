@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126182431) do
+ActiveRecord::Schema.define(version: 20170202150808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,14 +53,13 @@ ActiveRecord::Schema.define(version: 20170126182431) do
   add_index "broadcasts", ["sender_id"], name: "index_broadcasts_on_sender_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
-    t.text     "name",            null: false
-    t.integer  "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.text     "name",                  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "secundary_category_id"
   end
 
-  add_index "categories", ["organization_id", "name"], name: "index_categories_on_organization_id_and_name", unique: true, using: :btree
-  add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
+  add_index "categories", ["secundary_category_id"], name: "index_categories_on_secundary_category_id", using: :btree
 
   create_table "checkins", force: :cascade do |t|
     t.integer  "user_id",                                                        null: false
@@ -343,6 +342,15 @@ ActiveRecord::Schema.define(version: 20170126182431) do
 
   add_index "platforms", ["brand_id"], name: "index_platforms_on_brand_id", using: :btree
 
+  create_table "principalcategories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "principalcategories", ["organization_id"], name: "index_principalcategories_on_organization_id", using: :btree
+
   create_table "product_classifications", force: :cascade do |t|
     t.text     "name",       null: false
     t.datetime "created_at", null: false
@@ -545,6 +553,15 @@ ActiveRecord::Schema.define(version: 20170126182431) do
   add_index "sections", ["organization_id"], name: "index_sections_on_organization_id", using: :btree
   add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
 
+  create_table "secundary_categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "principalcategory_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "secundary_categories", ["principalcategory_id"], name: "index_secundary_categories_on_principalcategory_id", using: :btree
+
   create_table "stock_break_events", force: :cascade do |t|
     t.integer  "product_id",           null: false
     t.integer  "quantity",             null: false
@@ -715,7 +732,7 @@ ActiveRecord::Schema.define(version: 20170126182431) do
   add_index "zones", ["name"], name: "index_zones_on_name", unique: true, using: :btree
 
   add_foreign_key "broadcasts", "message_actions"
-  add_foreign_key "categories", "organizations"
+  add_foreign_key "categories", "secundary_categories"
   add_foreign_key "checkins", "stores"
   add_foreign_key "checkins", "users"
   add_foreign_key "checklist_item_values", "data_parts"
@@ -740,6 +757,7 @@ ActiveRecord::Schema.define(version: 20170126182431) do
   add_foreign_key "messages", "broadcasts", on_delete: :cascade
   add_foreign_key "messages", "users"
   add_foreign_key "platforms", "brands"
+  add_foreign_key "principalcategories", "organizations"
   add_foreign_key "products", "platforms"
   add_foreign_key "products", "product_classifications"
   add_foreign_key "products", "product_types"
@@ -756,6 +774,7 @@ ActiveRecord::Schema.define(version: 20170126182431) do
   add_foreign_key "sale_goals", "stores"
   add_foreign_key "sections", "organizations"
   add_foreign_key "sections", "section_types"
+  add_foreign_key "secundary_categories", "principalcategories"
   add_foreign_key "stock_break_events", "products"
   add_foreign_key "stock_break_events", "reports"
   add_foreign_key "stock_breaks", "dealers"

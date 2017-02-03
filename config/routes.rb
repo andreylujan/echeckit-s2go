@@ -117,6 +117,12 @@ Rails.application.routes.draw do
 
       jsonapi_resources :categories, only: [ :index ] do
       end
+
+      jsonapi_resources :principalcategories, only: [ :index ] do
+      end
+
+      jsonapi_resources :secundary_categories, only: [ :index ] do
+      end
       
       resources :data_parts, only: [ :index, :show, :create, :update, :destroy ]
       resources :subsections, only: [ :index ]
