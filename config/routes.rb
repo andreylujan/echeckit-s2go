@@ -92,6 +92,7 @@ Rails.application.routes.draw do
 
       resource :dashboard, only: [] do
         get :sales
+        get :metodo_prueba
         get :promoter_activity
         get :best_practices
         get :stock
@@ -115,6 +116,12 @@ Rails.application.routes.draw do
       end
 
       jsonapi_resources :categories, only: [ :index ] do
+      end
+
+      jsonapi_resources :principalcategories, only: [ :index ] do
+      end
+
+      jsonapi_resources :secundary_categories, only: [ :index ] do
       end
       
       resources :data_parts, only: [ :index, :show, :create, :update, :destroy ]

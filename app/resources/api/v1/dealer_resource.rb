@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Api::V1::DealerResource < BaseResource
   attributes :name, :contact, :phone_number, :address,
-  :store_ids
+  :store_ids, :kam
 
   has_many :zones
   has_many :stores

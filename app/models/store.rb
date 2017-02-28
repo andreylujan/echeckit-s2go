@@ -19,6 +19,10 @@
 #  code             :text
 #  supervisor_id    :integer
 #  instructor_id    :integer
+#  store_manager    :text
+#  floor_manager    :text
+#  visual           :text
+#  area_salesperson :text
 #
 
 class Store < ActiveRecord::Base
