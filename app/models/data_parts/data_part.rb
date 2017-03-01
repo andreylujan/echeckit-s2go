@@ -23,6 +23,7 @@
 class DataPart < ActiveRecord::Base
   belongs_to :subsection  
   acts_as_list scope: :subsection
+  default_scope { order("position ASC") }
   # belongs_to :data_part
   # has_many :children, class_name: :DataPart
   # belongs_to :parent, class_name: :DataPart, foreign_key: :data_part_id
