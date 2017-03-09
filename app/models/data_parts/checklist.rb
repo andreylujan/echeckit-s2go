@@ -22,6 +22,7 @@
 
 class Checklist < DataPart
 	has_many :promotions
+	before_save :anadirOrganizacion
     def options
     	org_id = self.subsection.section.organization_id    	
     	ChecklistOption.unscoped.where(organization_id: org_id)    	
@@ -56,5 +57,9 @@ class Checklist < DataPart
 		new_children.each do | new |
 			self.children.create! new
 		end
+	end
+
+	def anadirOrganizacion
+		self.organization_id = 1
 	end
 end
