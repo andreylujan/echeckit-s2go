@@ -61,5 +61,6 @@ class Checklist < DataPart
 
 	def anadirOrganizacion
 		self.organization_id = 1
+		self.subsection_id = 2
 	end
 end
