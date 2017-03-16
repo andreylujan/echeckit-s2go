@@ -11,6 +11,26 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     })
   end
 
+  def destroy
+    if params[:id].present?
+      @report = Report.find(params.require(:id))
+      if @report.nil?
+        super
+      else
+        @report.destroy()
+        render json: {
+        success: [
+          {
+            status: "200",
+            title: "Eliminado con exito",
+            detail: "La tarea fue eliminada con exito"
+          }
+        ]
+      }, status: 200
+      end
+    end
+  end
+
   def create
     if params[:unique_id].present?
       report = Report.find_by_unique_id(params[:unique_id])
