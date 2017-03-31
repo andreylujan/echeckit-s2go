@@ -87,7 +87,7 @@ Rails.application.routes.draw do
       jsonapi_resources :dealers, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
-      jsonapi_resources :promotion_states, only: [ :index ] do
+      jsonapi_resources :promotion_states, only: [ :index, :destroy] do
       end
 
       resource :dashboard, only: [] do
@@ -105,7 +105,7 @@ Rails.application.routes.draw do
         jsonapi_related_resources :report_types, only: [ :index ]
       end
 
-      jsonapi_resources :reports, only: [ :create, :index, :show, :update ]
+      jsonapi_resources :reports, only: [ :create, :index, :show, :update, :destroy ]
       jsonapi_resources :roles, only: :index
       jsonapi_resources :invitations, only: [
         :create,

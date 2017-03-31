@@ -52,7 +52,7 @@ class Api::V1::ReportResource < BaseResource
     :title, :created_at, :limit_date, :task_start
 
   filter :id, apply: ->(records, value, _options) {
-    records.where("to_char(reports.id, '999999999D') ILIKE ?", "%#{value.first}%")
+    records.where("to_char(reports.id, '999999999D') ILIKE ?", "%#{value}%")
   }
 
   filter :created_at, apply: ->(records, value, _options) {
