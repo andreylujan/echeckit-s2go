@@ -8,6 +8,9 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
+require 'dotenv'
+Dotenv.load
+
 server '50.16.161.152', port: 60, user: 'ubuntu', roles: [:web, :app, :db]
 
 set :branch, 'production'
