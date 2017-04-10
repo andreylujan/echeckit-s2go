@@ -25,3 +25,4 @@ public/uploads
 # *.CSV
 *.xlsx
 xlsx
+.ruby-version
