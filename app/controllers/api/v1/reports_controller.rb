@@ -67,6 +67,26 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     end
   end
 
+  def destroy
+    if params[:id].present?
+      @report = Report.find(params.require(:id))
+      if @report.nil?
+        super
+      else
+        @report.destroy()
+        render json: {
+        success: [
+          {
+            status: "200",
+            title: "Eliminado con exito",
+            detail: "La tarea fue eliminada con exito"
+          }
+        ]
+      }, status: 200
+      end
+    end
+  end
+
   def index
     if request.url.include? 'daily_reports'
       @only_daily = true

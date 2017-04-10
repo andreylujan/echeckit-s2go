@@ -2,9 +2,9 @@
 class Api::V1::PromotionsController < Api::V1::JsonApiController
 
   before_action :doorkeeper_authorize!
- 
+
   def destroy
-    if params[:id].present?
+   	if params[:id].present?
       @promotion = Promotion.find(params.require(:id))
       p @promotion
       if @promotion.nil?
@@ -23,6 +23,6 @@ class Api::V1::PromotionsController < Api::V1::JsonApiController
       end
     end
   end
-  
+
   
 end
