@@ -45,7 +45,7 @@ class Store < ActiveRecord::Base
   has_many :reports, dependent: :destroy
   has_many :weekly_business_sales, dependent: :destroy
   has_and_belongs_to_many :promoters, class_name: 'User'
-
+  has_many :checkins, dependent: :destroy
   validates :code, presence: true
   
   default_scope { order('name ASC') }
@@ -58,6 +58,7 @@ class Store < ActiveRecord::Base
         Zone.with_deleted.all.each { |z| z.really_destroy! }
         Dealer.with_deleted.all.each { |d| d.really_destroy! }
       end
+
       csv = CsvUtils.load_csv(csv_path)
       csv.shift
       supervisor_role = Role.find_by_name! "Supervisor"
@@ -68,8 +69,12 @@ class Store < ActiveRecord::Base
         name = row[2]
         zone = Zone.find_or_create_by_lowercase_name! row[3]
         store_type = StoreType.find_or_create_by_lowercase_name! row[4]
-        instructor = User.find_or_create_by_lowercase_email! row[5], supervisor_role
-        supervisor = User.find_or_create_by_lowercase_email! row[6], instructor_role
+        instructor = User.find_or_create_by_lowercase_email! row[5], instructor_role
+        instructor.update_attributes! first_name: row[6]
+
+        supervisor = User.find_or_create_by_lowercase_email! row[7], supervisor_role
+        supervisor.update_attributes! first_name: row[8]
+
         store.assign_attributes dealer: dealer, name: name, zone: zone,
         	store_type: store_type, instructor: instructor,
         	supervisor: supervisor
@@ -77,6 +82,7 @@ class Store < ActiveRecord::Base
         store.save!
         stores << store
       end
+
       Dealer.all.each do |d|
       	zone_ids = d.zone_ids
       	d.stores.each do |store|

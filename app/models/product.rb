@@ -47,7 +47,7 @@ class Product < ActiveRecord::Base
 
   before_create :check_empty_values
 
-  scope :catalogued, -> { where(catalogued: true) } 
+  scope :catalogued, -> { where(catalogued: true) }
 
   def check_empty_values
     if plu == ""
@@ -58,22 +58,12 @@ class Product < ActiveRecord::Base
     end
   end
 
-  def self.from_csv(csv_file, reset = false)
+  def self.from_csv_path(csv_path, reset = false)
     Product.transaction do
       if reset
         Product.destroy_all
       end
-      header = "ean;description;classification;category;platform;publisher\n"
-      csv_file = csv_file.open
-      lines = csv_file.readlines
-      csv_file.close
-      lines[0] = header
-      f = Tempfile.new('csv')
-      f.write lines.join
-      f.close
-
-      csv = CsvUtils.load_csv(f.path, headers=true)
-    
+      csv = CsvUtils.load_csv(csv_path, headers=true)
       products = []
       csv.each do |row|
         product = Product.find_or_initialize_by(sku: row[0])
@@ -94,5 +84,18 @@ class Product < ActiveRecord::Base
       end
       CsvUtils.generate_response(csv, products)
     end
+  end
+
+  def self.from_csv(csv_file, reset = false)
+    header = "ean;description;classification;category;platform;publisher\n"
+    csv_file = csv_file.open
+    lines = csv_file.readlines
+    csv_file.close
+    lines[0] = header
+    f = Tempfile.new('csv')
+    f.write lines.join
+    f.close
+    from_csv_path(f.path, reset)
+
   end
 end
