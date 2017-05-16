@@ -87,6 +87,12 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
     end
   end
 
+  def finish
+    report = Report.find(params.require(:id))
+    report.generate_pdf
+    render nothing: true, status: :ok
+  end
+
   def index
     if request.url.include? 'daily_reports'
       @only_daily = true
