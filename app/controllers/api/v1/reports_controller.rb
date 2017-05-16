@@ -88,9 +88,9 @@ class Api::V1::ReportsController < Api::V1::JsonApiController
   end
 
   def finish
-    report = Report.find(params.require(:id))
-    report.generate_pdf
-    render nothing: true, status: :ok
+    @report = Report.find(params.require(:id))
+    @report.generate_pdf
+    render json: @report, status: :ok
   end
 
   def index
