@@ -957,14 +957,31 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     @days_in_month = @start_date.end_of_month.day
     @current_date = DateTime.now
 
+    # reports = filtered_reports
+    # reports_last_month = filtered_reports(@current_date.beginning_of_month.last_month, @current_date.at_end_of_month.last_month)
+    # num_reports_today = filtered_reports(@current_date.beginning_of_day, @current_date).count
+    # num_reports_yesterday = filtered_reports(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
+    # grouped = group_by_day_last_month(reports_last_month, reports, :group_by_date_criteria) {|k,v,c| [k, v.length, c]}
+    # reports_by_day = grouped[:by_day]
+    # accumulated_reports = get_accumulated_last_month(grouped[:groups], false)
+
     reports = filtered_reports
-    reports_last_month = filtered_reports(@current_date.beginning_of_month.last_month, @current_date.at_end_of_month.last_month)
     num_reports_today = filtered_reports(@current_date.beginning_of_day, @current_date).count
     num_reports_yesterday = filtered_reports(@current_date.beginning_of_day - 1.day, @current_date.beginning_of_day).count
-    grouped = group_by_day_last_month(reports_last_month, reports, :group_by_date_criteria) {|k,v,c| [k, v.length, c]}
+    grouped = group_by_day(reports, :group_by_date_criteria) {|k,v| [k, v.length]}
     reports_by_day = grouped[:by_day]
-    accumulated_reports = get_accumulated_last_month(grouped[:groups], false)
+    accumulated_reports = get_accumulated(grouped[:groups], false)
 
+    reports_last = filtered_reports(@start_date - 1.month, @end_date - 1.month)
+    grouped_last = group_by_day(reports_last, :group_by_date_criteria) {|k,v| [k, v.length]}
+    reports_by_day_last = grouped_last[:by_day]
+    accumulated_reports_last = get_accumulated(grouped_last[:groups], false)
+
+    accumulated_reports.each_with_index do |data, idx|
+      if idx < accumulated_reports_last.length
+        data << accumulated_reports_last[idx][1]
+      end
+    end
     checkins = filtered_checkins
     checkins_last_month = filtered_checkins(@current_date.beginning_of_month.last_month, @current_date.at_end_of_month.last_month, true)
     checkins_without_exits = filtered_checkins(@start_date, @end_date, false)
