@@ -100,6 +100,6 @@ class Api::V1::ImagesController < Api::V1::JsonApiController
   end
 
   def create_params
-    params.permit(:image, :remote_image_url, :data_part_id, :category_id, :report_id, :detail_id)
+    params.permit(:image, :remote_image_url, :data_part_id, :category_id, :report_id, :detail_id, :report_uuid)
   end
 end
