@@ -21,7 +21,7 @@
 
 class ImageSerializer < ActiveModel::Serializer
 	attributes :data_part_id, :url, :user_id, :category_id,
-	:report_id, :detail_id
+	:report_id, :detail_id, :report_uuid
 
 	def url
 		object.image.url

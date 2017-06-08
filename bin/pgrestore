@@ -1,6 +1,6 @@
 #!/bin/bash
 
 pgbackup
-dropdb s2go_colombia_development
-createdb s2go_colombia_development
-psql -f db/dump.sql -U echeckit -d s2go_colombia_development
+dropdb playstation_development
+createdb playstation_development
+psql -f db/dump.sql -U echeckit -d playstation_development

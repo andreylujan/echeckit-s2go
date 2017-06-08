@@ -380,7 +380,9 @@ class Report < ActiveRecord::Base
   end
 
   def set_uuid
-    self.uuid = SecureRandom.uuid
+    if self.uuid.nil?
+      self.uuid = SecureRandom.uuid
+    end
   end
 
   def cache_data
