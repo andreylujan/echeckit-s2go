@@ -70,6 +70,7 @@ class Report < ActiveRecord::Base
 
   after_create :cache_attribute_names
   after_commit :check_promotion, on: [ :create ]
+  after_commit :update_images, on: [ :create ]
 
   after_save :generate_statistics, on: [ :update ], if: Proc.new {|report| report.finished_changed? }
 
@@ -298,7 +299,7 @@ class Report < ActiveRecord::Base
       end
     end
   end
-  
+
   def record_stock_breaks
     breaks = stock_breaks
     if breaks.present?
@@ -376,6 +377,13 @@ class Report < ActiveRecord::Base
     end
     if self.dynamic_attributes["num_images"].nil? or self.dynamic_attributes["num_images"] == 0 or self.dynamic_attributes["num_images"] == "0"
       self.generate_pdf(false)
+    end
+  end
+
+  def update_images
+    images = Image.where(report_uuid: self.uuid)
+    images.each do |image|
+      image.update_attribute :report_id, self.id
     end
   end
 
@@ -527,7 +535,7 @@ class Report < ActiveRecord::Base
           comment = image_data["comentario"]
         end
       end
-      if not comment.blank? 
+      if not comment.blank?
         return comment
       end
       kit_punto_venta = dynamic_attributes.dig("sections", 1, "data_section", 1, "kit_punto_venta")
