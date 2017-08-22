@@ -59,7 +59,7 @@ class Task
       end
     end
     reports_by_user.each do |user_id, report|
-      SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(report.id, user_id)
+      SendTaskJob.set(queue: "#{ENV['QUEUE_PREFIX']}_push").perform_later(report.id, user_id)
     end
 
     self.result = {

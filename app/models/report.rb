@@ -345,13 +345,13 @@ class Report < ActiveRecord::Base
       regenerate = true
     end
     UploadPdfJob.set(wait: 3.seconds,
-                     queue: "#{Rails.env}_eretail_report"
+                     queue: "#{ENV['QUEUE_PREFIX']}_report"
                      ).perform_later(self.id, regenerate)
   end
 
   def send_task_job
     if not @skip_push
-      SendTaskJob.set(queue: "#{Rails.env}_eretail_push").perform_later(self.id)
+      SendTaskJob.set(queue: "#{ENV['QUEUE_PREFIX']}_push").perform_later(self.id)
     end
   end
 

@@ -1,22 +1,24 @@
 ---
 :concurrency: 5
+<% require 'dotenv' %>
+<% Dotenv.load %>
 :pidfile: tmp/pids/sidekiq.pid
 development:
   :concurrency: 5
   :queues:
-    - [ development_eretail_report, 12 ]
-    - [ development_eretail_email, 8 ]
-    - [ development_eretail_push, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_push" %>, 12 ]
 staging:
   :concurrency: 5
   :queues:
-    - [ staging_eretail_report, 12 ]
-    - [ staging_eretail_email, 8 ]
-    - [ staging_eretail_push, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_push" %>, 12 ]
 production:
   :concurrency: 5
   :queues:
-    - [ production_eretail_report, 12 ]
-    - [ production_eretail_email, 8 ]
-    - [ production_eretail_push, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
+    - [ <%= "#{ENV['QUEUE_PREFIX']}_push" %>, 12 ]
 :sidekiq_pid: File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')  
