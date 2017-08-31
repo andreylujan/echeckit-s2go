@@ -33,12 +33,13 @@ module CsvUtils
   def self.generate_response(csv, created)
     results = []
     created.each_with_index do | val, index |
+      cols = [ :ean, :description, :classification, :category, :platform, :publisher ]
       data = {
         id: (index + 1).to_s,
         type: "csv",
         meta: {
           row_number: index + 1,
-          row_data: csv[index].to_hash
+          row_data: Hash[cols.zip csv[index]]
         }
       }
       if not val.class < ActiveRecord::Base

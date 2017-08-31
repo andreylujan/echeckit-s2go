@@ -64,23 +64,30 @@ class Store < ActiveRecord::Base
       supervisor_role = Role.find_by_name! "Supervisor"
       instructor_role = Role.find_by_name! "Instructor"
       csv.each do |row|
-        store = Store.find_or_initialize_by(code: row[0])
-        dealer = Dealer.find_or_create_by_lowercase_name! row[1]
-        name = row[2]
-        zone = Zone.find_or_create_by_lowercase_name! row[3]
-        store_type = StoreType.find_or_create_by_lowercase_name! row[4]
-        instructor = User.find_or_create_by_lowercase_email! row[5], instructor_role
-        instructor.update_attributes! first_name: row[6]
+        if row[0].present?
+          store = Store.find_or_initialize_by(code: row[0])
+          dealer = Dealer.find_or_create_by_lowercase_name! row[1]
+          name = row[2]
+          zone = Zone.find_or_create_by_lowercase_name! row[3]
+          store_type = StoreType.find_or_create_by_lowercase_name! row[4]
+          if row[5].present?
+            instructor = User.find_or_create_by_lowercase_email! row[5], instructor_role
+            instructor.update_attributes! first_name: row[6]
+            store.instructor = instructor
+          end
 
-        supervisor = User.find_or_create_by_lowercase_email! row[7], supervisor_role
-        supervisor.update_attributes! first_name: row[8]
+          if row[7].present?
+            supervisor = User.find_or_create_by_lowercase_email! row[7], supervisor_role
+            supervisor.update_attributes! first_name: row[8]
+            store.supervisor = supervisor
+          end
 
-        store.assign_attributes dealer: dealer, name: name, zone: zone,
-        	store_type: store_type, instructor: instructor,
-        	supervisor: supervisor
+          store.assign_attributes dealer: dealer, name: name, zone: zone,
+          	store_type: store_type
 
-        store.save!
-        stores << store
+          store.save!
+          stores << store
+        end
       end
 
       Dealer.all.each do |d|

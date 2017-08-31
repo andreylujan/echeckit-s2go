@@ -83,8 +83,7 @@ class Product < ActiveRecord::Base
       Product.where.not(id: product_ids).each do |product|
         product.update_attribute :catalogued, false
       end
-      # CsvUtils.generate_response(csv, products)
-      products
+      CsvUtils.generate_response(csv, products)
     end
   end
 
