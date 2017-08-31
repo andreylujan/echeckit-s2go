@@ -63,7 +63,8 @@ class Product < ActiveRecord::Base
       if reset
         Product.destroy_all
       end
-      csv = CsvUtils.load_csv(csv_path, headers=true)
+      csv = CsvUtils.load_csv(csv_path, headers=false)
+      csv.shift
       products = []
       csv.each do |row|
         product = Product.find_or_initialize_by(sku: row[0])
@@ -82,7 +83,8 @@ class Product < ActiveRecord::Base
       Product.where.not(id: product_ids).each do |product|
         product.update_attribute :catalogued, false
       end
-      CsvUtils.generate_response(csv, products)
+      # CsvUtils.generate_response(csv, products)
+      products
     end
   end
 

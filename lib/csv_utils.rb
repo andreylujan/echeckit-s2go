@@ -12,7 +12,7 @@ module CsvUtils
     contents.force_encoding detection[:encoding]
     contents.encode! "UTF-8"
     contents.gsub!("\r", "")
-    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ';'})
+    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ','})
     csv_file.close
     csv
   end
@@ -25,7 +25,7 @@ module CsvUtils
     end
     contents.force_encoding detection[:encoding]
     contents.encode! "UTF-8"
-    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ';' })
+    csv = CSV.parse(contents, { headers: headers, encoding: "UTF-8", col_sep: ',' })
     csv_file.close
     csv
   end
