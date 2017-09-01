@@ -4,19 +4,19 @@
 <% Dotenv.load %>
 :pidfile: tmp/pids/sidekiq.pid
 development:
-  :concurrency: 5
+  :concurrency: 1
   :queues:
     - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
     - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
     - [ <%= "#{ENV['QUEUE_PREFIX']}_push" %>, 12 ]
 staging:
-  :concurrency: 5
+  :concurrency: 1
   :queues:
     - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
     - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
     - [ <%= "#{ENV['QUEUE_PREFIX']}_push" %>, 12 ]
 production:
-  :concurrency: 5
+  :concurrency: 2
   :queues:
     - [ <%= "#{ENV['QUEUE_PREFIX']}_report" %>, 12 ]
     - [ <%= "#{ENV['QUEUE_PREFIX']}_email" %>, 8 ]
