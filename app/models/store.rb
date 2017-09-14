@@ -63,23 +63,30 @@ class Store < ActiveRecord::Base
       csv.shift
       supervisor_role = Role.find_by_name! "Supervisor"
       instructor_role = Role.find_by_name! "Instructor"
+      promoter_role = Role.find_by_name! "Promotor"
       csv.each do |row|
         if row[0].present?
-          store = Store.find_or_initialize_by(code: row[0])
-          dealer = Dealer.find_or_create_by_lowercase_name! row[1]
-          name = row[2]
-          zone = Zone.find_or_create_by_lowercase_name! row[3]
-          store_type = StoreType.find_or_create_by_lowercase_name! row[4]
+          store = Store.find_or_initialize_by(code: row[0].strip)
+          dealer = Dealer.find_or_create_by_lowercase_name! row[1].strip
+          name = row[2].strip
+          zone = Zone.find_or_create_by_lowercase_name! row[3].strip
+          store_type = StoreType.find_or_create_by_lowercase_name! row[4].strip
           if row[5].present?
-            instructor = User.find_or_create_by_lowercase_email! row[5], instructor_role
-            instructor.update_attributes! first_name: row[6]
+            instructor = User.find_or_create_by_lowercase_email! row[5].strip, instructor_role
+            instructor.update_attributes! first_name: row[6].strip
             store.instructor = instructor
           end
 
           if row[7].present?
-            supervisor = User.find_or_create_by_lowercase_email! row[7], supervisor_role
-            supervisor.update_attributes! first_name: row[8]
+            supervisor = User.find_or_create_by_lowercase_email! row[7].strip, supervisor_role
+            supervisor.update_attributes! first_name: row[8].strip
             store.supervisor = supervisor
+          end
+
+          if row[9].present?
+            promoter = User.find_or_create_by_lowercase_email! row[9].strip, promoter_role
+            promoter.update_attributes! first_name: row[10].strip
+            store.promoter_ids = [ promoter.id ]
           end
 
           store.assign_attributes dealer: dealer, name: name, zone: zone,

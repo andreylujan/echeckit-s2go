@@ -13,7 +13,7 @@ Dotenv.load
 
 server '50.16.161.152', port: 60, user: 'ubuntu', roles: [:web, :app, :db]
 
-set :branch, 'peru'
+set :branch, 'interamerica'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, "#{ENV['DEPLOY_PATH']}"
