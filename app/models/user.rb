@@ -41,10 +41,10 @@ class User < ActiveRecord::Base
   belongs_to :role
   validates :role, presence: true
   before_validation :assign_role_id, on: :create
-  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken', 
+  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken',
     dependent: :destroy
   has_many :executed_reports, class_name: :Report, foreign_key: :executor_id
-  
+
   delegate :organization, to: :role, allow_nil: false
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id, dependent: :destroy
@@ -118,12 +118,13 @@ class User < ActiveRecord::Base
     instance = nil
     User.skip_callback(:create, :after, :send_confirmation_email)
     begin
-      instance = self.where('lower(email) = ?', email).first
+      instance = self.with_deleted.where('lower(email) = ?', email).first
       if instance.nil?
         instance = self.create! email: email,
           password: "12345678", role: role,
           first_name: email, last_name: email
-
+      else
+        instance.restore!
       end
     ensure
       User.set_callback(:create, :after, :send_confirmation_email)

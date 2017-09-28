@@ -47,11 +47,11 @@ class Store < ActiveRecord::Base
   has_and_belongs_to_many :promoters, class_name: 'User'
   has_many :checkins, dependent: :destroy
   validates :code, presence: true
-  
+
   default_scope { order('name ASC') }
-  
+
   def self.from_csv(csv_path, reset = false)
-  	stores = []
+    stores = []
     Store.transaction do
       if reset
         Store.with_deleted.all.each { |s| s.really_destroy! }
@@ -90,7 +90,7 @@ class Store < ActiveRecord::Base
           end
 
           store.assign_attributes dealer: dealer, name: name, zone: zone,
-          	store_type: store_type
+            store_type: store_type
 
           store.save!
           stores << store
@@ -98,12 +98,12 @@ class Store < ActiveRecord::Base
       end
 
       Dealer.all.each do |d|
-      	zone_ids = d.zone_ids
-      	d.stores.each do |store|
-      		zone_ids << store.zone_id
-      	end
-      	d.zone_ids = zone_ids.uniq
-      	d.save!
+        zone_ids = d.zone_ids
+        d.stores.each do |store|
+          zone_ids << store.zone_id
+        end
+        d.zone_ids = zone_ids.uniq
+        d.save!
       end
     end
     stores

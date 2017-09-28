@@ -1,45 +1,416 @@
 CODIGO ,DEALER,TIENDAS,ZONA,TIPO ,CORREO INSTRUCTOR,NOMBRE INSTRUCTOR,CORREO SUPERVISOR,NOMBRE SUPERVISOR,CORREO PROMOTOR 1,NOMBRE  PROMOTOR 1
-PANAFOTO-80,PANAFOTO-80,CALLE 50,CALLE 50,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-PANAFOTO-80,PANAFOTO-80,METROMALL,METROMALL,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-PANAFOTO-80,PANAFOTO-80,CENTENIAL,CENTENIAL,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-PANAFOTO-80,PANAFOTO-80,MULTIPLAZA,MULTIPLAZA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-PANAFOTO-80,PANAFOTO-80,ALBROOK MALL,ALBROOK MALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-PANAFOTO-80,PANAFOTO-80,COSTA VERDE,COSTA VERDE,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-MULTIMAX-80,MULTIMAX-80,WESTLAND MALL,WESTLAND MALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-MULTIMAX-80,MULTIMAX-80,METROMALL,METROMALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-MULTIMAX-80,MULTIMAX-80,MULTIPLAZA,MULTIPLAZA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-MULTIMAX-80,MULTIMAX-80,TUMBA MUERTO,TUMBA MUERTO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-MULTIMAX-80,MULTIMAX-80,ALBROOK MALL,PASIILLO PINGUINO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL,PASILLO GORILA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
-ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL,PASILLO TIGRE,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,METROMALL,METROMALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL,PASILLO DELFIN,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL,PASILLO ELEFANTE,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,MULTIPLAZA,MULTIPLAZA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,MULTIPLAZA,MULTIPLAZA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,MULTICENTRO,MULTICENTRO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaÐa
-ALPHAENTRE-80,ALPHAENTRE-80,WESTLAND MALL,WESTLAND MALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,METROMALL,METROMALL,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,MULTIPLAZA,MULTIPLAZA,A,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,ALBROOK MALL,PASILLO DELFIN,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,ALBROOK MALL,PASILLO KOALA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,VIA ESPAãA,VIA ESPAãA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-IMPORMADUR-80,IMPORMADUR-80,TUMBA MUERTO,TUMBA MUERTO,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
-FARMARROC-80,FARMARROC-80,12 DE OCTUBRE,12 DE OCTUBRE,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-FARMARROC-80,FARMARROC-80,TUMBA MUERTO,TUMBA MUERTO,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-FARMARROC-80,FARMARROC-80,ALBROOK MALL,PASILLO DELFIN,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-FARMARROC-80,FARMARROC-80,CALLE 50,CALLE 50,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-FARMARROC-80,FARMARROC-80,CENTENIAL,CENTENIAL,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-FARMARROC-80,FARMARROC-80,WESTLAND,WESTLAND MALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-JERUSALEM-80,JERUSALEM-80,FRONTERA,FRONTERA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-PLAYTRADE-80,PLAYTRADE-80,ALBROOK MALL,PASILLO DINOSAURIO,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-PLAYTRADE-80,PLAYTRADE-80,ALBROOK MALL,PASILLO PINGUINO,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-EVISION-80,EVISION-80,ALBROOK MALL,PASILLO PINGUINO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-MACHETAZO-80,MACHETAZO-80,CALIDONIA,CALIDONIA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-MACHETAZO-80,MACHETAZO-80,METROMALL,METROMALL,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-MACHETAZO-80,MACHETAZO-80,SAN MIGUELITO,SAN MIGUELITO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
-MACHETAZO-80,MACHETAZO-80,COSTA SUR,COSTA VERDE,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
-MACHETAZO-80,MACHETAZO-80,SANTIAGO,CENTRO ,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
-PHOTURA-80,PHOTURA-80,ALBROOK MALL,PASILLO KANGURO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
-SANBORNS-80,SANBORNS-80,MULTIPLAZA,MULTIPLAZA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
-PANAFOTO-80,PANAFOTO-80,EL DORADO,EL DORADO,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+PANAFOTO-80,PANAFOTO-80,CALLE 50,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+PANAFOTO-80,PANAFOTO-80,METROMALL,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+PANAFOTO-80,PANAFOTO-80,CENTENIAL,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+PANAFOTO-80,PANAFOTO-80,MULTIPLAZA,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+PANAFOTO-80,PANAFOTO-80,ALBROOK MALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+PANAFOTO-80,PANAFOTO-80,COSTA VERDE,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+MULTIMAX-80,MULTIMAX-80,WESTLAND MALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+MULTIMAX-80,MULTIMAX-80,METROMALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+MULTIMAX-80,MULTIMAX-80,MULTIPLAZA,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+MULTIMAX-80,MULTIMAX-80,TUMBA MUERTO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+MULTIMAX-80,MULTIMAX-80,ALBROOK MALL-PASIILLO PINGUINO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL-PASILLO GORILA,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,jgomess2g@gmail.com,Joshua gomes
+ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL-PASILLO TIGRE,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,METROMALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL-PASILLO DELFIN,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,ALBROOK MALL-PASILLO ELEFANTE,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,MULTIPLAZA,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,MULTIPLAZA,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,MULTICENTRO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ysaldanas2g@gmail.com,Yadilka saldaña
+ALPHAENTRE-80,ALPHAENTRE-80,WESTLAND MALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,METROMALL,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,MULTIPLAZA,PA,A,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,ALBROOK MALL-PASILLO DELFIN,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,ALBROOK MALL-PASILLO KOALA,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,VIA ESPAÑA,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+IMPORMADUR-80,IMPORMADUR-80,TUMBA MUERTO,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,csanchezs2g@gmail.com,Carlos Sanchez
+FARMARROC-80,FARMARROC-80,12 DE OCTUBRE,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+FARMARROC-80,FARMARROC-80,TUMBA MUERTO,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+FARMARROC-80,FARMARROC-80,ALBROOK MALL-PASILLO DELFIN,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+FARMARROC-80,FARMARROC-80,CALLE 50,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+FARMARROC-80,FARMARROC-80,CENTENIAL,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+FARMARROC-80,FARMARROC-80,WESTLAND-WESTLAND MALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+JERUSALEM-80,JERUSALEM-80,FRONTERA,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+PLAYTRADE-80,PLAYTRADE-80,ALBROOK MALL-PASILLO DINOSAURIO,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+PLAYTRADE-80,PLAYTRADE-80,ALBROOK MALL-PASILLO PINGUINO,PA,C,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+EVISION-80,EVISION-80,ALBROOK MALL-PASILLO PINGUINO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+MACHETAZO-80,MACHETAZO-80,CALIDONIA,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+MACHETAZO-80,MACHETAZO-80,METROMALL,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+MACHETAZO-80,MACHETAZO-80,SAN MIGUELITO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,mperezs2g@gmail.com,Manuel Perez
+MACHETAZO-80,MACHETAZO-80,COSTA SUR-COSTA VERDE,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+MACHETAZO-80,MACHETAZO-80,SANTIAGO-CENTRO ,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+PHOTURA-80,PHOTURA-80,ALBROOK MALL-PASILLO KANGURO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+SANBORNS-80,SANBORNS-80,MULTIPLAZA,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+PANAFOTO-80,PANAFOTO-80,EL DORADO,PA,B,Fprado@s2ginternational ,Federico prado,cmancilla@s2ginternational.com,Carlos mancilla ,ksaavedras2g@gmail.com,Karina sabedra
+SONYECUA-86,SONYECUA-86,MALL DEL SOL,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+SONYECUA-86,SONYECUA-86,QUICENTRO NORTE,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,9-Oct,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,RIOCENTRO NORTE,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,ALBORADA,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,SANGOLQUI,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,A,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,SHOP. DAULE,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,RIOCENTRO SUR,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,RECREO 2,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,DURAN OUTLET,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,AV.CEVALLOS,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,B,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+COMANDATO-86,COMANDATO-86,CENTRO,EC,C,Fprado@s2ginternational ,Federico prado,kzuniga@s2ginternational.com,Karem zuniga ,asoliss2g@gmail.com,Andres solis 
+OMNISPORT-83,OMNISPORT-83,SONY CENTER-METROCENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,CALLE1 -CENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,CENTRO-CALLE ARCE,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,METROPOLIS-PLAZA,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,1RA ETAPA -METROCENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,PLAZA-UNICENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,4TA ETAPA-METROCENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,PLAZA-PLAZA MERLIOT,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+OMNISPORT-83,OMNISPORT-83,MULTIPLAZA,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,PASEO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,8TAVA-METROCENTRO 8,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,METTROCENTRO -CENRO ,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,CENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,MAYOREO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,PLAZA MUNDO 2-PLAZA MUNDO 1,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,PLAZA MUNDO 1-PLAZA MUNDO 2,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,1RA CALLE-CENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,CENTRO 1-UNICENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,vbarrioss2g@gmail.com,Veronica Barrios 
+OMNISPORT-83,OMNISPORT-83,CENTRO 2-UNICENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,METRO SUR-METROSUR,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,MEJICANOS,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,PASEO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,METROCENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,PLAZA SANLUIS,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,CATEDRAL-CENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,CENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,CENTRO,SV,A,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,PLAZA-CENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,PLAZA-UNICENTRO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,dreyess2g@gmail.com,Daniel Reyes 
+OMNISPORT-83,OMNISPORT-83,CENTRO-CATEDRAL,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+OMNISPORT-83,OMNISPORT-83,PLAZA-CALLE PRINCIPAL,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PLAZA MERLIOT,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,MULTIPLAZA,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PASEO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,GALERIAS,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PLAZA MUNDO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,METROCENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PLAZA MUNDO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PLAZA SOYAPANGO,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,MERLIOT,SV,C,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,LA GRAN VIA,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,PASEO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,METROCENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+REGALWORLD-83,REGALWORLD-83,METROCENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+REGALWORLD-83,REGALWORLD-83,CENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+REGALWORLD-83,REGALWORLD-83,CENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+CORPOTIEND-83,CORPOTIEND-83,MULTIPLAZA,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+CORPOTIEND-83,CORPOTIEND-83,METROCENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,calvarengas2g@gmail.com,Claudia alvarenga 
+CORPOTIEND-83,CORPOTIEND-83,MULTIPLAZA,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+CYBER GAMES-83,CYBER GAMES-83,METROCENTRO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+CYBER GAMES-83,CYBER GAMES-83,SAN MIGUELITO,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+CYBER GAMES-83,CYBER GAMES-83,PLAZA MUNDO ,SV,B,Fprado@s2ginternational ,Federico prado,amina@s2ginternational.com,Andrea mina ,Ftablass2g@gmail.com,Francisco Tablas
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-VILLA NUEVA 2,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-LAS AMERICAS,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-DELCO,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-SELECTA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-CENTRA SUR,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-TERMINAL,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+ELEKTRA-85,ELEKTRA-85,ELEKTRA-85-COATEPEQUE,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -RETALHULEU,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -Xela,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -ESKALA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -METRONORTE,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -PORTALES,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -CHIMALTENANGO,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,wilman.s2g@gmail.com,Wilman lopez
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -PERIROOSEVELT,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -ATANASIO,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -PRADERA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -PLAZUELA,GT,A,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -6ta avenida,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85 ,REGALWORLD-85 ,RADIOSHACK -6ta avenida,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-PLAZUELA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-ROOSEVELT,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-METRONORTE,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-MIRAFLORES,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-METROCENTRO VN,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-PRADERA CHIMAL,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-SAN CRISTOBAL,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,bryans2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-TECPAN,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-PORTALES,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-XELA  I,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-PLAZA LAS AMERICAS,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,CURACAO-ROOSEVELT,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+REGALWORLD-85,REGALWORLD-85,TROPIGAS-MIRAFLORES,GT,A,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-PRADERA EXPRESS VILLA NUEVA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-MAJADAS,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-ZONA 9,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-OAKLAND,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-CONCEPCION,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-PORTALES,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-NARANJO MALL,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-METROCENTRO,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Brayan lopes
+DISTELSA-85,DISTELSA-85,MAX-ESKALA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-PROCERES,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-CHIQUIMULA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-PRADERA Z. 10,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-XELA LA FLORESTA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-VARIETA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-PUERTO BARRIOS,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-ALAMOS,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-MAZATE,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-SAN NICOLAS,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-SANTA CLARA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-SAN CRISTOBAL,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-ZONA 10,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-6 AVENIDA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-SANKRIS MALL,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-CHIMALTENANGO,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-COBAN,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-PERIROOSEVELT,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-ESCUINTLA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-PETEN,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-SANTA AMELIA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-ZONA 4,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,MAX-REU,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,MAX-COATEPEQUE,GT,A,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,MAX-SAN LUCAS,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,MAX-CENTRA SUR,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-HUEHUETENANGO,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,MAX-TIKAL,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-MAJADAS OUTLET,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-SANTA LUCIA,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-AMATITLAN,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-METRONORTE,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-CENTRA NORTE,GT,A,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,TECNO-FACIL-XELA 2,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-PALIN,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-GRAN VIA PRADERA Z.10,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,Gpalomo21.s2g@gmail.com,Gustavo Palomo 
+DISTELSA-85,DISTELSA-85,MAX-DISTELSA-85 METROSUR,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-JUTIAPA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-DECOCITY,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-ECOCENTRO,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DISTELSA-85,DISTELSA-85,MAX-ROOSEVELT,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,WALMART-PUERTA PARADA,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,WALMART-UNICENTRO,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,JUGUETON-PERIROOSEVELT,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,JUGUETON-SANKRIS MALL,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,JUGUETON-PRADERA CONCEPCION,GT,C,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+DIVIDIGI-85,DIVIDIGI-85,JUGUETON-Zona 1,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+GMGCOMER-85,GMGCOMER-85,GALLO MAS GALLO}-Florida,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+GMGCOMER-85,GMGCOMER-85,GALLO MAS GALLO}-Villa Nueva,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+GMGCOMER-85,GMGCOMER-85,GALLO MAS GALLO}-Calle Marti,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,laug.s2g@gmail.com,Laura Garcia 
+GMGCOMER-85,GMGCOMER-85,GALLO MAS GALLO}-Calle Marti,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+GMGCOMER-85,GMGCOMER-85,GALLO MAS GALLO}-Calle Marti,GT,B,Fprado@s2ginternational ,Federico prado,Cgutierrez@s2ginternational.com ,Cristian Gutierrez ,frivas.s2g@gmail.com,Francsico Rivas
+GMGCOMER-81,GMGCOMER-81,C002-Centro,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Francsico Rivas
+GOLLO-81,GOLLO-81,Gollo av Segunda 77-Av Segunda 77,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+UNIVERSAL-81,UNIVERSAL-81,02 - Universal - Avenida Central-Av. Central ,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+VERTIGO-81,VERTIGO-81,Multiplaza Escazu,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GRUPOCALEM-81,GRUPOCALEM-81,Jugueton Pavas -Pavas,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Zapote 119-Zapote 119,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Guadalupe-Guadalupe,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Centro 10-Centro 10,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Centro 103-Centro 103,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Tuasa-Tuasa,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Mercado-Mercado,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Don Samuel-Don Samuel,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Morazan-Morazan ,CR,A,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Centro-Centro ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Centro-Centro ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Perez Zeledon-Perez Zeledon,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Perez Zeledon-Perez Zeledon,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Guapiles-Guapiles,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Quepos-Quepos,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Jaco-Jaco,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Centro-Centro ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Paraiso-Paraiso,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Moravia-Moravia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Aserri-Aserri,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo San Rafael Arriba-San Rafael Arriba,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,psalass2g@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Tejar-Tejar,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Alajuelita-Alajuelita,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Tamarindo-Tamarindo,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Liberia-Liberia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Sto Domingo-Sto Domingo,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Zarcero-Zarcero,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Guacimo-Guacimo,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo San Rafael-San Rafael,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GOLLO-81,GOLLO-81,Gollo Turrucares-Turrucares,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C008-San Ramón,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C195-Ciudad Quesada,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C015-Grecia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C017-Aguas Zarcas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C028-Naranjo,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C032-Palmares,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C033-Pital,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C032-Palmares,CR,A,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,steplaos2@gmail.com,Paola salas
+GMGCOMER-81,GMGCOMER-81,C038-Orotina,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C039-Guatuso,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C043-Upala,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C046-Atenas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C195-Ciudad Quesada,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C058-Alajuela 58,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C027-Puerto Viejo,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C033-Pital,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C100-San Pedro,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C082-La Fortuna,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C084-Zarcero,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C085-Sarchi,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C095-Venecia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C068-San Isidro,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,avelasquezs2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C123-Los Chiles,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Ariel Velasquez
+GMGCOMER-81,GMGCOMER-81,C197-San Rafael  ,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C136-Río Cuarto,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C122-San Miguel,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C147-Turrúcares,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C136-Rio Cuarto,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C174-San Rafael,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C181-Florencia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C015-Grecia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C174-San Rafael,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C198-San Ramon,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,402-Centro,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C002-Alajuela,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C017-Aguas Zarcas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,rchinchillas2g@gmail.com,Roy Chinchilla
+GMGCOMER-81,GMGCOMER-81,C036-Cartago 36,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C050-Centro,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C064-Cartago 64,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C096-La Suiza,CR,A,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,401-Centro,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C153-Pacayas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C206-Tres Rios,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C210-Tejar,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C040-Liberia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C010-Cañas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C040-Liberia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C063-Puerto Viejo,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C029-San Antonio,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C031-Heredia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C174-San Rafael,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C067-Heredia,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C139-Paseo de las Flores,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C140-Heredia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C142-Barva,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C144-San Joaquín,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C185-Paseo de las Flores,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C025-Limón,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C014-Puntarenas,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C059-Jaco,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C098-El Roble,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C132-Golfito,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C102-Sn Isidro Gral,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C007-Santa Ana,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,achavarrias2g@gmail.com,Andrés Chavarria
+GMGCOMER-81,GMGCOMER-81,C026-Av 4ta,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C030-Escazú,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C180-Zapote 180,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C207-Escazú 207,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C012-San José Morazán,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C051-Av. Central,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C052-Multiplaza,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C053-Guadalupe,CR,A,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C054-Desamparados,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C062-Coronado,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C065-Pavas,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C066-San Juan de Dios ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C074-Multiplaza del Este ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C100- Curridabat ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C124- Desamparados ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C165- Av. Cuarta ,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C166- Guadalupe ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C215- San Sebastián,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C171- Alajuelita,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C406- Desamparados,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C127- Tibas,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C196- Moravia 196,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C405- Fischel 405,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GMGCOMER-81,GMGCOMER-81,C408-Pavas,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,E-ZONE-Lincoln Plaza Ezone,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Multicentro Desamparados-Multicentro Desamparados ,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,E-ZONE-Distrito 4,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Av. Escazú,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Multiplaza Curridabat,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Paseo de las Flores,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Real Cariari,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Av. Central-Av. Central ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+VERTIGO-81,VERTIGO-81,Lincoln Plaza-Lincoln Plaza ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,03 - Universal - Sabana-Sabana,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,05 - Universal - Curridabat-Multiplaza Curridabat,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,06 - Universal - Liberia-Liberia,CR,B,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,08 - Universal - Real Cariari-Real Cariari,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,11 - Universal - Heredia-Plaza Bratsi,CR,A,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,13 - Universal - Desamparados-Multicentro Desamparados ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,18 - Universal - Plaza Lincoln-Lincoln Plaza,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,21 - Universal Mall Internacional-Mall Internacional ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,25 - Universal Cartago-Mall Paseo Metropoli ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+UNIVERSAL-81,UNIVERSAL-81,28 - Universal City Mall Alajuela-City Mall ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GRUPOCALEM-81,GRUPOCALEM-81,Jugueton Multiplaza Escazu -Multiplaza Escazu ,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GRUPOCALEM-81,GRUPOCALEM-81,Jugueton Plaza zapote-Plaza Zapote,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GRUPOCALEM-81,GRUPOCALEM-81,Jugueton Alajuela -Alajuela,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+GRUPOCALEM-81,GRUPOCALEM-81,Jugueton Paseo de las flores-Paseo de las Flores,CR,C,Fprado@s2ginternational ,Federico prado,Ezuniga@s2ginternational.com,Eduardo Zuniga ,jhernandezs2g@gmail.com,José Hernández
+JETSTEREO-84,JETSTEREO-84,Multiplaza,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Cascadas,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,City Mall,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Blvd. Morazan,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Metro Mall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Miraflores,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Centro,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Altara,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Galerias,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Catedral-Centro,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,City Mall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Multiplaza,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Proceres,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Centro,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Julio hernandez 
+JETSTEREO-84,JETSTEREO-84,Unimall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Pto. Cortes,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Comayagua-Premier,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Sta. Rosa,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Ceiba,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Choloma,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+JETSTEREO-84,JETSTEREO-84,Progreso,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,City Mall,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Cascadas,HN,A,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Multiplaza,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Alameda,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Centro XPR-Centro,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Kennedy XPR-Kennedy,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,City Mall,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Paola paiz 
+LADYLEE-84,LADYLEE-84,Mega Plaza,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,SPS XPR-Centro,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Progreso XPR-Progreso,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Choloma XPR-Choloma,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Pto. Cortes XPR-Pto. Cortes,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Villanueva XPR-Villanueva,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Ceiba XPR-Ceiba,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Roatan XPR-Roatan,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Comayagua XPR-Comayagua,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Choluteca XPR-Unimall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+LADYLEE-84,LADYLEE-84,Tocoa XPR-Tocoa,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Multiplaza,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Cascadas,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,City Mall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Lomas,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Ramadors2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Premier,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Centro,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Metro Mall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Miraflores,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Galerias,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Mega Plaza,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Multiplaza,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,City Mall,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Unimall,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+REGALWORLD-84,REGALWORLD-84,Ceiba,HN,B,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+DIUNSA-84,DIUNSA-84,Miraflores,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+DIUNSA-84,DIUNSA-84,Metro Mall,HN,A,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+DIUNSA-84,DIUNSA-84,Pedregal,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+DIUNSA-84,DIUNSA-84,La Lima,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
+DIUNSA-84,DIUNSA-84,La Ceiba,HN,C,Fprado@s2ginternational ,Federico prado,syuja@s2ginternational.com,Nicole Yuja ,Jhernandezs2g@gmail.com,Roberto Amador
