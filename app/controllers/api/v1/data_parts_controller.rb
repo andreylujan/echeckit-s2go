@@ -4,7 +4,11 @@ class Api::V1::DataPartsController < Api::V1::JsonApiController
 
 
   def index
-    type = params.require(:type)
+    if params["filter"].present?
+      type = params["filter"]["type"]
+    else
+      type = params["type"]
+    end
     if type == "Checklist"
     	render 'checklist'
     elsif type == "ChecklistOption"
@@ -15,7 +19,7 @@ class Api::V1::DataPartsController < Api::V1::JsonApiController
           {
             "status": "422",
             "title": "Tipo inválido",
-            "detail": "El solicitado deber ser Checklist o ChecklistOption"
+            "detail": "El type deber ser Checklist o ChecklistOption"
           }
         ]
       }, status: :unprocessable_entity
