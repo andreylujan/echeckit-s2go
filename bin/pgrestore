@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# pgbackup
+pgbackup
 dropdb playstation_development
 createdb playstation_development
 psql -f db/dump.sql -U echeckit -d playstation_development

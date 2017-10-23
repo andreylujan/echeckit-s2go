@@ -49,7 +49,7 @@ class PdfUploader < CarrierWave::Uploader::Base
   # end
 
   def md5
-    @md5 ||= Digest::MD5.hexdigest model.send(mounted_as).read.to_s
+    @md5 ||= SecureRandom.uuid.to_s
   end
 
   # Override the filename of the uploaded files:
