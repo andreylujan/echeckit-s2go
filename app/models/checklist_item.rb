@@ -14,6 +14,7 @@
 
 class ChecklistItem < ActiveRecord::Base
   acts_as_list scope: :checklist_id, top_of_list: 0
+  belongs_to :checklist
   def option_ids
     self.data["option_ids"]
   end

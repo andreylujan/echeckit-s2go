@@ -14,6 +14,7 @@
 
 class Checklist < ActiveRecord::Base
 	acts_as_list
+	has_many :checklist_items, -> { order(position: :asc) }
     def options
     	org_id = self.subsection.section.organization_id    	
     	ChecklistOption.all   	
@@ -35,7 +36,7 @@ class Checklist < ActiveRecord::Base
 		end
 		save!
 
-		self.children.each do | c |
+		self.checklist_items.each do | c |
 			if not old_children.include?(c)
 				c.update_attribute :parent, nil
 			else
@@ -46,7 +47,7 @@ class Checklist < ActiveRecord::Base
 
 
 		new_children.each do | new |
-			self.children.create! new
+			self.checklist_items.create! new
 		end
 	end
 end
