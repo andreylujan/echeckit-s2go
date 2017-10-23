@@ -33,16 +33,14 @@ class Checklist < ActiveRecord::Base
 				item.assign_attributes(item_attrs)
 				old_children << item
 			else
-				new_children << item_attrs.merge({ type: "ChecklistItem", 
-					organization_id: self.organization_id
-				})
+				new_children << item_attrs
 			end
 		end
 		save!
 
 		self.checklist_items.each do | c |
 			if not old_children.include?(c)
-				c.update_attribute :parent, nil
+				c.update_attribute :checklist, nil
 			else
 				old = old_children.find { |old| old.id == c.id }
 				old.save!
