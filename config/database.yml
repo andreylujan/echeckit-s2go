@@ -81,7 +81,7 @@ test:
 
 staging:
   <<: *default
-  database: playstation_staging
+  database: <%= ENV['ECHECKIT_DATABASE_NAME'] || 'playstation_staging' %>
   username: echeckit
   password: <%= ENV['ECHECKIT_DATABASE_PASSWORD'] %>
 
