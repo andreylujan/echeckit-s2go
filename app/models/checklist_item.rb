@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: checklist_items
+#
+#  id           :integer          not null, primary key
+#  name         :text             not null
+#  required     :boolean          default(FALSE), not null
+#  position     :integer
+#  data         :jsonb            not null
+#  checklist_id :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class ChecklistItem < ActiveRecord::Base
   acts_as_list scope: :checklist_id, top_of_list: 0
   def option_ids
