@@ -5,46 +5,13 @@
             "type": "checklists",
             "attributes": {
                 "type": "Checklist",
-                "name": "Check Visual",
-                "icon": "/images/kit_punto_venta.png",
-                "required": true
+                "name": "<%= Checklist.find(3).name %>",
+                "icon": "<%= Checklist.find(3).icon %>",
+                "required": <%= Checklist.find(3).required %>
             },
             "relationships": {
                 "children": {
-                    "data": [
-                        {
-                            "id": "186",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "189",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "7",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "146",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "147",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "190",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "191",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "148",
-                            "type": "checklist_items"
-                        }
-                    ]
+                    "data": <%= Checklist.find(3).checklist_items.to_json(short: true).html_safe %>
                 },
                 "options": {
                     "data": [
@@ -73,50 +40,13 @@
             "type": "checklists",
             "attributes": {
                 "type": "Checklist",
-                "name": "Ingreso a tienda / Protocolo",
-                "icon": "/images/protocolo.png",
-                "required": true
+                "name": "<%= Checklist.find(1).name %>",
+                "icon": "<%= Checklist.find(1).icon %>",
+                "required": <%= Checklist.find(1).required %>
             },
             "relationships": {
                 "children": {
-                    "data": [
-                        {
-                            "id": "138",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "6",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "141",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "139",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "142",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "143",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "5",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "144",
-                            "type": "checklist_items"
-                        },
-                        {
-                            "id": "145",
-                            "type": "checklist_items"
-                        }
-                    ]
+                    "data": <%= Checklist.find(1).checklist_items.to_json(short: true).html_safe %>
                 },
                 "options": {
                     "data": [

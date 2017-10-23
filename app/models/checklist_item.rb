@@ -25,6 +25,11 @@ class ChecklistItem < ActiveRecord::Base
   def as_json(opts = {})
     if opts[:standard]
       super
+    elsif opts[:short]
+      {
+        id: self.id,
+        type: 'checklist_items'
+      }
     else
       ChecklistItemSerializer.new(self).as_json
     end
