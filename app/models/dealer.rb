@@ -11,7 +11,7 @@
 #  phone_number :text
 #  address      :text
 #  deleted_at   :datetime
-#  kam   		:text
+#  kam          :text
 #
 
 class Dealer < ActiveRecord::Base

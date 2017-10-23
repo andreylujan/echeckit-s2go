@@ -196,14 +196,14 @@ class Report < ActiveRecord::Base
   end
 
   def communicated_prices
-    prices_checklist = checklist_item_values.select { |c| c.data_part_id = 144 }.first
+    prices_checklist = checklist_item_values.select { |c| c.checklist_item_id = 144 }.first
     if prices_checklist.present?
       prices_checklist.item_value
     end
   end
 
   def communicated_promotions
-    promotions_checklist = checklist_item_values.select { |c| c.data_part_id = 145 }.first
+    promotions_checklist = checklist_item_values.select { |c| c.checklist_item_id = 145 }.first
     if promotions_checklist.present?
       promotions_checklist.item_value
     end

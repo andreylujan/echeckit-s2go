@@ -17,6 +17,7 @@
 #  uuid          :text
 #  deleted_at    :datetime
 #  comment       :text
+#  report_uuid   :text
 #
 
 class ImageSerializer < ActiveModel::Serializer

@@ -1,0 +1,380 @@
+{
+    "data": [
+        {
+            "id": "8",
+            "type": "sections",
+            "attributes": {
+                "position": 0,
+                "name": "Ubicación",
+                "subsections": [
+                    {
+                        "id": 11,
+                        "name": "Ubicación",
+                        "data_parts": [
+                            {
+                                "id": 47,
+                                "type": "Label",
+                                "name": "Zona",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Zona"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 48,
+                                "type": "Label",
+                                "name": "Dealer",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Dealer"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 49,
+                                "type": "Label",
+                                "name": "Tienda",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Tienda"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 50,
+                                "type": "Label",
+                                "name": "Dirección",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Dirección"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 51,
+                                "type": "Label",
+                                "name": "Región",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Región"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 52,
+                                "type": "Label",
+                                "name": "Comuna",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Comuna"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 53,
+                                "type": "Comment",
+                                "name": "Referencia",
+                                "icon": null,
+                                "required": false,
+                                "max_length": 140,
+                                "multiline": true,
+                                "field_type": "text",
+                                "children": []
+                            }
+                        ]
+                    }
+                ],
+                "section_type": {
+                    "id": 1,
+                    "name": "location"
+                }
+            }
+        },
+        {
+            "id": "5",
+            "type": "sections",
+            "attributes": {
+                "position": 1,
+                "name": "Checklist",
+                "subsections": [
+                    {
+                        "id": 10,
+                        "name": "Checklist",
+                        "data_parts": [
+                            {
+                                "id": 151,
+                                "type": "Checklist",
+                                "type": "Checklist",
+                                "name": "<%= Checklist.find(151).name %>",
+                                "icon": "<%= Checklist.find(151).icon %>",
+                                "required": <%= Checklist.find(151).required %>,
+                                "children": [
+                                    {
+                                        "id": 152,
+                                        "type": "ChecklistItem",
+                                        "name": "Precio Oferta /Comunicado",
+                                        "icon": null,
+                                        "required": false,
+                                        "option_ids": null,
+                                        "options": [
+                                            {
+                                                "id": "30",
+                                                "has_detail": true
+                                            },
+                                            {
+                                                "id": "31",
+                                                "has_detail": true
+                                            },
+                                            {
+                                                "id": "33",
+                                                "has_detail": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": 153,
+                                        "type": "ChecklistItem",
+                                        "name": "Precio Anterior a Oferta",
+                                        "icon": null,
+                                        "required": false,
+                                        "option_ids": null,
+                                        "options": [
+                                            {
+                                                "id": "30",
+                                                "has_detail": true
+                                            },
+                                            {
+                                                "id": "31",
+                                                "has_detail": true
+                                            },
+                                            {
+                                                "id": "33",
+                                                "has_detail": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": 188,
+                                        "type": "ChecklistItem",
+                                        "name": "Precio similar competencia",
+                                        "icon": null,
+                                        "required": true,
+                                        "option_ids": null,
+                                        "options": [
+                                            {
+                                                "id": "33",
+                                                "has_detail": true
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "options": [
+                                    {
+                                        "id": 30,
+                                        "type": "ChecklistOption",
+                                        "name": "No cumple",
+                                        "icon": "/images/cuadrado_no_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 33,
+                                        "type": "ChecklistOption",
+                                        "name": "Observ.",
+                                        "icon": "/images/cuadrado_observacion.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 7,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 25,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 28,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 32,
+                                        "type": "ChecklistOption",
+                                        "name": "Cantidad",
+                                        "icon": "/images/cuadrado_cantidad.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 8,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 27,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 29,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 31,
+                                        "type": "ChecklistOption",
+                                        "name": "Cumple",
+                                        "icon": "/images/cuadrado_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "section_type": {
+                    "id": 4,
+                    "name": "checklist"
+                }
+            }
+        },
+        {
+            "id": "4",
+            "type": "sections",
+            "attributes": {
+                "position": 2,
+                "name": "Galería",
+                "subsections": [],
+                "section_type": {
+                    "id": 3,
+                    "name": "gallery"
+                }
+            }
+        }
+    ]
+}

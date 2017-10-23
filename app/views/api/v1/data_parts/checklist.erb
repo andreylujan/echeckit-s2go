@@ -1,0 +1,74 @@
+{
+    "data": [
+        {
+            "id": "3",
+            "type": "checklists",
+            "attributes": {
+                "type": "Checklist",
+                "name": "<%= Checklist.find(3).name %>",
+                "icon": "<%= Checklist.find(3).icon %>",
+                "required": <%= Checklist.find(3).required %>
+            },
+            "relationships": {
+                "children": {
+                    "data": <%= Checklist.find(3).checklist_items.to_json(short: true).html_safe %>
+                },
+                "options": {
+                    "data": [
+                        {
+                            "id": "30",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "33",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "32",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "31",
+                            "type": "checklist_options"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "1",
+            "type": "checklists",
+            "attributes": {
+                "type": "Checklist",
+                "name": "<%= Checklist.find(1).name %>",
+                "icon": "<%= Checklist.find(1).icon %>",
+                "required": <%= Checklist.find(1).required %>
+            },
+            "relationships": {
+                "children": {
+                    "data": <%= Checklist.find(1).checklist_items.to_json(short: true).html_safe %>
+                },
+                "options": {
+                    "data": [
+                        {
+                            "id": "30",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "33",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "32",
+                            "type": "checklist_options"
+                        },
+                        {
+                            "id": "31",
+                            "type": "checklist_options"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

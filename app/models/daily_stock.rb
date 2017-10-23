@@ -5,9 +5,9 @@
 #  id              :integer          not null, primary key
 #  brand_id        :integer
 #  report_id       :integer
-#  hardware_sales  :integer
-#  accessory_sales :integer
-#  game_sales      :integer
+#  hardware_sales  :integer          default(0), not null
+#  accessory_sales :integer          default(0), not null
+#  game_sales      :integer          default(0), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

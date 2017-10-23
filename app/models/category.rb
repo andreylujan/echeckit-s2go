@@ -3,11 +3,11 @@
 #
 # Table name: categories
 #
-#  id              		:integer          not null, primary key
-#  name            		:text             not null
-#  secundary_category 	:integer          not null
-#  created_at      		:datetime         not null
-#  updated_at      		:datetime         not null
+#  id                    :integer          not null, primary key
+#  name                  :text             not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  secundary_category_id :integer
 #
 
 class Category < ActiveRecord::Base
