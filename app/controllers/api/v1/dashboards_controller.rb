@@ -570,7 +570,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
 
       items = ChecklistItemValue.joins(report: :store)
       .merge(Report.unassigned)
-      .where("reports.created_at > ? AND reports.created_at < ? AND data_part_id = ?", start_date, end_date, checklist_item_id)
+      .where("reports.created_at > ? AND reports.created_at < ? AND checklist_item_id = ?", start_date, end_date, checklist_item_id)
 
       if params[:store_id].present?
         items = items.where(reports: { store_id: params[:store_id].to_i })

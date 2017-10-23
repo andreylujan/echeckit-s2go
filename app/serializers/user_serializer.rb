@@ -19,13 +19,13 @@
 #  first_name             :text
 #  last_name              :text
 #  phone_number           :text
-#  emergency_phone        :text
 #  address                :text
 #  image                  :text
 #  role_id                :integer          not null
 #  deleted_at             :datetime
+#  emergency_phone        :text             default(""), not null
 #  contract_date          :datetime
-#  contract_end_date          :datetime
+#  contract_end_date      :datetime
 #
 
 class UserSerializer < ActiveModel::Serializer

@@ -1,0 +1,690 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "type": "sections",
+            "attributes": {
+                "position": 0,
+                "name": "Ubicación",
+                "subsections": [
+                    {
+                        "id": 5,
+                        "name": "Ubicación",
+                        "data_parts": [
+                            {
+                                "id": 17,
+                                "type": "Label",
+                                "name": "Zona",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Zona"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 18,
+                                "type": "Label",
+                                "name": "Dealer",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Dealer"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 19,
+                                "type": "Label",
+                                "name": "Tienda",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Tienda"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 20,
+                                "type": "Label",
+                                "name": "Dirección",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Dirección"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 21,
+                                "type": "Label",
+                                "name": "Región",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Región"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 22,
+                                "type": "Label",
+                                "name": "Comuna",
+                                "icon": null,
+                                "required": true,
+                                "columns": [
+                                    "Comuna"
+                                ],
+                                "children": []
+                            },
+                            {
+                                "id": 23,
+                                "type": "Comment",
+                                "name": "Referencia",
+                                "icon": null,
+                                "required": false,
+                                "max_length": 140,
+                                "multiline": true,
+                                "field_type": "text",
+                                "children": []
+                            }
+                        ]
+                    }
+                ],
+                "section_type": {
+                    "id": 1,
+                    "name": "location"
+                }
+            }
+        },
+        {
+            "id": "2",
+            "type": "sections",
+            "attributes": {
+                "position": 1,
+                "name": "Checklists comercial",
+                "subsections": [
+                    {
+                        "id": 1,
+                        "name": "Protocolo",
+                        "data_parts": []
+                    },
+                    {
+                        "id": 2,
+                        "name": "Kit Punto de venta",
+                        "data_parts": [
+                            {
+                                "id": 3,
+                                "type": "Checklist",
+                                "name": "<%= Checklist.find(3).name %>",
+                                "icon": "<%= Checklist.find(3).icon %>",
+                                "required": <%= Checklist.find(3).required %>,
+                                "children": <%= ChecklistItem.where(checklist_id: 3).order("position ASC").to_json.html_safe %>,
+                                "options": [
+                                    {
+                                        "id": 30,
+                                        "type": "ChecklistOption",
+                                        "name": "No cumple",
+                                        "icon": "/images/cuadrado_no_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 33,
+                                        "type": "ChecklistOption",
+                                        "name": "Observ.",
+                                        "icon": "/images/cuadrado_observacion.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 7,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 25,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 28,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 32,
+                                        "type": "ChecklistOption",
+                                        "name": "Cantidad",
+                                        "icon": "/images/cuadrado_cantidad.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 8,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 27,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 29,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 31,
+                                        "type": "ChecklistOption",
+                                        "name": "Cumple",
+                                        "icon": "/images/cuadrado_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "id": 4,
+                                "type": "Gallery",
+                                "name": "Fotos kit punto de venta",
+                                "icon": "/images/fotos.png",
+                                "required": true,
+                                "max_images": null,
+                                "children": []
+                            },
+                            {
+                                "id": 1,
+                                "type": "Checklist",
+                                "type": "Checklist",
+                                "name": "<%= Checklist.find(1).name %>",
+                                "icon": "<%= Checklist.find(1).icon %>",
+                                "required": <%= Checklist.find(1).required %>,
+                                "children": <%= ChecklistItem.where(checklist_id: 1).order("position ASC").to_json.html_safe %>,
+                                "options": [
+                                    {
+                                        "id": 30,
+                                        "type": "ChecklistOption",
+                                        "name": "No cumple",
+                                        "icon": "/images/cuadrado_no_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 33,
+                                        "type": "ChecklistOption",
+                                        "name": "Observ.",
+                                        "icon": "/images/cuadrado_observacion.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 7,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 25,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 28,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 32,
+                                        "type": "ChecklistOption",
+                                        "name": "Cantidad",
+                                        "icon": "/images/cuadrado_cantidad.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 8,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 27,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 29,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id": 31,
+                                        "type": "ChecklistOption",
+                                        "name": "Cumple",
+                                        "icon": "/images/cuadrado_cumple.png",
+                                        "required": true,
+                                        "detail": {
+                                            "id": 6,
+                                            "name": "Detalle",
+                                            "data_parts": [
+                                                {
+                                                    "id": 24,
+                                                    "type": "Comment",
+                                                    "name": "Cuál",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 140,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 184,
+                                                    "type": "Comment",
+                                                    "name": "Observación",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 2048,
+                                                    "multiline": true,
+                                                    "field_type": "text",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 185,
+                                                    "type": "Comment",
+                                                    "name": "Cantidad",
+                                                    "icon": null,
+                                                    "required": true,
+                                                    "max_length": 4,
+                                                    "multiline": false,
+                                                    "field_type": "number",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": 26,
+                                                    "type": "Gallery",
+                                                    "name": "Fotos",
+                                                    "icon": "/images/fotos.png",
+                                                    "required": true,
+                                                    "max_images": null,
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "section_type": {
+                    "id": 2,
+                    "name": "data"
+                }
+            }
+        },
+        {
+            "id": "3",
+            "type": "sections",
+            "attributes": {
+                "position": 2,
+                "name": "Productos",
+                "subsections": [
+                    {
+                        "id": 4,
+                        "name": "Productos",
+                        "data_parts": [
+                            {
+                                "id": 11,
+                                "type": "Custom",
+                                "name": "Stock",
+                                "icon": "/images/stock_venta.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "stock"
+                                },
+                                "detail": null,
+                                "children": []
+                            },
+                            {
+                                "id": 59,
+                                "type": "Custom",
+                                "name": "HC Promotores",
+                                "icon": "/images/hc_promotores.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "hc"
+                                },
+                                "detail": null,
+                                "children": []
+                            },
+                            {
+                                "id": 15,
+                                "type": "Custom",
+                                "name": "Venta",
+                                "icon": "/images/ventas.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "sales"
+                                },
+                                "detail": null,
+                                "children": []
+                            },
+                            {
+                                "id": 12,
+                                "type": "Custom",
+                                "name": "Más vendidos",
+                                "icon": "/images/mas_vendidos.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "top_sales"
+                                },
+                                "detail": null,
+                                "children": []
+                            },
+                            {
+                                "id": 13,
+                                "type": "Custom",
+                                "name": "Quiebre de Stock",
+                                "icon": "/images/quiebre_stock.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "stock_break"
+                                },
+                                "detail": null,
+                                "children": []
+                            },
+                            {
+                                "id": 14,
+                                "type": "Custom",
+                                "name": "Acciones de Competencia",
+                                "icon": "/images/acciones_competencia.png",
+                                "required": true,
+                                "data": {
+                                    "companies": [
+                                        "Playstation",
+                                        "Nintendo",
+                                        "Xbox"
+                                    ],
+                                    "type": "competition"
+                                },
+                                "detail": {
+                                    "id": 9,
+                                    "name": "Detalle",
+                                    "data_parts": [
+                                        {
+                                            "id": 34,
+                                            "type": "Comment",
+                                            "name": "Cuál",
+                                            "icon": null,
+                                            "required": true,
+                                            "max_length": 140,
+                                            "multiline": true,
+                                            "field_type": "text",
+                                            "children": []
+                                        },
+                                        {
+                                            "id": 35,
+                                            "type": "Comment",
+                                            "name": "Observación",
+                                            "icon": null,
+                                            "required": true,
+                                            "max_length": 140,
+                                            "multiline": true,
+                                            "field_type": "text",
+                                            "children": []
+                                        },
+                                        {
+                                            "id": 36,
+                                            "type": "Gallery",
+                                            "name": "Fotos",
+                                            "icon": "/images/fotos.png",
+                                            "required": true,
+                                            "max_images": null,
+                                            "children": []
+                                        },
+                                        {
+                                            "id": 37,
+                                            "type": "Comment",
+                                            "name": "Cantidad",
+                                            "icon": null,
+                                            "required": true,
+                                            "max_length": 4,
+                                            "multiline": false,
+                                            "field_type": "number",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ],
+                "section_type": {
+                    "id": 2,
+                    "name": "data"
+                }
+            }
+        },
+        {
+            "id": "4",
+            "type": "sections",
+            "attributes": {
+                "position": 2,
+                "name": "Galería",
+                "subsections": [],
+                "section_type": {
+                    "id": 3,
+                    "name": "gallery"
+                }
+            }
+        }
+    ]
+}

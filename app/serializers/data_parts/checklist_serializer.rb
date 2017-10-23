@@ -14,15 +14,7 @@
 #  ancestry      :string
 #
 
-class ChecklistSerializer < DataPartSerializer
-	has_many :options
-
-	def options
-		options = []
-		ChecklistOption.unscoped.all.each do |option|
-			options << ChecklistOptionSerializer.new(option).as_json
-		end
-		
-	end
+class ChecklistSerializer < ActiveModel::Serializer
+	attributes :id, :type
 	
 end

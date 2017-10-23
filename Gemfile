@@ -6,10 +6,10 @@ gem 'rails-api', '~> 0.4.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
 gem 'pghero'
-gem 'pg_query'
+gem 'pg_query', '~> 0.13.3'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.6'
+gem 'puma', '~> 3.10'
 gem 'pry', '~> 0.10.4'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'activerecord-postgis-adapter', '~> 3.1', '>= 3.1.4'
