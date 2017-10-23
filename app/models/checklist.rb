@@ -20,6 +20,10 @@ class Checklist < ActiveRecord::Base
     	ChecklistOption.all   	
 	end
 
+	def type
+		'Checklist'
+	end
+
 	def children=(val)
 		old_children = []
 		new_children = []

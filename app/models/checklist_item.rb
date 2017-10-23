@@ -22,14 +22,18 @@ class ChecklistItem < ActiveRecord::Base
   def options
     self.data["options"]
   end
-  def as_json(opts)
-  	ChecklistItemSerializer.new(self).as_json
+  def as_json(opts = {})
+    if opts[:standard]
+      super
+    else
+      ChecklistItemSerializer.new(self).as_json
+    end
   end
   def type
-  	"ChecklistItem"
+    "ChecklistItem"
   end
   def icon
-  	nil
+    nil
   end
 
 end

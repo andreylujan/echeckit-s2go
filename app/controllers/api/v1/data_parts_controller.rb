@@ -29,21 +29,8 @@ class Api::V1::DataPartsController < Api::V1::JsonApiController
 
   def show
   	id = params.require(:id).to_i
-  	if id == 1
-  		render '1'
-  	elsif id == 3
-  		render '3'
-  	else
-  		ender json: {
-        "errors": [
-          {
-            "status": "422",
-            "title": "Id inválido",
-            "detail": "El id deber ser 1 o 3"
-          }
-        ]
-      }, status: :unprocessable_entity
-  	end
+    render json: JSONAPI::ResourceSerializer.new(Api::V1::ChecklistResource)
+        .serialize_to_hash(Api::V1::ChecklistResource.new(Checklist.find(id), nil))
   end
 
 end
