@@ -20,12 +20,11 @@
 #  organization_id :integer
 #
 
-class Checklist < DataPart
-	has_many :promotions
-	before_save :anadirOrganizacion
+class Checklist < ActiveRecord::Base
+	acts_as_list
     def options
     	org_id = self.subsection.section.organization_id    	
-    	ChecklistOption.unscoped.where(organization_id: org_id)    	
+    	ChecklistOption.all   	
 	end
 
 	def children=(val)
@@ -57,10 +56,5 @@ class Checklist < DataPart
 		new_children.each do | new |
 			self.children.create! new
 		end
-	end
-
-	def anadirOrganizacion
-		self.organization_id = 1
-		self.subsection_id = 2
 	end
 end

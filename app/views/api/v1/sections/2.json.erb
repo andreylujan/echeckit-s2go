@@ -111,9 +111,10 @@
                             {
                                 "id": 151,
                                 "type": "Checklist",
-                                "name": "Promociones",
-                                "icon": null,
-                                "required": true,
+                                "type": "Checklist",
+                                "name": "<%= Checklist.find(151).name %>",
+                                "icon": "<%= Checklist.find(151).icon %>",
+                                "required": <%= Checklist.find(151).required %>,
                                 "children": [
                                     {
                                         "id": 152,

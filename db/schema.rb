@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608143026) do
+ActiveRecord::Schema.define(version: 20171023001924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,16 +79,37 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_index "checkins", ["user_id"], name: "index_checkins_on_user_id", using: :btree
 
   create_table "checklist_item_values", force: :cascade do |t|
-    t.integer  "report_id",                 null: false
+    t.integer  "report_id",                      null: false
     t.boolean  "item_value"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "data_part_id",              null: false
-    t.json     "image_list",   default: []
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "checklist_item_id",              null: false
+    t.json     "image_list",        default: []
   end
 
-  add_index "checklist_item_values", ["data_part_id"], name: "index_checklist_item_values_on_data_part_id", using: :btree
+  add_index "checklist_item_values", ["checklist_item_id"], name: "index_checklist_item_values_on_checklist_item_id", using: :btree
   add_index "checklist_item_values", ["report_id"], name: "index_checklist_item_values_on_report_id", using: :btree
+
+  create_table "checklist_items", force: :cascade do |t|
+    t.text     "name",                         null: false
+    t.boolean  "required",     default: false, null: false
+    t.integer  "position"
+    t.jsonb    "data",         default: {},    null: false
+    t.integer  "checklist_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "checklist_items", ["checklist_id"], name: "index_checklist_items_on_checklist_id", using: :btree
+
+  create_table "checklists", force: :cascade do |t|
+    t.text     "name",                       null: false
+    t.integer  "position"
+    t.text     "icon"
+    t.boolean  "required",   default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "daily_head_counts", force: :cascade do |t|
     t.integer  "num_full_time",  default: 0, null: false
@@ -140,28 +161,6 @@ ActiveRecord::Schema.define(version: 20170608143026) do
 
   add_index "daily_stocks", ["brand_id"], name: "index_daily_stocks_on_brand_id", using: :btree
   add_index "daily_stocks", ["report_id"], name: "index_daily_stocks_on_report_id", using: :btree
-
-  create_table "data_parts", force: :cascade do |t|
-    t.integer  "subsection_id"
-    t.text     "type",                           null: false
-    t.text     "name",                           null: false
-    t.text     "icon"
-    t.boolean  "required",        default: true, null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "ancestry"
-    t.integer  "max_images"
-    t.integer  "max_length"
-    t.json     "data",            default: {},   null: false
-    t.integer  "position",        default: 0,    null: false
-    t.integer  "detail_id"
-    t.integer  "organization_id"
-  end
-
-  add_index "data_parts", ["ancestry"], name: "index_data_parts_on_ancestry", using: :btree
-  add_index "data_parts", ["detail_id"], name: "index_data_parts_on_detail_id", using: :btree
-  add_index "data_parts", ["organization_id"], name: "index_data_parts_on_organization_id", using: :btree
-  add_index "data_parts", ["subsection_id"], name: "index_data_parts_on_subsection_id", using: :btree
 
   create_table "dealers", force: :cascade do |t|
     t.text     "name",         null: false
@@ -537,24 +536,6 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_index "sale_goals", ["sale_goal_upload_id"], name: "index_sale_goals_on_sale_goal_upload_id", using: :btree
   add_index "sale_goals", ["store_id"], name: "index_sale_goals_on_store_id", using: :btree
 
-  create_table "section_types", force: :cascade do |t|
-    t.text     "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sections", force: :cascade do |t|
-    t.integer  "position"
-    t.text     "name"
-    t.integer  "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "section_type_id", null: false
-  end
-
-  add_index "sections", ["organization_id"], name: "index_sections_on_organization_id", using: :btree
-  add_index "sections", ["section_type_id"], name: "index_sections_on_section_type_id", using: :btree
-
   create_table "secundary_categories", force: :cascade do |t|
     t.string   "name"
     t.integer  "principalcategory_id"
@@ -655,15 +636,6 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_index "subsection_items", ["subsection_id"], name: "index_subsection_items_on_subsection_id", using: :btree
   add_index "subsection_items", ["subsection_item_type_id"], name: "index_subsection_items_on_subsection_item_type_id", using: :btree
 
-  create_table "subsections", force: :cascade do |t|
-    t.integer  "section_id"
-    t.text     "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "subsections", ["section_id"], name: "index_subsections_on_section_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -737,7 +709,7 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_foreign_key "categories", "secundary_categories"
   add_foreign_key "checkins", "stores"
   add_foreign_key "checkins", "users"
-  add_foreign_key "checklist_item_values", "data_parts"
+  add_foreign_key "checklist_item_values", "checklist_items"
   add_foreign_key "checklist_item_values", "reports"
   add_foreign_key "daily_head_counts", "brands"
   add_foreign_key "daily_head_counts", "reports"
@@ -747,11 +719,8 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_foreign_key "daily_sales", "reports"
   add_foreign_key "daily_stocks", "brands"
   add_foreign_key "daily_stocks", "reports"
-  add_foreign_key "data_parts", "organizations"
-  add_foreign_key "data_parts", "subsections"
   add_foreign_key "devices", "users"
   add_foreign_key "images", "categories"
-  add_foreign_key "images", "data_parts"
   add_foreign_key "images", "reports"
   add_foreign_key "images", "users"
   add_foreign_key "invitations", "roles"
@@ -766,7 +735,7 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_foreign_key "promotion_states", "promotions"
   add_foreign_key "promotion_states", "reports"
   add_foreign_key "promotion_states", "stores"
-  add_foreign_key "promotions", "data_parts", column: "checklist_id"
+  add_foreign_key "promotions", "checklists"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "report_types"
   add_foreign_key "reports", "stores"
@@ -774,8 +743,6 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_foreign_key "sale_goal_uploads", "users"
   add_foreign_key "sale_goals", "sale_goal_uploads"
   add_foreign_key "sale_goals", "stores"
-  add_foreign_key "sections", "organizations"
-  add_foreign_key "sections", "section_types"
   add_foreign_key "secundary_categories", "principalcategories"
   add_foreign_key "stock_break_events", "products"
   add_foreign_key "stock_break_events", "reports"
@@ -786,7 +753,6 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_foreign_key "stores", "store_types"
   add_foreign_key "stores", "zones"
   add_foreign_key "subsection_items", "subsection_item_types"
-  add_foreign_key "subsections", "sections"
   add_foreign_key "users", "roles"
   add_foreign_key "weekly_business_sales", "stores"
 end
