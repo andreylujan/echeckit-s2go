@@ -31,8 +31,8 @@ module EcheckitApi
     config.autoload_paths += Dir[Rails.root.join('app', 'serializers', 'data_parts')]
     config.active_job.queue_adapter = :sidekiq
     
-    # config.time_zone = "Santiago"
-    # config.active_record.default_timezone = "Santiago"
+    # config.time_zone = "America/Panama"
+    # config.active_record.default_timezone = "America/Panama"
 
     ActiveModelSerializers.config.adapter = :json_api
     ActiveModelSerializers.config.key_transform = :underscore

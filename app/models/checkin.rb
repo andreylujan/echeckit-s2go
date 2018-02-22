@@ -71,28 +71,28 @@ class Checkin < ActiveRecord::Base
 
   def formatted_arrival_time
     if arrival_time.present?
-      tz = ActiveSupport::TimeZone.new("Santiago")
+      tz = ActiveSupport::TimeZone.new("America/Panama")
       arrival_time.in_time_zone(tz).strftime("%H:%M")
     end
   end
 
   def formatted_arrival_date
     if arrival_time.present?
-      tz = ActiveSupport::TimeZone.new("Santiago")
+      tz = ActiveSupport::TimeZone.new("America/Panama")
       arrival_time.in_time_zone(tz).strftime("%d/%m/%y")
     end
   end
 
   def formatted_exit_time
     if exit_time.present?
-      tz = ActiveSupport::TimeZone.new("Santiago")
+      tz = ActiveSupport::TimeZone.new("America/Panama")
       exit_time.in_time_zone(tz).strftime("%H:%M")
     end
   end
 
   def formatted_exit_date
     if exit_time.present?
-      tz = ActiveSupport::TimeZone.new("Santiago")
+      tz = ActiveSupport::TimeZone.new("America/Panama")
       exit_time.in_time_zone(tz).strftime("%d/%m/%y")
     end
   end
