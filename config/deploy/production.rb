@@ -19,10 +19,9 @@ set :branch, 'production'
 set :deploy_to, "#{ENV['DEPLOY_PATH']}"
 
 set :ssh_options, {
- keys: [ "#{ENV['HOME']}/.ssh/echeckit_production.pem"  ],
- forward_agent: true,
- auth_methods: ["publickey"]
-}
+   keys: %w(~/.ssh/id_rsa),
+   forward_agent: false
+ }
 
 
 # role-based syntax
