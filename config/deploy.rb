@@ -1,10 +1,16 @@
 # -*- encoding : utf-8 -*-
 # config valid only for current version of Capistrano
-lock '3.6.0'
+lock '3.9.0'
 
 set :application, 'api'
 set :repo_url, 'git@github.com:andreylujan/echeckit-s2go.git'
 set :branch, 'master'
+
+set :ssh_options, {
+ keys: [ "#{ENV['HOME']}/.ssh/echeckit_production.pem"  ],
+ forward_agent: true,
+ auth_methods: ["publickey"]
+}
 
 # Default value for :scm is :git
 set :scm, :git
