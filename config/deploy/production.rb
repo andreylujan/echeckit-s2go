@@ -16,7 +16,7 @@ server '50.16.161.152', port: 60, user: 'ubuntu', roles: [:web, :app, :db]
 set :branch, 'production'
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, "#{ENV['DEPLOY_PATH']}"
+set :deploy_to, '/srv/http/www/echeckit/eretail/api'
 
 set :ssh_options, {
    keys: %w(~/.ssh/id_rsa),
