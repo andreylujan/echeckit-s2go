@@ -4,7 +4,7 @@ lock '3.6.0'
 
 set :application, 'api'
 set :repo_url, 'git@github.com:andreylujan/echeckit-s2go.git'
-set :branch, 'master'
+set :branch, 'peru'
 
 # Default value for :scm is :git
 set :scm, :git
