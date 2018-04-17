@@ -36,6 +36,15 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+  ActionMailer::Base.smtp_settings = {
+    :user_name => ENV["SENDGRID_USER"],
+    :password => ENV["SENDGRID_PASSWORD"],
+    :domain => ENV["SENDGRID_DOMAIN"],
+    :address => ENV["SENDGRID_ADDRESS"],
+    :port => ENV["SENDGRID_PORT"],
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

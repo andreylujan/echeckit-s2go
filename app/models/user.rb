@@ -41,10 +41,10 @@ class User < ActiveRecord::Base
   belongs_to :role
   validates :role, presence: true
   before_validation :assign_role_id, on: :create
-  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken', 
+  has_many :access_tokens, foreign_key: :resource_owner_id, class_name: 'Doorkeeper::AccessToken',
     dependent: :destroy
   has_many :executed_reports, class_name: :Report, foreign_key: :executor_id
-  
+
   delegate :organization, to: :role, allow_nil: false
   delegate :organization_id, to: :role, allow_nil: false
   has_many :created_reports, class_name: :Report, foreign_key: :creator_id, dependent: :destroy
@@ -66,12 +66,12 @@ class User < ActiveRecord::Base
   has_many :supervised_stores, class_name: :Store, foreign_key: :supervisor_id, dependent: :nullify
 
   def send_confirmation_email
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").confirmation_email(self)
+    UserSendGridMailer.confirmation_email(self).deliver
   end
 
   def send_reset_password_instructions
     set_reset_password_token
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").reset_password_email(self)
+    UserSendGridMailer.reset_password_email(self).deliver
   end
 
   def full_name
