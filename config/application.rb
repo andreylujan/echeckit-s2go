@@ -30,7 +30,7 @@ module EcheckitApi
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'data_parts')]
     config.autoload_paths += Dir[Rails.root.join('app', 'serializers', 'data_parts')]
     config.active_job.queue_adapter = :sidekiq
-    
+
     # config.time_zone = "America/Panama"
     # config.active_record.default_timezone = "America/Panama"
 
@@ -44,22 +44,18 @@ module EcheckitApi
     end
 
     config.action_mailer.delivery_method = :smtp
-    
+
     config.action_view.logger = nil
 
     config.action_mailer.smtp_settings = {
-      :address        => 'smtp.office365.com',
-        :port           => '587',
-        :authentication => :login,
-        :user_name      => ENV['TROKA_EMAIL_USERNAME'],
-        :password       => ENV['TROKA_EMAIL_PASSWORD'],
-        :domain         => 'ewin.cl',
-        :enable_starttls_auto => true
+      :user_name => ENV["SENDGRID_USER"],
+      :password => ENV["SENDGRID_PASSWORD"],
+      :domain => ENV["SENDGRID_DOMAIN"],
+      :address => ENV["SENDGRID_ADDRESS"],
+      :port => ENV["SENDGRID_PORT"],
+      :authentication => :plain,
+      :enable_starttls_auto => true
     }
 
   end
 end
-
-
-
-

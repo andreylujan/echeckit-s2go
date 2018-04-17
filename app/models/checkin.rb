@@ -125,12 +125,12 @@ class Checkin < ActiveRecord::Base
   end
 
   def send_checkin_email
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").checkin_email(self)
+    UserSendGridMailer.checkin_email(self).deliver
   end
 
   def send_checkout_email
     if exit_time.present?
-      UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").checkout_email(self)
+      UserSendGridMailer.checkout_email(self).deliver
     end
   end
 

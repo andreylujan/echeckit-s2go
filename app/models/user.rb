@@ -66,12 +66,12 @@ class User < ActiveRecord::Base
   has_many :supervised_stores, class_name: :Store, foreign_key: :supervisor_id, dependent: :nullify
 
   def send_confirmation_email
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").confirmation_email(self)
+    UserSendGridMailer.confirmation_email(self).deliver
   end
 
   def send_reset_password_instructions
     set_reset_password_token
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").reset_password_email(self)
+    UserSendGridMailer.reset_password_email(self).deliver
   end
 
   def full_name
