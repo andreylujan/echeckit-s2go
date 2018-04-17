@@ -26,7 +26,7 @@ class Invitation < ActiveRecord::Base
   after_create :send_email
 
   def send_email
-    UserMailer.delay(queue: "#{ENV['QUEUE_PREFIX']}_email").invite_email(self)
+    UserSendGridMailer.invite_email(self).deliver
   end
 
   private
