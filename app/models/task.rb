@@ -21,6 +21,13 @@ class Task
     new_reports = []
     reports_by_user = {}
 
+
+    if promoters.count == 1
+      promoter = promoters.last
+      if promoter.role_id == 1 || promoter.role_id == 3
+        new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
+      end
+    end
     # Si se indican promotores explícitamente, se prioriza esto
     if promoters.count > 0
       promoters.each do |promoter|
