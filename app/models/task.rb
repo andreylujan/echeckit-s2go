@@ -22,15 +22,23 @@ class Task
     reports_by_user = {}
 
 
-    if promoters.count == 1
-      promoter = promoters.last
-      if promoter.role_id == 1 || promoter.role_id == 3
-        new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
-      end
-    end
+    #if promoters.count == 1
+    #  promoter = promoters.last
+    #  if promoter.role_id == 1 || promoter.role_id == 3
+    #    new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
+    #  end
+    #end
     # Si se indican promotores explícitamente, se prioriza esto
     if promoters.count > 0
       promoters.each do |promoter|
+        if promoter.role_id == 1 || promoter.role_id == 3
+          stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id)
+          Rails.logger.info "stores: #{stores.count}"
+          stores.each do |store|
+            new_reports << report_from_store_and_promoters(store, [promoter])
+          end
+        end
+
         if stores.count > 0
           stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
