@@ -105,7 +105,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
     render text: package.to_stream.read
   end
 
-  def goals
+  def category
     if params[:format] == "xlsx"
       goals_xlsx
       return
@@ -127,19 +127,186 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       )
     .group_by(&:dealer_criteria)
 
+
     monthly_sales_vs_goals = goals_by_dealer.map do |goal|
       sales = sales_by_dealer.find(ifnone = nil) { |d| d[0].id == goal[0].id }
       sales_amount = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
         sum + x.hardware_sales + x.accessory_sales + x.game_sales
       end
+      sales_unit = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+        sum + x.unit_hardware_sales + x.unit_accessory_sales + x.unit_game_sales
+        sales_accessory + x.unit_accessory_sales
+      end
+
+
       goal_amount = goal[1].inject(0) do |sum, x|
         sum + x.monthly_goal
       end
+      goal_unit = goal[1].inject(0) do |sum, x|
+        sum + x.unit_monthly_goal
+      end
+
+      #goal[1].inject(0) do |sum, x|
+      #  case x.goal_category.upcase
+      #  when 'JUEGOS'
+      #    Rails.logger.info "Juegos: #{x.unit_monthly_goal}"
+      #    goal_games + x.unit_monthly_goal
+      #  when 'ACCESORIOS'
+      #    goal_accessory + x.unit_monthly_goal
+      #  when 'CONSOLAS'
+      #    goal_hardware  + x.unit_monthly_goal
+      #    end
+      #end
+
+      sales_games = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+        sum + x.unit_game_sales
+      end
+      sales_hardware = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+        sum + x.unit_hardware_sales
+      end
+      sales_accessory = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+        sum + x.unit_accessory_sales
+      end
+
+      goal_hardware = goal[1].inject(0) do |sum, x|
+        if x.goal_category.upcase == 'CONSOLAS'
+          sum + + x.unit_monthly_goal
+        end
+      end
+      goal_games = goal[1].inject(0) do |sum, x|
+        if x.goal_category.upcase == 'ACCESORIOS'
+          sum + x.unit_monthly_goal
+        end
+      end
+      goal_accessory = goal[1].inject(0) do |sum, x|
+        if x.goal_category.upcase == 'JUEGOS'
+          sum + x.unit_monthly_goal
+        end
+      end
+
+      {
+        name: goal[0].name,
+        goal_amount: goal_amount,
+        goal_unit: goal_unit,
+        sales_amount: sales_amount,
+        sales_unit: sales_unit,
+        goal_percentage: sales_amount.to_f/goal_amount.to_f,
+        goal_percentage_unit: sales_amount.to_f/goal_amount.to_f,
+        categories: [{name:'Consola', goal:goal_hardware,sale:sales_hardware, percentage:sales_hardware.to_f/goal_hardware.to_f},
+          {name:'Juego', goal:goal_games,sale:sales_games, percentage:sales_games.to_f/goal_games.to_f},
+          {name:'Accesorio', goal:goal_accessory,sale:sales_accessory, percentage:sales_accessory.to_f/goal_accessory.to_f}]
+      }
+    end
+
+    render json: {
+       data: {
+         id: "#{@start_date}",
+         type: "goal_dashboards",
+         attributes: {
+           monthly_sales_vs_goals: monthly_sales_vs_goals
+         }
+       }
+     }
+  end
+
+  def categories
+    category = []
+    saleGoal = SaleGoal.select("distinct goal_category ")
+    saleGoal.each do |sale|
+      category << sale.goal_category
+    end
+    category
+  end
+
+  def goals
+    if params[:format] == "xlsx"
+      goals_xlsx
+      return
+    end
+
+    @days_in_month = @start_date.end_of_month.day
+    @current_date = DateTime.now
+
+
+    goals_by_dealer = filtered_monthly_goals
+    .includes(store: :dealer)
+    .group_by(&:dealer_criteria)
+
+    dealer_ids = goals_by_dealer.map { |g| g[0].id }
+    sales_by_dealer = filtered_weekly_sales_by_month
+    .includes(store: :dealer)
+    .where(
+      stores: { dealer_id: dealer_ids }
+      )
+    .group_by(&:dealer_criteria)
+    Rails.logger.info "sales_by_dealer: #{sales_by_dealer}"
+    cats = categories
+    monthly_sales_vs_goals = goals_by_dealer.map do |goal|
+      sales = sales_by_dealer.find(ifnone = nil) { |d| d[0].id == goal[0].id }
+      sale = []
+      cats.map do |cat|
+        total = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+          s = 0
+          if cat == x.category
+            s = x.goals_sales['venta']
+          end
+          sum + s
+        end
+        sale << {name: cat, total: total}
+      end
+      Rails.logger.info "sale: #{sale}"
+
+      goals = []
+      cats.map do |cat|
+        total = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+          v = 0
+          if cat == x.category
+            v = x.goals_sales['metas']
+          end
+          sum + v
+        end
+        goals << {name: cat, total:total}
+      end
+      categories = []
+      cat = nil
+      sale.map do |s|
+        goals.map do |g|
+          if s[:name] == g[:name]
+            cat = {name: s[:name], goal: g[:total], sale: s[:total], percentage:s[:total].to_f/ g[:total].to_f}
+          end
+        end
+        categories << cat
+      end
+
+      sales_unit = 0
+      sale.map do |s|
+        sales_unit = sales_unit + s[:total]
+      end
+
+      goal_unit = 0
+      goals.map do |g|
+        goal_unit = goal_unit + g[:total]
+      end
+
+
+      sales_amount = sales.nil? ? 0 : sales[1].inject(0) do |sum, x|
+        sum + x.hardware_sales + x.accessory_sales + x.game_sales
+      end
+
+      goal_amount = goal[1].inject(0) do |sum, x|
+        sum + x.monthly_goal
+      end
+
+
+      #Rails.logger.info "unit_monthly_goal: #{x.unit_monthly_goal}"
       {
         name: goal[0].name,
         goal: goal_amount,
         sales: sales_amount,
-        goal_percentage: sales_amount.to_f/goal_amount.to_f
+        goal_unit: goal_unit,
+        sales_unit: sales_unit,
+        goal_percentage: sales_amount.to_f/goal_amount.to_f,
+        categories: categories
       }
     end
 
@@ -174,14 +341,14 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         growth_percentage: last_week_sales > 0 ? ((current_week_sales.to_f - last_week_sales.to_f)/last_week_sales.to_f) : nil
       }
     end
-    
+
     selected_date = DateTime.new(@year.to_i, @month.to_i)
     first_month_week = selected_date.beginning_of_month.cweek
     last_month_week = selected_date.end_of_month.cweek
-    
+
     last_year_weekly_sales = filtered_weekly_sales_by_week_number(selected_date.year - 1, first_month_week, last_month_week).group_by(&:week_number)
     current_year_weekly_sales = filtered_weekly_sales_by_week_number(selected_date.year, first_month_week, last_month_week).group_by(&:week_number)
-    
+
     iterations = last_month_week - first_month_week + 1
     iterations.times do |i|
       if not last_year_weekly_sales[i + first_month_week].present?
@@ -197,7 +364,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       last_year_sales = weekly_sales[1].inject(0) do |sum, x|
         sum + x.hardware_sales + x.accessory_sales + x.game_sales
       end
-      
+
       current_year_sales = current_year_weekly_sales[weekly_sales[0]]
       .inject(0) do |sum, x|
 
@@ -253,12 +420,12 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       }
     end
 
-    
+
     monthly_sales_comparison.sort! do |m1, m2|
       m1[:month_index] - m2[:month_index]
     end
 
-    
+
 
     data = {
       id: @start_date,
@@ -449,7 +616,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
           }
           subgroup_json << subgroup_hash
         end
-        group_json = 
+        group_json =
         {
           product_name: product.name,
           stock_breaks_by_dealer: subgroup_json
@@ -805,7 +972,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       for i in 0..groups_actual.length-1
         groups << groups_actual[i]
         groups[i][3] = 0
-      end    
+      end
     end
 
     current_index = 0
@@ -917,7 +1084,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       .includes(:user)
       .order('arrival_time DESC'),
       DailyHeadCount
-      .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator])      
+      .includes(report: [{ store: [ :zone, :dealer, :instructor, :supervisor ]}, :creator])
       .includes(:brand)
       .order("reports.created_at DESC")]
       excel_classes.each do |model_class|
@@ -1475,6 +1642,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       brand_hardware_sales = brand_sales.inject(0) { |sum, x| sum + x.hardware_sales }
       brand_accessory_sales = brand_sales.inject(0) { |sum, x| sum + x.accessory_sales }
       brand_game_sales = brand_sales.inject(0) { |sum, x| sum + x.game_sales }
+
 
       company_sales = {
         name: brand.name,

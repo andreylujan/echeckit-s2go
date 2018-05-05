@@ -47,6 +47,10 @@ class Promotion < ActiveRecord::Base
 		if stores.count == 0
 			raise ActiveRecord::RecordNotSaved, 'No hay tiendas válidas para esta combinación de zona y dealer'
 		end
+	end
 
+	def creator_name
+		user = User.find(creator_id)
+		user.full_name
 	end
 end

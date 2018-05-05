@@ -14,6 +14,8 @@
 #  month           :date
 #  week_number     :integer          not null
 #  deleted_at      :datetime
+#  category,       :string           default: '' null:false
+#  goals_sales     :json             default: {} null: false
 #
 
 class WeeklyBusinessSale < ActiveRecord::Base
@@ -28,7 +30,7 @@ class WeeklyBusinessSale < ActiveRecord::Base
     :less_than_or_equal_to => 53 }
 
   acts_as_paranoid
-  
+
   before_save :set_default_values
   acts_as_xlsx columns: [ :id, :dealer_name, :zone_name,
                           :store_code,
@@ -62,8 +64,8 @@ class WeeklyBusinessSale < ActiveRecord::Base
 
   def self.from_csv(csv_file, reset = false)
     begin
-      header = "store_code;hardware_sales;accessory_sales;game_sales;week;month;year\n"
-      sales = []
+      #header = "store_code;hardware_sales;accessory_sales;game_sales;week;month;year\n"
+      header ="dealer;store_code;dealer_city;goal;category;month;year;zone;sale\n"
       created = []
       csv_file = csv_file.open
       lines = csv_file.readlines
@@ -87,12 +89,12 @@ class WeeklyBusinessSale < ActiveRecord::Base
         }
       end
 
-      if csv.headers.length < 7
+      if csv.headers.length < 9
         return {
           errors: [{
                      title: "Archivo inválido",
-                     detail: "El archivo CSV debe tener 7 columnas (Código de tienda, ventas de hardware, " +
-                     "ventas de accesorios, ventas de juego, semana (1-53), mes (1-12), año (20xx)"
+                     detail: "El archivo CSV debe tener 9 columnas (Tienda, Código de tienda, Ciudad tienda, " +
+                     "meta, Categoría, mes (1-12), año (20xx), Zona, Venta)"
                    }
                    ]
         }
@@ -101,28 +103,32 @@ class WeeklyBusinessSale < ActiveRecord::Base
       WeeklyBusinessSale.transaction do
         csv.each do |row|
           begin
-            store_code = row[0].strip if row[0].present?
-            hardware_sales = row[1].strip.gsub(/[\$]|[\.]/, '').to_i if row[1].present?
-            accessory_sales = row[2].strip.gsub(/[\$]|[\.]/, '').to_i if row[2].present?
-            game_sales = row[3].strip.gsub(/[\$]|[\.]/, '').to_i if row[3].present?
-            week = row[4].strip.to_i if row[4].present?
-            week_number = row[4].strip.to_i if row[4].present?
+            #header ="dealer;store_code;dealer_city;goal;category;month;year;zone;sale\n"
+            #store_code = row[0].strip if row[0].present?
+            #hardware_sales = row[1].strip.gsub(/[\$]|[\.]/, '').to_i if row[1].present?
+            #accessory_sales = row[2].strip.gsub(/[\$]|[\.]/, '').to_i if row[2].present?
+            #game_sales = row[3].strip.gsub(/[\$]|[\.]/, '').to_i if row[3].present?
+            #week = row[4].strip.to_i if row[4].present?
+            #week_number = row[4].strip.to_i if row[4].present?
+            #month = row[5].strip.to_i if row[5].present?
+            #year = row[6].strip.to_i if row[6].present?
+
+            store_code = row[1].strip if row[1].present?
+            hardware_sales = 0
+            accessory_sales = 0
+            game_sales = 0
+            week_number = 1
+            goals = row[3].strip.gsub(/[\$]|[\.]/, '').to_i if row[3].present?
+            category = row[4].strip if row[4].present?
             month = row[5].strip.to_i if row[5].present?
             year = row[6].strip.to_i if row[6].present?
+            s = row[8].strip.gsub(/[\$]|[\.]/, '').to_i if row[8].present?
             store = Store.where("lower(code) = ?", store_code.to_s.downcase).first
 
             has_error = false
             if store.nil?
               has_error = true
               created << ArgumentError.new("No existe una tienda con el código #{store_code}")
-            end
-            if not has_error
-              begin
-                Date.commercial(year, week)
-              rescue => date_exception
-                has_error = true
-                created << ArgumentError.new("Semana o año inválidos")
-              end
             end
 
             if not has_error
@@ -139,7 +145,9 @@ class WeeklyBusinessSale < ActiveRecord::Base
                                                               month: month)
               sale.assign_attributes hardware_sales: hardware_sales,
                 accessory_sales: accessory_sales,
-                game_sales: game_sales
+                game_sales: game_sales,
+                category: category,
+                goals_sales:{metas:goals, venta:s}
 
               sale.save
               created << sale

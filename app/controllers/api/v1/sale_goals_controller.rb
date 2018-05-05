@@ -3,6 +3,17 @@ class Api::V1::SaleGoalsController < ApplicationController
 
   before_action :doorkeeper_authorize!
 
+  def category
+    category = []
+    saleGoal = SaleGoal.select("distinct goal_category ")
+    saleGoal.each do |sale|
+      category << sale.goal_category
+    end
+    render json: {
+       category: category
+     }
+  end
+
   def csv
     begin
       csv_file = params.require(:csv)
@@ -20,7 +31,7 @@ class Api::V1::SaleGoalsController < ApplicationController
       month = params.require(:month)
       year = params.require(:year)
       if csv_data.length > 0
-        if csv_data[0].length != 2
+        if csv_data[0].length != 4
           render json: {
             errors: [{
                        title: "Archivo inválido",
@@ -37,14 +48,16 @@ class Api::V1::SaleGoalsController < ApplicationController
       sale_goal_upload = SaleGoalUpload.new uploaded_csv: csv_file, goal_date: date, user: current_user
       Tempfile.open(['result', '.csv']) do |fh|
         result_csv = CSV.new(fh)
-        headers = [ 'Resultado', 'Código de tienda', 'Meta mensual' ]
+        headers = [ 'Resultado', 'Código de tienda', 'Meta mensual $', 'Meta mensual Und' ]
         result_csv << headers
         num_total = 0
         num_errors = 0
         csv_data.each_with_index do |goal_row, index|
 
           store_code = goal_row[0].strip if goal_row[0]
-          monthly_goal = goal_row[1].strip.gsub(/[\$]|[\.]/, '').to_i if goal_row[1]
+          category_goal = goal_row[1].strip if goal_row[1]
+          monthly_goal = goal_row[2].strip.gsub(/[\$]|[\.]/, '').to_i if goal_row[2]
+          unit_monthly_goal = goal_row[3].strip.gsub(/[\$]|[\.]/, '').to_i if goal_row[3]
 
           data = {
             id: (index + 1).to_s,
@@ -53,7 +66,9 @@ class Api::V1::SaleGoalsController < ApplicationController
               row_number: index + 1,
               row_data: {
                 store_code: store_code,
-                monthly_goal: monthly_goal
+                category_goal: category_goal,
+                monthly_goal: monthly_goal,
+                unit_monthly_goal: unit_monthly_goal
               }
             }
           }
@@ -70,7 +85,9 @@ class Api::V1::SaleGoalsController < ApplicationController
           else
             goal = SaleGoal.find_or_initialize_by(store: store,
                                                   goal_date: date)
+            goal.goal_category = category_goal
             goal.monthly_goal = monthly_goal
+            goal.unit_monthly_goal = unit_monthly_goal
             goal.save
             if goal.errors.any?
               data[:meta][:success] = false

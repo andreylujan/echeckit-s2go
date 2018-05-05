@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608143026) do
+ActiveRecord::Schema.define(version: 20180504205059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,13 +524,15 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_index "sale_goal_uploads", ["user_id"], name: "index_sale_goal_uploads_on_user_id", using: :btree
 
   create_table "sale_goals", force: :cascade do |t|
-    t.integer  "store_id",            null: false
-    t.integer  "monthly_goal",        null: false
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.datetime "goal_date",           null: false
+    t.integer  "store_id",                         null: false
+    t.integer  "monthly_goal",                     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.datetime "goal_date",                        null: false
     t.integer  "sale_goal_upload_id"
     t.datetime "deleted_at"
+    t.integer  "unit_monthly_goal",   default: 0,  null: false
+    t.string   "goal_category",       default: "", null: false
   end
 
   add_index "sale_goals", ["deleted_at"], name: "index_sale_goals_on_deleted_at", using: :btree
@@ -708,16 +710,18 @@ ActiveRecord::Schema.define(version: 20170608143026) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "weekly_business_sales", force: :cascade do |t|
-    t.integer  "store_id",                              null: false
-    t.integer  "hardware_sales",  limit: 8, default: 0, null: false
-    t.integer  "accessory_sales", limit: 8, default: 0, null: false
-    t.integer  "game_sales",      limit: 8, default: 0, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.integer  "store_id",                               null: false
+    t.integer  "hardware_sales",  limit: 8, default: 0,  null: false
+    t.integer  "accessory_sales", limit: 8, default: 0,  null: false
+    t.integer  "game_sales",      limit: 8, default: 0,  null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.date     "week_start"
     t.date     "month"
-    t.integer  "week_number",                           null: false
+    t.integer  "week_number",                            null: false
     t.datetime "deleted_at"
+    t.string   "category",                  default: "", null: false
+    t.json     "goals_sales",               default: {}, null: false
   end
 
   add_index "weekly_business_sales", ["deleted_at"], name: "index_weekly_business_sales_on_deleted_at", using: :btree

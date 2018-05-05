@@ -44,19 +44,19 @@ Rails.application.routes.draw do
       jsonapi_resources :messages, only: [ :index, :update, :destroy ] do
         post 'read'
       end
-      
+
       jsonapi_resources :broadcasts do
       end
 
       jsonapi_resources :message_actions do
       end
-      
+
       jsonapi_resources :checklists do
       end
-      
+
       jsonapi_resources :stock_breaks do
       end
-      
+
       resources :products, only: [] do
         collection do
           post :csv
@@ -80,7 +80,7 @@ Rails.application.routes.draw do
 
       jsonapi_resources :devices, only: [ :create, :destroy, :update ] do
       end
-      
+
       jsonapi_resources :stores, only: [ :index, :create, :update, :destroy, :show ] do
       end
 
@@ -116,7 +116,7 @@ Rails.application.routes.draw do
         :create,
         :update
       ]
-      
+
       jsonapi_resources :platforms, only: [ :index ] do
       end
 
@@ -128,13 +128,14 @@ Rails.application.routes.draw do
 
       jsonapi_resources :secundary_categories, only: [ :index ] do
       end
-      
+
       resources :data_parts, only: [ :index, :show, :create, :update, :destroy ]
       resources :subsections, only: [ :index ]
       resources :images, only: [ :create, :index, :destroy ]
       resources :sections, only: [ :show, :index ]
       resources :sale_goals, only: [] do
         collection do
+          get :category
           post :csv
         end
       end

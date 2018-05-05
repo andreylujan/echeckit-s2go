@@ -11,6 +11,8 @@
 #  goal_date           :datetime         not null
 #  sale_goal_upload_id :integer
 #  deleted_at          :datetime
+#  unit_monthly_goal   :integer          not null
+#  goal_category       :string           not null
 #
 
 class SaleGoal < ActiveRecord::Base
@@ -20,15 +22,17 @@ class SaleGoal < ActiveRecord::Base
   validates :monthly_goal, :numericality => { :greater_than_or_equal_to => 0 }
 
   acts_as_paranoid
-  
-  acts_as_xlsx columns: [ 
-                          :id, :dealer_name, 
+
+  acts_as_xlsx columns: [
+                          :id, :dealer_name,
                           :zone_name,
-                          :store_code, 
-                          :store_name, 
-                          :goal_month, 
-                          :goal_year, 
-                          :monthly_goal 
+                          :store_code,
+                          :store_name,
+                          :goal_month,
+                          :goal_year,
+                          :goal_category,
+                          :monthly_goal,
+                          :unit_monthly_goal
                         ]
 
   def store_code
