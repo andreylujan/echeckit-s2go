@@ -5,7 +5,7 @@ class Api::V1::SaleGoalsController < ApplicationController
 
   def category
     category = []
-    saleGoal = SaleGoal.select("distinct goal_category ")
+    saleGoal = SaleGoal.select("distinct goal_category ").where("goal_category != ''")
     saleGoal.each do |sale|
       category << sale.goal_category
     end
