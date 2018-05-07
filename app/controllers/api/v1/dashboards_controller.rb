@@ -272,7 +272,11 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
       sale.map do |s|
         goals.map do |g|
           if s[:name] == g[:name]
-            cat = {name: s[:name], goal: g[:total], sale: s[:total], percentage:s[:total].to_f/ g[:total].to_f}
+            percetage = 0
+            if s[:total] != 0 || g[:total] != 0
+              percetage = ((s[:total].to_f/ g[:total].to_f)*100).round(1)
+            end
+            cat = {name: s[:name], goal: g[:total], sale: s[:total], percentage:"#{percetage}%"}
           end
         end
         categories << cat
@@ -305,7 +309,7 @@ class Api::V1::DashboardsController < Api::V1::JsonApiController
         sales: sales_amount,
         goal_unit: goal_unit,
         sales_unit: sales_unit,
-        goal_percentage: sales_amount.to_f/goal_amount.to_f,
+        goal_percentage: (sales_amount.to_f/goal_amount.to_f).round(1),
         categories: categories
       }
     end
