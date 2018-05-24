@@ -29,17 +29,22 @@ class Task
     #  end
     #end
     # Si se indican promotores explícitamente, se prioriza esto
+    Rails.logger.info "stores : #{stores.count}"
+    Rails.logger.info "zones : #{zones.count}"
+    Rails.logger.info "dealers : #{dealers.count}"
+
     if promoters.count > 0
       promoters.each do |promoter|
         if promoter.role_id == 1 || promoter.role_id == 3
-          stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id)
-          Rails.logger.info "stores: #{stores.count}"
-          stores.each do |store|
-            new_reports << report_from_store_and_promoters(store, [promoter])
-          end
+          #stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id)
+          #Rails.logger.info "stores: #{stores.count}"
+          #stores.each do |store|
+          #  new_reports << report_from_store_and_promoters(store, [promoter])
+          #end
+          new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
         end
 
-        if stores.count > 0
+        if stores.present? and stores.count > 0
           stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
           end
@@ -49,14 +54,14 @@ class Task
           end
         end
       end
-    elsif stores.count > 0
+    elsif stores.present? and stores.count > 0
       new_reports = new_reports + reports_from_stores(stores)
     else
       stores = Store.includes(:promoters, :instructor, :supervisor)
-      if zones.count > 0
+      if zones.present? and zones.count > 0
         stores = stores.where(zone_id: zone_ids)
       end
-      if dealers.count > 0
+      if dealers.present? and dealers.count > 0
         stores = stores.where(dealer_id: dealer_ids)
       end
       new_reports = new_reports + reports_from_stores(stores)
