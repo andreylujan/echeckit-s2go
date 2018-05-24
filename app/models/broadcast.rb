@@ -17,6 +17,8 @@
 #  is_immediate      :boolean          default(FALSE), not null
 #  deleted_at        :datetime
 #  action_text       :text
+#  dealers           :json
+#  stores            :json
 #
 
 class Broadcast < ActiveRecord::Base
@@ -38,7 +40,53 @@ class Broadcast < ActiveRecord::Base
   def create_individual_messages
     if self.send_to_all?
       self.recipients = User.all
+      Rails.logger.info "recipients : #{self.recipients}"
     end
+    if self.dealers.present?
+      if dealers.length == 0
+        Dealer.all.map do |dealer|
+          dealer.stores.map do |store|
+            self.recipients << store.promoters
+            self.recipients << store.instructor
+            self.recipients << store.supervisor
+          end
+        end
+      else
+        self.dealers.map do |dealer|
+          Dealer.find(dealer).stores.map do |store|
+            s = Store.find(store)
+            s.promoters.present? ? self.recipients << s.promoters : self.recipients
+            s.instructor.present? ? self.recipients << s.instructor : self.recipients
+            s.supervisor.present? ? self.recipients << s.supervisor : self.recipients
+            #self.recipients << Store.find(store).promoters
+            #self.recipients << Store.find(store).instructor
+            #self.recipients << Store.find(store).supervisor
+
+          end
+        end
+      end
+    end
+    if self.stores.present?
+      if stores.length == 0
+        Stores.all.map do |store|
+          self.recipients << store.promoters
+          self.recipients << store.instructor
+          self.recipients << store.supervisor
+        end
+      else
+        self.stores do |stores|
+          s = Store.find(store)
+          s.promoters.present? ? self.recipients << s.promoters : self.recipients
+          s.instructor.present? ? self.recipients << s.instructor : self.recipients
+          s.supervisor.present? ? self.recipients << s.supervisor : self.recipients
+
+          #self.recipients << Store.find(store).promoters
+          #self.recipients << Store.find(store).instructor
+          #self.recipients << Store.find(store).supervisor
+        end
+      end
+    end
+    Rails.logger.info "recipients : #{self.recipients.count}"
   end
 
   def check_send_to_all

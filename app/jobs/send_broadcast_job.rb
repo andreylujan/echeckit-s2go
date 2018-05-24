@@ -3,7 +3,7 @@ class SendBroadcastJob < ActiveJob::Base
   queue_as :eretail_push
 
   def perform(broadcast_id)
-    
+
     # unless Rails.env.production?
     #   return
     # end
@@ -12,7 +12,12 @@ class SendBroadcastJob < ActiveJob::Base
     if broadcast.nil?
       return
     end
-    recipients = broadcast.recipients
+    Rails.logger.info "Recipients : #{broadcast.recipients}"
+
+    recipients = broadcast.recipients.uniq
+
+    Rails.logger.info "Filter recipients : #{recipients}"
+
 
     broadcast.update_attribute :sent, true
 
@@ -48,7 +53,7 @@ class SendBroadcastJob < ActiveJob::Base
 
     registration_ids.uniq!
     device_tokens.uniq!
-    
+
     if registration_ids.length > 0 or device_tokens.length > 0
       body = params.merge({
                             registration_ids: registration_ids,
