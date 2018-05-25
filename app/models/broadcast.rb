@@ -28,6 +28,7 @@ class Broadcast < ActiveRecord::Base
   has_many :messages, dependent: :destroy
   has_many :recipients, through: :messages, source: :user
 
+
   validates :send_to_all, :inclusion => {:in => [true, false]}
   validates :is_immediate, :inclusion => {:in => [true, false]}
 
@@ -38,6 +39,7 @@ class Broadcast < ActiveRecord::Base
   before_create :create_individual_messages
 
   def create_individual_messages
+
     if self.send_to_all?
       self.recipients = User.all
       Rails.logger.info "recipients : #{self.recipients}"
@@ -46,22 +48,19 @@ class Broadcast < ActiveRecord::Base
       if dealers.length == 0
         Dealer.all.map do |dealer|
           dealer.stores.map do |store|
-            self.recipients << store.promoters
-            self.recipients << store.instructor
-            self.recipients << store.supervisor
+            s = Store.find(store)
+            s.promoters.present? ? self.recipients.concat(s.promoters) : s
+            s.instructor.present? ? self.recipients.concat(s.instructor) : s
+            s.supervisor.present? ? self.recipients.concat(s.supervisor) : s
           end
         end
       else
         self.dealers.map do |dealer|
           Dealer.find(dealer.to_i).stores.map do |store|
             s = Store.find(store)
-            s.promoters.present? ? self.recipients << s.promoters : self.recipients
-            s.instructor.present? ? self.recipients << s.instructor : self.recipients
-            s.supervisor.present? ? self.recipients << s.supervisor : self.recipients
-            #self.recipients << Store.find(store).promoters
-            #self.recipients << Store.find(store).instructor
-            #self.recipients << Store.find(store).supervisor
-
+            s.promoters.present? ? self.recipients.concat(s.promoters) : s
+            s.instructor.present? ? self.recipients.concat(s.instructor) : s
+            s.supervisor.present? ? self.recipients.concat(s.supervisor) : s
           end
         end
       end
@@ -69,20 +68,17 @@ class Broadcast < ActiveRecord::Base
     if self.stores.present?
       if stores.length == 0
         Stores.all.map do |store|
-          self.recipients << store.promoters
-          self.recipients << store.instructor
-          self.recipients << store.supervisor
+          s = Store.find(store.to_i)
+          s.promoters.present? ? self.recipients.concat(s.promoters) : s
+          s.instructor.present? ? self.recipients.concat(s.instructor) : s
+          s.supervisor.present? ? self.recipients.concat(s.supervisor) : s
         end
       else
         self.stores do |stores|
           s = Store.find(store.to_i)
-          s.promoters.present? ? self.recipients << s.promoters : self.recipients
-          s.instructor.present? ? self.recipients << s.instructor : self.recipients
-          s.supervisor.present? ? self.recipients << s.supervisor : self.recipients
-
-          #self.recipients << Store.find(store).promoters
-          #self.recipients << Store.find(store).instructor
-          #self.recipients << Store.find(store).supervisor
+          s.promoters.present? ? self.recipients.concat(s.promoters) : s
+          s.instructor.present? ? self.recipients.concat(s.instructor) : s
+          s.supervisor.present? ? self.recipients.concat(s.supervisor) : s
         end
       end
     end

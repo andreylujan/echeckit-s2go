@@ -45,7 +45,7 @@ class SendBroadcastJob < ActiveJob::Base
     registration_ids = []
     device_tokens = []
 
-    recipients.each do |recipient|
+    recipients.uniq.each do |recipient|
       devices = recipient.devices
       registration_ids = registration_ids + devices.where("registration_id is not null").map { |r| r.registration_id }
       device_tokens = device_tokens + devices.where("device_token is not null").map { |r| r.device_token }
