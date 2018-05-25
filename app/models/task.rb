@@ -29,46 +29,43 @@ class Task
     #  end
     #end
     # Si se indican promotores explícitamente, se prioriza esto
-    Rails.logger.info "stores : #{stores.count}"
-    Rails.logger.info "zones : #{zones.count}"
-    Rails.logger.info "dealers : #{dealers.count}"
-
     if promoters.count > 0
       promoters.each do |promoter|
         if promoter.role_id == 1 || promoter.role_id == 3
-          #stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id)
-          #Rails.logger.info "stores: #{stores.count}"
-          #stores.each do |store|
-          #  new_reports << report_from_store_and_promoters(store, [promoter])
-          #end
-          new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
+          stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id).limit(1)
+          new_reports << report_from_store_and_promoters(stores[0], [promoter])
+          #new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
         end
 
-        if stores.present? and stores.count > 0
+        if stores.present? and stores.length > 0
           stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
           end
         else
+          Rails.logger.info "promoter: #{promoter}"
+
           promoter.promoted_stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
           end
         end
       end
-    elsif stores.present? and stores.count > 0
+    elsif stores.present? and stores.length > 0
       new_reports = new_reports + reports_from_stores(stores)
     else
       stores = Store.includes(:promoters, :instructor, :supervisor)
-      if zones.present? and zones.count > 0
+      if zones.present? and zones.length > 0
         stores = stores.where(zone_id: zone_ids)
       end
-      if dealers.present? and dealers.count > 0
+      if dealers.present? and dealers.lengtht > 0
         stores = stores.where(dealer_id: dealer_ids)
       end
-      new_reports = new_reports + reports_from_stores(stores)
+      new_reports = new_reports #+ reports_from_stores(stores)
     end
 
     Report.transaction do
       new_reports.each do |new_report|
+        Rails.logger.info "new_report : #{new_report}"
+
         new_report.assigned_user_ids.each do |assigned_user_id|
           if not reports_by_user[assigned_user_id]
             reports_by_user[assigned_user_id] = new_report
