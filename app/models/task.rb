@@ -32,7 +32,8 @@ class Task
     if promoters.count > 0
       promoters.each do |promoter|
         if promoter.role_id == 1 || promoter.role_id == 3
-          st = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id).limit(1)
+          st = Store.where("instructor_id = ? OR supervisor_id = ?
+            and zone_id is not null ",promoter.id, promoter.id).limit(1)
           new_reports << report_from_store_and_promoters(st[0], [promoter])
           #new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
         end
