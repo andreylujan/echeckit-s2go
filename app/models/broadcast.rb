@@ -53,7 +53,7 @@ class Broadcast < ActiveRecord::Base
         end
       else
         self.dealers.map do |dealer|
-          Dealer.find(dealer).stores.map do |store|
+          Dealer.find(dealer[:id]).stores.map do |store|
             s = Store.find(store)
             s.promoters.present? ? self.recipients << s.promoters : self.recipients
             s.instructor.present? ? self.recipients << s.instructor : self.recipients
@@ -75,7 +75,7 @@ class Broadcast < ActiveRecord::Base
         end
       else
         self.stores do |stores|
-          s = Store.find(store)
+          s = Store.find(store[:id])
           s.promoters.present? ? self.recipients << s.promoters : self.recipients
           s.instructor.present? ? self.recipients << s.instructor : self.recipients
           s.supervisor.present? ? self.recipients << s.supervisor : self.recipients
