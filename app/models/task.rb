@@ -32,18 +32,15 @@ class Task
     if promoters.count > 0
       promoters.each do |promoter|
         if promoter.role_id == 1 || promoter.role_id == 3
-          stores = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id).limit(1)
-          new_reports << report_from_store_and_promoters(stores[0], [promoter])
+          st = Store.where("instructor_id = ? OR supervisor_id = ?",promoter.id, promoter.id).limit(1)
+          new_reports << report_from_store_and_promoters(st[0], [promoter])
           #new_reports = Report.where("creator_id = ?",promoter.id ).limit(1)
         end
-
         if stores.present? and stores.length > 0
           stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
           end
         else
-          Rails.logger.info "promoter: #{promoter}"
-
           promoter.promoted_stores.each do |store|
             new_reports << report_from_store_and_promoters(store, [promoter])
           end
@@ -61,10 +58,8 @@ class Task
       end
       new_reports = new_reports #+ reports_from_stores(stores)
     end
-
     Report.transaction do
       new_reports.each do |new_report|
-        Rails.logger.info "new_report : #{new_report}"
 
         new_report.assigned_user_ids.each do |assigned_user_id|
           if not reports_by_user[assigned_user_id]
