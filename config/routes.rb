@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       end
 
       post :checkouts, to: 'checkins#update'
-
+      get 'stock_chart_list', to: 'stockchartlist#index'
 
 
       # jsonapi_resources :regions, only: [ :index ] do
@@ -136,6 +136,11 @@ Rails.application.routes.draw do
       resources :sale_goals, only: [] do
         collection do
           get :category
+          post :csv
+        end
+      end
+      resources :stock_chart, only: [] do
+        collection do
           post :csv
         end
       end
