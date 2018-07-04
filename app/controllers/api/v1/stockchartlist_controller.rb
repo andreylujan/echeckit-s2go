@@ -24,8 +24,34 @@ class Api::V1::StockchartlistController < ApplicationController
 				stock = stock.where(week: params[:week])
 			end
 
+			if params[:stock_category].present?
+				stock = stock.where(stock_category: params[:stock_category])
+			end
+
+			new_stock = []
+			categories = []
+			total_stock = 0
+
+			stock_by_categories = stock.group_by(&:stock_category)	
+			stock_by_categories.each do |item|
+				categories.push(item[0])
+			end
+
+			categories.each do |cat|
+				stock.each do |item|
+					if cat == item[:stock_category]
+						total_stock = total_stock + item[:unit_stock].to_i
+					end
+				end
+				new_stock.push({
+					category: cat,
+					total_stock: total_stock
+				})
+				total_stock = 0
+			end
+
 			render json: {
-		    data: stock
+		    data: new_stock
 		  }, status: :ok
 		  return
 
