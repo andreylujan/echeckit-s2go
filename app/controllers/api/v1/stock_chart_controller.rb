@@ -17,8 +17,8 @@ class Api::V1::StockChartController < ApplicationController
         }, status: :unprocessable_entity
         return
       end
-      month = params.require(:month)
-      year = params.require(:year)
+      _month = params.require(:month)
+      _year = params.require(:year)
       if csv_data.length > 0
         if csv_data[0].length != 8
           render json: {
@@ -33,8 +33,7 @@ class Api::V1::StockChartController < ApplicationController
       end
       csv_data.shift
       errors = []
-      date = DateTime.new(year.to_i, month.to_i)
-      Rails.logger.info "dateeeee: #{date}"
+      date = DateTime.new(_year.to_i, _month.to_i)
       stock_chart_upload = StockChartUpload.new uploaded_csv: csv_file, stock_date: date, user: current_user
       Tempfile.open(['result', '.csv']) do |fh|
         result_csv = CSV.new(fh)
@@ -44,13 +43,13 @@ class Api::V1::StockChartController < ApplicationController
         num_errors = 0
         csv_data.each_with_index do |stock_row, index|
 
-          dealer = stock_row[0].strip if stock_row[0]
-          category_stock = stock_row[1].strip if stock_row[1]
-          store_code = stock_row[2].strip if stock_row[2]
-          store_name = stock_row[3].strip if stock_row[3]
-          week = stock_row[4].strip if stock_row[4]
-          year = stock_row[5].strip if stock_row[5]
-          month = stock_row[6].strip if stock_row[6]
+          year = stock_row[0].strip if stock_row[0]
+          month = stock_row[1].strip if stock_row[1]
+          week = stock_row[2].strip if stock_row[2]
+          dealer = stock_row[3].strip if stock_row[3]
+          store_code = stock_row[4].strip if stock_row[4]
+          store_name = stock_row[5].strip if stock_row[5]
+          category_stock = stock_row[6].strip if stock_row[6]
           unit_stock = stock_row[7].strip if stock_row[7]
 
           data = {
